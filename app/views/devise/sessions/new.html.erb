@@ -1,0 +1,36 @@
+<div class="signin-form">
+  <div class="row">
+    <div class="col-sm-12 center">
+      <img src="<%= image_url 'senda-guy.png' %>" alt="Sendaguy">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8 pl25">
+       <%= render 'form' %>
+    </div>
+    <div class="col-sm-4">
+      <div class="store-pannel">
+        <div class="title-text">
+          DON'T HAVE AN ACCOUNT?
+        </div>
+        <div class="desc-text">
+          Just get our mobile app to get set up and then be able to sign here to request service.
+        </div>
+        <%= link_to '#', class: 'app-links' do %>
+          <div class="app-store-link">
+            <i class="fa fa-apple" aria-hidden="true">
+              <span>Get SendaGuy Now in the app store.</span>
+            </i>
+          </div>
+        <% end %>
+        <%= link_to '#', class: 'app-links' do %>
+          <div class="app-store-link">
+            <i class="fa fa-android" aria-hidden="true">
+              <span>Get SendaGuy Now in the Google Play.</span>
+            </i>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

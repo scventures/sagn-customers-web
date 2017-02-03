@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
-  devise_for :users
-  devise_scope :user do
-    get 'signin' => 'devise/sessions#new', :as => :new_user_session
-    post 'signin' => 'devise/sessions#create', :as => :user_session
-    get 'signout' => 'devise/sessions#destroy', :as => :destroy_user_session
-  end
-  devise_scope :user do
-    root to: "devise/sessions#new"
-  end
+
+  devise_for :customers, path: '', controllers: {
+      sessions: 'customers/sessions'
+  }
+
+  resource :dashboard, only: :show
+
+  root :to => redirect("/sign_in")
+
 end

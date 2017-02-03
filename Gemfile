@@ -33,12 +33,14 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'devise'
-gem 'warden'
+gem 'slim'
 gem 'simple_form'
-gem 'twitter-bootstrap-rails'
+gem 'bootstrap-sass', '~> 3.3.7'
+gem 'bootstrap-sass-extras'
 gem 'font-awesome-rails', '~> 4.7.0.0'
-gem "bootstrap_flash_messages", "~> 1.0.1"
-gem 'rest-client'
+gem 'jwt'
+gem 'her'
+gem 'request_store'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

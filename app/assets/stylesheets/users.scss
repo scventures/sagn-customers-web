@@ -63,16 +63,16 @@
       padding: 10px 20px;
       color: #49494e;
       label{ display: block; font-size: 18px; margin-top: 10px; color: #000;}
-      input:not([type='submit']) { height: 45px; width: 100%;}
-      .form-actions { margin-bottom: 20px; margin-left: 67%; margin-top: 20px; }
-      .signin-btn{ background-color: #989898; padding: 10px 20px; width: 150px; border: 1px solid #989898; border-radius: 5px; padding: 10px 20px;     width: 150px; font-size: 20px; color: #000; }
+      input:not([type='submit']) { height: 45px; width: 100%; padding: 10px 5px;}
+      .form-actions { margin-bottom: 20px; margin-top: 20px; }
+      .signin-btn{ background-color: #989898; padding: 10px 20px; width: 40%; border: 1px solid #989898; border-radius: 5px; padding: 10px 20px; font-size: 20px; color: #000; margin-left: 60%; }
     }
     .mobileapp-info-wrapper{
       border: 2px solid #000;
       .header{
         background-color: #e5e5e5;
         border-bottom: 1px solid #000;
-        font-size: 25px;
+        font-size: 22px;
         font-weight: bold;
         text-align: center;
         padding: 20px;
@@ -83,10 +83,10 @@
         background-color: #e5e5e5;
         border: 1px solid #000;
         border-radius: 5px;
-        padding: 5px;
         color: #49494e;
-        font-size: 18px;
+        font-size: 16px;
         height: 70px;
+        .col-sm-10{ padding: 20px 10px; }
       }
     }
   }

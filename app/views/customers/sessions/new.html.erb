@@ -12,7 +12,6 @@
             <%= f.input :password, required: false, label: "Password:" %>
             <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
           </div>
-
           <div class="form-actions">
             <%= f.button :submit, "Sign in" , class: "signin-btn"%>
           </div>
@@ -22,15 +21,15 @@
     <div class="col-sm-6">
       <div class="mobileapp-info-wrapper">
         <div class="header">DON'T HAVE AN ACCOUNT</div>
-        <div class="content p20 fs20">
-          Just get your mobile app to get set up and <br/> then be able to sign here to request service.
+        <div class="content p20 fs17">
+          Just get your mobile app to get set up and then be able to sign here to request service.
           <div class="app-container">
-            <div class="col-sm-2"><%= image_tag "apple.png" %></div>
-            <div class="col-sm-10 p15">Get SendaGuy Now in the app store</div>
+            <div class="col-sm-2 p10"><%= image_tag "apple.png" %></div>
+            <div class="col-sm-10">Get SendaGuy Now in the app store</div>
           </div>
           <div class="app-container">
-            <div class="col-sm-2"><%= image_tag "android.png" %></div>
-            <div class="col-sm-10 p15">Get SendaGuy Now on Google Play</div>
+            <div class="col-sm-2 p10"><%= image_tag "android.png" %></div>
+            <div class="col-sm-10">Get SendaGuy Now on Google Play</div>
           </div>
         </div>
       </div>

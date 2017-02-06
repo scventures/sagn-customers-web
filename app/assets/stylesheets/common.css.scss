@@ -1,9 +1,14 @@
 .center { text-align: center }
 .right { float: right }
 .left { float: left }
+.mt30 { margin-top: 30px; } 
+.p10 {padding: 10px; }
+.p15 {padding: 15px; }
+.p20 {padding: 20px; }
 .pr80 { padding-right: 80px !important; }
 .pl80 { padding-left: 80px !important; }
 .pl25 { padding-left: 25px !important; }
+.fs20 {font-size: 20px; }
 
 .default_btn {
   width: 300%;
@@ -13,3 +18,5 @@
   border: none;
   font-weight: bold;
 }
+
+.center { text-align: center !important; }

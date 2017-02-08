@@ -1,0 +1,12 @@
+.signup-form-wrapper
+  h2 SIGN IN
+  = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+    .form-inputs.mt30
+      = f.input :email, required: false, autofocus: true, label: 'Email:'
+      = f.input :password, required: false, label: 'Password:'
+      = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+    .form-actions
+      = f.button :submit, 'Sign In' , class: 'signin-btn'
+= link_to new_customer_password_path, class: 'pull-right' do
+  h5
+    u Need to reset password?

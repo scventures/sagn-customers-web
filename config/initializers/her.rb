@@ -3,7 +3,7 @@ Her::API.setup url: Rails.application.secrets.api_url do |c|
   c.use TokenAuthentication
   c.use Faraday::Request::UrlEncoded
   if Rails.env.development?
-    c.response :logger
+    c.response :logger, ::Logger.new(STDOUT), bodies: true
   end
   # Response
   c.use Her::Middleware::DefaultParseJSON

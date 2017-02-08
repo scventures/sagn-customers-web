@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    title SagnCustomersWeb
+    = csrf_meta_tags
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    = bootstrap_flash
+    .sigin-container
+      .row.center
+        = image_tag "sendaguy.png" ,width: '60%'
+      .row
+        .col-sm-6
+          = yield
+        .col-sm-6
+          .mobileapp-info-wrapper
+            .header
+              |DON'T HAVE AN ACCOUNT
+            .content.p20.fs17
+              |Just get your mobile app to get set up and then be able to sign here to request service.
+              .app-container
+                .col-sm-2.p10
+                  = image_tag "apple.png"
+                .col-sm-10
+                  |Get SendaGuy Now in the app store
+              .app-container
+                .col-sm-2.p10
+                  = image_tag "android.png"
+                .col-sm-10
+                  |Get SendaGuy Now on Google Play

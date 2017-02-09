@@ -3,52 +3,6 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
-.signin-form{
-  .row { margin-right: 0px !important; margin-left: 0px !important;}
-  .login-pannel {
-    background: #E6E6E6;
-    border: solid #C3C3C3;
-    padding: 49px 84px 109px 82px;
-    text-align: left;
-    input#password, input#email {width: 40%}
-  }
-
-  .btn-pannel{
-    float: right;
-    margin: -23px 79px 2px -37px;
-  }
-
-  .store-pannel {
-    background: #FFF;
-    height: 100%;
-    border: solid #C3C3C3;
-    color: #000;
-    .title-text{ 
-      border-bottom: solid #C3C3C3;
-      text-align: center;
-      font-size: 20px;
-      background-color: #E6E6E6;
-      height: 50px;
-      font-weight: bold;
-    }
-    .desc-text {
-      padding: 10px;
-      font-size: 20px;
-    }
-    a.app-links{
-      color: #000;
-      i { font-size: 30px;}
-      span {font-size: 15px;}
-    }
-    .app-store-link {
-      padding: 21px;
-      background-color: #CCC;
-      border: solid 1px #000;
-      margin: 10px;
-      border-radius: 5px;
-    }
-  }
-}
 /*------------------Signup page css starts-------------------------------*/
 .sigin-container {
   border: 2px solid #000;
@@ -62,10 +16,32 @@
       background-color: #e5e5e5;
       padding: 10px 20px;
       color: #49494e;
-      label{ display: block; font-size: 18px; margin-top: 10px; color: #000;}
-      input:not([type='submit']) { height: 45px; width: 100%; padding: 10px 5px;}
-      .form-actions { margin-bottom: 20px; margin-top: 20px; }
-      .signin-btn{ background-color: #989898; padding: 10px 20px; width: 40%; border: 1px solid #989898; border-radius: 5px; padding: 10px 20px; font-size: 20px; color: #000; margin-left: 60%; }
+      label{ 
+        display: block; 
+        font-size: 18px; 
+        margin-top: 10px; 
+        color: #000;
+      }
+      input:not([type='submit']) { 
+        height: 45px; 
+        width: 100%; 
+        padding: 10px 5px;
+      }
+      .form-actions { 
+        margin-bottom: 20px; 
+        margin-top: 20px; 
+      }
+      .signin-btn{ 
+        background-color: #989898; 
+        padding: 10px 20px; 
+        width: 40%; 
+        border: 1px solid #989898; 
+        border-radius: 5px; 
+        padding: 10px 20px; 
+        font-size: 20px; 
+        color: #000; 
+        margin-left: 60%;
+      }
     }
     .mobileapp-info-wrapper{
       border: 2px solid #000;

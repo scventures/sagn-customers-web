@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  before_filter :set_customer_api_token
+  before_action :set_customer_api_token
 
   protected
   def set_customer_api_token

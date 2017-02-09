@@ -12,7 +12,7 @@ module Helpers
          to_return(:status => response_code, :body => return_body )
   end
 
-  def veified_return_body
+  def verified_return_body
     {
       "customer": {
         "id": 59,

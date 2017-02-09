@@ -6,9 +6,7 @@ html
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   body
+    = render 'layouts/header'
     = bootstrap_flash
-    - if customer_signed_in?
-      div
-        = link_to 'LogOut', destroy_customer_session_path, method: :delete, class: 'pull-right'
     = yield
 

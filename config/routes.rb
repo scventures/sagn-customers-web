@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
 
   devise_for :customers, path: '', controllers: {
-      sessions: 'customers/sessions'
+    sessions: 'customers/sessions',
+    passwords: 'customers/passwords'
   }
 
   resource :dashboard, only: :show

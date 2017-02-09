@@ -1,1 +1,18 @@
-| Dashboard Page
+.p20
+  h2
+    | Dashboard Page
+  .mt30.p20
+    p.strong
+      = image_tag @customer['photo']
+    p.strong
+      |Name:&nbsp;&nbsp;
+      = @customer['name']
+    p.strong.mt10
+      |Email:&nbsp;&nbsp;
+      = @customer['email']
+    p.strong.mt10
+      |Phone Number:&nbsp;&nbsp;
+      = @customer['phone_number']
+    p.strong.mt10
+      |Current Account Role:&nbsp;&nbsp;
+      = @customer['current_account_role'].try(:titleize)

@@ -23,6 +23,25 @@ describe Customer do
     expect(Customer.include?(Devise::Models::Recoverable)).to be_truthy
   end
   
+  describe 'Validations' do
+    let(:customer) {Customer.new}
+    context "if password_required?" do
+      it do
+        allow(customer).to receive(:password_required?).and_return(true) 
+        expect(customer).to validate_presence_of(:password)
+        expect(customer).to validate_confirmation_of(:password)
+      end
+    end
+    
+    context "unless password_required?" do
+      it do
+        allow(customer).to receive(:password_required?).and_return(false) 
+        expect(customer).not_to validate_presence_of(:password)
+        expect(customer).not_to validate_confirmation_of(:password)
+      end
+    end
+  end
+  
   describe '#valid_auth_token?' do
     before(:each) do
       payload1 = {data: 'test@gmail.com'}

@@ -9,14 +9,14 @@
   margin: 5% auto;
   padding: 20px;
   width: 60%;
-  .col-sm-6{
+  .col-sm-6 {
     padding: 10px 20px;
-    .signup-form-wrapper{
+    .signup-form-wrapper {
       border: 2px solid #000;
       background-color: #e5e5e5;
       padding: 10px 20px;
       color: #49494e;
-      label{ 
+      label { 
         display: block; 
         font-size: 18px; 
         margin-top: 10px; 
@@ -31,7 +31,7 @@
         margin-bottom: 20px; 
         margin-top: 20px; 
       }
-      .signin-btn{ 
+      .signin-btn { 
         background-color: #989898; 
         padding: 10px 20px; 
         width: 40%; 
@@ -43,9 +43,9 @@
         margin-left: 60%;
       }
     }
-    .mobileapp-info-wrapper{
+    .mobileapp-info-wrapper {
       border: 2px solid #000;
-      .header{
+      .header {
         background-color: #e5e5e5;
         border-bottom: 1px solid #000;
         font-size: 22px;
@@ -54,7 +54,7 @@
         padding: 20px;
         color: #49494e;
       }
-      .app-container{
+      .app-container {
         margin-top: 20px;
         background-color: #e5e5e5;
         border: 1px solid #000;
@@ -62,7 +62,9 @@
         color: #49494e;
         font-size: 16px;
         height: 70px;
-        .col-sm-10{ padding: 20px 10px; }
+        .col-sm-10 { 
+          padding: 20px 10px; 
+        }
       }
     }
   }

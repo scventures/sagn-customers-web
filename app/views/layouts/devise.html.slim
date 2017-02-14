@@ -1,10 +1,6 @@
 doctype html
 html
-  head
-    title SagnCustomersWeb
-    = csrf_meta_tags
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  = render 'shared_header'
   body
     = bootstrap_flash
     .sigin-container

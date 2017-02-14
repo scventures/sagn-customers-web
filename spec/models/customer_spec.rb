@@ -10,10 +10,22 @@ describe Customer do
     expect(Customer.include?(Devise::Models::Recoverable)).to be_truthy
   end
   
-  it { should.respond_to?(:email )}
-  it { should.respond_to?(:jwt )}
-  it { should.respond_to?(:password )}
-  it { should.respond_to?(:password_confirmation )}
+  
+  describe "attributes" do
+    let(:customer) {Customer.new}
+    it "include the :email attribute" do
+      expect(customer).to have_attributes(:email => anything)
+    end
+     it "include the :jwt attribute" do
+      expect(customer).to have_attributes(:jwt => anything)
+    end
+     it "include the :password attribute" do
+      expect(customer).to have_attributes(:password => anything)
+    end
+     it "include the :password_confirmation attribute" do
+      expect(customer).to have_attributes(:password_confirmation => anything)
+    end
+  end
   
   it 'Devise should be RemoteAuthenticatable' do
     expect(Customer.include?(Devise::Models::RemoteAuthenticatable)).to be_truthy
@@ -57,7 +69,7 @@ describe Customer do
       it 'return true if token is valid and not expired' do
         expect(@c1.valid_auth_token?).to eq(@decoded_token1)
       end
-      it 'return fasle if token is invalid and expired' do
+      it 'return false if token is invalid and expired' do
         expect(@c2.valid_auth_token?).to be_falsy
       end
     end
@@ -154,8 +166,8 @@ describe Customer do
     end
     context 'password and password_cofirmation are valid' do
       it 'reset the password' do
-        stub_password_reset_request('1', '1', @token, 200, verified_return_body)
-        c = Customer.reset_password_by_token({password: '1', password_confirmation: '1', reset_password_token: @token})
+        stub_password_reset_request('12345678', '12345678', @token, 200, verified_return_body)
+        c = Customer.reset_password_by_token({password: '12345678', password_confirmation: '12345678', reset_password_token: @token})
         expect(c.errors.present?).to be_falsy
         expect(c).to be_instance_of(Customer)
       end

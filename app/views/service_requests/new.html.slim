@@ -1,0 +1,29 @@
+h1.mt30
+  |Place Request Service
+|Need a technician? Just tell us the details and we’ll send you a text message when we have contractors for you.
+.border-box
+  strong
+    |Looking for details or status of an exiting service request? 
+  br/
+  |Please open the mobile app to manage your service requests.
+hr
+.form-wrapper
+  = simple_form_for @service_request, url: service_requests_path do |f|
+    h3
+      |Locations
+    hr
+    strong
+      |Select Location:
+    = f.select :location_id, @locations.map { |l| [l.name, l.id] }, {}, { class: 'select_location_ids' }
+    p
+      strong
+        |Need to add location? 
+      Please use the mobile app.
+    h3
+      |Details
+    hr
+    strong
+      |Select from Equipment:
+    = f.select :equipment_id, {}
+    hr
+      = f.submit "SendaGuy Now"

@@ -3,16 +3,22 @@
     | Dashboard Page
   .mt30.p20
     p.strong
-      = image_tag @customer['photo']
+      span.pl10
+        - if @customer['photo']
+          = image_tag @customer['photo']
     p.strong
-      |Name:&nbsp;&nbsp;
-      = @customer['name']
+      |Name:
+      span.pl10
+        = @customer['name']
     p.strong.mt10
-      |Email:&nbsp;&nbsp;
-      = @customer['email']
+      |Email:
+      span.pl10
+        = @customer['email']
     p.strong.mt10
-      |Phone Number:&nbsp;&nbsp;
-      = @customer['phone_number']
+      |Phone Number:
+      span.pl10
+        = @customer['phone_number']
     p.strong.mt10
-      |Current Account Role:&nbsp;&nbsp;
-      = @customer['current_account_role'].try(:titleize)
+      |Current Account Role:
+      span.pl10
+        = @customer['current_account_role'].try(:titleize)

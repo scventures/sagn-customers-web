@@ -12,9 +12,7 @@ hr
     h3
       |Locations
     hr
-    strong
-      |Select Location:
-    = f.select :location_id, @locations.map { |l| [l.name, l.id] }, {}, { class: 'select_location_ids' }
+    = f.input :location_id, as: :select, collection: @locations.map {|l| [l.name, l.id, { 'data-equipments' => l.equipment_items.to_json }] }, input_html: { class: 'select_location'}, label: 'Select Location:'
     p
       strong
         |Need to add location? 
@@ -22,8 +20,16 @@ hr
     h3
       |Details
     hr
-    strong
-      |Select from Equipment:
-    = f.select :equipment_id, {}
+    = f.input :equipment_id, as: :select, collection: [], input_html: { class: 'select_equipment' }, label: 'Select from Equipment:'
+    = f.input :brand_name, label: "Brand:"
+    = f.input :model, label: "Model:"
+    = f.input :serial, label: "Serial Number:"
+    = f.input :urgent, as: :boolean, label: 'Urgent?', boolean_style: :inline
+    |This call is urgent (need a tech in next 4-6 hours)
+    = f.input :problem, as: :text, label: 'Please Describe the Problem:'
     hr
+    .p10
+      .row
+        = service_request_button_add_fields f, :issue_images
+    .mt30
       = f.submit "SendaGuy Now"

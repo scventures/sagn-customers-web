@@ -1,0 +1,4 @@
+.image_wrapper.col-sm-1
+  .image_upload_label
+    = f.label :image, class: 'text-uppercase'
+  = f.input :image, as: :file, label: false, input_html: { class: 'hidden image_upload' }

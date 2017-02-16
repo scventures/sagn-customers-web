@@ -26,6 +26,10 @@ class Customer
     c = Customer.get(:viewer)
     self.attributes = c.customer
   end
+  
+  def categories
+    c = Customer.get(:categories)
+  end
 
   def self.send_reset_password_instructions(attributes={})
     customer = Customer.new(attributes)

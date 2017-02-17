@@ -1,0 +1,24 @@
+.p20
+  h2
+    | Dashboard Page
+  .mt30.p20
+    p.strong
+      span.pl10
+        - if @customer['photo']
+          = image_tag @customer['photo']
+    p.strong
+      |Name:
+      span.pl10
+        = @customer['name']
+    p.strong.mt10
+      |Email:
+      span.pl10
+        = @customer['email']
+    p.strong.mt10
+      |Phone Number:
+      span.pl10
+        = @customer['phone_number']
+    p.strong.mt10
+      |Current Account Role:
+      span.pl10
+        = @customer['current_account_role'].try(:titleize)

@@ -1,0 +1,11 @@
+.signup-form-wrapper
+  h2 Reset Your Password
+  h5 Please enter your password and we'll send you a link to reset your password
+  = simple_form_for(resource, as: resource_name, url: customer_password_path, html: { method: :post }) do |f|
+    .form-inputs.mt30
+      = f.input :email, required: false, autofocus: true, label: 'Email:'
+    .form-actions
+      = f.button :submit, 'Submit' , class: 'signin-btn'
+= link_to new_customer_session_path, class: 'pull-right' do
+  h5
+    u Back to login page

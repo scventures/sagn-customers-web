@@ -1,0 +1,14 @@
+.signup-form-wrapper
+  h2 Change your password
+  = simple_form_for(resource, as: resource_name, url: customer_password_path, html: { method: :put }) do |f|
+    - if resource.errors[:reset_password_token].present?
+      = flash_container(BootstrapFlashHelper::ALERT_TYPES_MAP.fetch(:alert), resource.errors.full_messages_for(:reset_password_token).join(', ') )
+    .form-inputs.mt30
+      = f.input :password, required: false, label: 'New Password:'
+      = f.input :password_confirmation, required: false, label: 'Confirm new password'
+      = f.hidden_field :reset_password_token
+    .form-actions
+      = f.button :submit, 'Submit' , class: 'signin-btn'
+= link_to new_customer_session_path, class: 'pull-right' do
+  h5
+    u Back to login page

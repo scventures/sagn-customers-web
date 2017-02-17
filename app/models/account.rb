@@ -5,5 +5,6 @@ class Account
   
   attributes :id
   has_many :locations
+  has_many :contractors
 
 end

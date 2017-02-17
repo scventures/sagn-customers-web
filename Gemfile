@@ -40,6 +40,7 @@ gem 'font-awesome-rails', '~> 4.7.0.0'
 gem 'jwt'
 gem 'her'
 gem 'request_store'
+gem "cocoon"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

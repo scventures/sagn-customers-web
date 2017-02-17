@@ -3,9 +3,10 @@ class ServiceRequest
   collection_path 'customers/accounts/:account_id/service_requests'
   include_root_in_json true
 
-  attributes :location_id, :equipment_id, :model, :serial, :brand_name, :category_id, :subcategory_id, :urgent, :problem, :account_id
+  attributes :location_id, :equipment_id, :model, :serial, :brand_name, :category_id, :subcategory_id, :urgent, :problem, :account_id, :equipmemt_warranty,
+           :work_time_details, :customer_accounts_contractor_id, :select_guy
   
-  before_save :set_category_and_subcategory
+  before_save :set_category_and_subcategory, if: :equipment_id?
   
   has_many :issue_images
   accepts_nested_attributes_for :issue_images

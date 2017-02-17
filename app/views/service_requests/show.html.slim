@@ -1,0 +1,29 @@
+.text-center.mt-50
+  = link_to dashboard_path do
+    = image_tag 'sendaguy.png', width: '60%'
+.place-service-request
+  .row
+    .col-sm-6
+      .signup-form-wrapper
+        .title.text-uppercase Request Sent!
+        p
+          |We recieved your request and we’ll send you an text message when we have a contractor for you to review.
+        p
+          |You can view and manage this service request in the mobile app.
+        .text-center
+          = link_to "Place Another Service Request", new_service_requests_path, class: 'btn place-service-request-btn'
+    .col-sm-6
+      .title Like SendaGuy Now?
+      .row.mt10
+        .col-sm-1.ml10
+          = image_tag 'apple.png', width: '40'
+        .col-sm-8
+          u
+            |Write a Review in App Store
+      .row.mt10
+        .col-sm-1.ml10
+          = image_tag 'android.png', width: '40'
+        .col-sm-8
+          u
+            |Write a Review on Google Play
+      

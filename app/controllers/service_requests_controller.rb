@@ -4,8 +4,10 @@ class ServiceRequestsController < ApplicationController
   
   def new
     current_customer.populate_attributes
-    @categories = current_customer.categories
-    @locations = current_customer.current_account.locations
+    @categories = Category.all.fetch.group_by(&:parent_category_id)
+    @current_account = current_customer.current_account
+    @locations = @current_account.locations
+    @contractors = @current_account.contractors
     @service_request = ServiceRequest.new
     @service_request.issue_images = Her::Collection.new
   end
@@ -14,12 +16,15 @@ class ServiceRequestsController < ApplicationController
     current_customer.populate_attributes
     @service_request = ServiceRequest.new(service_request_params.to_h.merge(account_id: current_customer.current_account_id))
     if @service_request.save
-      redirect_to dashboard_path
+      redirect_to service_requests_path
     else
-      @categories = current_customer.categories
+      @categories = Category.all.fetch.group_by(&:parent_category_id)
       @locations = current_customer.current_account.locations
       render 'new'
     end
+  end
+  
+  def show
   end
   
   private

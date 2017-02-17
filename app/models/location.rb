@@ -4,5 +4,6 @@ class Location
 
   attributes :id, :name
   has_many :equipment_items
+  validates_presence_of :location_id
   
 end

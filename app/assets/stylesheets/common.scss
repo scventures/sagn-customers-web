@@ -1,6 +1,7 @@
 .center { text-align: center }
 .right { float: right }
 .left { float: left }
+.mt-50  { margin-top: -50px; }
 .mt10 { margin-top: 10px; }
 .mt30 { margin-top: 30px; }
 .mt40 { margin-top: 40px; } 
@@ -13,7 +14,8 @@
 .pl80 { padding-left: 80px !important; }
 .pl20 { padding-left: 20px !important; }
 .pl25 { padding-left: 25px !important; }
-.fs17 {font-size: 17px; }
+.fs17 { font-size: 17px; }
+.w60-pct { width: 60%; }
 
 nav.navbar {
   margin-bottom: 0;
@@ -38,6 +40,11 @@ nav.navbar {
   background: #979797;
   border-radius: 9px;
   border: none;
+  font-weight: bold;
+}
+
+.bold-title {
+  font-size: 36px;
   font-weight: bold;
 }
 

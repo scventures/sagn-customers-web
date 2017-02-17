@@ -1,14 +1,15 @@
 - if customer_signed_in?
   nav#header.navbar
     #header-container.container-fluid.navbar-container
-      .navbar-header
-        button.navbar-toggle.collapsed aria-controls='navbar' aria-expanded='false' data-target='#navbar' data-toggle='collapse' type='button'
-          span.sr-only Toggle navigation
-          span.icon-bar
-          span.icon-bar
-          span.icon-bar
-        = link_to dashboard_path, class: 'brand navbar-brand'
-          = image_tag 'sendaguy.png'
+      - unless params[:controller] == 'service_requests' and params[:action] == 'show'
+        .navbar-header
+          button.navbar-toggle.collapsed aria-controls='navbar' aria-expanded='false' data-target='#navbar' data-toggle='collapse' type='button'
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          = link_to dashboard_path, class: 'brand navbar-brand'
+            = image_tag 'sendaguy.png'
       #navbar.collapse.navbar-collapse.navbar-right
         ul.nav.navbar-nav
           li

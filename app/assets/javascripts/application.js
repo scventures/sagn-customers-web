@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require jquery.livequery
+//= require cocoon
 //= require turbolinks
 //= require_tree .
 

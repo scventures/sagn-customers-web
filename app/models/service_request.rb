@@ -10,6 +10,8 @@ class ServiceRequest
   
   has_many :issue_images
   accepts_nested_attributes_for :issue_images
+  validates_presence_of :location_id
+  validates_presence_of :category_id, :subcategory_id, unless: :equipment_id?
   
   def set_category_and_subcategory
     ServiceRequest.get_raw("customers/accounts/#{self.account_id}/locations/#{self.location_id}/equipment_items/#{self.equipment_id}") do |parsed_data, response|

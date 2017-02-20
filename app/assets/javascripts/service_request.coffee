@@ -45,18 +45,19 @@ $(document).on 'change', '.select_category', ->
   
 setSubcategories = ->
   subcategory = $('.select_subcategory option:selected').data('subcategory')
-  $('.select_brand').find('option').remove()
-  if subcategory.is_equipment == true
-    $('.existing-equipment').removeClass('hidden')
-    if subcategory.brands == "[]"
-      $('.select_brand').removeClass('hidden').prop('disabled', false)
-      $('.input_brand').addClass('hidden').prop('disabled', true)
-    $.each subcategory.brands, (i, s) ->
-      $('.select_subcategory').append $('<option></option>').attr('value', s.id).text(s.name)
-  else
-    $('.existing-equipment').addClass('hidden')
-    $('.select_brand').addClass('hidden').prop('disabled', true)
-    $('.input_brand').removeClass('hidden').prop('disabled', false)
+  if subcategory
+    $('.select_brand').find('option').remove()
+    if subcategory.is_equipment == true
+      $('.existing-equipment').removeClass('hidden')
+      if subcategory.brands == "[]"
+        $('.select_brand').removeClass('hidden').prop('disabled', false)
+        $('.input_brand').addClass('hidden').prop('disabled', true)
+      $.each subcategory.brands, (i, s) ->
+        $('.select_subcategory').append $('<option></option>').attr('value', s.id).text(s.name)
+    else
+      $('.existing-equipment').addClass('hidden')
+      $('.select_brand').addClass('hidden').prop('disabled', true)
+      $('.input_brand').removeClass('hidden').prop('disabled', false)
     
 $('.select_subcategory').livequery ->
   setSubcategories()

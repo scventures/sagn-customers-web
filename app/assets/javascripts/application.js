@@ -16,5 +16,6 @@
 //= require jquery.livequery
 //= require cocoon
 //= require turbolinks
+//= require turboboost/turboboost
 //= require_tree .
 

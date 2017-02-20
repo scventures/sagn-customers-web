@@ -20,7 +20,9 @@ class ServiceRequestsController < ApplicationController
     else
       @categories = Category.all.fetch.group_by(&:parent_category_id)
       @locations = current_customer.current_account.locations
-      render 'new'
+      respond_to do |format|
+        format.js { render 'new' }
+      end
     end
   end
   

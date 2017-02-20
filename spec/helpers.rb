@@ -1,26 +1,26 @@
 module Helpers
   def stub_auth_api_request(email, password, return_body, response_code)
-    stub_request(:post, 'https://stapp.sendaguy.com/api/customers/auth_token').
+    stub_request(:post, "#{Rails.application.secrets.api_url}/customers/auth_token").
       with(:body => {'auth'=>{'email'=> email, 'password'=> password}},
           :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.11.0'}).
       to_return(:status => response_code, :body => return_body.to_json, :headers => {})
   end
 
   def stub_verified_api_request(auth_token, return_body, response_code)
-    stub_request(:get, 'https://stapp.sendaguy.com/api/customers/viewer').
+    stub_request(:get, "#{Rails.application.secrets.api_url}/customers/viewer").
       with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2',  'User-Agent'=>'Faraday v0.11.0'}).
       to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_password_reset_instructions(email, return_url, response_code, return_body)
-    stub_request(:post, 'https://stapp.sendaguy.com/api/customers/password').
+    stub_request(:post, "#{Rails.application.secrets.api_url}/customers/password").
       with(:body => {"customer"=>{'email'=> email, 'redirect_url'=> return_url}},
           :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.11.0'}).
       to_return(:status => response_code, :body => return_body.to_json, :headers => {})
   end
   
   def stub_password_reset_request(password, password_confirmation, reset_password_token, response_code, return_body)
-    stub_request(:put, 'https://stapp.sendaguy.com/api/customers/password').
+    stub_request(:put, "#{Rails.application.secrets.api_url}/customers/password").
       with(:body => {'customer'=>{'reset_password_token' => reset_password_token, 'password'=> password, 'password_confirmation'=> password_confirmation}},
        :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.11.0'}).
       to_return(:status => response_code, :body => return_body, :headers => {})

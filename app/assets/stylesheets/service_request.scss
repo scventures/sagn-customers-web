@@ -13,14 +13,17 @@
   hr {
     border-color: #999;
   }
+  .border {
+    border: 2px solid #666;
+  }
   .border-box {
     background: #e6e6e6 none repeat scroll 0 0;
-    border: 2px solid #666;
     margin-top: 10px;
-    padding: 5px 10px;
+    padding: 10px 20px;
     label {
       display: inline;
       margin-left: 10px;
+      font-weight: 200;
     }
   }
   .image-upload-label {

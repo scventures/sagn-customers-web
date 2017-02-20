@@ -5,7 +5,7 @@
     |Need a technician? Just tell us the details and we’ll send you a text message 
     br/ 
     |when we have contractors for you.
-    .border-box
+    .border-box.border
       strong
         |Looking for details or status of an exiting service request? 
       br/
@@ -50,20 +50,22 @@
         hr
           = f.simple_fields_for :issue_images do |issue_image|
             = render 'issue_image_fields', f: issue_image
-        .row.mt30
+        .row
           .links
             = link_to_add_association 'Add Photo', f, :issue_images, class: 'btn btn-primary ml20 mb20 mt20'
-        hr
-        .equipment-warranty.hidden
+        .equipment-warranty
           .bold-title
             |Is Equipment Under Warranty?
           hr
-          .border-box
-            = f.input :urgent, as: :boolean, label: 'SendaGuy Now is not for service on equipment covered by warranty. If your equipment is under warranty, you’ll want to contact the manufacturer directly.', boolean_style: :inline
-          u
-            |See Warranty Information for &lt;Brand&gt;
+          |SendaGuy Now is not for service on equipment covered by warranty. If your 
+          br/
+          |equipment is under warranty, you’ll want to contact the manufacturer directly.
+          .border-box.mt10
+            = f.input :urgent, as: :boolean, label: 'I understand and wish to continue.', boolean_style: :inline
+          .hidden
+            = link_to 'See Warranty Information for Brand', '#'
         - if @contractors.size > 0
-          .bold-title
+          .bold-title.mt20
             |Want to Assign One of Your Guys?
           hr
           |SendaGuy Now is not for service on equipment covered by warranty. If your equipment is under warranty, you’ll want to contact the manufacturer directly.

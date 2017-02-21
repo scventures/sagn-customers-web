@@ -46,7 +46,7 @@ $(document).on 'change', '.select_brand', ->
   $('.equipment-warranty').find('a').removeClass('hidden')
   $('#brandInfoModal .modal-body').html('<p>'+brand.warranty_phone_numbe+'</p><p><a href='+brand.warranty_lookup_url+'>'+brand.warranty_lookup_url+'</p>')    
   
-$(document).on 'change', '.select_equipment', ->
+$('.select_equipment').livequery ->
   setEquipmentFields()
   
 $(document).on 'change', '.select_equipment', ->

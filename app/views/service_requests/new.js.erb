@@ -5,5 +5,5 @@
 <% elsif @service_request.attributes[:subcategory_id].kind_of?(Array) %>
   $('.place-request-service-container .errors').html("Category <%= @service_request.data[:subcategory_id].join(', ') %>")
 <% else %>
-  $('.place-request-service-container .errors').html("Soething went wrong please try again. %>")
+  $('.place-request-service-container .errors').html("Something went wrong please try again. %>")
 <% end %>

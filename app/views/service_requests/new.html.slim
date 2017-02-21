@@ -35,9 +35,9 @@
             = f.input :brand_name, label: 'What Needs Fixing?'
             = f.input :category_id, as: :select, collection: @categories[nil].map {|c| [c.name, c.id, { 'data-categories' => @categories[c.id].to_json }] }, input_html: { class: 'select_category'}, label: 'Select Category:'
             = f.input :subcategory_id, collection:[], input_html: { class: 'select_subcategory'}, label: 'Specify:'
-          .existing-equipment
-            = f.input :brand_name, as: :select, collection: [], label: 'Brand:', input_html: { class: 'select_brand hidden', disabled: 'disabled'}, label_html: { class: 'select_brand hidden'}
-            = f.input :brand_name, label: 'Brand:', input_html: { class: 'input_brand' }, label_html: { class: 'input_brand' }
+          .existing-equipment.hidden
+            = f.input :brand_id, as: :select, collection: [], label: 'Brand:', input_html: { class: 'select_brand'}
+            = f.input :brand_name, as: :hidden
             = f.input :model, label: 'Model:'
             = f.input :serial, label: 'Serial Number:'
           = f.label :urgent, 'Urgent? :'
@@ -53,17 +53,16 @@
         .row
           .links
             = link_to_add_association 'Add Photo', f, :issue_images, class: 'btn btn-primary ml20 mb20 mt20'
-        .equipment-warranty
+        .equipment-warranty.hidden
           .bold-title
             |Is Equipment Under Warranty?
           hr
           |SendaGuy Now is not for service on equipment covered by warranty. If your 
           br/
           |equipment is under warranty, you’ll want to contact the manufacturer directly.
-          .border-box.mt10
+          .border-box.mt10.mb10
             = f.input :urgent, as: :boolean, label: 'I understand and wish to continue.', boolean_style: :inline
-          .hidden
-            = link_to 'See Warranty Information for Brand', '#'
+          = link_to 'See Warranty Information for Brand', '#', data: { toggle: 'modal', target: '#brandInfoModal' }, class: 'brand-info-link'
         - if @contractors.size > 0
           .bold-title.mt20
             |Want to Assign One of Your Guys?
@@ -87,3 +86,13 @@
         |Please make sure everything is correct and click the button below to submit your request.
         .row
           = f.submit 'SendaGuy Now', class: 'btn btn-primary col-sm-3 col-sm-offset-9 mt10'
+#brandInfoModal.modal.fade role="dialog"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal"
+          |&times;
+        h4.modal-title Equipment Waranty Info
+      .modal-body
+        |Select brand.
+        

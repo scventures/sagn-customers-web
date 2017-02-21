@@ -26,12 +26,6 @@ module Helpers
        to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
-  def stub_get_equipment_items_request(account_id, location_id, equipment_id, response_status)
-    stub_request(:get, "#{Rails.application.secrets.api_url}/customers/accounts/#{account_id}/locations/#{location_id}/equipment_items/#{equipment_id}").
-       with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=>'Faraday v0.11.0'}).
-       to_return(:status => 200, :body => get_equipment_return_body.to_json, :headers => {})
-  end
-  
   def verified_return_body
     {
       'customer': {

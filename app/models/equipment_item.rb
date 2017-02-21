@@ -1,5 +1,6 @@
 class EquipmentItem
   include Her::Model
+  parse_root_in_json :equipment_item
   resource_path 'customers/accounts/:account_id/locations/:location_id/equipment_items/:id'
   attributes :id, :model, :serial, :brand_name, :location_id
   

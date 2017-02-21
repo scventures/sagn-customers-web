@@ -68,14 +68,5 @@ describe ServiceRequest do
     end
   end
   
-  describe 'set_category_and_subcategory' do
-    let(:service_request) {ServiceRequest.new(location_id: 125, account_id: 43, equipment_id: 325)}
-    it 'set category_id and subcategory_id for selected equipment' do
-      stub_get_equipment_items_request(service_request.account_id, service_request.location_id, service_request.equipment_id, 200)
-      service_request.set_category_and_subcategory
-      expect(service_request.category_id).to eq(376)
-      expect(service_request.subcategory_id).to eq(396)
-    end
-  end
 end
 

@@ -15,20 +15,14 @@ describe EquipmentItem do
   
   describe 'attributes' do
     let(:equipment_item) {EquipmentItem.new}
-    it 'include the :id attribute' do
-      expect(equipment_item).to have_attributes(:id => anything)
-    end
-    it 'include the :model attribute' do
-      expect(equipment_item).to have_attributes(:model => anything)
-    end
-    it 'include the :serial attribute' do
-      expect(equipment_item).to have_attributes(:serial => anything)
-    end
-    it 'include the :brand_name attribute' do
-      expect(equipment_item).to have_attributes(:brand_name => anything)
-    end
-    it 'include the :location_id attribute' do
-      expect(equipment_item).to have_attributes(:location_id => anything)
+    it 'include attributes' do
+      expect(equipment_item).to have_attributes(
+        id: anything,
+        model: anything,
+        serial: anything,
+        brand_name: anything,
+        location_id: anything
+      )
     end
   end
   

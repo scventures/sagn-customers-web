@@ -13,11 +13,11 @@ describe Location do
   
   describe "attributes" do
     let(:location) {Location.new}
-    it "include the :id attribute" do
-      expect(location).to have_attributes(:id => anything)
-    end
-    it "include the :name attribute" do
-      expect(location).to have_attributes(:name => anything)
+    it "include attributes" do
+      expect(location).to have_attributes(
+        id: anything,
+        name: anything
+      )
     end
   end
 end

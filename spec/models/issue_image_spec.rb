@@ -13,14 +13,12 @@ describe IssueImage do
   
   describe "attributes" do
     let(:issue_image) {IssueImage.new}
-    it "include the :service_request_id attribute" do
-      expect(issue_image).to have_attributes(:service_request_id => anything)
-    end
-    it "include the :image attribute" do
-      expect(issue_image).to have_attributes(:image => anything)
-    end
-    it "include the :_destroy attribute" do
-      expect(issue_image).to have_attributes(:_destroy => anything)
+    it "include attributes" do
+      expect(issue_image).to have_attributes(
+        service_request_id: anything,
+        image: anything,
+        _destroy: anything
+      )
     end
   end
 end

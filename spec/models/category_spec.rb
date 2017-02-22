@@ -15,29 +15,17 @@ describe Category do
   
   describe 'attributes' do
     let(:category) {Category.new}
-    it 'include the :id attribute' do
-      expect(category).to have_attributes(:id => anything)
-    end
-    it 'include the :name attribute' do
-      expect(category).to have_attributes(:name => anything)
-    end
-    it 'include the :parent_category_id attribute' do
-      expect(category).to have_attributes(:parent_category_id => anything)
-    end
-    it 'include the :problem_codes attribute' do
-      expect(category).to have_attributes(:problem_codes => anything)
-    end
-    it 'include the :brands attribute' do
-      expect(category).to have_attributes(:brands => anything)
-    end
-    it 'include the :is_equipment attribute' do
-      expect(category).to have_attributes(:is_equipment => anything)
-    end
-    it 'include the :sub_brands attribute' do
-      expect(category).to have_attributes(:sub_brands => anything)
-    end
-    it 'include the :manual_processing attribute' do
-      expect(category).to have_attributes(:manual_processing => anything)
+    it 'include attributes' do
+      expect(category).to have_attributes(
+        id: anything,
+        name: anything,
+        parent_category_id: anything,
+        problem_codes: anything,
+        brands: anything,
+        is_equipment: anything,
+        sub_brands: anything,
+        manual_processing: anything
+      )
     end
   end
   

@@ -42,7 +42,8 @@ gem 'her'
 gem 'request_store'
 gem "cocoon"
 gem 'turboboost', '~> 0.1.0'
-
+gem 'client_side_validations'
+gem 'client_side_validations-simple_form'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

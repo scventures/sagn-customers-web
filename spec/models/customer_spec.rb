@@ -15,20 +15,14 @@ describe Customer do
   
   describe 'attributes' do
     let(:customer) {Customer.new}
-    it 'include the :email attribute' do
-      expect(customer).to have_attributes(:email => anything)
-    end
-    it 'include the :jwt attribute' do
-      expect(customer).to have_attributes(:jwt => anything)
-    end
-    it 'include the :password attribute' do
-      expect(customer).to have_attributes(:password => anything)
-    end
-    it 'include the :password_confirmation attribute' do
-      expect(customer).to have_attributes(:password_confirmation => anything)
-    end
-    it 'include the :current_account_id attribute' do
-      expect(customer).to have_attributes(:current_account_id => anything)
+    it 'include attributes' do
+      expect(customer).to have_attributes(
+        email: anything,
+        jwt: anything,
+        password: anything,
+        password_confirmation: anything,
+        current_account_id: anything
+      )
     end
   end
   

@@ -15,6 +15,8 @@
 //= require bootstrap-sprockets
 //= require jquery.livequery
 //= require cocoon
+//= require rails.validations
+//= require rails.validations.simple_form
 //= require turbolinks
 //= require turboboost/turboboost
 //= require_tree .

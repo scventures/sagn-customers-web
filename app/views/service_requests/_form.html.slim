@@ -1,0 +1,76 @@
+.form-wrapper
+  = simple_form_for service_request, url: service_requests_path, validate: true, turboboost: true do |f|
+    .errors
+    .bold-title
+      |Locations
+    hr
+    .input-container
+      = f.input :location_id, as: :select, collection: locations.map {|l| [l.name, l.id, { 'data-equipments' => l.equipment_items.to_json }] }, input_html: { class: 'select_location'}, label: 'Select Location:'
+      p
+        strong
+          |Need to add location? 
+        Please use the mobile app.
+    .bold-title
+      |Details
+    hr
+    .input-container
+      = f.input :equipment_id, as: :select, collection: [], input_html: { class: 'select_equipment' }, label: 'Select from Equipment:'
+      p
+        | OR
+        = link_to 'New Equipment or Issue', '#', class: 'btn btn-primary new-equipment-btn ml10'
+      .new-equipment.hidden
+        = f.input :brand_name, label: 'What Needs Fixing?'
+        = f.input :category_id, as: :select, collection: categories[nil].map {|c| [c.name, c.id, { 'data-categories' => categories[c.id].to_json }] }, input_html: { class: 'select_category'}, label: 'Select Category:'
+        = f.input :subcategory_id, collection:[], input_html: { class: 'select_subcategory'}, label: 'Specify:'
+      .existing-equipment.hidden
+        = f.input :brand_id, as: :select, collection: [], label: 'Brand:', input_html: { class: 'select_brand'}
+        = f.input :brand_name, as: :hidden
+        = f.input :model, label: 'Model:'
+        = f.input :serial, label: 'Serial Number:'
+      = f.label :urgent, 'Urgent? :'
+      = f.input :urgent, as: :boolean, label: false, boolean_style: :inline
+      |This call is urgent (need a tech in next 4-6 hours)
+      = f.input :problem, as: :text, label: 'Please Describe the Problem:'
+      = f.input :work_time_details, as: :text, label: 'When would you like the tech to arrive?'
+    .bold-title
+      |Photos
+    hr
+      = f.simple_fields_for :issue_images do |issue_image|
+        = render 'issue_image_fields', f: issue_image
+    .row
+      .links
+        = link_to_add_association 'Add Photo', f, :issue_images, class: 'btn btn-primary ml20 mb20 mt20'
+    .equipment-warranty.hidden
+      .bold-title
+        |Is Equipment Under Warranty?
+      hr
+      |SendaGuy Now is not for service on equipment covered by warranty. If your 
+      br/
+      |equipment is under warranty, you’ll want to contact the manufacturer directly.
+      .border-box.mt10.mb10
+        = f.input :urgent, as: :boolean, label: 'I understand and wish to continue.', boolean_style: :inline
+      = link_to 'See Warranty Information for Brand', '#', data: { toggle: 'modal', target: '#brandInfoModal' }, class: 'brand-info-link'
+    - if contractors.size > 0
+      .bold-title.mt20
+        |Want to Assign One of Your Guys?
+      hr
+      |SendaGuy Now is not for service on equipment covered by warranty. If your equipment is under warranty, you’ll want to contact the manufacturer directly.
+      .text-center
+      .input-container
+        strong.ml10-pct
+          |Please Choose:
+        .radio-btn.text-center
+          = f.radio_button :select_guy, 'find_a_guy', :checked => true
+          = label :select_guy_find_a_guy, 'Find a Guy For Me'
+          br/
+          = f.radio_button :select_guy, 'send_a_guy'
+          = label :select_guy_send_a_guy, 'Send One of My Guys'
+        .hidden.select-guy
+          = f.input :customer_accounts_contractor_id, as: :select, collection: contractors.map {|c| ["#{c.contractor_name? ? c.contractor_name : c.business_name}", c.id] }, input_html: { disabled: 'disabled' }, label: 'Select Guy:'
+    .bold-title
+      |Confirm
+    hr
+    |Please make sure everything is correct and click the button below to submit your request.
+    .row
+      = f.submit 'SendaGuy Now', class: 'btn btn-primary col-sm-3 col-sm-offset-9 mt10'
+

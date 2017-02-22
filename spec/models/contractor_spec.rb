@@ -17,38 +17,20 @@ describe Contractor do
   
   describe 'attributes' do
     let(:contractor) {Contractor.new}
-    it 'include the :id attribute' do
-      expect(contractor).to have_attributes(:id => anything)
-    end
-    it 'include the :customer_account_id attribute' do
-      expect(contractor).to have_attributes(:customer_account_id => anything)
-    end
-    it 'include the :contractor_id attribute' do
-      expect(contractor).to have_attributes(:contractor_id => anything)
-    end
-    it 'include the :contractor_name attribute' do
-      expect(contractor).to have_attributes(:contractor_name => anything)
-    end
-    it 'include the :contractor_account_id attribute' do
-      expect(contractor).to have_attributes(:contractor_account_id => anything)
-    end
-    it 'include the :contractor_account_name attribute' do
-      expect(contractor).to have_attributes(:contractor_account_name => anything)
-    end
-    it 'include the :business_name attribute' do
-      expect(contractor).to have_attributes(:business_name => anything)
-    end
-    it 'include the :contact_name attribute' do
-      expect(contractor).to have_attributes(:contact_name => anything)
-    end
-    it 'include the :email attribute' do
-      expect(contractor).to have_attributes(:email => anything)
-    end
-    it 'include the :phone_number attribute' do
-      expect(contractor).to have_attributes(:phone_number => anything)
-    end
-    it 'include the :status attribute' do
-      expect(contractor).to have_attributes(:status => anything)
+    it 'include attributes' do
+      expect(contractor).to have_attributes(
+        id: anything,
+        customer_account_id: anything,
+        contractor_id: anything,
+        contractor_name: anything,
+        contractor_account_id: anything,
+        contractor_account_name: anything,
+        business_name: anything,
+        contact_name: anything,
+        email: anything,
+        phone_number: anything,
+        status: anything
+      )
     end
   end
 end

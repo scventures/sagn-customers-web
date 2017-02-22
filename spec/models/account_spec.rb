@@ -18,8 +18,8 @@ describe Account do
   
   describe 'attributes' do
     let(:account) {Account.new}
-    it 'include the :id attribute' do
-      expect(account).to have_attributes(:id => anything)
+    it 'include attributes' do
+      expect(account).to have_attributes(id: anything)
     end
   end
   

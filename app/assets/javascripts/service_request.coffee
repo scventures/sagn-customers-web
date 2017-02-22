@@ -26,8 +26,8 @@ setEquipmentFields = ->
         location_id: $('.select_location').val()
         id: $('.select_equipment').val()
       success: (data) ->
-        $('#service_request_category_id').append("<option selected='selected' value='+data.category.attributes.id+'>'+data.category.attributes.name+'</option>")
-        $('#service_request_subcategory_id').append("<option selected='selected' value='+data.subcategory.id+'>'+data.subcategory.name+'</option>")
+        $('#service_request_category_id').val(data.category.attributes.id).trigger('change')
+        $('#service_request_subcategory_id').val(data.subcategory.id).trigger('change')
         $('.select_brand').find('option').remove()
         if data.category.attributes.is_equipment == true
           $('.existing-equipment').removeClass('hidden')

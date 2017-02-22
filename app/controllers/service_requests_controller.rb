@@ -17,7 +17,8 @@ class ServiceRequestsController < ApplicationController
       redirect_to service_requests_path
     else
       @categories = Category.all.fetch.group_by(&:parent_category_id)
-      @locations = current_customer.current_account.locations
+      @current_account = current_customer.current_account
+      @locations = @current_account.locations
       @contractors = @current_account.contractors
       @service_request.issue_images = Her::Collection.new
       respond_to do |format|
@@ -33,7 +34,7 @@ class ServiceRequestsController < ApplicationController
   
   def service_request_params
     params.required(:service_request).permit(
-      :location_id, :equipment_id, :brand_name, :model, :serial, :urgent, 
+      :location_id, :equipment_id, :brand_name, :model, :serial, :urgent, :work_time_details, :select_guy,
       :problem, :category_id, :subcategory_id, issue_images_attributes: [:image]
     ).to_h
   end

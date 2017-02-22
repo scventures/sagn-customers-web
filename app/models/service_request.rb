@@ -7,7 +7,6 @@ class ServiceRequest
   
   has_many :issue_images
   accepts_nested_attributes_for :issue_images
-  validates_presence_of :location_id
-  validates_presence_of :category_id, :subcategory_id, unless: :equipment_id?
+  validates_presence_of :location_id, :category_id, :subcategory_id
   
 end

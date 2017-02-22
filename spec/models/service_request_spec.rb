@@ -41,21 +41,8 @@ describe ServiceRequest do
     let(:service_request) {ServiceRequest.new}
     it do
       expect(service_request).to validate_presence_of(:location_id)
-    end
-    context 'if equipment_id?' do
-      it do
-        allow(service_request).to receive(:equipment_id?).and_return(false) 
-        expect(service_request).to validate_presence_of(:category_id)
-        expect(service_request).to validate_presence_of(:subcategory_id)
-      end
-    end
-    
-    context 'unless equipment_id?' do
-      it do
-        allow(service_request).to receive(:equipment_id?).and_return(true) 
-        expect(service_request).not_to validate_presence_of(:category_id)
-        expect(service_request).not_to validate_presence_of(:subcategory_id)
-      end
+      expect(service_request).to validate_presence_of(:category_id)
+      expect(service_request).to validate_presence_of(:subcategory_id)
     end
   end
   

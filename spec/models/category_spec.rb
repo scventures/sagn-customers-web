@@ -29,5 +29,12 @@ describe Category do
     end
   end
   
+  describe '.as_json(options = nil)' do
+    let(:category) { Category.new(id: 1, name: 'Test') }
+    it 'return json' do
+      expect(category.as_json).to eq(as_json) 
+    end
+  end
+  
 end
 

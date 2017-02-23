@@ -27,7 +27,10 @@ describe EquipmentItem do
   end
   
   describe ':as_json(options = nil)' do
-  
+    let(:equipment) { EquipmentItem.new(id: 1, name: 'Test') }
+    it 'return json' do
+      expect(equipment.as_json).to eq(as_json) 
+    end
   end
   
 end

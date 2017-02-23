@@ -127,4 +127,9 @@ module Helpers
       }
     }
   end
+  
+  def as_json
+    {"id"=>1, "name"=>"Test"}
+  end
+  
 end

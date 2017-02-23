@@ -1,93 +1,93 @@
+$(document).on 'ready', ->
+  $('.select2').select2()
+
 setEquipment = ->
-  equipments = $('.select_location option:selected').data('equipments')
-  $('.select_equipment').find('option').remove()
-  $('.select_equipment').append $('<option></option>')
-  $('.existing-equipment').addClass('hidden')
-  $.each equipments, (i, e) ->
-    dataEquipment = JSON.stringify e
-    $('.select_equipment').append $('<option></option>').attr({'value': e.id, 'data-equipment': dataEquipment }).text(e.id)
+  if $('.select_location option:selected').val() != ''
+    equipments = $('.select_location option:selected').data('equipments')
+    $('.existing-equipment').addClass('hidden')
+    equipments.map((obj) -> (obj.text = obj.text or obj.id))
+    $('.select_equipment').empty()
+    $('.select_equipment').select2 
+      data: equipments
 
 $('.select_location').livequery ->
   setEquipment()
 
-$(document).on 'change', '.select_location', ->
+$(document).on 'select2:select', '.select_location', ->
   setEquipment()
-  
-setEquipmentFields = ->
-  equipment = $('.select_equipment option:selected').data('equipment')
+    
+setEquipmentFields = (id, location_id) ->
   $('.new-equipment').addClass('hidden')
   $('.equipment-warranty').addClass('hidden')
-  if equipment
-    $.ajax
-      url: '/equipment_item'
-      type: 'GET'
-      dataType: 'json'
-      data:
-        location_id: $('.select_location').val()
-        id: $('.select_equipment').val()
-      success: (data) ->
-        $('#service_request_category_id').val(data.category.attributes.id).trigger('change')
-        $('#service_request_subcategory_id').val(data.subcategory.id).trigger('change')
-        $('.select_brand').find('option').remove()
-        if data.category.attributes.is_equipment == true
-          $('.existing-equipment').removeClass('hidden')
-          $('#service_request_model').val(data.model)
-          $('#service_request_serial').val(data.serial)
-          $.each data.category.attributes.brands, (i, b) ->
-            brand = JSON.stringify b        
-            $('.select_brand').append $('<option></option>').attr({'value': b.id, 'data-brand': brand }).text(b.name)
-          $('.equipment-warranty').removeClass('hidden')
-          $('.equipment-warranty').find('a').addClass('hidden')
+  $.ajax
+    url: '/equipment_item'
+    type: 'GET'
+    dataType: 'json'
+    data:
+      location_id: location_id
+      id: id
+    success: (data) ->
+      $('#service_request_category_id').val(data.category.id).trigger('select2:select')
+      $('#service_request_subcategory_id').val(data.subcategory.id).trigger('select2:select')
+      if data.category.attributes.is_equipment == true
+        $('.existing-equipment').removeClass('hidden')
+        $('#service_request_model').val(data.model)
+        $('#service_request_serial').val(data.serial)
+        brands = data.subcategory.brands
+        brands.map((obj) -> (obj.text = obj.text or obj.name))
+        $('.select_brand').empty()
+        $('.select_brand').select2
+          data: brands
+        $('.equipment-warranty').removeClass('hidden')
+        $('.equipment-warranty').find('a').addClass('hidden')
         
-$(document).on 'change', '.select_brand', ->
-  value = $('.select_brand').data('brand-name')
-  $('#service_request_brand_name').val(value)
-  brand = $('.select_brand:selected').data('brand')
+$('.select_equipment').livequery (e) ->
+  if $(this).val() != ''
+    setEquipmentFields(e.params.data.id, e.params.data.location_id)
+  
+$(document).on 'select2:select', '.select_equipment', (e)->
+  setEquipmentFields(e.params.data.id, e.params.data.location_id)
+  
+$(document).on 'change', '.select_brand', (e) ->
+  $('#service_request_brand_name').val(e.params.data.name)
   $('.equipment-warranty').find('a').removeClass('hidden')
-  $('#brandInfoModal .modal-body').html('<p>'+brand.warranty_phone_numbe+'</p><p><a href='+brand.warranty_lookup_url+'>'+brand.warranty_lookup_url+'</p>')    
-  
-$('.select_equipment').livequery ->
-  setEquipmentFields()
-  
-$(document).on 'change', '.select_equipment', ->
-  setEquipmentFields()
+  $('#brandInfoModal .modal-body').html('<p>'+brand.warranty_phone_number+'</p><p><a href='+e.params.data.warranty_lookup_url+'>'+e.params.data.warranty_lookup_url+'</p>')
   
 setCategories = ->
-  categories = $('.select_category option:selected').data('categories')
-  $('.select_subcategory').find('option').remove()
-  $.each categories, (i, c) ->
-    c = c.attributes
-    dataSubcategory = JSON.stringify c
-    $('.select_subcategory').append $('<option></option>').attr({'value': c.id, 'data-subcategory': dataSubcategory }).text(c.name)
-    
+  if $('.select_category option:selected').val() != ''
+    categories = $('.select_category option:selected').data('categories')
+    categories.map((obj) -> (obj.text = obj.text or obj.name))
+    $('.select_subcategory').empty()
+    $('.select_subcategory').select2
+      data: categories
+     
 $('.select_category').livequery ->
   setCategories()
     
-$(document).on 'change', '.select_category', ->
+$(document).on 'select2:select', '.select_category', (e) ->
   setCategories()
   
-setSubcategories = ->
-  subcategory = $('.select_subcategory option:selected').data('subcategory')
+setSubcategories = (subcategory) ->
   if subcategory
-    $('.select_brand').find('option').remove()
     $('.existing-equipment').addClass('hidden')
     if subcategory.is_equipment == true
       $('.equipment-warranty').removeClass('hidden')
       $('.equipment-warranty').find('a').addClass('hidden')
       $('.existing-equipment').removeClass('hidden')
-      if subcategory.brands == "[]"
-        $('.select_brand').removeClass('hidden').prop('disabled', false)
-        $('.input_brand').addClass('hidden').prop('disabled', true)
-      $.each subcategory.brands, (i, s) ->
-        $('.select_subcategory').append $('<option></option>').attr('value', s.id).text(s.name)
+      subcategory.brands.map((obj) -> (obj.text = obj.text or obj.name))
+      $('.select_brand').empty()
+      $('.select_brand').select2
+        data: subcategory.brands
     else
       $('.existing-equipment').addClass('hidden')
-    
-$('.select_subcategory').livequery ->
-  setSubcategories()
-    
-$(document).on 'change', '.select_subcategory', ->
-  setSubcategories()
+ 
+$('.select_subcategory').livequery (e) ->
+  if $(this).val() != ''
+    setSubcategories(e.params.data)
+        
+$(document).on 'select2:select', '.select_subcategory', (e) ->
+  if e.params!= 'undefined'
+    setSubcategories(e.params.data)
   
 $('.image-upload').livequery ->
   $(this).on 'change', (event) ->

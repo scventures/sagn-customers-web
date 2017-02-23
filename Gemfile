@@ -45,6 +45,7 @@ gem 'turboboost', '~> 0.1.0'
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
 gem 'remotipart', '~> 1.2'
+gem 'select2-rails'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

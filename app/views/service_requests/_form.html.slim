@@ -5,7 +5,7 @@
       |Locations
     hr
     .input-container
-      = f.input :location_id, as: :select, collection: locations.map {|l| [l.name, l.id, { 'data-equipments' => l.equipment_items.to_json }] }, input_html: { class: 'select_location'}, label: 'Select Location:'
+      = f.input :location_id, as: :select, collection: locations.map {|l| [l.name, l.id, { 'data-equipments' => l.equipment_items.to_json }] }, input_html: { class: 'select_location select2'}, label: 'Select Location:'
       p
         strong
           |Need to add location? 
@@ -14,16 +14,16 @@
       |Details
     hr
     .input-container
-      = f.input :equipment_id, as: :select, collection: [], input_html: { class: 'select_equipment' }, label: 'Select from Equipment:'
+      = f.input :equipment_id, as: :select, collection: [], input_html: { class: 'select_equipment select2' }, label: 'Select from Equipment:'
       p
         | OR
         = link_to 'New Equipment or Issue', '#', class: 'btn btn-primary new-equipment-btn ml10'
       .new-equipment.hidden
         = f.input :brand_name, label: 'What Needs Fixing?'
-        = f.input :category_id, as: :select, collection: categories[nil].map {|c| [c.name, c.id, { 'data-categories' => categories[c.id].to_json }] }, input_html: { class: 'select_category'}, label: 'Select Category:'
-        = f.input :subcategory_id, collection:[], input_html: { class: 'select_subcategory'}, label: 'Specify:'
+        = f.input :category_id, as: :select, collection: categories[nil].map {|c| [c.name, c.id, { 'data-categories' => categories[c.id].to_json }] }, input_html: { class: 'select_category select2'}, label: 'Select Category:'
+        = f.input :subcategory_id, collection:[], input_html: { class: 'select_subcategory select2'}, label: 'Specify:'
       .existing-equipment.hidden
-        = f.input :brand_id, as: :select, collection: [], label: 'Brand:', input_html: { class: 'select_brand'}
+        = f.input :brand_id, as: :select, collection: [], label: 'Brand:', input_html: { class: 'select_brand select2'}
         = f.input :brand_name, as: :hidden
         = f.input :model, label: 'Model:'
         = f.input :serial, label: 'Serial Number:'

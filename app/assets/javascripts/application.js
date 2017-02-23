@@ -16,6 +16,7 @@
 //= require bootstrap-sprockets
 //= require jquery.livequery
 //= require cocoon
+//= require select2-full
 //= require rails.validations
 //= require rails.validations.simple_form
 //= require turbolinks

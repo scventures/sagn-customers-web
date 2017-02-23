@@ -64,9 +64,9 @@
       width: 40%;
       text-align: right;
     }
-    input, select, textarea {
+    input, select, textarea, .select2.select2-container  {
       margin-left: 10px;
-      width: 55%;
+      width: 55% !important;
     }
     p {
       margin-left: 40%;
@@ -74,7 +74,7 @@
     }
     .radio-btn {
       input {
-        width: 5%;
+        width: 5% !important;
       }
       label {
         text-align: left;
@@ -83,7 +83,7 @@
     .service_request_urgent {
       display: inline;
       input {
-        width: 5%;
+        width: 5% !important;
       }
     }
     .input {

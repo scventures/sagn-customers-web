@@ -1,0 +1,25 @@
+.place-request-service-container
+  .place-request-service-wrapper
+    .header
+      |Place Request Service
+    |Need a technician? Just tell us the details and we’ll send you a text message 
+    br/ 
+    |when we have contractors for you.
+    .border-box.border
+      strong
+        |Looking for details or status of an exiting service request? 
+      br/
+      |Please open the mobile app to manage your service requests.
+    hr
+    .place-request-service-form-container
+      = render 'form', service_request: @service_request, contractors: @contractors, locations: @locations, categories: @categories
+#brandInfoModal.modal.fade role="dialog"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button type="button" class="close" data-dismiss="modal"
+          |&times;
+        h4.modal-title Equipment Waranty Info
+      .modal-body
+        |Select brand.
+        

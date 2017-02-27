@@ -2,9 +2,12 @@ class Customer
   include Her::Model
   extend Devise::Models
 
-  attributes :email, :jwt, :password, :password_confirmation
+  attributes :email, :jwt, :password, :password_confirmation, :current_account_id
 
   devise :remote_authenticatable, :recoverable
+  
+  has_many :accounts
+  belongs_to :current_account, class_name: 'Account'
 
   validates_presence_of     :password, if: :password_required?
   validates_confirmation_of :password, if: :password_required?
@@ -66,5 +69,5 @@ class Customer
     customer = post(:auth_token, auth: {email: email, password: password})
     customer.valid_auth_token? ? customer : nil
   end
-
+  
 end

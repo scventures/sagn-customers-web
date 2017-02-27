@@ -5,7 +5,11 @@ class ApplicationController < ActionController::Base
 
   protected
   def set_customer_api_token
-    RequestStore.store[:auth_token] = current_customer.jwt if current_customer
+    if current_customer
+      RequestStore.store[:auth_token] = current_customer.jwt
+      current_customer.populate_attributes
+      RequestStore.store[:current_customer] = current_customer
+    end
   end
 
 end

@@ -1,17 +1,26 @@
 .center { text-align: center }
 .right { float: right }
 .left { float: left }
+.mt-50  { margin-top: -50px; }
 .mt10 { margin-top: 10px; }
+.mt20 { margin-top: 20px; }
 .mt30 { margin-top: 30px; }
-.mt40 { margin-top: 40px; } 
+.mt40 { margin-top: 40px; }
+.ml10 { margin-left: 10px !important; }
+.ml10-pct { margin-left: 10% !important; } 
+.ml20 { margin-left: 20px !important; }
+.mb10 { margin-bottom: 10px; }
+.mb20 { margin-bottom: 20px; }
 .p10 {padding: 10px; }
 .p15 {padding: 15px; }
 .p20 {padding: 20px; }
 .pr80 { padding-right: 80px !important; }
 .pl10 { padding-left: 10px !important; }
 .pl80 { padding-left: 80px !important; }
+.pl20 { padding-left: 20px !important; }
 .pl25 { padding-left: 25px !important; }
-.fs17 {font-size: 17px; }
+.fs17 { font-size: 17px; }
+.w60-pct { width: 60%; }
 
 nav.navbar {
   margin-bottom: 0;
@@ -25,8 +34,8 @@ nav.navbar {
     width: auto;
   }
   .nav >li >a {
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 }
 
@@ -36,6 +45,11 @@ nav.navbar {
   background: #979797;
   border-radius: 9px;
   border: none;
+  font-weight: bold;
+}
+
+.bold-title {
+  font-size: 36px;
   font-weight: bold;
 }
 

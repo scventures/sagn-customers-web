@@ -10,20 +10,19 @@ describe Customer do
     expect(Customer.include?(Devise::Models::Recoverable)).to be_truthy
   end
   
+  it { expect(Customer.association_names.include? :accounts).to be_truthy }
+  it { expect(Customer.association_names.include? :current_account).to be_truthy }
   
-  describe "attributes" do
+  describe 'attributes' do
     let(:customer) {Customer.new}
-    it "include the :email attribute" do
-      expect(customer).to have_attributes(:email => anything)
-    end
-     it "include the :jwt attribute" do
-      expect(customer).to have_attributes(:jwt => anything)
-    end
-     it "include the :password attribute" do
-      expect(customer).to have_attributes(:password => anything)
-    end
-     it "include the :password_confirmation attribute" do
-      expect(customer).to have_attributes(:password_confirmation => anything)
+    it 'include attributes' do
+      expect(customer).to have_attributes(
+        email: anything,
+        jwt: anything,
+        password: anything,
+        password_confirmation: anything,
+        current_account_id: anything
+      )
     end
   end
   
@@ -37,7 +36,7 @@ describe Customer do
   
   describe 'Validations' do
     let(:customer) {Customer.new}
-    context "if password_required?" do
+    context 'if password_required?' do
       it do
         allow(customer).to receive(:password_required?).and_return(true) 
         expect(customer).to validate_presence_of(:password)
@@ -45,7 +44,7 @@ describe Customer do
       end
     end
     
-    context "unless password_required?" do
+    context 'unless password_required?' do
       it do
         allow(customer).to receive(:password_required?).and_return(false) 
         expect(customer).not_to validate_presence_of(:password)
@@ -87,8 +86,8 @@ describe Customer do
         customer = Customer.authenticate!('test@gmail.com', 'test123')
         stub_verified_api_request(customer.jwt, verified_return_body , 201)
         customer = customer.populate_attributes
-        expect(customer[:email]).to eq("test@gmail.com")
-        expect(customer[:phone_number]).to eq("+111111111")
+        expect(customer[:email]).to eq('test@gmail.com')
+        expect(customer[:phone_number]).to eq('+111111111')
       end
     end
     context 'user with invalid auth token' do
@@ -146,19 +145,19 @@ describe Customer do
       @token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTQyMjIxMTAsImF1ZCI6ZmFsc2UsInN1YiI6ImN1c3RvbWVyXzU5In0.8PjEL9nyWtHbJ9X5lt-r1ZXQT5_Y7Y0oClnA8xaSyAs'
     end
     context 'password is nil and password_cofirmation is present' do
-      it "return error password is blank" do
+      it 'return error password is blank' do
         c = Customer.reset_password_by_token({password: nil, password_confirmation: '12345678', reset_password_token: @token})
         expect(c.errors.present?).to be_truthy
       end
     end
     context 'password is present and password_cofirmation is nil' do
-      it "return error password confirmation is blank" do
+      it 'return error password confirmation is blank' do
         c = Customer.reset_password_by_token({password: '12345678', password_confirmation: '', reset_password_token: @token})
         expect(c.errors.present?).to be_truthy
       end
     end
     context 'password and password_cofirmation are too short' do
-      it "return error password is too short" do
+      it 'return error password is too short' do
         stub_password_reset_request('1', '1', @token, 201, {'password': [' is too short (minimum is 8 characters)']}.to_json)
         c = Customer.reset_password_by_token({password: '1', password_confirmation: '1', reset_password_token: @token})
         expect(c).to be_instance_of(Customer)

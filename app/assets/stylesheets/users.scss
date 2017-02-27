@@ -5,14 +5,14 @@
 
 /*------------------Signup page css starts-------------------------------*/
 .sigin-container {
-  border: 2px solid #000;
+  border: 2px solid #666;
   margin: 5% auto;
   padding: 20px;
   width: 60%;
   .col-sm-6 {
     padding: 10px 20px;
-    .signup-form-wrapper {
-      border: 2px solid #000;
+    .signup-form-wrapper{
+      border: 2px solid #666;
       background-color: #e5e5e5;
       padding: 10px 20px;
       color: #49494e;
@@ -43,9 +43,9 @@
         margin-left: 60%;
       }
     }
-    .mobileapp-info-wrapper {
-      border: 2px solid #000;
-      .header {
+    .mobileapp-info-wrapper{
+      border: 2px solid #666;
+      .header{
         background-color: #e5e5e5;
         border-bottom: 1px solid #000;
         font-size: 22px;
@@ -71,3 +71,9 @@
 }
 
 /*------------------Signup page css ends-------------------------------*/
+
+.logout-btn {
+  color: #000;
+  text-decoration: underline;
+  font-size: 18px;
+}

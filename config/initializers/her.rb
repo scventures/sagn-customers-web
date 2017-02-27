@@ -1,6 +1,7 @@
 Her::API.setup url: Rails.application.secrets.api_url do |c|
   # Request
   c.use TokenAuthentication
+  c.use Faraday::Request::Multipart
   c.use Faraday::Request::UrlEncoded
   if Rails.env.development?
     c.response :logger, ::Logger.new(STDOUT), bodies: true
@@ -11,3 +12,5 @@ Her::API.setup url: Rails.application.secrets.api_url do |c|
   # Adapter
   c.use Faraday::Adapter::NetHttp
 end
+
+Her::Model.send :include, Her::Model::Extension

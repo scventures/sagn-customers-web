@@ -13,7 +13,7 @@ setEquipment = ->
 $('.select_location').livequery ->
   setEquipment()
 
-$(document).on 'select2:select', '.select_location', ->
+$(document).on 'select2:select, change', '.select_location', ->
   setEquipment()
     
 setEquipmentFields = (id, location_id) ->
@@ -27,9 +27,9 @@ setEquipmentFields = (id, location_id) ->
       location_id: location_id
       id: id
     success: (data) ->
-      $('#service_request_category_id').val(data.category.id).trigger('select2:select')
-      $('#service_request_subcategory_id').val(data.subcategory.id).trigger('select2:select')
-      if data.category.attributes.is_equipment == true
+      $('#service_request_category_id').val(data.category.id).trigger('change')
+      $('#service_request_subcategory_id').val(data.subcategory.id).trigger('change')
+      if data.category.is_equipment == true
         $('.existing-equipment').removeClass('hidden')
         $('#service_request_model').val(data.model)
         $('#service_request_serial').val(data.serial)
@@ -48,11 +48,17 @@ $('.select_equipment').livequery (e) ->
 $(document).on 'select2:select', '.select_equipment', (e)->
   setEquipmentFields(e.params.data.id, e.params.data.location_id)
   
-$(document).on 'change', '.select_brand', (e) ->
+$(document).on 'select2:select', '.select_brand', (e) ->
   $('#service_request_brand_name').val(e.params.data.name)
   $('.equipment-warranty').find('a').removeClass('hidden')
-  $('#brandInfoModal .modal-body').html('<p>'+brand.warranty_phone_number+'</p><p><a href='+e.params.data.warranty_lookup_url+'>'+e.params.data.warranty_lookup_url+'</p>')
-  
+  modal_body = ''
+  if e.params.data.warranty_lookup_url != ""
+    modal_body += '<p><a href='+e.params.data.warranty_lookup_url+'>'+e.params.data.warranty_lookup_url+'</p>'
+  if e.params.data.warranty_phone_number != "" 
+    modal_body += '<p>Warranty Phone Number: '+e.params.data.warranty_phone_number+'</p>'
+  if modal_body != ""
+    $('#brandInfoModal .modal-body').html(modal_body)
+    
 setCategories = ->
   if $('.select_category option:selected').val() != ''
     categories = $('.select_category option:selected').data('categories')
@@ -64,7 +70,7 @@ setCategories = ->
 $('.select_category').livequery ->
   setCategories()
     
-$(document).on 'select2:select', '.select_category', (e) ->
+$(document).on 'select2:select, change', '.select_category', (e) ->
   setCategories()
   
 setSubcategories = (subcategory) ->
@@ -86,7 +92,7 @@ $('.select_subcategory').livequery (e) ->
     setSubcategories(e.params.data)
         
 $(document).on 'select2:select', '.select_subcategory', (e) ->
-  if e.params!= 'undefined'
+  if e.params != 'undefined'
     setSubcategories(e.params.data)
   
 $('.image-upload').livequery ->
@@ -106,7 +112,7 @@ $('.image-upload').livequery ->
       
 $(document).on 'click', '.new-equipment-btn', (e) ->
   e.preventDefault()
-  $('.select_equipment').val('')
+  $(".select_equipment").val('').trigger('change')
   $('.new-equipment').removeClass('hidden')
   $('.existing-equipment').addClass('hidden')
   

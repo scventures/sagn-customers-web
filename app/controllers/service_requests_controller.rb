@@ -14,7 +14,7 @@ class ServiceRequestsController < ApplicationController
   def create
     @service_request = ServiceRequest.new(service_request_params.to_h.merge(account_id: current_customer.current_account_id))
     if @service_request.save
-      redirect_to service_requests_path
+      redirect_to service_requests_path(service_request: @service_request.service_request['id'])
     else
       @categories = Category.all.fetch.group_by(&:parent_category_id)
       @current_account = current_customer.current_account
@@ -28,6 +28,7 @@ class ServiceRequestsController < ApplicationController
   end
   
   def show
+    @service_request = params[:service_request]
   end
   
   private

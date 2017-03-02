@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.blockUI
 //= require jquery.remotipart
 //= require bootstrap-sprockets
 //= require jquery.livequery

@@ -2,13 +2,29 @@ $(document).on 'ready', ->
   $('.select2').select2()
 
 setEquipment = ->
-  if $('.select_location option:selected').val() != ''
-    equipments = $('.select_location option:selected').data('equipments')
-    $('.existing-equipment').addClass('hidden')
-    equipments.map((obj) -> (obj.text = obj.text or obj.id))
-    $('.select_equipment').empty()
-    $('.select_equipment').select2 
-      data: equipments
+  location_id = $('.select_location option:selected').val()
+  if location_id != ''
+    $('.place-request-service-wrapper').block
+      message: '<i class="fa fa-spinner fa-spin fa-4x"></i>'
+      css:
+        border: 'none'
+        background: 'none'
+        color: '#808080'
+      overlayCSS:
+        backgroundColor: 'transparent'
+        cursor: 'wait'
+    $.ajax
+      url: '/location/'+location_id+'/equipment_items'
+      type: 'GET'
+      dataType: 'json'
+      success: (data) ->
+        $('.place-request-service-wrapper').unblock()
+        data.map((obj) -> (obj.text = obj.text or obj.subcategory.name))
+        $('.select_equipment').empty()
+        data.unshift({id: '', text: 'Please select equipment'})
+        $('.select_equipment').select2 
+          data: data
+   
 
 $('.select_location').livequery ->
   setEquipment()
@@ -16,39 +32,35 @@ $('.select_location').livequery ->
 $(document).on 'select2:select, change', '.select_location', ->
   setEquipment()
     
-setEquipmentFields = (id, location_id) ->
+setEquipmentFields = (equipment) ->
   $('.new-equipment').addClass('hidden')
   $('.equipment-warranty').addClass('hidden')
-  $.ajax
-    url: '/equipment_item'
-    type: 'GET'
-    dataType: 'json'
-    data:
-      location_id: location_id
-      id: id
-    success: (data) ->
-      $('#service_request_category_id').val(data.category.id).trigger('change')
-      $('#service_request_subcategory_id').val(data.subcategory.id).trigger('change')
-      if data.category.is_equipment == true
-        $('.existing-equipment').removeClass('hidden')
-        $('#service_request_model').val(data.model)
-        $('#service_request_serial').val(data.serial)
-        brands = data.subcategory.brands
-        brands.map((obj) -> (obj.text = obj.text or obj.name))
-        $('.select_brand').empty()
-        $('.select_brand').select2
-          data: brands
-        $('.equipment-warranty').removeClass('hidden')
-        $('.equipment-warranty').find('a').addClass('hidden')
-        
+  $('#service_request_category_id').val(equipment.category.id).trigger('change')
+  $('#service_request_subcategory_id').val(equipment.subcategory.id).trigger('change')
+  $('.existing-equipment').removeClass('hidden')
+  $('#service_request_model').val(equipment.model)
+  $('#service_request_serial').val(equipment.serial)
+  brands = equipment.subcategory.brands
+  brands.map((obj) -> (obj.text = obj.text or obj.name))
+  $('.select_brand').empty()
+  brands.unshift({id: '', text: 'Please select brand'})
+  brands.push({ id: 'other', text: 'Other'})
+  $('.select_brand').select2
+    data: brands
+  $('.equipment-warranty').removeClass('hidden')
+  $('.equipment-warranty').find('a').addClass('hidden')
+      
 $('.select_equipment').livequery (e) ->
   if $(this).val() != ''
-    setEquipmentFields(e.params.data.id, e.params.data.location_id)
+    setEquipmentFields(e.params.data)
   
 $(document).on 'select2:select', '.select_equipment', (e)->
-  setEquipmentFields(e.params.data.id, e.params.data.location_id)
+  setEquipmentFields(e.params.data)
   
 $(document).on 'select2:select', '.select_brand', (e) ->
+  $('.service_request_brand_name').find('label, input').addClass('hidden')
+  if $('.select_brand').val() == 'other'
+    $('.service_request_brand_name').find('label, input').removeClass('hidden')
   $('#service_request_brand_name').val(e.params.data.name)
   $('.equipment-warranty').find('a').removeClass('hidden')
   modal_body = ''
@@ -64,6 +76,7 @@ setCategories = ->
     categories = $('.select_category option:selected').data('categories')
     categories.map((obj) -> (obj.text = obj.text or obj.name))
     $('.select_subcategory').empty()
+    categories.unshift({id: '', text: 'Please select category'})
     $('.select_subcategory').select2
       data: categories
      
@@ -76,23 +89,18 @@ $(document).on 'select2:select, change', '.select_category', (e) ->
 setSubcategories = (subcategory) ->
   if subcategory
     $('.existing-equipment').addClass('hidden')
-    if subcategory.is_equipment == true
-      $('.equipment-warranty').removeClass('hidden')
-      $('.equipment-warranty').find('a').addClass('hidden')
-      $('.existing-equipment').removeClass('hidden')
-      subcategory.brands.map((obj) -> (obj.text = obj.text or obj.name))
-      $('.select_brand').empty()
-      $('.select_brand').select2
-        data: subcategory.brands
-    else
-      $('.existing-equipment').addClass('hidden')
- 
-$('.select_subcategory').livequery (e) ->
-  if $(this).val() != ''
-    setSubcategories(e.params.data)
+    $('.equipment-warranty').removeClass('hidden')
+    $('.equipment-warranty').find('a').addClass('hidden')
+    $('.existing-equipment').removeClass('hidden')
+    subcategory.brands.map((obj) -> (obj.text = obj.text or obj.name))
+    $('.select_brand').empty()
+    subcategory.brands.unshift({id: '', text: 'Please select brand'})
+    subcategory.brands.push({ id: 'other', text: 'Other'})
+    $('.select_brand').select2
+      data: subcategory.brands
         
 $(document).on 'select2:select', '.select_subcategory', (e) ->
-  if e.params != 'undefined'
+  if e.params != 'undefined' && e.params.data != 'undefined'
     setSubcategories(e.params.data)
   
 $('.image-upload').livequery ->
@@ -113,7 +121,10 @@ $('.image-upload').livequery ->
 $(document).on 'click', '.new-equipment-btn', (e) ->
   e.preventDefault()
   $(".select_equipment").val('').trigger('change')
-  $('.new-equipment').removeClass('hidden')
+  $(".select_category").val('').trigger('change')
+  $(".select_subcategory").empty()
+  $(".select_brand").val('').empty()
+  $('.new-equipment').toggleClass('hidden')
   $('.existing-equipment').addClass('hidden')
   
 $(document).on 'change', '.radio-btn input[type="radio"]', ->

@@ -6,8 +6,11 @@ Rails.application.routes.draw do
   }
 
   resource :dashboard, only: :show
-  resource :service_requests, only: [:new, :create, :show]
-  resource :equipment_item, only: [:show]
+  resources :service_requests, only: [:new, :create, :show]
+  
+  resources :location, module: 'location', only: [] do
+    resources :equipment_items, only: [:index]
+  end
 
   root :to => redirect("/sign_in")
 

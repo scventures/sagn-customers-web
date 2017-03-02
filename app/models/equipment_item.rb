@@ -1,7 +1,8 @@
 class EquipmentItem
   include Her::Model
-  parse_root_in_json :equipment_item
-  resource_path 'customers/accounts/:account_id/locations/:location_id/equipment_items/:id'
+  alias :read_attribute_for_serialization :send
+  parse_root_in_json :equipment_items, format: :active_model_serializers
+  collection_path 'customers/accounts/:account_id/locations/:location_id/equipment_items'
   attributes :id, :model, :serial, :brand_name, :location_id
   
   belongs_to :location

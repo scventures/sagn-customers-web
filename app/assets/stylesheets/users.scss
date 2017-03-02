@@ -73,7 +73,9 @@
 /*------------------Signup page css ends-------------------------------*/
 
 .logout-btn {
-  color: #000;
-  text-decoration: underline;
+  color: #999;
+  font-weight: bold;
   font-size: 18px;
+  border: 1px solid #999;
+  padding: 10px 30px !important;
 }

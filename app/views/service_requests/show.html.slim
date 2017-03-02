@@ -8,14 +8,14 @@
         .title.text-uppercase Request Sent!
         p
           |(Service Request Id = 
-          =@service_request
+          = params[:id]
           |)
         p.bold
           |We recieved your request and we’ll send you an text message when we have a contractor for you to review.
         p
           |You can view and manage this service request in the mobile app.
         .text-center
-          = link_to "Place Another Service Request", new_service_requests_path, class: 'btn place-service-request-btn'
+          = link_to "Place Another Service Request", new_service_request_path, class: 'btn place-service-request-btn'
     .col-sm-6
       .title Like SendaGuy Now?
       .row.mt10

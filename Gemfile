@@ -46,6 +46,7 @@ gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
 gem 'remotipart', '~> 1.2'
 gem 'select2-rails'
+gem 'active_model_serializers'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

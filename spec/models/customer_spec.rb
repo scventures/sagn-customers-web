@@ -21,7 +21,8 @@ describe Customer do
         jwt: anything,
         password: anything,
         password_confirmation: anything,
-        current_account_id: anything
+        current_account_id: anything,
+        customer_account_ids: anything
       )
     end
   end

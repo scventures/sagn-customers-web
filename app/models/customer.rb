@@ -2,7 +2,7 @@ class Customer
   include Her::Model
   extend Devise::Models
 
-  attributes :email, :jwt, :password, :password_confirmation, :current_account_id
+  attributes :email, :jwt, :password, :password_confirmation, :current_account_id, :customer_account_ids
 
   devise :remote_authenticatable, :recoverable
   

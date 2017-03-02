@@ -10,7 +10,7 @@ describe Account do
   end
   
   it 'have collection path customers/accounts' do
-    expect(Account.collection_path).to eq('customers/accounts')
+    expect(Account.resource_path).to eq('customers/accounts/:id')
   end
   
   it { expect(Account.association_names.include? :locations).to be_truthy }

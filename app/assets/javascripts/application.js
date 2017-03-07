@@ -20,7 +20,7 @@
 //= require select2-full
 //= require rails.validations
 //= require rails.validations.simple_form
+//= require rails.validations.extension
+//= require service_request
 //= require turbolinks
 //= require turboboost/turboboost
-//= require_tree .
-

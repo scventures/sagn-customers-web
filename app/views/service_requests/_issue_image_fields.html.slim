@@ -4,4 +4,4 @@
   .image-wrapper
     .image-upload-label
       = f.label :image, class: 'text-uppercase'
-    = f.input :image, as: :file, label: false, input_html: { class: 'hidden image-upload' }
+    = f.input :image, as: :file, label: false, input_html: { class: 'image-upload' }, validate: true

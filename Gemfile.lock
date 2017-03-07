@@ -88,6 +88,9 @@ GEM
     faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.17)
+    file_validators (2.1.0)
+      activemodel (>= 3.0)
+      mime-types (>= 1.0)
     font-awesome-rails (4.7.0.0)
       railties (>= 3.2, < 5.1)
     globalid (0.3.7)
@@ -260,6 +263,7 @@ DEPENDENCIES
   cocoon
   coffee-rails (~> 4.2)
   devise
+  file_validators
   font-awesome-rails (~> 4.7.0.0)
   her
   jbuilder (~> 2.5)

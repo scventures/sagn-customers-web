@@ -1,5 +1,6 @@
 class ServiceRequest
   include Her::Model
+  parse_root_in_json :service_request, format: :active_model_serializers
   collection_path 'customers/accounts/:account_id/service_requests'
   include_root_in_json true
   attributes :location_id, :equipment_id, :model, :serial, :brand_name, :brand_id, :category_id, :subcategory_id, :urgent, :problem, :account_id, :equipmemt_warranty,

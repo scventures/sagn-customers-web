@@ -64,9 +64,9 @@ $(document).on 'select2:select', '.select_brand', (e) ->
   $('#service_request_brand_name').val(e.params.data.name)
   $('.equipment-warranty').find('a').removeClass('hidden')
   modal_body = ''
-  if e.params.data.warranty_lookup_url != ""
+  if e.params.data.warranty_lookup_url != "" && e.params.data.warranty_lookup_url != 'undefined'
     modal_body += '<p><a href='+e.params.data.warranty_lookup_url+'>'+e.params.data.warranty_lookup_url+'</p>'
-  if e.params.data.warranty_phone_number != "" 
+  if e.params.data.warranty_phone_number != "" && e.params.data.warranty_phone_number != 'undefined'
     modal_body += '<p>Warranty Phone Number: '+e.params.data.warranty_phone_number+'</p>'
   if modal_body != ""
     $('#brandInfoModal .modal-body').html(modal_body)
@@ -108,16 +108,17 @@ $('.image-upload').livequery ->
     files = event.target.files
     image = files[0]
     reader = new FileReader
-    if image.type.match(/image\/(jpg|jpeg|pjpeg|png|x-png|gif)/i)
-      reader.onload = (file) ->
-        img = new Image
-        $(event.target).parents('.image-wrapper').find('.image-upload-label').html $('<img>').attr(
-          src: file.target.result
-          class: 'img-preview')
-      reader.readAsDataURL image
-    else
-      alert 'Supported File Formats Are: jpg, jpeg, png, gif'
-      
+    reader.onload = (file) ->
+      img = new Image
+      $(event.target).parents('.image-wrapper').find('.image-upload-label').html $('<img>').attr(
+        src: file.target.result
+        class: 'img-preview')
+      $(event.target).focusout()
+    reader.readAsDataURL image
+    
+$(document).on 'cocoon:after-insert', '.issue-image-wrapper', (e, addedIssueImage) ->
+  $(addedIssueImage).closest('form').enableClientSideValidations()
+  
 $(document).on 'click', '.new-equipment-btn', (e) ->
   e.preventDefault()
   $(".select_equipment").val('').trigger('change')

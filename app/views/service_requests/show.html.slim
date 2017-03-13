@@ -20,14 +20,16 @@
       .title Like SendaGuy Now?
       .row.mt10
         .col-sm-1.ml10
-          = image_tag 'apple.png', width: '40'
-        .col-sm-8
-          u
-            |Write a Review in App Store
+          =link_to Rails.application.secrets.apple_store_url do
+            = image_tag 'apple.png', width: '40'
+            .col-sm-8
+              u
+                |Write a Review in App Store
       .row.mt10
         .col-sm-1.ml10
-          = image_tag 'android.png', width: '40'
-        .col-sm-8
-          u
-            |Write a Review on Google Play
-      
+          =link_to Rails.application.secrets.google_store_url do        
+            = image_tag 'android.png', width: '40'
+            .col-sm-8
+              u
+                |Write a Review on Google Play
+          

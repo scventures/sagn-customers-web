@@ -1,0 +1,11 @@
+development:
+  API_URL:
+  APP_URL:
+  APPLE_STORE_URL:
+  GOOGLE_STORE_URL:
+
+test:
+  API_URL:
+  APP_URL:
+  APPLE_STORE_URL:
+  GOOGLE_STORE_URL:

@@ -17,11 +17,15 @@ html
               |Just get your mobile app to get set up and then be able to sign here to request service.
               .app-container
                 .col-sm-2.p10
-                  = image_tag 'apple.png'
+                  =link_to ENV['APPLE_STORE_URL'] do                  
+                    = image_tag 'apple.png'
                 .col-sm-10
-                  |Get SendaGuy Now in the app store
+                  =link_to ENV['APPLE_STORE_URL'] do                
+                    |Get SendaGuy Now in the app store
               .app-container
                 .col-sm-2.p10
-                  = image_tag 'android.png'
+                  =link_to ENV['GOOGLE_STORE_URL'] do    
+                    = image_tag 'android.png'
                 .col-sm-10
-                  |Get SendaGuy Now on Google Play
+                  =link_to ENV['GOOGLE_STORE_URL'] do
+                    |Get SendaGuy Now on Google Play

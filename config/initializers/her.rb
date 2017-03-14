@@ -1,4 +1,4 @@
-Her::API.setup url: Rails.application.secrets.api_url do |c|
+Her::API.setup url: ENV['API_URL'] do |c|
   # Request
   c.use TokenAuthentication
   c.use Faraday::Request::Multipart

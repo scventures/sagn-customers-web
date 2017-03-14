@@ -30,7 +30,7 @@ class Customer
   def self.send_reset_password_instructions(attributes={})
     customer = Customer.new(attributes)
     customer.errors.add(:email, :blank) and return customer unless customer.email?
-    params = {customer: {email: customer.email, redirect_url: "#{Rails.application.secrets.host}/password/edit"}}
+    params = {customer: {email: customer.email, redirect_url: "#{ENV['APP_URL']}/password/edit"}}
     Customer.post_raw('customers/password', params) do |parsed_data, response|
       if response.status == 422
         parsed_data[:data].each do |k, v|

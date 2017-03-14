@@ -126,7 +126,7 @@ describe Customer do
     end
     context 'invalid email' do
       it 'return error email not found' do
-        stub_password_reset_instructions('invalid@gmail.com', "#{Rails.application.secrets.host}/password/edit", 422, {'email': ['not found'] })
+        stub_password_reset_instructions('invalid@gmail.com', "#{ENV['APP_URL']}/password/edit", 422, {'email': ['not found'] })
         c = Customer.send_reset_password_instructions({email: 'invalid@gmail.com'})
         expect(c.errors.present?).to be_truthy
         expect(c.errors.full_messages.first).to eq('Email not found')
@@ -134,7 +134,7 @@ describe Customer do
     end
     context 'valid email' do
       it 'return 200 status' do
-        stub_password_reset_instructions('test@gmail.com', "#{Rails.application.secrets.host}/password/edit", 200, {})
+        stub_password_reset_instructions('test@gmail.com', "#{ENV['APP_URL']}/password/edit", 200, {})
         c = Customer.send_reset_password_instructions({email: 'test@gmail.com'})
         expect(c.errors.present?).to be_falsy
       end

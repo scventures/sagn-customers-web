@@ -84,4 +84,10 @@ module DeviseOverrides
     end
   end
 
+  def self.prepended(base)
+    class << base
+      prepend ClassMethods
+    end
+  end
+
 end

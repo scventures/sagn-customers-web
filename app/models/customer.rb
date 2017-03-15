@@ -1,10 +1,15 @@
 class Customer
   include Her::Model
   extend Devise::Models
+  prepend DeviseOverrides
+  include_root_in_json true
 
-  attributes :email, :jwt, :password, :password_confirmation, :current_account_id, :customer_account_ids
+  attributes :email, :jwt, :password, :password_confirmation, :active,
+             :current_account_id, :customer_account_ids, :name,
+             :customer_account_name, :unconfirmed_phone, :tos_accepted,
+             :confirmation_token
 
-  devise :remote_authenticatable, :recoverable
+  devise :remote_authenticatable, :recoverable, :registerable, :confirmable
   
   has_many :accounts
   belongs_to :current_account, class_name: 'Account'
@@ -27,47 +32,4 @@ class Customer
     self.attributes = c.customer
   end
 
-  def self.send_reset_password_instructions(attributes={})
-    customer = Customer.new(attributes)
-    customer.errors.add(:email, :blank) and return customer unless customer.email?
-    params = {customer: {email: customer.email, redirect_url: "#{ENV['APP_URL']}/password/edit"}}
-    Customer.post_raw('customers/password', params) do |parsed_data, response|
-      if response.status == 422
-        parsed_data[:data].each do |k, v|
-          customer.errors.add(k, v.first)
-        end
-      end
-    end
-    customer
-  end
-
-  def self.reset_password_by_token(attributes={})
-    customer = Customer.new(attributes)
-    return customer unless customer.valid?
-    params = {
-      customer: {
-        reset_password_token: customer.reset_password_token,
-        password: customer.password,
-        password_confirmation: customer.password_confirmation
-      }
-    }
-    Customer.put_raw('customers/password', params) do |parsed_data, response|
-      if response.status == 422
-        parsed_data[:data].each do |k, v|
-          customer.errors.add(k, v.first)
-        end
-      end
-    end
-    customer
-  end
-
-  def password_required?
-    !password.nil? || !password_confirmation.nil?
-  end
-
-  def self.authenticate!(email, password)
-    customer = post(:auth_token, auth: {email: email, password: password})
-    customer.valid_auth_token? ? customer : nil
-  end
-  
 end

@@ -1,0 +1,12 @@
+.signup-form-wrapper
+  h2.text-uppercase sign up
+  = simple_form_for(resource, as: resource_name, url: customer_confirmation_path, html: { method: :post }) do |f|
+    - if resource.errors[:confirmation_token].present?
+      = flash_container(BootstrapFlashHelper::ALERT_TYPES_MAP.fetch(:alert), resource.errors.full_messages_for(:confirmation_token).join(', ') )
+    .form-inputs.mt30
+      = f.input :email, as: :email, autofocus: true, required: true, placeholder: 'Email', label: false
+    .form-actions
+      = f.button :submit, 'Resend confirmation instructions' , class: 'signin-btn'
+= link_to new_customer_session_path, class: 'pull-right' do
+  h5
+    u Back to login page

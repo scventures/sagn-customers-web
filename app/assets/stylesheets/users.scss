@@ -22,7 +22,7 @@
         margin-top: 10px; 
         color: #000;
       }
-      input:not([type='submit']) { 
+      input:not([type='submit']):not([type='checkbox']) {
         height: 45px; 
         width: 100%; 
         padding: 10px 5px;

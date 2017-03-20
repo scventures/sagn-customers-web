@@ -26,6 +26,19 @@ module Helpers
        to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
+  def stub_confirm_by_token_request(token, response_code, return_body)
+    stub_request(:get, "#{ENV['API_URL']}/customers/confirmation?confirmation_token=#{token}").
+       with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=>'Faraday v0.11.0'}).
+       to_return(:status => response_code, :body => return_body, :headers => {})
+  end
+  
+  def stub_send_confirmation_instructions(email, redirect_url, response_code, return_body)
+    stub_request(:post, "https://stapp.sendaguy.com/api/customers/confirmation").
+       with(:body => {"customer"=>{"email"=> email, "redirect_url"=> redirect_url}},
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.11.0'}).
+     to_return(:status => response_code, :body => return_body, :headers => {})
+  end
+    
   def verified_return_body
     {
       'customer': {
@@ -128,8 +141,49 @@ module Helpers
     }
   end
   
-  def as_json
-    {"id"=>1, "name"=>"Test"}
+  def already_confirmed_email_body
+    {
+      "email": [
+        "was already confirmed, please try signing in"
+      ]
+    }.to_json
+  end
+  
+  def invalid_confirmation_token_body
+    {
+      "confirmation_token": [
+        "is invalid"
+      ]
+    }.to_json
+  end
+  
+  def confirmation_instructions_valid_body
+    {
+      "customer": {
+        "id": 323,
+        "name": "test",
+        "phone_number": "",
+        "unconfirmed_phone": "+12125096997",
+        "photo": nil,
+        "email": "test@gmail.com",
+        "unconfirmed_email": nil,
+        "current_account_id": 241,
+        "active": false,
+        "current_account_role": "account_owner",
+        "customer_account_ids": [
+          241
+        ],
+        "mapping_enabled": false
+      }
+    }.to_json
+  end
+  
+  def confirmation_instructions_invalid_body
+    {
+      "email": [
+        "not found"
+      ]
+    }.to_json
   end
   
 end

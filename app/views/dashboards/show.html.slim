@@ -1,32 +1,31 @@
 .p20
+  h2.red
+    | Dashboard Page
+  .pull-right
+      = link_to 'Place Request Service', new_service_request_path, class: 'btn place-request-service-btn btn-danger'
+      br/
+      = link_to 'Create Locations', new_location_path, class: 'btn place-request-service-btn btn-danger mt10'
   .row
-    .col-sm-12
-      h2.red
-        | Dashboard Page
-      .pull-right
-          = link_to 'Place Request Service', new_service_request_path, class: 'btn place-request-service-btn btn-danger'
-      .mt30.p20
-        .col-sm-3
-          span.pl10
-            - if current_customer.photo
-              = image_tag current_customer.photo
-        .col-sm-9
-          p
-            |Name:
-            span.pl10
-              = current_customer.name
-          p.mt10
-            |Email:
-            span.pl10
-              = current_customer.email
-          p.mt10
-            |Phone Number:
-            span.pl10
-              = current_customer.phone_number
-          p.mt10
-            |Current Account Role:
-            span.pl10
-              = current_customer.current_account_role.try(:titleize)
+    .col-sm-6
+      span.pl10
+        - if current_customer.photo
+          = image_tag current_customer.photo
+      p.mt10
+        |Name:
+        span.pl10
+          = current_customer.name
+      p.mt10
+        |Email:
+        span.pl10
+          = current_customer.email
+      p.mt10
+        |Phone Number:
+        span.pl10
+          = current_customer.phone_number
+      p.mt10
+        |Current Account Role:
+        span.pl10
+          = current_customer.current_account_role.try(:titleize)
   .row
     .col-sm-12
       h3.mt30.red

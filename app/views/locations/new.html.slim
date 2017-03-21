@@ -1,0 +1,9 @@
+.row
+  .col-sm-3
+    h2 Location
+  .col-sm-9
+    .pull-right
+      = link_to 'Dashboard', dashboard_path, class: 'btn place-request-service-btn btn-primary bg-red'
+hr/
+.location-form-container
+  = render 'form', location: @location

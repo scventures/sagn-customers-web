@@ -17,10 +17,6 @@ describe Location do
     expect(Location.collection_path).to eq('customers/accounts/:account_id/locations')
   end
   
-  it 'have collection path customers/accounts/:account_id/service_requests' do
-    expect(ServiceRequest.collection_path).to eq('customers/accounts/:account_id/service_requests')
-  end
-  
   it { expect(Location.association_names.include? :equipment_items).to be_truthy }
   
   describe 'attributes' do
@@ -35,8 +31,7 @@ describe Location do
         city: anything,
         state: anything,
         zip: anything,
-        latitude: anything,
-        longitude: anything
+        geography: anything
       )
     end
   end

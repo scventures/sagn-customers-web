@@ -1,0 +1,17 @@
+.form-wrapper
+  .row
+    .col-sm-8.col-sm-offset-2
+      = simple_form_for location, url: locations_path, validate: true, turboboost: true, html: { class: 'form-horizontal', multipart: true }, wrapper: :horizontal_form do |f|
+        = f.input :name
+        = f.input :address_1
+        = f.input :address_2
+        = f.input :address_3
+        = f.input :city
+        = f.input :state
+        = f.input :zip
+        = f.input :geography, label: 'Latitude', input_html: { name: 'geography[:latitude]'}
+        = f.input :geography, label: 'Longitude', input_html: { name: 'geography[:longitude]'}
+        .row
+          .col-sm-12
+            = f.submit 'Submit', class: 'btn place-request-service-btn btn-primary pull-right bg-red'
+

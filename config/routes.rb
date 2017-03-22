@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     registrations: 'customers/registrations',
     confirmations: 'customers/confirmations'
   }
+  
+  resources :locations, only: [:new, :create, :show]
 
   resource :dashboard, only: :show
   resources :service_requests, only: [:new, :create, :show]
@@ -14,6 +16,6 @@ Rails.application.routes.draw do
     resources :equipment_items, only: [:index]
   end
 
-  root :to => redirect("/sign_in")
+  root :to => redirect('/sign_in')
 
 end

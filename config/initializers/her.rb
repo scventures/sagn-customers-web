@@ -7,10 +7,11 @@ Her::API.setup url: ENV['API_URL'] do |c|
     c.response :logger, ::Logger.new(STDOUT), bodies: true
   end
   # Response
-  c.use Her::Middleware::DefaultParseJSON
+  c.use Her::Middleware::ResponseParserJSON
 
   # Adapter
   c.use Faraday::Adapter::NetHttp
 end
 
 Her::Model.send :include, Her::Model::Extension
+

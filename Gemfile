@@ -48,6 +48,8 @@ gem 'remotipart', '~> 1.2'
 gem 'select2-rails'
 gem 'active_model_serializers'
 gem 'file_validators'
+gem 'wannabe_bool'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

@@ -10,6 +10,14 @@ describe Customer do
     expect(Customer.include?(Devise::Models::Recoverable)).to be_truthy
   end
   
+  it 'prepend DeviseOverrides' do
+    expect(Customer.include?(DeviseOverrides)).to be_truthy
+  end
+  
+  it 'include_root_in_json' do
+    expect(Customer.include_root_in_json?).to be_truthy 
+  end
+  
   it { expect(Customer.association_names.include? :accounts).to be_truthy }
   it { expect(Customer.association_names.include? :current_account).to be_truthy }
   
@@ -21,8 +29,14 @@ describe Customer do
         jwt: anything,
         password: anything,
         password_confirmation: anything,
+        active: anything,
         current_account_id: anything,
-        customer_account_ids: anything
+        customer_account_ids: anything,
+        name: anything,
+        customer_account_name: anything, 
+        unconfirmed_phone: anything,
+        tos_accepted: anything,
+        confirmation_token: anything
       )
     end
   end
@@ -33,6 +47,14 @@ describe Customer do
   
   it 'Devise should be recoverable' do
     expect(Customer.include?(Devise::Models::Recoverable)).to be_truthy
+  end
+  
+  it 'Devise should be registerable' do
+    expect(Customer.include?(Devise::Models::Registerable)).to be_truthy
+  end
+  
+  it 'Devise should be confirmable' do
+    expect(Customer.include?(Devise::Models::Confirmable)).to be_truthy
   end
   
   describe 'Validations' do
@@ -101,99 +123,5 @@ describe Customer do
     end
   end
    
-  describe '.authenticate!(email, password)' do
-    context 'user with valid credentials' do
-      it 'authenticate user' do
-        stub_auth_api_request('test@gmail.com', 'test123', { 'jwt': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTQyMjIxMTAsImF1ZCI6ZmFsc2UsInN1YiI6ImN1c3RvbWVyXzU5In0.8PjEL9nyWtHbJ9X5lt-r1ZXQT5_Y7Y0oClnA8xaSyAs'}, 201 )
-        expect(Customer.authenticate!('test@gmail.com', 'test123')).to be_instance_of(Customer)
-      end
-    end
-    context 'user with invalid credentials' do
-      it 'not authenticate user' do
-        stub_auth_api_request('invalid@gmail.com', '123456', {}, 401 )
-        expect(Customer.authenticate!('invalid@gmail.com', '123456')).to eq(nil)
-      end
-    end
-  end 
-  
-  describe '.send_reset_password_instructions(attributes={})' do
-    context 'blank email' do
-      it 'return error for blank email' do
-        c = Customer.send_reset_password_instructions({})
-        expect(c.errors.present?).to be_truthy
-        expect(c.errors.full_messages.first).to eq('Email can\'t be blank') 
-      end
-    end
-    context 'invalid email' do
-      it 'return error email not found' do
-        stub_password_reset_instructions('invalid@gmail.com', "#{ENV['APP_URL']}/password/edit", 422, {'email': ['not found'] })
-        c = Customer.send_reset_password_instructions({email: 'invalid@gmail.com'})
-        expect(c.errors.present?).to be_truthy
-        expect(c.errors.full_messages.first).to eq('Email not found')
-      end
-    end
-    context 'valid email' do
-      it 'return 200 status' do
-        stub_password_reset_instructions('test@gmail.com', "#{ENV['APP_URL']}/password/edit", 200, {})
-        c = Customer.send_reset_password_instructions({email: 'test@gmail.com'})
-        expect(c.errors.present?).to be_falsy
-      end
-    end
-  end
-  
-  describe '.reset_password_by_token(attributes={})' do
-    before(:each) do
-      @token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTQyMjIxMTAsImF1ZCI6ZmFsc2UsInN1YiI6ImN1c3RvbWVyXzU5In0.8PjEL9nyWtHbJ9X5lt-r1ZXQT5_Y7Y0oClnA8xaSyAs'
-    end
-    context 'password is nil and password_cofirmation is present' do
-      it 'return error password is blank' do
-        c = Customer.reset_password_by_token({password: nil, password_confirmation: '12345678', reset_password_token: @token})
-        expect(c.errors.present?).to be_truthy
-      end
-    end
-    context 'password is present and password_cofirmation is nil' do
-      it 'return error password confirmation is blank' do
-        c = Customer.reset_password_by_token({password: '12345678', password_confirmation: '', reset_password_token: @token})
-        expect(c.errors.present?).to be_truthy
-      end
-    end
-    context 'password and password_cofirmation are too short' do
-      it 'return error password is too short' do
-        stub_password_reset_request('1', '1', @token, 201, {'password': [' is too short (minimum is 8 characters)']}.to_json)
-        c = Customer.reset_password_by_token({password: '1', password_confirmation: '1', reset_password_token: @token})
-        expect(c).to be_instance_of(Customer)
-      end
-    end
-    context 'password and password_cofirmation are valid' do
-      it 'reset the password' do
-        stub_password_reset_request('12345678', '12345678', @token, 200, verified_return_body)
-        c = Customer.reset_password_by_token({password: '12345678', password_confirmation: '12345678', reset_password_token: @token})
-        expect(c.errors.present?).to be_falsy
-        expect(c).to be_instance_of(Customer)
-      end
-    end
-  end
-  
-  
-  describe '#password_required?' do
-    context 'password is nil and password_cofirmation is present' do
-      it 'return true' do
-        c = Customer.new(password: '123451', password_confirmation: nil)
-        expect(c.password_required?).to be_truthy
-      end
-    end
-    context 'password is present and password_cofirmation is nil' do
-      it 'return true' do
-        c = Customer.new(password: nil, password_confirmation: '123451')
-        expect(c.password_required?).to be_truthy
-      end
-    end
-    context 'password and password_cofirmation are nil' do
-      it 'return false' do
-        c = Customer.new(password: nil, password_confirmation: nil)
-        expect(c.password_required?).to be_falsy
-      end
-    end
-  end
 end
 

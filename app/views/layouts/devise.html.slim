@@ -13,6 +13,9 @@ html
           .mobileapp-info-wrapper
             .header.text-uppercase
               |Don't have an account
+              - if controller_name != 'registrations'
+                small
+                  = link_to 'sign up', new_customer_registration_path, class: 'text-uppercase ml20'
             .content.p20.fs17
               |Just get your mobile app to get set up and then be able to sign here to request service.
               .app-container

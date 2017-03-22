@@ -2,7 +2,9 @@ Rails.application.routes.draw do
 
   devise_for :customers, path: '', controllers: {
     sessions: 'customers/sessions',
-    passwords: 'customers/passwords'
+    passwords: 'customers/passwords',
+    registrations: 'customers/registrations',
+    confirmations: 'customers/confirmations'
   }
 
   resource :dashboard, only: :show

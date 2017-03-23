@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   }
   
   resources :locations, only: [:new, :create, :show]
+  resources :staff, only: [:new, :create, :index, :destroy]
 
   resource :dashboard, only: :show
   resources :service_requests, only: [:new, :create, :show]

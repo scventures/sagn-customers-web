@@ -17,6 +17,10 @@ describe Staff do
     expect(Staff.collection_path).to eq('customers/accounts/:account_id/staff')
   end
   
+  it 'have resource path customers/accounts/:account_id/staff/:id' do
+    expect(Staff.resource_path).to eq('customers/accounts/:account_id/staff/:id')
+  end
+  
   describe 'attributes' do
     let(:staff) {Staff.new}
     it 'include attributes' do

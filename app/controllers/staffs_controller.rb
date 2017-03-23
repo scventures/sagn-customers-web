@@ -21,6 +21,15 @@ class StaffsController < ApplicationController
     end
   end
   
+  def destroy
+    @staff = Staff.new(id: params[:id], account_id: current_customer.current_account_id)
+    if @staff.destroy
+      redirect_to staffs_path, notice: 'Staff deleted successfully'
+    else
+      redirect_to staffs_path, alert: @staff.errors.full_messages.join(', ')
+    end
+  end
+  
   private
   
   def staff_params

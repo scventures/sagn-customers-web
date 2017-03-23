@@ -21,4 +21,12 @@ RSpec.describe 'route to staff', type: :routing do
       action: 'index'
     )
   end
+  
+  it 'routes /staffs/:id to staffs#destroy to delete staff' do
+    expect(delete: '/staffs/:id').to route_to(
+      controller: 'staffs',
+      action: 'destroy',
+      id: ':id'
+    )
+  end
 end

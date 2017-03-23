@@ -4,6 +4,7 @@
   .col-sm-9
     .pull-right
       = link_to 'Dashboard', dashboard_path, class: 'btn place-request-service-btn btn-primary bg-red'
+      = link_to ' Add Staff Member', new_staff_path, class: 'btn place-request-service-btn btn-danger ml10'
 hr/
 .staff-details.mt20
   .row
@@ -12,6 +13,7 @@ hr/
         thead
           th Name
           th Email
+          th 
         tbody
           - @staffs.each do |staff|
             tr
@@ -19,3 +21,6 @@ hr/
                 = staff.customer[:name]
               td
                 = staff.customer[:email]
+              td
+                = link_to 'Delete', staff_path(staff.customer_id), method: :delete, class: 'btn btn-danger'
+                

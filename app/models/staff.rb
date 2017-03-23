@@ -6,4 +6,5 @@ class Staff
   include_root_in_json :customer
 
   attributes :id, :name, :email
+  belongs_to :account
 end

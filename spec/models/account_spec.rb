@@ -15,6 +15,7 @@ describe Account do
   
   it { expect(Account.association_names.include? :locations).to be_truthy }
   it { expect(Account.association_names.include? :contractors).to be_truthy }
+  it { expect(Account.association_names.include? :staff).to be_truthy }
   
   describe 'attributes' do
     let(:account) {Account.new}

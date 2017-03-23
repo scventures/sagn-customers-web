@@ -1,30 +1,30 @@
 require 'rails_helper'
 
 RSpec.describe 'route to staff', type: :routing do
-  it 'routes /staffs/new to staffs#new to show staff form' do
-    expect(get: '/staffs/new').to route_to(
-      controller: 'staffs',
+  it 'routes /staff/new to staffs#new to show staff form' do
+    expect(get: '/staff/new').to route_to(
+      controller: 'staff',
       action: 'new'
     )
   end
   
-  it 'routes /staffs to staffs#create to create staff ' do
-    expect(post: '/staffs').to route_to(
-      controller: 'staffs',
+  it 'routes /staff to staff#create to create staff ' do
+    expect(post: '/staff').to route_to(
+      controller: 'staff',
       action: 'create'
     )
   end
   
-  it 'routes /staffs to staffs#index to show staff details' do
-    expect(get: 'staffs#index').to route_to(
-      controller: 'staffs',
+  it 'routes /staffs to staff#index to show staff details' do
+    expect(get: 'staff#index').to route_to(
+      controller: 'staff',
       action: 'index'
     )
   end
   
-  it 'routes /staffs/:id to staffs#destroy to delete staff' do
-    expect(delete: '/staffs/:id').to route_to(
-      controller: 'staffs',
+  it 'routes /staff/:id to staff#destroy to delete staff' do
+    expect(delete: '/staff/:id').to route_to(
+      controller: 'staff',
       action: 'destroy',
       id: ':id'
     )

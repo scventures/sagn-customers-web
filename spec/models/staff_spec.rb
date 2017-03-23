@@ -21,6 +21,8 @@ describe Staff do
     expect(Staff.resource_path).to eq('customers/accounts/:account_id/staff/:id')
   end
   
+  it { expect(Staff.association_names.include? :account).to be_truthy }
+  
   describe 'attributes' do
     let(:staff) {Staff.new}
     it 'include attributes' do

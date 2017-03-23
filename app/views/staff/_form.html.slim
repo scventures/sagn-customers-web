@@ -1,7 +1,7 @@
 .form-wrapper
   .row
     .col-sm-8.col-sm-offset-2
-      = simple_form_for staff, url: staffs_path, validate: true, turboboost: true, html: { class: 'form-horizontal', multipart: true }, wrapper: :horizontal_form do |f|
+      = simple_form_for staff, url: staff_index_path, validate: true, turboboost: true, html: { class: 'form-horizontal', multipart: true }, wrapper: :horizontal_form do |f|
         = f.input :name
         = f.input :email
         .row

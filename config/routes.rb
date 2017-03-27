@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     confirmations: 'customers/confirmations'
   }
   
-  resources :locations, only: [:new, :create, :show]
+  resources :locations
   resources :staff, only: [:new, :create, :index, :destroy]
 
   resource :dashboard, only: :show

@@ -1,4 +1,4 @@
-Her::API.setup url: ENV['API_URL'] do |c|
+Her::API.setup url: ENV['API_URL'], send_only_modified_attributes: true do |c|
   # Request
   c.use TokenAuthentication
   c.use Faraday::Request::Multipart

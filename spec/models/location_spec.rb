@@ -31,6 +31,7 @@ describe Location do
         city: anything,
         state: anything,
         zip: anything,
+        phone_number: anything,
         geography: anything
       )
     end

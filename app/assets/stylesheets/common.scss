@@ -9,8 +9,10 @@
 .ml10 { margin-left: 10px !important; }
 .ml10-pct { margin-left: 10% !important; } 
 .ml20 { margin-left: 20px !important; }
+.ml20-pct { margin-left: 20% !important; }
 .mb10 { margin-bottom: 10px; }
 .mb20 { margin-bottom: 20px; }
+.p0 {padding: 0px !important; }
 .p10 {padding: 10px; }
 .p15 {padding: 15px; }
 .p20 {padding: 20px; }
@@ -19,10 +21,19 @@
 .pl80 { padding-left: 80px !important; }
 .pl20 { padding-left: 20px !important; }
 .pl25 { padding-left: 25px !important; }
+.fs16 { font-size: 16px; }
 .fs17 { font-size: 17px; }
 .w60-pct { width: 60%; }
-.bg-red { background: #d1232a !important;}
+.bg-red { background: #d1232a !important; }
+.bg-white { background: #fff !important; }
 .red { color: #c80000; }
+.grey { color: #7e7e7e; }
+.dark-grey { color: #040404 }
+.m-auto { margin: 0px auto; }
+.w20-pct { width: 20%; }
+.w40-pct { width: 40%; }
+.w100-pct { width: 100%; }
+.display-inline { display: inline; }
 
 nav.navbar {
   margin-bottom: 0;
@@ -41,6 +52,27 @@ nav.navbar {
   }
 }
 
+.btn-red {
+  width: 100% !important;
+  background: #d1232a !important;
+  color: #fff;
+  padding: 5px;
+}
+
+.btn-blue {
+  width: 100% !important;
+  background: #49639f !important;
+  color: #fff;
+  padding: 5px;
+}
+
+.btn-border {
+  border: 2px solid #888;
+  color: #888;
+  font-weight: bold;
+  padding: 10px 20px !important;
+}
+
 .default_btn {
   width: 300%;
   height: 50px;
@@ -50,9 +82,54 @@ nav.navbar {
   font-weight: bold;
 }
 
+.navbar-default {
+  height: 100px;
+  padding: 10px;
+  background-color: #fff;
+  border-color: #fff;
+}
+
+.site-wrapper {
+  margin-top: 100px;
+}
+
+.red-bold-text {
+  color: #d1232a !important;
+  font-size: 16px;
+  font-weight: bold;
+}
+
 .bold-title {
   font-size: 36px;
   font-weight: bold;
   color: #c80000;
 }
 
+.bold-text {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.carousel-caption {
+  left: 0% !important;
+  right: 0% !important;
+  bottom: 0px !important;
+  background:rgba(255,255,255, 0.5);
+  color: #000;
+  text-shadow: none;
+}
+
+.carousel-indicators {
+  top: 30px !important;
+  .active { 
+    background-color: #888;
+    margin: 0px 5px;
+    width: 11px;
+    height: 11px;
+  }
+  li { 
+    border: 1px solid #888;
+    margin: 0px 5px;
+  }
+
+}

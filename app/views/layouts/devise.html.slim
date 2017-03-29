@@ -3,32 +3,53 @@ html
   = render 'layouts/shared_header'
   body
     = bootstrap_flash
-    .sigin-container
-      .row.center
-        = image_tag 'sendaguy.png', width: '60%'
-      .row
-        .col-sm-6
-          = yield
-        .col-sm-6
-          .mobileapp-info-wrapper
-            .header.text-uppercase
-              |Don't have an account
-              - if controller_name != 'registrations'
-                small
-                  = link_to 'sign up', new_customer_registration_path, class: 'text-uppercase ml20'
-            .content.p20.fs17
-              |Just get your mobile app to get set up and then be able to sign here to request service.
-              .app-container
-                .col-sm-2.p10
-                  =link_to ENV['APPLE_STORE_URL'] do                  
-                    = image_tag 'apple.png'
-                .col-sm-10
-                  =link_to ENV['APPLE_STORE_URL'] do                
-                    |Get SendaGuy Now in the app store
-              .app-container
-                .col-sm-2.p10
-                  =link_to ENV['GOOGLE_STORE_URL'] do    
-                    = image_tag 'android.png'
-                .col-sm-10
-                  =link_to ENV['GOOGLE_STORE_URL'] do
-                    |Get SendaGuy Now on Google Play
+    nav.navbar.navbar-default.navbar-fixed-top
+      .container-fluid
+        ul.nav.navbar-nav
+          li.active
+            = link_to '#', class: 'bg-white' do
+              i.fa.fa-bars.red-bold-text aria-hidden='true'
+          li
+            = link_to 'Watch The Video', '#', class: 'red-bold-text'
+        ul.nav.navbar-nav.navbar-right
+          li
+            = link_to root_path, class: 'logo-link p0' do 
+              = image_tag 'sendaguy.png', width: '200'
+          li
+            = link_to 'login', new_customer_session_path, class: 'text-capitalize dark-grey bold-text'
+          li
+            = link_to 'Join Our Contractor Network', new_customer_registration_path, class: 'text-uppercase ml10 btn-border'
+    .site-wrapper
+      .container-fluid
+        .row
+          .col-sm-6
+            = yield
+          .col-sm-6
+            .col-sm-10.col-sm-offset-1
+              #myCarousel.carousel.slide data-ride='carousel' 
+                /! Indicators
+                ol.carousel-indicators
+                  li.active data-slide-to='0' data-target='#myCarousel' 
+                  li data-slide-to='1' data-target='#myCarousel'
+                  li data-slide-to='2' data-target='#myCarousel'
+                /! Wrapper for slides
+                .carousel-inner role="listbox" 
+                  .item.active
+                    = image_tag 'shef.png', class: 'm-auto'
+                    .carousel-caption.center
+                      strong Jonathan, GM Alice’s Tea Cup
+                      p Definitely would recommend
+                      p.mt10 Exactly what we’ve needed for so long: a service to find the people we need when we need them. Used several times now and are so happy with the prompt, friendly and professional service.
+                  .item
+                    = image_tag 'shef.png', class: 'm-auto'
+                    .carousel-caption.center
+                      strong Jonathan, GM Alice’s Tea Cup
+                      p Definitely would recommend
+                      p.mt10 Exactly what we’ve needed for so long: a service to find the people we need when we need them. Used several times now and are so happy with the prompt, friendly and professional service.
+                  .item
+                    = image_tag 'shef.png', class: 'm-auto'
+                    .carousel-caption.center
+                      strong Jonathan, GM Alice’s Tea Cup
+                      p Definitely would recommend
+                      p.mt10 Exactly what we’ve needed for so long: a service to find the people we need when we need them. Used several times now and are so happy with the prompt, friendly and professional service.
+            

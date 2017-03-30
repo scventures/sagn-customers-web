@@ -8,9 +8,10 @@
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          = link_to dashboard_path, class: 'brand navbar-brand'
-            = image_tag 'sendaguy.png'
       #navbar.collapse.navbar-collapse.navbar-right
         ul.nav.navbar-nav
           li
-            = link_to 'Logout', destroy_customer_session_path, method: :delete, class: 'pull-right logout-btn'
+            = link_to dashboard_path, class: 'logo-link p0'
+              = image_tag 'sendaguy.png', width: '200'
+          li
+            = link_to 'Logout', destroy_customer_session_path, method: :delete, class: 'pull-right logout-btn mt10'

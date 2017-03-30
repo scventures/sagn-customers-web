@@ -12,13 +12,13 @@
               | Forgot my password.
       .form-actions
         = f.button :submit, 'Sign In', class: 'btn-red'
-      .w100-pct.text-center
+      .w100-pct.text-center.hidden
         span.w40-pct.display-inline.pull-left 
           hr/
         span.w20-pct.display-inline.pull-left.mt10  or
         span.w40-pct.display-inline.pull-left 
           hr/
-  = link_to '#', class: 'btn btn-default btn-blue' do
+  = link_to '#', class: 'btn btn-default btn-blue hidden' do
     i.fa.fa-facebook aria-hidden='true'
     span.ml10 Log In with Facebook
   = link_to new_customer_confirmation_path, class: 'pull-left' do

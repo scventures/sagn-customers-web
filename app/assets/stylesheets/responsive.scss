@@ -1,0 +1,60 @@
+.hidden {
+	display: none;
+	visibility: hidden;
+}
+.visible-phone {
+	display: none !important;
+}
+.visible-tablet {
+	display: none !important;
+}
+.hidden-desktop {
+	display: none !important;
+}
+.visible-desktop {
+	display: inherit !important;
+}
+
+@media (max-width: 767px) {
+  .hidden-desktop {
+		display: inherit !important;
+	}
+	.visible-desktop {
+		display: none !important;
+	}
+	.visible-tablet {
+		display: inherit !important;
+	}
+	.hidden-tablet {
+		display: none !important;
+	}
+  [class^='col-sm'] {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+  .navbar-default {
+    min-height: 0px !important;
+    li {
+      a {
+        font-size: 12px;
+      }
+    }
+    a.logo-link {
+      img {
+        width: 150px;
+      }
+    }
+    .btn-border {
+      padding: 5px !important;
+    }
+  }
+  .site-wrapper {
+    margin-top: 0px !important;
+  }
+  .testimonials {
+    margin-top: 20px;
+    .carousel-caption {
+      font-size: 10px;
+    }
+  }
+}

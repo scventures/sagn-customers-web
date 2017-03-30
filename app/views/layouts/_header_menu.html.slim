@@ -1,0 +1,14 @@
+ul.nav.navbar-nav
+  li.active
+    = link_to '#', class: 'bg-white' do
+      i.fa.fa-bars.red-bold-text aria-hidden='true'
+  li
+    = link_to 'Watch The Video', '#', class: 'red-bold-text'
+ul.nav.navbar-nav.navbar-right
+  li
+    = link_to root_path, class: 'logo-link p0' do 
+      = image_tag 'sendaguy.png', width: '200'
+  li
+    = link_to 'login', new_customer_session_path, class: 'text-capitalize dark-grey bold-text'
+  li
+    = link_to 'Join Our Contractor Network', new_customer_registration_path, class: 'text-uppercase ml10 btn-border'

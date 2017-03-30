@@ -83,7 +83,7 @@ nav.navbar {
 }
 
 .navbar-default {
-  height: 100px;
+  min-height: 100px;
   padding: 10px;
   background-color: #fff;
   border-color: #fff;
@@ -133,3 +133,8 @@ nav.navbar {
   }
 
 }
+
+.main-wrapper {
+  padding: 0px 20px;
+}
+

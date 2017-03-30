@@ -1,12 +1,23 @@
 .p20
+  - unless customer.confirmed?
+    .alert.alert-danger
+      |Complete Your Registration (Please confirm your email and phone)
+      = link_to profile_path, class: 'text-center ml10' do
+        | Please click here
+      button.close type='button' data-dismiss='alert' aria-label='Close'
+        span aria-hidden='true'
+          |&times
+
   h2.red
     | Dashboard Page
   .pull-right
-      = link_to 'Place Request Service', new_service_request_path, class: 'btn place-request-service-btn btn-danger'
-      br/
-      = link_to 'Add Create Locations', new_location_path, class: 'btn place-request-service-btn btn-danger mt10'
-      br/
-      = link_to 'Staff Members', staff_index_path, class: 'btn place-request-service-btn btn-danger mt10'
+    = link_to 'Profile', profile_path, class: 'btn place-request-service-btn btn-danger'
+    br/
+    = link_to 'Place Request Service', new_service_request_path, class: 'btn place-request-service-btn btn-danger mt10'
+    br/
+    = link_to 'Add Create Locations', new_location_path, class: 'btn place-request-service-btn btn-danger mt10'
+    br/
+    = link_to 'Staff Members', staff_index_path, class: 'btn place-request-service-btn btn-danger mt10'
   .row
     .col-sm-6
       span.pl10
@@ -57,3 +68,4 @@
             |Have Payment Method:
             span.pl10
               = account.have_payment_method
+= render 'confirmation_modal'

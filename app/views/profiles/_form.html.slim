@@ -1,0 +1,24 @@
+= simple_form_for customer, url: :profile, wrapper: :horizontal_form, turboboost: true, validate: true, html: {class: 'form-horizontal edit-profile'} do |f|
+  .row
+    .col-xs-12.text-center
+      .image-wrapper
+        .image-upload-label.center-block
+          - if current_customer.photo?
+            = image_tag current_customer.photo
+          - else
+            = image_tag 'default_avatar_icon'
+          = f.label :avatar, label: 'Change Image', class: 'text-uppercase'
+        = f.input :avatar, as: :file, label: false, input_html: { class: 'image-upload' }, validate: true
+  .row
+    .col-xs-12.text-center
+      
+  .row.mt20
+    .panel.panel-default
+      .panel-body
+        .row
+          = f.input :name
+          = f.input :email
+          = f.input :unconfirmed_phone, label: :Phone
+          .pull-right
+            = f.button :submit, 'Update'
+            = link_to 'Cancel', profile_path, class: 'ml10 btn btn-default'

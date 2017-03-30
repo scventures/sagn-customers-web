@@ -27,7 +27,7 @@ module Her
         env[:body] = case env[:status]
         when 204
           parse('{}')
-        when 422
+        when 422, 400
           parse("{\"errors\": #{env[:body]}}")
         else
           parse(env[:body])

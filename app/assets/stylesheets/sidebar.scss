@@ -1,0 +1,38 @@
+ul.sidebar { 
+  list-style: none;
+  padding: 0px;
+  background: #d9534f;
+  min-height: 100vh;
+  li {
+    padding: 15px 0px;
+    border-bottom: 2px solid #f9f9f9;
+    a {
+      color: #c2272d;
+      img {
+        width: 30%;
+      }
+    }
+    &.active {
+      a {
+        color: #fff;
+        img {
+          filter: brightness(0) invert(1);
+        }
+      }
+    }
+    &.selected {
+      background: #f9f9f9;
+      a {
+        color: #000;
+      }
+    }
+    &.off-white-background {
+      background: #f9f9f9;
+      height: 20%;
+      padding-top: 30px;
+      a {
+        color: #c2272d;
+      }
+    }
+  }
+}

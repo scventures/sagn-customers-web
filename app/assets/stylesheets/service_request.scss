@@ -44,13 +44,13 @@
     font-size: 20px;
     height: 120px;
     width: 120px;
+    margin-top: -22px;
     label {
       padding: 25px;
     }
     img {
       width: 120px;
       height: 120px;
-      margin-top: -22px;
     }
   }
   .form-wrapper {
@@ -66,6 +66,9 @@
     }
     hr {
       margin: 5px 0px;
+    }
+    .has-error {
+      font-size: 12px;
     }
   }
   .links {

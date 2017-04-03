@@ -13,6 +13,22 @@ module DeviseOverrides
     !password.nil? || !password_confirmation.nil?
   end
 
+  def send_confirmation_instructions
+    confirmable_key = pending_reconfirmation? ? :unconfirmed_email : :email
+    errors.add(confirmable_key, :blank) and return unless send("#{confirmable_key}?")
+    params = {
+      customer: {
+        confirmable_key => send(confirmable_key),
+        redirect_url: "#{ENV['APP_URL']}/confirmation"
+      }
+    }
+    Customer.post_raw('customers/confirmation', params) do |parsed_data, response|
+      populate_errors(parsed_data[:errors]) if response.status == 422
+    end
+  end
+
+
+
   module ClassMethods
     def send_reset_password_instructions(attributes={})
       customer = Customer.new(attributes)
@@ -59,19 +75,10 @@ module DeviseOverrides
       end
       customer
     end
-    
+
     def send_confirmation_instructions(attributes={})
       customer = Customer.new(attributes)
-      customer.errors.add(:email, :blank) and return customer unless customer.email?
-      params = {
-        customer: {
-          email: customer.email,
-          redirect_url: "#{ENV['APP_URL']}/confirmation"
-        }
-      }
-      Customer.post_raw('customers/confirmation', params) do |parsed_data, response|
-        customer.populate_errors(parsed_data[:errors]) if response.status == 422
-      end
+      customer.resend_confirmation_instructions
       customer
     end
 

@@ -2,6 +2,7 @@
   = link_to_remove_association f do
     i class="fa fa-times-circle" aria-hidden="true"
   .image-wrapper
-    .image-upload-label
-      = f.label :image, class: 'text-uppercase'
+    = f.label :image, class: 'text-uppercase'
+      .image-upload-label
+      .image-upload-label.hidden
     = f.input :image, as: :file, label: false, input_html: { class: 'image-upload' }, validate: true

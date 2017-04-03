@@ -8,8 +8,11 @@
             span.icon-bar
             span.icon-bar
             span.icon-bar
-      #navbar.collapse.navbar-collapse.navbar-right
+      #navbar.collapse.navbar-collapse
         ul.nav.navbar-nav
+          li.nav-header
+            h1
+        ul.nav.navbar-nav.navbar-right
           li
             = link_to dashboard_path, class: 'logo-link p0'
               = image_tag 'sendaguy.png', width: '200'

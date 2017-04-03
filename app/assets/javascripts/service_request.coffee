@@ -106,19 +106,6 @@ $(document).on 'select2:select', '.select_subcategory', (e) ->
   if e.params != 'undefined' && e.params.data != 'undefined'
     setSubcategories(e.params.data)
   
-$('.image-upload').livequery ->
-  $(this).on 'change', (event) ->
-    files = event.target.files
-    image = files[0]
-    reader = new FileReader
-    reader.onload = (file) ->
-      img = new Image
-      $(event.target).parents('.image-wrapper').find('.image-upload-label').html $('<img>').attr(
-        src: file.target.result
-        class: 'img-preview')
-      $(event.target).focusout()
-    reader.readAsDataURL image
-    
 $(document).on 'cocoon:after-insert', '.issue-image-wrapper', (e, addedIssueImage) ->
   $(addedIssueImage).closest('form').enableClientSideValidations()
   

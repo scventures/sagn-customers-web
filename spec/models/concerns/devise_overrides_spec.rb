@@ -38,6 +38,26 @@ describe DeviseOverrides do
     end
   end
   
+  describe '#send_confirmation_instructions' do
+    context 'valid customer email' do
+      let(:customer) { Customer.new(email: 'test@gmail.com') }
+      it 'send confirmation instructions' do
+        stub_send_confirmation_instructions(customer.email, "#{ENV['APP_URL']}/confirmation", 200, confirmation_instructions_valid_body)
+        customer = Customer.send_confirmation_instructions({email: 'test@gmail.com', redirect_url: "#{ENV['APP_URL']}/confirmation" })
+        expect(customer).to be_instance_of(Customer)
+        expect(customer.email).to eq(customer.email)
+      end
+    end
+    context 'invalid customer email' do
+      let(:customer) { Customer.new(email: 'invalid@gmail.com') }
+      it 'return error' do
+        stub_send_confirmation_instructions(customer.email, "#{ENV['APP_URL']}/confirmation", 422, confirmation_instructions_invalid_body)
+        customer = Customer.send_confirmation_instructions({email: 'invalid@gmail.com', redirect_url: "#{ENV['APP_URL']}/confirmation" })
+        expect(customer.errors.messages.has_key?(:email)).to be_truthy
+      end
+    end
+  end
+  
   describe 'ClassMethods' do
     describe '.send_reset_password_instructions(attributes={})' do
       context 'blank email' do
@@ -125,23 +145,12 @@ describe DeviseOverrides do
     end
     
     describe '.send_confirmation_instructions(attributes={})' do
-      context 'user with valid email' do
-        let(:customer) { Customer.new(email: 'test@gmail.com') }
-        it 'return customer details' do
-          stub_send_confirmation_instructions(customer.email, "#{ENV['APP_URL']}/confirmation", 200, confirmation_instructions_valid_body)
-          customer = Customer.send_confirmation_instructions({email: 'test@gmail.com', redirect_url: "#{ENV['APP_URL']}/confirmation" })
-          expect(customer).to be_instance_of(Customer)
-          expect(customer.email).to eq(customer.email)
-        end
+      let(:customer) { Customer.new(email: 'test@gmail.com') }
+      it 'return customer details' do
+        allow(Customer).to receive(:new).with({email: 'test@gmail.com'}).and_return(customer)
+        expect(customer).to receive(:resend_confirmation_instructions)
+        expect(Customer.send_confirmation_instructions({email: 'test@gmail.com'})).to be_instance_of(Customer)
       end
-      context 'user with invalid email' do
-        let(:customer) { Customer.new(email: 'invalid@gmail.com') }
-        it 'return customer details' do
-          stub_send_confirmation_instructions(customer.email, "#{ENV['APP_URL']}/confirmation", 422, confirmation_instructions_invalid_body)
-          customer = Customer.send_confirmation_instructions({email: 'invalid@gmail.com', redirect_url: "#{ENV['APP_URL']}/confirmation" })
-          expect(customer.errors.messages.has_key?(:email)).to be_truthy
-        end
-      end 
     end
     
     describe '.authenticate!(email, password)' do

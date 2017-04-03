@@ -18,9 +18,11 @@
 //= require jquery.livequery
 //= require cocoon
 //= require select2-full
+//= require data-confirm-modal
 //= require rails.validations
 //= require rails.validations.simple_form
 //= require rails.validations.extension
+//= require common
 //= require service_request
 //= require turbolinks
 //= require turboboost/turboboost

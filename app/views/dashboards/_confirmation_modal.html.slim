@@ -1,0 +1,47 @@
+#confirmation-modal.modal.fade role='dialog' tabindex='-1'
+  .modal-dialog role='document'
+    .modal-content
+      .modal-header
+        button.close aria-label="Close" data-dismiss="modal" type="button" 
+          span aria-hidden="true"  &times;
+        h4.modal-title Complete Registration
+      .modal-body
+        .row
+          .col-xs-2
+            .pull-right
+              = fa_icon 'check-circle', class: "fa-3x #{current_customer.unconfirmed_email ? 'text-muted' : 'text-success'}"
+          .col-xs-10
+            - if current_customer.unconfirmed_email
+              h4.text-uppercase confirm your email
+              div We've sent a confirmation email to:
+              div.text-primary
+                = current_customer.email
+              br/
+              div Just click link in the email to confirm.
+              = link_to 'Resend Confirmation', resend_email_confirmation_profiles_path, remote: true, class: 'btn btn-danger with-ajax-loader'
+            - else
+              h4.text-uppercase Email confirmed
+              div We've confirmed your email:
+              div.text-primary
+                = current_customer.email
+        hr
+        .row
+          .col-xs-2
+            .pull-right
+              = fa_icon 'check-circle', class: "fa-3x #{current_customer.unconfirmed_phone? ? 'text-muted' : 'text-success'}"
+          .col-xs-10
+            - if current_customer.unconfirmed_phone?
+              h4.text-uppercase confirm your mobile phone
+              div We've sent a code to:
+              div
+                = current_customer.unconfirmed_phone
+              br/
+              div Please enter the code you received:
+              = link_to 'Send New Code', '#', class: 'btn btn-btn-danger'
+            - elsif current_customer.phone_number?
+              h4.text-uppercase mobile phone confirmed
+              div We've confirmed your phone number:
+              div.text-primary
+                = current_customer.phone_number
+      .modal-footer
+        button.btn.btn-btn-danger data-dismiss="modal" type="button"  Close

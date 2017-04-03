@@ -33,12 +33,25 @@ module Helpers
   end
   
   def stub_send_confirmation_instructions(email, redirect_url, response_code, return_body)
-    stub_request(:post, "https://stapp.sendaguy.com/api/customers/confirmation").
-       with(:body => {"customer"=>{"email"=> email, "redirect_url"=> redirect_url}},
-          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.11.0'}).
-     to_return(:status => response_code, :body => return_body, :headers => {})
+    stub_request(:post, "#{ENV['API_URL']}/customers/confirmation").
+       with(:body => {'customer'=>{'email'=> email, 'redirect_url'=> redirect_url}},
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=>'Faraday v0.11.0'}).to_return(:status => response_code, :body => return_body, :headers => {})
   end
-    
+  
+  def stub_resend_phone_confirmation_instructions(unconfirmed_phone, response_code, return_body)
+    stub_request(:put, "#{ENV['API_URL']}/customers/viewer/confirm_phone").
+      with(:body => {'customer'=>{'unconfirmed_phone'=> unconfirmed_phone}},
+        :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=>'Faraday v0.11.0'}).
+      to_return(:status => response_code, :body => return_body, :headers => {})
+  end
+  
+  def stub_verify_phone(sms_pin, response_code, return_body)
+    stub_request(:post, "#{ENV['API_URL']}/customers/viewer/confirm_phone").
+      with(:body => {'sms_confirmation_pin'=>sms_pin},
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=>'Faraday v0.11.0'}).
+      to_return(:status => response_code, :body => return_body, :headers => {})
+  end
+  
   def verified_return_body
     {
       'customer': {
@@ -163,7 +176,7 @@ module Helpers
         "id": 323,
         "name": "test",
         "phone_number": "",
-        "unconfirmed_phone": "+12125096997",
+        "unconfirmed_phone": "+111111111111",
         "photo": nil,
         "email": "test@gmail.com",
         "unconfirmed_email": nil,
@@ -184,6 +197,27 @@ module Helpers
         "not found"
       ]
     }.to_json
+  end
+  
+  def resend_phone_confirmation_invalid_body
+    {
+      'unconfirmed_phone': [
+        'is an invalid number'
+      ],
+      'phone_number': [
+        'is an invalid number'
+      ]
+    }.to_json
+  end
+  
+  def have_attached_file name
+    HaveAttachedFileMatcher.new(name)
+  end
+  
+  class HaveAttachedFileMatcher
+    def initialize attachment_name
+      @attachment_name = attachment_name
+    end
   end
   
 end

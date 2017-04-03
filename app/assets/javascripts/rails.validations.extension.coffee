@@ -10,6 +10,8 @@ attachment_content_type_validation = (element, options) ->
       re = new RegExp(rule.source or rule, rule.options)
       if re.test(element[0].files[0].type)
         return false
+    $(element).parents('.image-wrapper').find('.image-upload-label').last().addClass('hidden')
+    $(element).parents('.image-wrapper').find('.image-upload-label').first().removeClass('hidden')
     return options.message
   return
 

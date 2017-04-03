@@ -36,6 +36,7 @@ gem 'slim'
 gem 'simple_form'
 gem 'bootstrap-sass', '~> 3.3.7'
 gem 'bootstrap-sass-extras'
+gem 'data-confirm-modal', '~> 1.3.0'
 gem 'font-awesome-rails', '~> 4.7.0.0'
 gem 'jwt'
 gem 'her'
@@ -60,6 +61,7 @@ group :test do
   gem 'webmock'
   gem 'rspec-rails', '~> 3.5'
   gem 'shoulda-matchers', '~> 3.1'
+  gem 'shoulda-callback-matchers', '~> 1.1.1'
 end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.

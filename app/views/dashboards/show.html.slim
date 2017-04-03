@@ -1,6 +1,18 @@
 .p20
+  - unless current_customer.confirmed?
+    .alert.alert-danger
+      |Complete Your Registration (Please confirm your email and phone)
+      = link_to profile_path, class: 'text-center ml10' do
+        | Please click here
+      button.close type='button' data-dismiss='alert' aria-label='Close'
+        span aria-hidden='true'
+          |&times
+  - else
+    = link_to profile_path, class: 'pull-right red text-center' do
+      = fa_icon 'cog', class: 'fa-3x red'
+      p Account Settings
   h2.red
-    | Dashboard Page
+    | Dashboard
   .row
     .col-sm-6
       span.pl10
@@ -51,3 +63,4 @@
             |Have Payment Method:
             span.pl10
               = account.have_payment_method
+= render 'confirmation_modal'

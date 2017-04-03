@@ -6,7 +6,7 @@
           - if current_customer.photo?
             = image_tag current_customer.photo
           - else
-            = image_tag 'default_avatar_icon'
+            = image_tag 'default_avatar_icon.png'
         .image-upload-label.center-block.preview.hidden
         = f.label :avatar, label: 'Change Image', class: 'text-uppercase'
         = f.input :avatar, as: :file, label: false, input_html: { class: 'image-upload' }, validate: true

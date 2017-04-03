@@ -14,11 +14,11 @@ module DeviseOverrides
   end
 
   def send_confirmation_instructions
-    confirmable_key = pending_reconfirmation? ? :unconfirmed_email : :email
-    errors.add(confirmable_key, :blank) and return unless send("#{confirmable_key}?")
+    confirmable_value = pending_reconfirmation? ? unconfirmed_email : email
+    errors.add(email, :blank) and return if confirmable_value.blank?
     params = {
       customer: {
-        confirmable_key => send(confirmable_key),
+        email: confirmable_value,
         redirect_url: "#{ENV['APP_URL']}/confirmation"
       }
     }

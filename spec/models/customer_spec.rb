@@ -101,10 +101,6 @@ describe Customer do
     end
   end
   
-  describe 'File Validations' do
-    it { is_expected.to allow_file_content_type('image/jpg', described_class.new(allow: 'image/jpg', attributes: :avatar)) }
-  end
-  
   describe '#valid_auth_token?' do
     before(:each) do
       payload1 = {data: 'test@gmail.com'}
@@ -247,7 +243,7 @@ describe Customer do
       end
     end
   end
-  
+
   describe '#verify_phone' do
     context 'valid phone number' do
       let(:customer) { Customer.new(sms_confirmation_pin: '0000') }

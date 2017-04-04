@@ -9,6 +9,20 @@ module Her
           OpenStruct.new associations.inject([]) {|ary, (k,v)| v.find {|a| a[:collection?] = k == :has_many; a[:name] == association}}
         end
 
+        def build_with_inverse(attributes = {})
+          @klass.build(attributes.merge(:"#{@parent.singularized_resource_name}_id" => @parent.id)).tap do |resource|
+            begin
+              resource.request_path
+            rescue Her::Errors::PathError => e
+              e.missing_parameters.each do |m|
+                if id = @parent.get_attribute(m) || @parent.get_attribute("_#{m}")
+                  resource.send("_#{m}=", id)
+                end
+              end
+            end
+          end
+        end
+
       end
 
       def save

@@ -18,8 +18,8 @@ html
               = link_to locations_path, class: '' do
                 = image_tag 'location-icon.png'
                 p Locations
-            li
-              = link_to '#', class: '' do
+            li class="#{ 'active' if params[:controller] == 'contractors'}"
+              = link_to contractors_path, class: '' do
                 = image_tag 'my-guys-icon.png'
                 p My Guys
             li class="#{ 'active' if params[:controller] == 'staff'}"

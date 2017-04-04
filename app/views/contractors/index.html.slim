@@ -1,0 +1,33 @@
+.header-title.hidden My Guys
+.row.mt20
+  .col-sm-10
+    p You can "Add a Guy" and invite contractors to join the SendaGuy Now network. If approved, you'll be able to pick from your guys when you request service.
+  .col-sm-2
+    = link_to new_contractor_path, class: 'pull-right', remote: true do
+      p.text-center
+        = image_tag 'request-service-icon.png', width: '40%'
+      span.text-center.red
+        |ADD GUY
+- unless @registered_contractors.size.zero?
+  strong Registered Contractors
+.my-guys-wrapper
+  .row
+    - @registered_contractors.in_groups_of(3) do |contractors|
+      .col-sm-12
+        - contractors.compact.each do |contractor|
+          = render 'details', contractor: contractor
+- unless @invited_contractors.size.zero?
+  strong Invited Contractors
+.my-guys-wrapper
+  .row
+    - @invited_contractors.in_groups_of(3) do |contractors|
+      .col-sm-12
+        - contractors.compact.each do |contractor|
+          = render 'details', contractor: contractor
+#addContractorModal.modal.fade role="dialog"
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        button.close data-dismiss="modal" type="button"  ×
+        h4.modal-title
+      .modal-body

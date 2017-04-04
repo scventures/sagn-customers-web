@@ -1,0 +1,13 @@
+.col-sm-4
+  .my-guy-container
+    .inverted-circle
+    h3
+      = contractor.business_name
+    p.list
+      = contractor.email
+    p.list
+      = contractor.contact_name
+    p.list
+      = contractor.phone_number
+    p.mt20.text-center
+      = link_to 'Remove', contractor_path(contractor), method: :delete, data: { confirm: "You want to remove this contractor #{contractor.contact_name}?"}, class: 'btn btn-danger'

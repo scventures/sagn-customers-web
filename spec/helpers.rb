@@ -1,54 +1,55 @@
 module Helpers
   def stub_auth_api_request(email, password, return_body, response_code)
     stub_request(:post, "#{ENV['API_URL']}/customers/auth_token").
-      with(:body => {'auth'=>{'email'=> email, 'password'=> password}},
-          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.11.0'}).
-      to_return(:status => response_code, :body => return_body.to_json, :headers => {})
+       with(:body => {'auth'=>{'email'=> email, 'password'=> password}},
+            :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+       to_return(:status => response_code, :body => return_body.to_json, :headers => {})
   end
 
   def stub_verified_api_request(auth_token, return_body, response_code)
     stub_request(:get, "#{ENV['API_URL']}/customers/viewer").
-      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2',  'User-Agent'=>'Faraday v0.11.0'}).
+      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=>'Faraday v0.12.0.1'}).
       to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_password_reset_instructions(email, return_url, response_code, return_body)
     stub_request(:post, "#{ENV['API_URL']}/customers/password").
-      with(:body => {"customer"=>{'email'=> email, 'redirect_url'=> return_url}},
-          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.11.0'}).
+      with(:body => {'customer'=>{'email'=> email, 'redirect_url'=> return_url}},
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
       to_return(:status => response_code, :body => return_body.to_json, :headers => {})
   end
   
   def stub_password_reset_request(password, password_confirmation, reset_password_token, response_code, return_body)
-     stub_request(:put, "#{ENV['API_URL']}/customers/password").
-       with(:body => {'customer'=>{'password'=> password, 'password_confirmation'=> password_confirmation, 'reset_password_token'=> reset_password_token}},
-            :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.11.0'}).
-       to_return(:status => response_code, :body => return_body, :headers => {})
+    stub_request(:put, "#{ENV['API_URL']}/customers/password").
+      with(:body => {'customer'=>{'password'=> password, 'password_confirmation'=> password_confirmation, 'reset_password_token'=> reset_password_token}},
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_confirm_by_token_request(token, response_code, return_body)
     stub_request(:get, "#{ENV['API_URL']}/customers/confirmation?confirmation_token=#{token}").
-       with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=>'Faraday v0.11.0'}).
-       to_return(:status => response_code, :body => return_body, :headers => {})
+      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_send_confirmation_instructions(email, redirect_url, response_code, return_body)
     stub_request(:post, "#{ENV['API_URL']}/customers/confirmation").
-       with(:body => {'customer'=>{'email'=> email, 'redirect_url'=> redirect_url}},
-          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=>'Faraday v0.11.0'}).to_return(:status => response_code, :body => return_body, :headers => {})
+     with(:body => {'customer'=>{'email'=> email, 'redirect_url'=> redirect_url}},
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+     to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_resend_phone_confirmation_instructions(unconfirmed_phone, response_code, return_body)
     stub_request(:put, "#{ENV['API_URL']}/customers/viewer/confirm_phone").
       with(:body => {'customer'=>{'unconfirmed_phone'=> unconfirmed_phone}},
-        :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=>'Faraday v0.11.0'}).
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
       to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_verify_phone(sms_pin, response_code, return_body)
     stub_request(:post, "#{ENV['API_URL']}/customers/viewer/confirm_phone").
       with(:body => {'sms_confirmation_pin'=>sms_pin},
-          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=>'Faraday v0.11.0'}).
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
       to_return(:status => response_code, :body => return_body, :headers => {})
   end
   

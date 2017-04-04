@@ -34,4 +34,7 @@ $('.image-upload').livequery ->
     reader.readAsDataURL image
 
 $('form[data-client-side-validations][data-turboboost]').livequery ->
+  $(this).enableClientSideValidations()
+  
+$(document).on 'shown.bs.modal', '.modal', ->
   $('form').enableClientSideValidations()

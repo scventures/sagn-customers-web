@@ -93,7 +93,7 @@ describe Customer do
   end
   
   describe 'has_file_upload' do
-    let(:customer) { Customer.new(avatar: 'test.jpg')}
+    let(:customer) { Customer.new()}
     it ':photo' do
       expect(customer).to respond_to(:avatar)
       expect(customer).to respond_to('avatar=')

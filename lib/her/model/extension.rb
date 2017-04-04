@@ -33,11 +33,15 @@ module Her
 
       def populate_errors(response_errors)
         self.errors.clear
-        response_errors.each do |attribute,errors|
-          errors.each do |error|
-            self.errors.add(attribute,error)
-          end if errors.is_a? Array
-        end if response_errors.is_a? Hash
+        if response_errors.is_a?(Array)
+          self.errors.add(:base, response_errors.join(', '))
+        else
+          response_errors.each do |attribute,errors|
+            errors.each do |error|
+              self.errors.add(attribute,error)
+            end if errors.is_a? Array
+          end if response_errors.is_a? Hash
+        end
       end
 
     end

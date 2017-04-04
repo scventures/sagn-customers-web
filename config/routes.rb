@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   end
   resources :locations
   resources :staff, only: [:new, :create, :index, :destroy]
+  resources :contractors, except: [:edit, :update, :show] do
+    patch :create_multiple, on: :collection
+  end
 
   resource :dashboard, only: :show
   resources :service_requests, only: [:new, :create, :show]

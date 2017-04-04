@@ -1,0 +1,10 @@
+.my-guys-form-wrapper
+  = simple_form_for account, url: create_multiple_contractors_path, validate: true, turboboost: true do |f|
+    = f.simple_fields_for :contractors do |contractor|
+      = render 'contractors/contractor_fields', f: contractor
+    .form-footer
+      .row
+        .col-sm-12
+          .links
+            = link_to_add_association '+ Add Another', f, :contractors, class: 'btn btn-default pull-left'
+            = f.submit 'Invite', class: 'pull-right btn btn-default'

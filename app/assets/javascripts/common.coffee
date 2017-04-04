@@ -32,3 +32,6 @@ $('.image-upload').livequery ->
         class: 'img-preview')
       $(event.target).focusout()
     reader.readAsDataURL image
+
+$('form[data-client-side-validations][data-turboboost]').livequery ->
+  $('form').enableClientSideValidations()

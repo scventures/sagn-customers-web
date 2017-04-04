@@ -39,7 +39,7 @@ gem 'bootstrap-sass-extras'
 gem 'data-confirm-modal', '~> 1.3.0'
 gem 'font-awesome-rails', '~> 4.7.0.0'
 gem 'jwt'
-gem 'her'
+gem 'her', '~> 0.8.6'
 gem 'request_store'
 gem "cocoon"
 gem 'turboboost', '~> 0.1.0'

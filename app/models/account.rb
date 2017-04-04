@@ -8,4 +8,6 @@ class Account
   has_many :contractors
   has_many :staff
 
+  accepts_nested_attributes_for :contractors
+
 end

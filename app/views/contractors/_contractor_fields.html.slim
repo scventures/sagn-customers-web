@@ -1,0 +1,16 @@
+.nested-fields
+  .row
+    .col-sm-12
+      .col-sm-1
+        = link_to_remove_association f do
+          = fa_icon 'times', class: 'pull-right'
+      .col-sm-11
+        .col-sm-12
+          .col-sm-3
+            = f.input :email
+          .col-sm-3
+            = f.input :contact_name
+          .col-sm-3
+            = f.input :business_name
+          .col-sm-3
+            = f.input :phone_number

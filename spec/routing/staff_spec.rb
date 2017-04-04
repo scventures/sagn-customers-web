@@ -15,6 +15,13 @@ RSpec.describe 'route to staff', type: :routing do
     )
   end
   
+  it 'routes /staff/create_multiple to staff#create_multiple to create multiple staff ' do
+    expect(patch: '/staff/create_multiple').to route_to(
+      controller: 'staff',
+      action: 'create_multiple'
+    )
+  end
+  
   it 'routes /staffs to staff#index to show staff details' do
     expect(get: 'staff#index').to route_to(
       controller: 'staff',

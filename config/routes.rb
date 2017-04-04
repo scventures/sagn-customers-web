@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     patch :confirm_phone
   end
   resources :locations
-  resources :staff, only: [:new, :create, :index, :destroy]
+  resources :staff, only: [:new, :create, :index, :destroy] do
+    patch :create_multiple, on: :collection
+  end
   resources :contractors, except: [:edit, :update, :show] do
     patch :create_multiple, on: :collection
   end

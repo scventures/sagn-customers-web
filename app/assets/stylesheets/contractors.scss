@@ -23,7 +23,7 @@
   }
 }
 
-#addContractorModal {
+#addContractorModal, #addStaffModal {
   .modal-header {
     background-color: #d9534f;
     color: #fff;
@@ -32,7 +32,13 @@
     background-color: #aeaeae;
     color: #fff;
   }
-  .links {
+  .invite-btn {
+    background-color: #6b7282 !important;
+    height: 40px;
+    width: 20%;
+    color: #fff;
+  }
+  .btn-top-border {
     border-top: 2px solid #ebebeb;
     margin: 0 -15px;
     padding: 20px !important;
@@ -51,5 +57,8 @@
     line-height: 5;
     font-size: 20px;
     color: #9f9f9f;
+  }
+  .help-block {
+    color: #c80000;
   }
 }

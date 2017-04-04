@@ -9,5 +9,6 @@ class Account
   has_many :staff
 
   accepts_nested_attributes_for :contractors
+  accepts_nested_attributes_for :staff
 
 end

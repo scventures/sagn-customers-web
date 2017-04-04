@@ -4,7 +4,14 @@ class Staff
   collection_path 'customers/accounts/:account_id/staff'
   resource_path 'customers/accounts/:account_id/staff/:id'
   include_root_in_json :customer
-
-  attributes :id, :name, :email
+  
+  before_save :set_name
+  attributes :id, :name, :first_name, :last_name, :email, :_destroy
   belongs_to :account
+  validates_presence_of :first_name, :last_name, :email
+  
+  def set_name
+    self.name = [first_name, last_name].compact.join(' ')
+  end
+  
 end

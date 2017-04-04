@@ -1,6 +1,6 @@
 require 'rails_helper'
-
-describe Account do
+include Shoulda::Matchers::ActiveRecord
+describe Account, type: :model do
   it 'include Her::Model' do
     expect(Account.include?(Her::Model)).to be_truthy
   end
@@ -17,6 +17,23 @@ describe Account do
   it { expect(Account.association_names.include? :contractors).to be_truthy }
   it { expect(Account.association_names.include? :staff).to be_truthy }
   
+  describe 'accept_nested_attributes_for :contractors' do
+    let(:account) { Account.new(contractors_attributes: { 0 => {contact_name: 'Test', business_name: 'Test'}, 1 => {email: 'test1@gmail.com'}})}
+    it do
+      expect(account.contractors.first.contact_name).to eq('Test')
+      expect(account.contractors.first.business_name).to eq('Test')
+      expect(account.contractors[1].email).to eq('test1@gmail.com')
+    end
+  end
+  
+  describe 'accept_nested_attributes_for :staff' do
+    let(:account) { Account.new(staff_attributes: { 0 => {name: 'Test'}, 1 => {email: 'test@gmail.com'}})}
+    it do
+      expect(account.staff.first.name).to eq('Test')
+      expect(account.staff[1].email).to eq('test@gmail.com')
+    end
+  end
+
   describe 'attributes' do
     let(:account) {Account.new}
     it 'include attributes' do

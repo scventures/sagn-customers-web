@@ -1,0 +1,9 @@
+.col-sm-4
+  .my-guy-container
+    .inverted-circle
+    h3
+      = staff.customer[:name]
+    p.list
+      = staff.customer[:email]
+    p.mt20.text-center
+      = link_to 'Remove', staff_path(staff.customer_id), method: :delete, data: { confirm: "You want to remove this staff #{staff.customer[:name]}?"}, class: 'btn btn-danger'

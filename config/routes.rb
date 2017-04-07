@@ -26,7 +26,11 @@ Rails.application.routes.draw do
   resources :location, module: 'location', only: [] do
     resources :equipment_items, only: [:index]
   end
+  
+  authenticated :customer do
+    root 'dashboards#show', as: :authenticated_root
+  end
 
-  root :to => redirect('/sign_in')
+  root :to => 'high_voltage/pages#show', id: 'home'
 
 end

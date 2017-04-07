@@ -105,6 +105,7 @@ GEM
       activesupport (>= 3.0.0, <= 6.0.0)
       faraday (>= 0.8, < 1.0)
       multi_json (~> 1.7)
+    high_voltage (3.0.0)
     i18n (0.8.1)
     jbuilder (2.6.1)
       activesupport (>= 3.0.0, < 5.1)
@@ -275,6 +276,7 @@ DEPENDENCIES
   file_validators
   font-awesome-rails (~> 4.7.0.0)
   her (~> 0.8.6)
+  high_voltage (~> 3.0.0)
   jbuilder (~> 2.5)
   jquery-rails
   jwt

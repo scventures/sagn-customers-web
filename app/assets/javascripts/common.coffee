@@ -16,9 +16,6 @@ window.customAlert = (title, message) ->
     cancelClass: 'hide'
     zIindex: 10099
 
-$(document).on 'ready, turbolinks:load', ->
-  $('ul li.nav-header').find('h1').html($('.header-title').html())
-  
 $('.image-upload').livequery ->
   $(this).on 'change', (event) ->
     files = event.target.files

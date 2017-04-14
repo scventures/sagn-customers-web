@@ -1,8 +1,14 @@
-.row
-  .col-sm-12
-    h2 Locations
+- content_for :title do
+  .header-title.text-uppercase Locations
 hr/
 .staff-details.mt20
+  .row
+    .col-sm-12
+      = link_to new_location_path, class: 'pull-right' do
+        p.text-center
+          = image_tag 'request-service-icon.png', width: '40%'
+        span.text-center.red.text-uppercase
+          |Add Location
   .row
     .col-sm-12
       .table-responsive

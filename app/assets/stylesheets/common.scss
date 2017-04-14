@@ -26,11 +26,14 @@
 .fs12 { font-size: 12px; }
 .fs16 { font-size: 16px; }
 .fs17 { font-size: 17px; }
+.fs20 { font-size: 20px; }
 .w60-pct { width: 60%; }
 .bg-red { background: #d1232a !important; }
 .bg-white { background: #fff !important; }
 .red { color: #c80000; }
 .grey { color: #7e7e7e; }
+.white { color: #fff; }
+.black { color: #000; }
 .dark-grey { color: #040404 }
 .m-auto { margin: 0px auto; }
 .w20-pct { width: 20%; }
@@ -144,3 +147,75 @@ nav.navbar {
   }
 }
 
+html, body {
+  position: relative;
+  height: 100%;
+  & > .container-fluid {
+    position: relative;
+    min-height: 100%;
+  }
+}
+
+/*.main-wrapper {
+  position: relative;
+  min-height: 100%;
+  .sub-wrapper {
+    position: relative;
+    min-height: calc(100% - 100px);
+  }
+}*/
+
+.row.is-flex {
+  min-height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.row.is-flex > [class*='col-'] {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+html,
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  min-height: 100%;
+  width: 100%;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  -ms-flex-direction: row;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  box-orient: horizontal;
+}
+
+.main-wrapper {
+ -ms-flex: 1;
+ -webkit-box-flex: 1;
+ -moz-box-flex: 1;
+ -ms-box-flex: 1;
+ box-flex: 1;  
+}

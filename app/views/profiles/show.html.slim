@@ -1,4 +1,5 @@
-.header-title.hidden Profile
+- content_for :title do
+  .header-title.text-uppercase Profile
 .p20
   = link_to edit_profile_path, class: 'pull-right red text-center' do
     = fa_icon 'pencil-square-o', class: 'fa-3x red'

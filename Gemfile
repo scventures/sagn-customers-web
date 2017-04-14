@@ -51,6 +51,7 @@ gem 'active_model_serializers'
 gem 'file_validators'
 gem 'wannabe_bool'
 gem 'high_voltage', '~> 3.0.0'
+gem 'secure_headers', '~> 3.6.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

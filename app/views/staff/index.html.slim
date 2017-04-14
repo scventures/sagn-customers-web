@@ -1,4 +1,5 @@
-.header-title.hidden.text-uppercase My Staff
+- content_for :title do
+  .header-title.text-uppercase My Staff
 .row.mt20
   .col-sm-12
     = link_to new_staff_path, class: 'pull-right', remote: true do

@@ -1,6 +1,6 @@
 $(document).on 'ready', ->
   $('.select2').select2()
-
+  
 setEquipment = ->
   location_id = $('.select_location option:selected').val()
   if location_id != ''
@@ -25,7 +25,6 @@ setEquipment = ->
         $('.select_equipment').select2 
           data: data
    
-
 $('.select_location').livequery ->
   setEquipment()
 
@@ -125,3 +124,17 @@ $(document).on 'change', '.radio-btn input[type="radio"]', ->
   else
     $('.select-guy').addClass 'hidden'
     $('.select-guy select').prop 'disabled', true
+    
+$(document).on 'click', '.current-request-list .details-link', ->
+  $('.current-request-wrapper').removeClass('selected')
+  $(this).find('.current-request-wrapper').addClass('selected')
+  $('.current-request-details').html('')
+  $('.current-request-details').block
+      message: '<i class="fa fa-spinner fa-spin fa-4x"></i>'
+      css:
+        border: 'none'
+        background: 'none'
+        color: '#808080'
+      overlayCSS:
+        backgroundColor: 'transparent'
+        cursor: 'wait'

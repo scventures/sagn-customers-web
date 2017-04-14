@@ -14,6 +14,10 @@ html
             = link_to dashboard_path, class: '' do
               = image_tag 'dashboard-icon.png'
               p Dasboard
+          li class="#{ 'active' if params[:controller] == 'current_requests'}"
+              = link_to current_requests_path, class: '' do
+                = image_tag 'current-requests-icon.png'
+                p Current Requests
           li class="#{ 'active' if params[:controller] == 'locations'}"
             = link_to locations_path, class: '' do
               = image_tag 'location-icon.png'

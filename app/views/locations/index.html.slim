@@ -1,53 +1,48 @@
 - content_for :title do
   .header-title.text-uppercase Locations
-hr/
-.staff-details.mt20
+div
   .row
-    .col-sm-12
-      = link_to new_location_path, class: 'pull-right' do
-        p.text-center
-          = image_tag 'request-service-icon.png', width: '40%'
-        span.text-center.red.text-uppercase
-          |Add Location
-  .row
-    .col-sm-12
-      .table-responsive
-        table.table.location-table
-          thead
-            th Name
-            th Address1
-            th Address2
-            th Address3
-            th City
-            th State
-            th Zip
-            th Phone Number
-            th Latitude
-            th Longitude
-            th 
-          tbody
-            - @locations.each do |location|
-              tr
-                td
-                  = location.name
-                td
-                  = location.address_1
-                td
-                  = location.address_2
-                td
-                  = location.address_3
-                td
-                  = location.city
-                td
-                  = location.state
-                td
-                  = location.zip
-                td
-                  = location.phone_number
-                td
-                  = location.geography[:latitude]
-                td
-                  = location.geography[:longitude]
-                td
-                  = link_to 'Edit', edit_location_path(location), class: 'btn btn-default'
-                  = link_to 'Destroy', location_path(location), method: :delete, class: 'btn btn-danger ml10'
+    .col-sm-6
+      h3 My Locations
+    .col-md-6.text-center
+      = link_to '#', data: { toggle: 'modal', target: '#addLocation' }, class: 'icon-add pull-right' do
+        i
+          = image_tag 'request-service-icon.png', width: '50'
+        br/
+        span ADD LOCATION
+  .clearfix
+  - @locations.in_groups_of(3).each do |locations|
+    .row.mt10
+      - locations.compact.each do |location|
+        .col-md-4
+          .location-list
+            div
+              = static_map_for(location.geography[:latitude], location.geography[:longitude])
+            h3
+              = location.name
+            h4 
+              = location.address_1
+            .text-center.btn-holder
+              = link_to 'Edit', edit_location_path(location), remote: true, class: 'btn btn-edit'
+            .clearfix
+#editLocation.modal.fade role='dialog'
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close aria-label='Close' data-dismiss='modal' type='button' 
+          span aria-hidden='true'  ×
+        h4.modal-title
+          i.fa.fa-angle-left aria-hidden='true' 
+          | Edit Location
+      .modal-body
+#addLocation.modal.fade role='dialog'
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close aria-label='Close' data-dismiss='modal' type='button' 
+          span aria-hidden='true'  ×
+        h4.modal-title
+          i.fa.fa-angle-left aria-hidden='true' 
+          | Add Location
+      .modal-body
+        = render 'form', location: @location

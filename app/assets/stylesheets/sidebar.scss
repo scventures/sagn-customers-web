@@ -1,47 +1,92 @@
-.sidebar-nav {
-  width: 100px;
-  background: #d9534f;
+.left-sidebar {
+  margin-top: 120px;
+  background: #fafafa;
+  width: 8%;
+  height: calc(100vh - 120px);
+  position: relative;
+  left: 0px;
+  float: left;
   -ms-flex: 0 100px;
   -webkit-box-flex:  0;
   -moz-box-flex:  0;
   -ms-box-flex:  0;
   box-flex:  0;
   ul.sidebar { 
-    list-style: none;
-    padding: 0px;
     min-height: 100vh;
+    margin: 0px;
+    padding: 0px;
     li {
-      padding: 15px 0px;
-      border-bottom: 2px solid #f9f9f9;
-      a {
-        color: #c2272d;
-        img {
-          width: 30%;
-        }
-      }
-      &.active {
-        a {
-          color: #fff;
-          img {
-            filter: brightness(0) invert(1);
-          }
-        }
-      }
-      &.selected {
-        background: #f9f9f9;
-        a {
-          color: #000;
-        }
-      }
-      &.off-white-background {
-        background: #f9f9f9;
-        height: 20%;
-        padding-top: 30px;
-        a {
-          color: #c2272d;
-        }
-      }
+      margin: 0px;
+      padding: 0px;
+      list-style: none;
+      padding: 20px 0px 16px 0px;
+      background: #d9534f;
+      border-bottom: 1px solid #dedede;
+      text-align: center;
+    }
+  }
+  a {
+    &:hover i {
+      opacity: 1;
+    }
+    i {
+      width: 50px;
+      height: 50px;
+      opacity: 0.4;
+      margin: 0 auto;
+      display: block;
     }
   }
 }
 
+.icon-req-services {
+  background: no-repeat image-url('icon-req-service.png') center;
+}
+
+.icon-req-service-current {
+  background: no-repeat image-url('icon-re-services.png') center;
+}
+
+.icon-past-req {
+  background: no-repeat image-url('icon-past-req.png') center;
+}
+
+.icon-location {
+  background: no-repeat image-url('icon-location.png') center;
+}
+
+.icon-profile {
+  background: no-repeat image-url('icon-profile.png') center;
+}
+
+.icon-staff {
+  background: no-repeat image-url('icon-staf.png') center;
+}
+
+.icon-my-guys {
+  background: no-repeat image-url('icon-my-guys.png') center;
+}
+
+.left-sidebar ul li {
+  a {
+    color: #c2272d;
+    text-decoration: none;
+    font-size: 12px;
+    text-transform: uppercase;
+    &:hover {
+      color: #fff;
+    }
+    p {
+      padding: 0px 10px;
+    }
+  }
+  &.active {
+    color: #fff;
+    i {
+      opacity: 1;
+    }
+    a {
+      color: #fff;
+    }
+  }
+}

@@ -29,10 +29,14 @@ Rails.application.routes.draw do
     resources :equipment_items, only: [:index]
   end
   
+  resources :current_requests, only: [:index, :show] do
+    get :cancel
+  end
+  
   authenticated :customer do
     root 'dashboards#show', as: :authenticated_root
   end
 
-  root :to => 'high_voltage/pages#show', id: 'home'
+  root :to => 'pages#show', id: 'home'
 
 end

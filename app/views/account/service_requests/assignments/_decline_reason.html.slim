@@ -1,0 +1,17 @@
+= simple_form_for assignment, url: account_service_request_assignment_decline_path(account, service_request, assignment), turboboost: true, method: :post, html: { class: 'decline_reason_form'} do |f|
+  = f.input :reason, as: :select, collection: Assignment::CUSTOMER_DECLINE_REASONS.map {|k,v| [v, k]}, label: 'Please choose a reason:', input_html: { class: 'select_decline_reason'}
+  #declineTechnician.modal.fade role="dialog" 
+    .modal-dialog.modal-sm
+      .modal-content
+        .modal-header.text-center
+          = link_to '#', data: { dismiss: 'modal'}, class: 'pull-left' do
+            = fa_icon 'chevron-left', class: 'fa-2x red'
+          span.modal-title Search new Technician
+        .modal-body
+          p
+            | Would you like to find a different techincian for this service request?
+          .text-center
+            = f.radio_button :new_search, true, class: 'decline_radio_btn text-primary'
+            = label :new_search_true, 'Yes'
+            br/
+            = f.submit 'No', class: 'text-primary btn-link'

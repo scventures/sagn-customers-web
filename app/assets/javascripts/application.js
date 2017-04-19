@@ -18,6 +18,7 @@
 //= require jquery.livequery
 //= require cocoon
 //= require select2-full
+//= require rating.min
 //= require data-confirm-modal
 //= require rails.validations
 //= require rails.validations.simple_form

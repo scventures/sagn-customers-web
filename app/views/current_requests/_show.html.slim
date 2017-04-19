@@ -24,12 +24,14 @@
               = "Can come #{assignment.arrive_eta}"
           input type='text' placeholder= 'Tap here to enter Promo Code' class= 'w100-pct text-center mt20'
           .black.text-center.fs16
-            |You must authorize a charge of $10,00
+            |You must authorize a charge of
+            span.ml10
+              = "$#{assignment.diagnostic_fee}"
             .mt10
               | This covers the technician's arrival and one hour of br/ work to fix or diagnose the problem. Once you br/ accept this conctractor you cannot cancel and your br/ card will be charged when the technician arrives.
           = link_to 'Accept and authorize charge', '#', remote: true, class: 'btn btn-danger w100-pct text-center mt20'
           br/
-          = link_to 'Decline', account_service_request_assignment_decline_reasons_path(account, service_request, assignment), remote: true, class: 'btn btn-default w100-pct text-center mt10 with-ajax-loader'
+          = link_to 'Decline', '#', remote: true, class: 'btn btn-default w100-pct text-center mt10 with-ajax-loader'
           p.text-center.fs12.mt10
             |By Accepting you agree to out 
             = link_to 'Terms of use', '#'
@@ -40,7 +42,7 @@
               strong Pick a payment method:
               = link_to 'Decline', '#', class: 'btn btn-default w100-pct text-center mt10'
               br/
-              = link_to 'Pay $10.00', '#', class: 'btn btn-danger w100-pct text-center mt20'
+              = link_to "Pay $#{assignment.diagnostic_fee}", '#', class: 'btn btn-danger w100-pct text-center mt20'
   - else
     .map-container
       = static_map_for(service_request.location[:geography][:latitude], service_request.location[:geography][:longitude])

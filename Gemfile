@@ -53,6 +53,7 @@ gem 'wannabe_bool'
 gem 'high_voltage', '~> 3.0.0'
 gem 'secure_headers', '~> 3.6.1'
 gem 'js-routes'
+gem 'money'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

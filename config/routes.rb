@@ -37,6 +37,6 @@ Rails.application.routes.draw do
     root 'dashboards#show', as: :authenticated_root
   end
 
-  root :to => 'high_voltage/pages#show', id: 'home'
+  root :to => 'pages#show', id: 'home'
 
 end

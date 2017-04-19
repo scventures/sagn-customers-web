@@ -3,40 +3,38 @@ html
   = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_API_KEY']}&libraries=places"
   = render 'layouts/shared_header'
   body
-    .container
-      .nav.sidebar-nav
-        ul.sidebar.text-center
-          li.selected
+    = render 'layouts/header'
+    .left-sidebar
+      ul.sidebar
+        li class="#{ 'active' if params[:controller] == 'service_request'}"
+          = link_to new_service_request_path, class: '' do
+            i.icon-req-services
+            p Request Service
+        li
             = link_to '#', class: '' do
-              = image_tag 'company-icon.png'
-              p Company
-          li class="#{ 'active' if params[:controller] == 'dashboards'}"
-            = link_to dashboard_path, class: '' do
-              = image_tag 'dashboard-icon.png'
-              p Dasboard
-          li class="#{ 'active' if params[:controller] == 'locations'}"
-            = link_to locations_path, class: '' do
-              = image_tag 'location-icon.png'
-              p Locations
-          li class="#{ 'active' if params[:controller] == 'contractors'}"
-            = link_to contractors_path, class: '' do
-              = image_tag 'my-guys-icon.png'
-              p My Guys
-          li class="#{ 'active' if params[:controller] == 'staff'}"
-            = link_to staff_index_path, class: '' do
-              = image_tag 'my-staff-icon.png', width: '30%'
-              p My Staff
-          li
+              i.icon-req-service-current
+              p Current Requests
+        li
             = link_to '#', class: '' do
-              = image_tag 'payment-icon.png'
-              p Payments
-          li.off-white-background
-            = link_to new_service_request_path, class: '' do
-              = image_tag 'request-service-icon.png'
-              p Request Service
-      .main-wrapper
-        = render 'layouts/header'
-        = bootstrap_flash
-        .sub-wrapper
-          = yield
-
+              i.icon-past-req
+              p Past Requests
+        li class="#{ 'active' if params[:controller] == 'locations'}"
+          = link_to locations_path, class: '' do
+            i.icon-location
+            p Locations
+        li class="#{ 'active' if params[:controller] == 'dashboards'}"
+          = link_to dashboard_path, class: '' do
+            i.icon-profile
+            p Profile
+        li class="#{ 'active' if params[:controller] == 'staff'}"
+          = link_to staff_index_path, class: '' do
+            i.icon-staff
+            p My Staff
+        li class="#{ 'active' if params[:controller] == 'contractors'}"
+          = link_to contractors_path, class: '' do
+            i.icon-my-guys
+            p My Guys
+    .main-wrapper
+      = bootstrap_flash
+      .sub-wrapper
+        = yield

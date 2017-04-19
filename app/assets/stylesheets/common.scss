@@ -47,11 +47,6 @@ nav.navbar {
     padding: 0px;
     height: 80px;
   }
-  .navbar-brand>img {
-    height: 100%;
-    padding: 15px;
-    width: auto;
-  }
   .nav >li >a {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -120,8 +115,8 @@ nav.navbar {
   font-weight: bold;
 }
 
-.main-wrapper {
-  padding: 0px 20px;
+.inner-header {
+	height: 120px;
 }
 
 .carousel-caption {
@@ -155,15 +150,6 @@ html, body {
     min-height: 100%;
   }
 }
-
-/*.main-wrapper {
-  position: relative;
-  min-height: 100%;
-  .sub-wrapper {
-    position: relative;
-    min-height: calc(100% - 100px);
-  }
-}*/
 
 .row.is-flex {
   min-height: 100%;
@@ -213,9 +199,43 @@ body {
 }
 
 .main-wrapper {
- -ms-flex: 1;
- -webkit-box-flex: 1;
- -moz-box-flex: 1;
- -ms-box-flex: 1;
- box-flex: 1;  
+  -ms-flex: 1;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;  
+  float: left;
+  width: 92%;
+  margin-top: 120px;
+  padding: 0px 20px;
+}
+
+.header-inside {
+  background: #f9f9f9;
+  .navbar-header {
+    width: 8% !important;
+    text-align: center;
+    padding: 5px 10px;
+    a {
+      color: #000;
+    }
+  }
+}
+
+.welcome-user {
+  a {
+    color: #4c4c4c !important;
+  }
+  i {
+    font-size: 70px;
+    display: block;
+  }
+}
+
+.page-title {
+  margin: 78px 0px 0px 0px;
+}
+
+.inner-logo {
+  margin-top: 35px;
 }

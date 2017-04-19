@@ -1,5 +1,5 @@
 .details
-  - if service_request.assigned?
+  - if service_request.assigned? and service_request.responded_request_assignment_id?
     .white-container
       .text-center.fs20
         strong.black We`ve found a technician for you
@@ -29,7 +29,7 @@
               | This covers the technician's arrival and one hour of br/ work to fix or diagnose the problem. Once you br/ accept this conctractor you cannot cancel and your br/ card will be charged when the technician arrives.
           = link_to 'Accept and authorize charge', '#', remote: true, class: 'btn btn-danger w100-pct text-center mt20'
           br/
-          = link_to 'Decline', '#', remote: true, class: 'btn btn-default w100-pct text-center mt10'
+          = link_to 'Decline', account_service_request_assignment_decline_reasons_path(account, service_request, assignment), remote: true, class: 'btn btn-default w100-pct text-center mt10 with-ajax-loader'
           p.text-center.fs12.mt10
             |By Accepting you agree to out 
             = link_to 'Terms of use', '#'
@@ -89,10 +89,10 @@
           p
             = service_request.fix_notes
   #declineReason.modal.fade role="dialog" 
-    .modal-dialog.modal-sm
+    .modal-dialog
       .modal-content
         .modal-header.text-center
           = link_to '#', data: { dismiss: 'modal'}, class: 'pull-left' do
-            = fa_icon 'chevron-left', class: 'fa-2x white'
+            = fa_icon 'chevron-left', class: 'fa-2x red'
           span.modal-title Decline Reason
         .modal-body

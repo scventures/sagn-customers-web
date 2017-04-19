@@ -1,21 +1,22 @@
 - if customer_signed_in?
-  nav#header.navbar
-    #header-container.container-fluid.navbar-container
-      - unless params[:controller] == 'service_requests' and params[:action] == 'show'
-        .navbar-header
-          button.navbar-toggle.collapsed aria-controls='navbar' aria-expanded='false' data-target='#navbar' data-toggle='collapse' type='button'
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-      #navbar.collapse.navbar-collapse
-        ul.nav.navbar-nav
-          li.nav-header
-            h2
-              = yield :title
-        ul.nav.navbar-nav.navbar-right
-          li
+  nav.navbar.header-inside.inner-header.navbar-fixed-top
+    div
+      .navbar-header
+        button.navbar-toggle.collapsed aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" type="button" 
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand.welcome-user href="#" 
+          = image_tag 'user.png'
+          = current_customer.name
+      #navbar.navbar-collapse.collapse
+        .col-md-5
+          h3.page-title
+            = yield :title
+        .col-md-5.pull-right
+          .pull-right.inner-log
             = link_to dashboard_path, class: 'logo-link p0'
               = image_tag 'sendaguy.png', width: '200'
-          li
-            = link_to 'Logout', destroy_customer_session_path, method: :delete, class: 'pull-right logout-btn mt10'
+            = link_to 'Logout', destroy_customer_session_path, method: :delete, class: 'pull-right logout-btn mt10' 
+            

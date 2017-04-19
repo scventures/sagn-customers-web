@@ -23,7 +23,9 @@
 //= require rails.validations
 //= require rails.validations.simple_form
 //= require rails.validations.extension
+//= require js-routes
 //= require common
+//= require location
 //= require service_request
 //= require turbolinks
 //= require turboboost/turboboost

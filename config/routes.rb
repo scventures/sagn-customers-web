@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     get :resend_phone_confirmation
     patch :confirm_phone
   end
+  
+  resources :venues, only: :index
   resources :locations
   resources :staff, only: [:new, :create, :index, :destroy] do
     patch :create_multiple, on: :collection

@@ -10,8 +10,8 @@ html
           = link_to new_service_request_path, class: '' do
             i.icon-req-services
             p Request Service
-        li class="#{ 'active' if params[:controller] == 'current_requests'}"
-            = link_to current_requests_path, class: '' do
+        li
+            = link_to '#', class: '' do
               i.icon-req-service-current
               p Current Requests
         li

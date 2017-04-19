@@ -13,16 +13,16 @@ componentForm =
 fillInAddress = ->
   place = placeAutocomplete.getPlace()
   $.each componentForm, (index, value) ->
-    document.getElementById(index).value = ''
-    document.getElementById(index).disabled = false
+    $("##{index}").val('') 
+    $("##{index}").prop('disabled', false)
   if place.address_components.length > 1
     $.each place.address_components, (component, field) ->
       addressType = field.types[0]
-      AddressType = "location_"+addressType
+      AddressType = "location_#{addressType}"
       if componentForm[AddressType]
         val = field.long_name
-        if $('#'+AddressType).length > 0
-          $('#'+AddressType).val(val)
+        if $("##{AddressType}").length > 0
+          $("##{AddressType}").val(val)
   if place.geometry.location
     $('#location_geography_latitude').val(place.geometry.location.lng())
     $('#location_geography_longitude').val(place.geometry.location.lat())
@@ -39,7 +39,7 @@ $('.location-form-container .venue_name').livequery ->
         if $('.main-wrapper').data('ll')
           {ll: $('.main-wrapper').data('ll'), query: params['term'] }
         else
-          {intent: 'checkin', query: params['term'] }
+          {intent: 'global', query: params['term'] }
       results: (data, page)->
         return data.result
       processResults: (data, params) ->
@@ -59,7 +59,7 @@ getLocation = ->
     navigator.geolocation.getCurrentPosition showPosition
 
 showPosition = (position) ->
-  ll = position.coords.latitude+','+ position.coords.longitude
+  ll = "#{position.coords.latitude},#{position.coords.longitude}"
   $('.main-wrapper').attr('data-ll', ll)
 
 $(document).on 'click', '.provide-address-btn', (e) ->

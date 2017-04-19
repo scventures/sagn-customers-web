@@ -15,7 +15,6 @@ class Assignment
   
   def diagnostic_fee
     money = Money.new(self.diagnostic_fee_cents)
-    money.to_i
   end 
   
   def responded?

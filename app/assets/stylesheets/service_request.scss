@@ -111,3 +111,128 @@
     margin-top: 10px;
   }
 }
+
+.map-container {
+  #google-map {
+    height: calc(100vh - 120px);
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+  .service-popup {
+    position: relative;
+    top: 20px;
+    .map-location-list {
+      background: #fff;
+      padding: 0px 15px;
+      display: inline-block;
+      position: absolute;
+      left: 50%;
+      margin-left: -100px;
+      min-width: 400px;
+      min-height: 75px;
+    }
+    button {
+      width: 100%;
+      text-align: left;
+      padding: 5px 0;
+      &:hover, &:focus {
+        text-decoration: none;
+      } 
+    }
+    i {
+      font-size: 30px;
+      vertical-align: middle;
+      margin: 0px 15px;
+      color: #fc3535;
+    }
+    ul {
+      max-height: 350px;
+      overflow-y: auto;
+      max-width: 400px;
+      margin: 0px;
+      padding: 0px;
+      li {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        font-size: 20px;
+        padding: 10px 0 15px 10%;
+        &:last-child {
+          border-top: 1px solid #eee;
+          padding: 20px 10px;
+        }
+        a {
+          color: #999;
+          &:hover, &:focus {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.service-request-form-wrapper {
+  input[type=radio] {
+    display: none;
+  }
+  .radio {
+    display: inline-block;
+  }
+  .select2-container--default .select2-selection--single {
+    height: 40px;
+    padding: 5px;
+  }
+  .center-panel {
+	  float:none !important;
+	  margin:0 auto;
+  }
+  .panel-head {
+	  background:#d9534e;
+	  color:#fff;
+	  font-size:18px;
+	  padding:20px;
+	  margin:0px;
+	  font-weight:bold;
+  }
+  .address-form {
+    .form-control {
+      border: 1px solid #979797;
+      border-radius: 4px;
+      height: 45px;
+      padding-left: 20px;
+      &.textbox {
+        border: 1px solid #979797;
+        border-radius: 4px;
+        height: 100px;
+      }
+    }
+    .form-group {
+      label {
+        padding-left: 20px;
+      }
+      .icon-addon.addon-lg {
+        .fa, .glyphicon {
+          left: -11px;
+        }
+      }
+    }
+  }
+  .service-head {
+    margin-top: 30px;
+    h1 {
+      font-size: 44px;
+      margin: 0px 0px 5px 0px;
+      padding: 0px;
+      font-weight: bold;
+    }
+    h3 {
+      font-size: 28px;
+      margin: 0px;
+      padding: 0px;
+      font-weight: bold;
+      font-style: italic;
+    }
+  }
+}

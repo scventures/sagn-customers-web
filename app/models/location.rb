@@ -1,5 +1,6 @@
 class Location
   include Her::Model
+  alias :read_attribute_for_serialization :send
   parse_root_in_json :location, format: :active_model_serializers
   collection_path 'customers/accounts/:account_id/locations'
   include_root_in_json true

@@ -8,5 +8,8 @@ class Category
   def as_json(options = nil)
     attributes.as_json
   end
-
+  
+  def get_image_name
+    "#{self.name.parameterize}.png"
+  end
 end

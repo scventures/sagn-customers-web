@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   end
 
   resource :dashboard, only: :show
-  resources :service_requests, only: [:new, :create, :show]
+  resources :service_requests, except: [:edit, :update, :destroy]
   
   resources :location, module: 'location', only: [] do
     resources :equipment_items, only: [:index]

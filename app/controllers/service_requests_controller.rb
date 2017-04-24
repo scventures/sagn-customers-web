@@ -2,12 +2,17 @@ class ServiceRequestsController < ApplicationController
 
   before_action :authenticate_customer!
   
+  def index
+    @current_account = current_customer.current_account
+    @locations = @current_account.locations
+  end
+  
   def new
     @categories = Category.all.fetch.group_by(&:parent_category_id)
     @current_account = current_customer.current_account
     @locations = @current_account.locations
     @contractors = @current_account.contractors
-    @service_request = ServiceRequest.new
+    @service_request = ServiceRequest.new(location_id: params[:location_id])
     @service_request.issue_images = Her::Collection.new
   end
   

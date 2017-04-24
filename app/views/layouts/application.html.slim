@@ -7,7 +7,7 @@ html
     .left-sidebar
       ul.sidebar
         li class="#{ 'active' if params[:controller] == 'service_request'}"
-          = link_to new_service_request_path, class: '' do
+          = link_to service_requests_path, class: '' do
             i.icon-req-services
             p Request Service
         li class="#{ 'active' if params[:controller] == 'current_requests'}"

@@ -5,6 +5,10 @@ class LocationsController < ApplicationController
   def index
     @location = Location.new
     @locations = current_customer.current_account.locations
+    respond_to do |format|
+      format.html
+      format.json { render json: @locations, each_serializer: LocationSerializer}
+    end
   end
 
   def create

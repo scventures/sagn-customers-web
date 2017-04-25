@@ -27,6 +27,7 @@
 //= require common
 //= require location
 //= require credit_card_form
+//= require ajax_error
 //= require service_request
 //= require turbolinks
 //= require turboboost/turboboost

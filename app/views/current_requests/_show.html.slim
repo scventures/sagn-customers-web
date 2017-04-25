@@ -28,12 +28,27 @@
             span.ml10
               = "#{humanized_money_with_symbol(assignment.diagnostic_fee, symbol_after_without_space: true)}"
             .mt10
-              | This covers the technician's arrival and one hour of br/ work to fix or diagnose the problem. Once you br/ accept this conctractor you cannot cancel and your br/ card will be charged when the technician arrives.
-          = link_to 'Accept and authorize charge', '#', remote: true, class: 'btn btn-danger w100-pct text-center mt20'
-          br/
-          = link_to 'Decline', '#', remote: true, class: 'btn btn-default w100-pct text-center mt10 with-ajax-loader'
+              | This covers the technician's arrival and one hour of
+              br/
+              | work to fix or diagnose the problem. Once you
+              br/
+              | accept this conctractor you cannot cancel and your
+              br/
+              | card will be charged when the technician arrives.
+          - if current_customer.current_account.have_payment_method
+            .authorize-payment-pannel.w100-pct.mt20
+              | Authorize Payment
+            h4
+              | Pick a payment method:
+            = link_to 'Default Payment Method', '#', remote: true, class: 'btn btn-default w100-pct text-center mt20'
+            = link_to "Pay #{humanized_money_with_symbol(assignment.diagnostic_fee, symbol_after_without_space: true)}", service_requests_service_request_assignment_start_accepting_path(assignment.id, service_request_id: service_request.id), remote: true, class: 'btn btn-danger w100-pct text-center mt20'
+          - else
+            = link_to 'Accept and authorize charge', service_requests_service_request_assignment_start_accepting_path(assignment.id, service_request_id: service_request.id), remote: true, class: 'btn btn-danger w100-pct text-center mt20'
+            br/
+            = link_to 'Decline', '#', remote: true, class: 'btn btn-default w100-pct text-center mt10 with-ajax-loader'
+            
           p.text-center.fs12.mt10
-            |By Accepting you agree to out 
+            |By Accepting you agree to out
             = link_to 'Terms of use', page_path('terms_of_use')
           .hidden
             .bg-red.w100-pct.p10.white.mt20
@@ -98,3 +113,13 @@
             = fa_icon 'chevron-left', class: 'fa-2x red'
           span.modal-title Decline Reason
         .modal-body
+        
+  #add_card.modal.fade role="dialog"
+    .modal-dialog
+      .modal-content.w110-pct
+        .modal-header.text-center.bg-red
+          = link_to '#', data: { dismiss: 'modal'}, class: 'pull-left' do
+            = fa_icon 'chevron-left', class: 'fa-2x white'
+          span.modal-title.white.fs20
+            | Authorize Payment
+        .modal-body            

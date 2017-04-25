@@ -5,8 +5,7 @@ class ServiceRequest
   resource_path 'customers/accounts/:account_id/service_requests/:id'
   include_root_in_json true
   attributes :location_id, :equipment_id, :model, :serial, :brand_name, :brand_id, :category_id, :subcategory_id, :urgent, :problem, :account_id, :equipmemt_warranty,
-           :work_time_details, :customer_accounts_contractor_id, :select_guy, :catergory_search, :notes
-  
+           :work_time_details, :customer_accounts_contractor_id, :select_guy, :catergory_search, :notes, :token
   has_many :issue_images
   has_many :activities
   has_many :assignments

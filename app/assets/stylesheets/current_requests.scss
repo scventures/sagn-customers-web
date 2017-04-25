@@ -69,3 +69,102 @@
 .current-request-wrapper.selected {
   border-color: #898989;
 }
+
+.card-bg {
+	background: no-repeat url(card-bg.png);
+	height:340px;
+	width:584px;
+	padding:20px;
+	color:#fff;
+}
+
+.card-front {
+	width:415px;
+	float:left;
+}
+.card-input-bg {
+	background:#5a9df0;
+	width:100%;
+	height:31px;
+}
+.card-input-bg input {
+	background:transparent;
+	width:100%;
+	border:0px;
+	float:left;
+	color:#fff;
+	height:31px;
+	padding:0px 3px;
+	text-align:center;
+}
+.card-input-bg input.small {
+	width:25%;
+}
+.card-input-bg input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #fff;
+}
+.card-input-bg input::-moz-placeholder { /* Firefox 19+ */
+  color: #fff;
+}
+.card-input-bg input:-ms-input-placeholder { /* IE 10+ */
+  color: #fff;
+}
+.card-input-bg input:-moz-placeholder { /* Firefox 18- */
+  color: #fff;
+}
+
+.card-details {
+	margin-top:60px;
+}
+.margintop30 {
+	margin-top:30px;
+}
+.card-back {
+	margin-top: 178px;
+	float: right;
+	width: 100px;
+	margin-left: 10px;
+}
+
+span.visa.active > img {
+  border: 2px solid #4A8FE1;
+  border-radius: 6px;
+}
+
+span.master_card.active > img {
+  border: 2px solid #4A8FE1;
+  border-radius: 6px;
+}
+
+span.american_express.active > img {
+  border: 2px solid #4A8FE1;
+  border-radius: 6px;
+}
+
+.card-image.visa-img { 
+  background-image: url("visa.png");
+  background-repeat: no-repeat; 
+}
+
+.card-image.master-card-img { 
+  background-image: url("masterCard.png");
+  background-repeat: no-repeat; 
+}
+
+.card-image.american-express-img { 
+  background-image: url("ae.png");
+  background-repeat: no-repeat; 
+}
+
+.authorize-payment-pannel {
+  background: #D9534F none repeat scroll 0 0;
+  color: #fff;
+  padding: 20px;
+}
+
+#add_card {
+  label {
+    text-transform: uppercase;
+  }
+}
+

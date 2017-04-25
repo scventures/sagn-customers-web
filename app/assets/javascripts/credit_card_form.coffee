@@ -3,7 +3,6 @@ $('form#add_new_card').livequery ->
     $form = $(this)
     if($form.find('#service_request_token').val().length == 0)
       $form.find('input[type=submit]').prop 'disabled', true
-      Stripe.setPublishableKey("pk_test_T0kEJ3Eaw9v05bo3ixH8oZfy")
       Stripe.card.validateCVC($('[data-stripe=cvv]').val())
       Stripe.card.createToken {
         number: $('[data-stripe=number]').val()

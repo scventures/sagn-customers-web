@@ -31,6 +31,7 @@ $('.location-form-container .venue_name').livequery ->
   $(this).select2
     theme: 'paper'
     closeOnSelect: false
+    minimumInputLength: 2
     ajax:
       url: Routes.venues_path()
       dataType: 'JSON'

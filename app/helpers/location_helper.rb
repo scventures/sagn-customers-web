@@ -7,7 +7,7 @@ module LocationHelper
         size = {:size => "600x300"}
       end
       params = {
-        :key => ENV['GOOGLE_MAP_API_KEY'],
+        :key => ENV['GOOGLE_API_KEY'],
         :center => [lat, lng].join(','),
         :zoom => 15,
         :markers => [lat, lng].join(','),

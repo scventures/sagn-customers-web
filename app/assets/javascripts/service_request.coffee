@@ -45,20 +45,22 @@ setMarkers = (map) ->
             infowindow.open map, marker
             return
         bounds.extend markerLatLng
-  #map.fitBounds bounds
+      map.fitBounds bounds
   
-initMap = ->
-  map = new google.maps.Map document.getElementById('google-map'),
-    minZoom: 1
-    maxZoom: 21
-    zoom: 4
-    center: new google.maps.LatLng 37.09024, -95.712891
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  setMarkers(map)
+window.initMap = ->
+  if document.getElementById('google-map')
+    map = new google.maps.Map document.getElementById('google-map'),
+      minZoom: 1
+      maxZoom: 21
+      zoom: 4
+      center: new google.maps.LatLng 37.09024, -95.712891
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    setMarkers(map)
 
-$('#google-map').livequery -> 
-  initMap()
-  
+$(document).ready ->
+  google.maps.event.addDomListener(window, 'load', initMap);
+  google.maps.event.addDomListener(window, 'turbolinks:load', initMap);
+
 $(document).on 'click', '.map-container a.location-link', (e) ->
   e.preventDefault()
   id = $(this).data('id')

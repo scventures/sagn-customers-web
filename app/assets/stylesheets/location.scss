@@ -182,7 +182,7 @@ h4 {
       }
     }
   }
-  .select2-results__option {
+  .select2-results__option[aria-selected] {
     padding: 0px;
   }
 }

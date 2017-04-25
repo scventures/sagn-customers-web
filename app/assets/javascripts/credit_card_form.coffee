@@ -29,7 +29,6 @@ $('form#add_new_card').livequery ->
     
 $(document).on 'keyup', 'input#card_number', ->
   card_type = Stripe.card.cardType($(this).val())
-  alert(card_type)
   if(card_type == 'Visa')
     $('a.visa').addClass('active')
     $('a.master_card').removeClass('active')

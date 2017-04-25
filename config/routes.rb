@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     get :resend_phone_confirmation
     patch :confirm_phone
   end
-  
+  resources :charges
   resources :venues, only: :index
   resources :locations
   resources :staff, only: [:new, :create, :index, :destroy] do
@@ -31,6 +31,13 @@ Rails.application.routes.draw do
   
   resources :current_requests, only: [:index, :show] do
     get :cancel
+  end
+  
+  namespace :service_requests do
+    resources :service_request_assignments do
+      get :start_accepting
+      post :payment_authorize
+    end
   end
   
   authenticated :customer do

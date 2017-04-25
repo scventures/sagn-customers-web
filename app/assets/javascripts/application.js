@@ -26,6 +26,7 @@
 //= require js-routes
 //= require common
 //= require location
+//= require credit_card_form
 //= require service_request
 //= require turbolinks
 //= require turboboost/turboboost

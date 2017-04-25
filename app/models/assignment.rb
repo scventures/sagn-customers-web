@@ -1,6 +1,6 @@
 class Assignment
   include Her::Model
-  parse_root_in_json :service_requests_assignments, format: :active_model_serializers
+  parse_root_in_json :service_requests_assignment, format: :active_model_serializers
   collection_path 'customers/accounts/:account_id/service_requests/:service_request_id/assignments'
   belongs_to :service_request
   attributes :account_id, :service_request_id, :id, :status, :reason
@@ -29,12 +29,22 @@ class Assignment
     self.status == 'waiting'
   end
   
-  def accept
-    Assignment.post_raw("customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/accept", {account_id: account_id, service_request_id: service_request_id, id: id}) do |parsed_data, response|
+  def start_accepting
+    Assignment.post_raw("customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/start_accepting", {}) do |parsed_data, response|
       populate_errors(parsed_data[:errors]) if response.status == 400
     end
   end
   
+  def accept(token)
+    Assignment.post_raw("customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/accept", {stripe_token: token} ) do |parsed_data, response|
+      if response.status == 400
+        populate_errors(parsed_data[:errors])
+      elsif response.status == 200
+        return true
+      end
+    end
+  end
+
   def decline
     Assignment.post_raw("customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/decline", {account_id: account_id, service_request_id: service_request_id, id: id, reason: reason}) do |parsed_data, response|
       populate_errors(parsed_data[:errors]) if response.status == 400

@@ -1,0 +1,3 @@
+$("#authorizepayment.modal").modal('hide')
+$("#add_card.modal").find('.modal-body').html("<%= j render partial: 'service_requests/service_request_assignments/add_card', locals: {service_request: @service_request, assignment: @assignment} %>")
+$("#add_card.modal").modal('show')

@@ -12,6 +12,6 @@
             li
               = link_to location.name.titleize, '#', data: { id: location.id }, class: 'location-link'
           li
-            = link_to new_location_path, class: 'black' do
+            = link_to locations_path, class: 'black' do
               = fa_icon 'plus' 
               | Add New Location

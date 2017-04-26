@@ -6,7 +6,9 @@ Rails.application.routes.draw do
     registrations: 'customers/registrations',
     confirmations: 'customers/confirmations'
   }
-
+  
+  resources :customers, only: :new
+  
   resource :profile, only: [:show, :edit, :update] do
     get :resend_email_confirmation
     get :resend_phone_confirmation

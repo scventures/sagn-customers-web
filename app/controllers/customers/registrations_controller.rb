@@ -11,7 +11,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
       respond_with resource
     end
   end
-
+  
   protected
 
   def sign_up_params

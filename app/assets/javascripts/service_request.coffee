@@ -112,4 +112,5 @@ $(document).on 'click', '.service-request-form-wrapper .btn-schedule-service', (
 setContentWrapperClass = (selector) ->
   $('.content-wrapper').addClass('hidden')
   $(".content-wrapper.#{selector}").removeClass('hidden')
+  $('.main-wrapper').scrollTop(0)
   return

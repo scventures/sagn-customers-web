@@ -1,6 +1,6 @@
 doctype html
 html
-  = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_API_KEY']}&libraries=places"
+  = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_API_KEY']}&libraries=places", nonce: content_security_policy_script_nonce
   = render 'layouts/shared_header'
   body
     = render 'layouts/header'

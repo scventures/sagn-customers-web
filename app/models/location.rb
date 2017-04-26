@@ -7,6 +7,7 @@ class Location
 
   attributes :id, :name, :address_1, :address_2, :address_3, :city, :state, :zip, :geography, :phone_number
   has_many :equipment_items
+  has_many :service_requests
   validates_presence_of :name
   
   def full_address

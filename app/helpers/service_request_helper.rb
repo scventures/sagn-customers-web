@@ -1,15 +1,15 @@
 module ServiceRequestHelper
-  def category_icons(category)
+  def category_icons(resource)
+    image_url = resource.image_url? ? resource.image_url : 'default_category.png'
+    if resource.class.equal?(Category)
+      image = image_tag(image_url, width: '200', height: '200')
+    else
+      image_tag('', width: '200', height: '200', data: { src: image_url })
+    end
     content_tag :div, class: 'center' do
-      image_tag("categories/#{category.get_image_name}", width: '200') +
-      content_tag(:p, category.name )
+      image +
+      content_tag(:p, resource.name )
     end
   end
   
-  def sub_category_icons(category, subcategory)
-    content_tag :div, class: 'center' do
-      image_tag("", data: {src: asset_path("categories/#{category.name.parameterize}/#{subcategory.get_image_name}")}, width: '200') +
-      content_tag(:p, subcategory.name )
-    end
-  end
 end

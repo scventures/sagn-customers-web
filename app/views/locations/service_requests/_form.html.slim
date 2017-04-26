@@ -63,7 +63,7 @@
           = f.input :company_name, label: false, input_html: { placeholder: 'Company Name' }
           .clearfix
           .col-md-9.margintop30.center-panel
-            = f.submit 'SCHEDULE', class: 'btn btn-continue btn-schedule-service', data: { payment: "#{current_customer.current_account.have_payment_method}"}
+            = f.submit 'Schedule', class: 'btn btn-continue btn-schedule-service text-uppercase', data: { payment: "#{current_customer.current_account.have_payment_method}"}
         .row
             .col-sm-12
               = link_to 'Back', '#', class: 'btn btn-primary mb20 mt20', data: { back: 'describe-issue' }, id: 'back-btn'
@@ -86,7 +86,7 @@
           h3 Sendaguy now uses Stripe, a leader in online and mobile payments, for all financial transactions.
           .row
             .col-sm-12
-              = f.submit 'SCHEDULE', class: 'btn btn-continue'
+              = f.submit 'Schedule', class: 'btn btn-continue text-uppercase'
 
          
                 

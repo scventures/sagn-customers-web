@@ -71,7 +71,7 @@
 }
 
 .card-bg {
-	background: no-repeat url(card-bg.png);
+	background: no-repeat image-url(card-bg.png);
 	height:340px;
 	width:584px;
 	padding:20px;
@@ -142,17 +142,17 @@ a.american_express.active > img {
 }
 
 .card-image.visa-img { 
-  background-image: url("visa.png");
+  background-image: image-url("visa.png");
   background-repeat: no-repeat; 
 }
 
 .card-image.master-card-img { 
-  background-image: url("masterCard.png");
+  background-image: image-url("masterCard.png");
   background-repeat: no-repeat; 
 }
 
 .card-image.american-express-img { 
-  background-image: url("ae.png");
+  background-image: image-url("ae.png");
   background-repeat: no-repeat; 
 }
 

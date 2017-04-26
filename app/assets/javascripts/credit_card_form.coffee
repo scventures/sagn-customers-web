@@ -1,26 +1,28 @@
-$('form#add_new_card').livequery ->
-  $('form#add_new_card').on 'submit', (event) ->
+$('form#add_new_card, form#service-request-form').livequery ->
+  $('form#add_new_card, form#service-request-form').on 'submit', (event) ->
     $form = $(this)
-    if($form.find('#service_request_token').val().length == 0)
-      $form.find('input[type=submit]').prop 'disabled', true
-      Stripe.card.validateCVC($('[data-stripe=cvv]').val())
-      Stripe.card.createToken {
-        number: $('[data-stripe=number]').val()
-        cvc: $('[data-stripe=cvv]').val()
-        exp_month: $('[data-stripe=exp-month]').val()
-        exp_year: $('[data-stripe=exp-year]').val() }, stripeResponseHandler
-      false
+    if $('.card-bg').is(':visible')
+      if($form.find('#service_request_token').val().length == 0)
+        $form.find('input[type=submit]').prop 'disabled', true
+        Stripe.card.validateCVC($('[data-stripe=cvv]').val())
+        Stripe.card.createToken {
+          number: $('[data-stripe=number]').val()
+          cvc: $('[data-stripe=cvv]').val()
+          exp_month: $('[data-stripe=exp-month]').val()
+          exp_year: $('[data-stripe=exp-year]').val() }, stripeResponseHandler
+        false
 
   stripeResponseHandler = (status, response) ->
-    $form = $('form#add_new_card')
+    $form = $('form#add_new_card, form#service-request-form')
     if response.error
       show_error response.error.message
       $form.find('input[type=submit]').prop 'disabled', false
+      $('.card-bg').find('input').prop('disabled', false)
     else
       token = response.id
-      $form = $('form#add_new_card').find('#service_request_token').val(token)
+      $form = $form.find('#service_request_token').val(token)
+      $('.card-bg').find('input').prop('disabled', true)
       $form.submit()
-    false
 
   show_error = (message) ->
     $('#flash-messages').html '<div class="alert alert-warning"><a class="close" data-dismiss="alert">×</a><div id="flash_alert">' + message + '</div></div>'
@@ -29,7 +31,6 @@ $('form#add_new_card').livequery ->
     
 $(document).on 'keyup', 'input#card_number', ->
   card_type = Stripe.card.cardType($(this).val())
-  alert(card_type)
   if(card_type == 'Visa')
     $('a.visa').addClass('active')
     $('a.master_card').removeClass('active')

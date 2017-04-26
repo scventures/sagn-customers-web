@@ -1,0 +1,35 @@
+.text-center
+  a.visa href='javascript:void(0);'
+    = image_tag('visa.png', size: '58X94')
+  a.master_card href='javascript:void(0);'
+    = image_tag('masterCard.png', size: '58X94')
+  a.american_express href='javascript:void(0);'
+    = image_tag('ae.png', size: '58X94')
+.card-bg.mt15.card-fields
+  .card-front
+    .text-right
+      .card-image.visa-img
+    .row.card-details
+      .col-md-9
+        div CARD NUMBER
+        .card-input-bg
+          = text_field_tag :card_number, nil, class: 'input-block-level', 'data-stripe' => 'number'
+    .row.margintop30
+      .col-md-8
+        div CARD HOLDER
+        .card-input-bg
+          = text_field_tag :card_holder_name, nil, class: 'input-block-level', 'data-stripe' => 'name'
+      .col-md-4
+        .row
+          div EXPIRATION DATE
+          .col-md-6
+            .card-input-bg
+              = text_field_tag :exp_month, nil, class: 'input-block-level', 'data-stripe' => 'exp-month'
+          .col-md-6
+            .card-input-bg
+              = text_field_tag :exp_year, nil, class: 'input-block-level', 'data-stripe' => 'exp-year'
+  .card-back
+    div
+      div CVC/CVV
+      .card-input-bg
+        = text_field_tag :card_verification, nil, class: 'input-block-level', 'data-stripe' => 'cvv'

@@ -2,6 +2,5 @@ head
   title SagnCustomersWeb
   = csrf_meta_tags
   = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-  = javascript_include_tag 'application', 'https://js.stripe.com/v2/', 'data-turbolinks-track': 'reload'
-  javascript:
-    Stripe.setPublishableKey(ENV['STRIPE_PUBLISHABLE_KEY'])
+  = javascript_include_tag 'application', 'https://js.stripe.com/v2/', 'data-turbolinks-track': 'reload', nonce: content_security_policy_script_nonce
+  = nonced_javascript_tag "Stripe.setPublishableKey('#{ENV['STRIPE_PUBLISHABLE_KEY']}')"

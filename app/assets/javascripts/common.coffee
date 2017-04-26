@@ -35,3 +35,9 @@ $('form[data-client-side-validations][data-turboboost]').livequery ->
   
 $(document).on 'shown.bs.modal', '.modal', ->
   $('form').enableClientSideValidations()
+
+$(document).on 'turbolinks:load', ->
+  $('.ps-scroll').perfectScrollbar()
+
+$(document).on 'click', '[data-toggle=offcanvas]', ->
+  $('.row-offcanvas').toggleClass('active')

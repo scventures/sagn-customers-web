@@ -117,7 +117,7 @@ nav.navbar {
 }
 
 .inner-header {
-	height: 120px;
+  height: 120px;
 }
 
 .carousel-caption {
@@ -143,13 +143,13 @@ nav.navbar {
   }
 }
 
-html, body {
+html, body, .row-offcanvas {
   position: relative;
   height: 100%;
-  & > .container-fluid {
-    position: relative;
-    min-height: 100%;
-  }
+}
+
+body {
+  padding-top: 120px;
 }
 
 .row.is-flex {
@@ -175,13 +175,6 @@ html, body {
   flex-direction: column;
 }
 
-html,
-body {
-  height: 100%;
-  padding: 0;
-  margin: 0;
-}
-
 .container {
   min-height: 100%;
   width: 100%;
@@ -200,36 +193,31 @@ body {
 }
 
 .main-wrapper {
-  -ms-flex: 1;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -ms-box-flex: 1;
-  box-flex: 1;  
-  float: left;
-  width: 92%;
-  margin-top: 120px;
-  padding: 0px 20px;
+  height:100%;
+  position: relative;
+  overflow: auto;
+  .sub-wrapper {
+    padding: 0px 20px;
+  }
 }
 
 .header-inside {
   background: #f9f9f9;
   .navbar-header {
-    width: 8% !important;
     text-align: center;
     padding: 5px 10px;
     a {
       color: #000;
     }
-  }
-}
-
-.welcome-user {
-  a {
-    color: #4c4c4c !important;
-  }
-  i {
-    font-size: 70px;
-    display: block;
+    .welcome-user {
+      a {
+        color: #4c4c4c !important;
+      }
+      i {
+        font-size: 70px;
+        display: block;
+      }
+    }
   }
 }
 
@@ -239,4 +227,42 @@ body {
 
 .inner-logo {
   margin-top: 35px;
+}
+
+@media screen and (max-width: 768px) {
+  .row-offcanvas {
+    position: relative;
+    -webkit-transition: all 0.25s ease-out;
+    -moz-transition: all 0.25s ease-out;
+    transition: all 0.25s ease-out;
+    width: calc(100% + 150px);
+    button[data-toggle='offcanvas'] {
+      i {
+        &.fa-angle-left {
+          display: none
+        }
+        &.fa-angle-right {
+          display: block
+        }
+      }
+    }
+    &.active {
+      button[data-toggle='offcanvas'] {
+        i {
+          &.fa-angle-left {
+            display: block
+          }
+          &.fa-angle-right {
+            display: none
+          }
+        }
+      }
+    }
+  }
+  .row-offcanvas-left {
+    left: -150px;
+  }
+  .row-offcanvas-left.active {
+    left: 0;
+  }
 }

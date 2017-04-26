@@ -4,37 +4,41 @@ html
   = render 'layouts/shared_header'
   body
     = render 'layouts/header'
-    .left-sidebar
-      ul.sidebar
-        li class="#{ 'active' if params[:controller] == 'service_request'}"
-          = link_to service_requests_path, class: '' do
-            i.icon-req-services
-            p Request Service
-        li class="#{ 'active' if params[:controller] == 'current_requests'}"
-          = link_to current_requests_path, class: '' do
-            i.icon-req-service-current
-            p Current Requests
-        li
-          = link_to '#', class: '' do
-            i.icon-past-req
-            p Past Requests
-        li class="#{ 'active' if params[:controller] == 'locations'}"
-          = link_to locations_path, class: '' do
-            i.icon-location
-            p Locations
-        li class="#{ 'active' if params[:controller] == 'dashboards'}"
-          = link_to dashboard_path, class: '' do
-            i.icon-profile
-            p Profile
-        li class="#{ 'active' if params[:controller] == 'staff'}"
-          = link_to staff_index_path, class: '' do
-            i.icon-staff
-            p My Staff
-        li class="#{ 'active' if params[:controller] == 'contractors'}"
-          = link_to contractors_path, class: '' do
-            i.icon-my-guys
-            p My Guys
-    .main-wrapper
-      = bootstrap_flash
-      .sub-wrapper
-        = yield
+    .row-offcanvas.row-offcanvas-left
+      .left-sidebar.sidebar-offcanvas.ps-scroll
+        ul.sidebar
+          li class="#{ 'active' if params[:controller] == 'service_request'}"
+            = link_to service_requests_path, class: '' do
+              i.icon-req-services
+              p Request Service
+          li class="#{ 'active' if params[:controller] == 'current_requests'}"
+            = link_to current_requests_path, class: '' do
+              i.icon-req-service-current
+              p Current Requests
+          li
+            = link_to '#', class: '' do
+              i.icon-past-req
+              p Past Requests
+          li class="#{ 'active' if params[:controller] == 'locations'}"
+            = link_to locations_path, class: '' do
+              i.icon-location
+              p Locations
+          li class="#{ 'active' if params[:controller] == 'dashboards'}"
+            = link_to dashboard_path, class: '' do
+              i.icon-profile
+              p Profile
+          li class="#{ 'active' if params[:controller] == 'staff'}"
+            = link_to staff_index_path, class: '' do
+              i.icon-staff
+              p My Staff
+          li class="#{ 'active' if params[:controller] == 'contractors'}"
+            = link_to contractors_path, class: '' do
+              i.icon-my-guys
+              p My Guys
+      .main-wrapper.ps-scroll
+        button type='button' class='btn btn-primary btn-xs visible-xs' data-toggle='offcanvas'
+          = fa_icon('angle-left 2x')
+          = fa_icon('angle-right 2x')
+        = bootstrap_flash
+        .sub-wrapper
+          = yield

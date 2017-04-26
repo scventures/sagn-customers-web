@@ -1,13 +1,19 @@
-.signup-form-wrapper
-  h4.text-capitalize.text-center.grey Please sign up
-  = simple_form_for(resource, as: resource_name, url: customer_registration_path, html: { method: :post }) do |f|
-    .form-inputs
-      = f.input :name, required: false, autofocus: true, placeholder: 'Your Name', label: false
-      = f.input :customer_account_name, required: true, placeholder: 'Your Business Name', label: false
-      = f.input :email, as: :email, required: true, placeholder: 'Email', label: false
-      = f.input :unconfirmed_phone, as: :tel, required: true, placeholder: 'Phone Number', label: false
-      = f.input :password, required: true, placeholder: 'Your Password', label: false
-      = f.input :password_confirmation, required: true, placeholder: 'Confirm Password', label: false
-      = f.input :tos_accepted, as: :boolean, label: tos_label
-    .form-actions
-      = f.button :submit, 'Submit' , class: 'btn-red'
+.container-fluid
+  .row
+    .col-sm-6
+      .col-sm-8.col-sm-offset-2.mt10-pct
+        .signup-form-wrapper
+          h4.text-capitalize.text-center.grey Please sign up
+          = simple_form_for(resource, as: resource_name, url: customer_registration_path, html: { method: :post }) do |f|
+            .form-inputs
+              = f.input :name, required: false, autofocus: true, placeholder: 'Your Name', label: false
+              = f.input :customer_account_name, required: true, placeholder: 'Your Business Name', label: false
+              = f.input :email, as: :email, required: true, placeholder: 'Email', label: false
+              = f.input :unconfirmed_phone, as: :tel, required: true, placeholder: 'Phone Number', label: false
+              = f.input :password, required: true, placeholder: 'Your Password', label: false
+              = f.input :password_confirmation, required: true, placeholder: 'Confirm Password', label: false
+              = f.input :tos_accepted, as: :boolean, label: tos_label
+            .form-actions
+              = f.button :submit, 'Submit' , class: 'btn-red'
+    .col-sm-6
+      = render 'shared/testimonials'

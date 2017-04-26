@@ -1,0 +1,90 @@
+.service-request-form-wrapper
+  = simple_form_for @customer, url: customer_registration_path, turboboost: true, html: { id: 'service-request-form' } do |f|
+    .row
+      .col-sm-8.col-sm-offset-2.text-center
+        .content-wrapper.category-wrapper.mt100
+          h1 What can we help you with?
+          h3 Select service to start.
+          = f.input :service_request, as: :radio_buttons, collection: @categories[nil].map { |c| [ category_icons(c), c.id ]}, label: false, input_html: { name: 'service_request[category_id]'}
+        .content-wrapper.subcategories-wrapper.mt100.hidden
+          - @categories[nil].each do |category|
+            .subcategory_icons.hidden class="category-#{category.id}"
+              h1
+                = category.name
+              = f.input :service_request, as: :radio_buttons, collection: @categories[category.id].map { |s| [category_icons(s), s.id, data: {brands: s.brands.to_json, problem_codes: s.problem_codes.to_json }] }, label: false, input_html: { name: 'service_request[subcategory]'}
+          = f.input :service_request, as: :hidden, input_html: { class: 'subcategory_field' }
+          = link_to 'Back', '#', class: 'btn btn-primary mb20', data: { back: 'category-wrapper' }, id: 'back-btn'
+        .content-wrapper.issue-wrapper.text-center.hidden
+          .text-center.service-head.center-panel.col-sm-4
+            h1 What needs to be fixed?
+            h3 Do you have an issue with br/ heating or cooling?
+            p.mt20 What specifically do you have a problem with?
+            = f.input :service_request, as: :select, label: false, input_html: { class: 'select_problem_code', name: 'service_request[problem_code_id]'}
+            = link_to 'Continue', '#', class: 'btn btn-continue request-continue-btn mt20', data: { continue: 'describe-issue'}
+            .row
+              .col-sm-12
+                = link_to 'Back', '#', class: 'btn btn-primary mb20', data: { back: 'subcategories-wrapper'}, id: 'back-btn'
+        .content-wrapper.describe-issue.hidden
+          .text-center.service-head.center-panel
+            h1 Describe Issue
+            h4 Tell us about the equipment
+          .col-md-5.address-form.center-panel
+            p.mt20 What Brand is it?
+            = f.input :service_request, as: :select, label: false, input_html: { class: 'select_brand', name: 'service_request[brand_id]'}
+            .row
+              .col-sm-6
+                = f.input :service_request, label: false, input_html: { placeholder: 'Model', name: 'service_request[model]'}
+              .col-sm-6
+                = f.input :service_request, label: false, input_html: { placeholder: 'Serial Number', name: 'service_request[serial]'}
+            h5 Is this an urgent service? (need a tech in the next 4-6 hours)?
+            = f.input :service_request, as: :select, label: false, collection: ['Yes', 'No'], selected: 'Yes', input_html: { name: 'service_request[urgent]'}
+            = f.input :service_request, as: :text, label: false, input_html: { placeholder: 'Please briefly describe the problem', rows: 10, name: 'service_request[notes]'}
+            h4.text-center Is Equipment Under Warranty?
+            p SendaGuy Now is not for service on equipment covered by warranty. If your equipment is under warranty, you'll want to contact the manufacturer directly
+            .btn.btn-red
+              = check_box_tag 'equipment', value: 1, checked: false
+              | I understand and wish to continue.
+            = link_to 'See Warranty Information for Brand', '#'
+            .col-md-9.mt30.center-panel
+              = link_to 'Continue', '#', class: 'btn btn-continue request-continue-btn', data: { continue: 'schedule-service'}
+            .row
+              .col-sm-12
+                = link_to 'Back', '#', class: 'btn btn-primary mb20 mt20', data: { back: 'subcategories-wrapper' }, id: 'back-btn'
+        .content-wrapper.schedule-service.hidden
+          .text-center.service-head.center-panel
+            h1 Schedule Service
+            h4 Tell us about the service
+          .col-md-5.address-form.center-panel
+            h4.text-center When would you like a technician to arrive?
+            = f.input :service_request, as: :text, label: false, input_html: { name: 'service_request[work_time_details]'}
+            h4 When the technician arrives, who should they ask for?
+            = f.input :service_request, label: false, input_html: { placeholder: 'Full Name', name: 'service_request[full_name]' }
+            = f.input :service_request, label: false, input_html: { placeholder: 'Email', name: 'service_request[email]' }
+            = f.input :service_request, label: false, input_html: { placeholder: 'Phone Number', name: 'service_request[phone_number]' }
+            = f.input :service_request, label: false, input_html: { placeholder: 'Company Name', name: 'service_request[company]' }
+            .clearfix
+            .col-md-9.margintop30.center-panel
+              = f.submit 'Schedule', class: 'btn btn-continue btn-schedule-service text-uppercase'
+          .row
+              .col-sm-12
+                = link_to 'Back', '#', class: 'btn btn-primary mb20 mt20', data: { back: 'describe-issue' }, id: 'back-btn'
+        .content-wrapper.complete-request.hidden
+          .text-center.service-head.center-panel
+            h1 Complete Request
+          .panel-body.mt20
+            h4.text-center Add Credit Card
+            #flash-messages
+            = f.input :service_request, as: :hidden, input_html: { id: 'service_request_token', name: 'service_request[token]' }
+            = render 'shared/new_card'
+          .col-md-7.center-panel.text-center.box
+            h4
+              strong Your credit card will never be charged without your approval
+            .line-spacer
+            .icon-lock
+              i.fa.fa-lock aria-hidden="true" 
+            div
+              = image_tag 'powerdBy.png', height: '35', width: '125'
+            h3 Sendaguy now uses Stripe, a leader in online and mobile payments, for all financial transactions.
+            .row
+              .col-sm-12
+                = f.submit 'Schedule', class: 'btn btn-continue text-uppercase btn-schedule-service'

@@ -1,5 +1,11 @@
 class CustomersController < ApplicationController
-  before_action :authenticate_customer!
+  before_action :authenticate_customer!, except: :new
+  layout 'devise', only: :new
+  
+  def new
+    @customer = Customer.new
+    @categories = Category.all.fetch.group_by(&:parent_category_id)
+  end
 
   def resend_email_confirmation
     Customer.send_confirmation_instructions(email: current_customer.email)

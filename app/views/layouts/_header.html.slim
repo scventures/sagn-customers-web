@@ -11,10 +11,10 @@
           = image_tag 'user.png'
           = current_customer.name
       #navbar.navbar-collapse.collapse
-        .col-md-5
+        .col-xs-5
           h3.page-title
             = yield :title
-        .col-md-5.pull-right
+        .col-xs-5.pull-right
           .pull-right.inner-log
             = link_to dashboard_path, class: 'logo-link p0'
               = image_tag 'sendaguy.png', width: '200'

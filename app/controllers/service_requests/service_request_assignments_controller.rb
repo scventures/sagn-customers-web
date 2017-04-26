@@ -4,7 +4,7 @@ class ServiceRequests::ServiceRequestAssignmentsController < ApplicationControll
     @account = current_customer.current_account
     @service_request = @account.service_requests.find(params[:service_request_id])
     @service_request.account_id = @account.id
-    @assignment = @service_request.assignments.find(params[:"service_request_assignment_id"])
+    @assignment = @service_request.assignments.find(params[:service_request_assignment_id])
     @assignment.account_id = @account.id
     @assignment.service_request_id = @service_request.id
     if @assignment.responded?
@@ -16,7 +16,7 @@ class ServiceRequests::ServiceRequestAssignmentsController < ApplicationControll
   end
 
   def payment_authorize
-    token = params["service_request"]["token"]
+    token = params['service_request']['token']
     @account = current_customer.current_account
     @service_request = @account.service_requests.find(params[:service_request_id])
     @service_request.account_id = @account.id

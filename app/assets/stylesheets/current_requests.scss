@@ -101,16 +101,16 @@
 	width:25%;
 }
 .card-input-bg input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
- color: #fff;
+  color: #fff;
 }
 .card-input-bg input::-moz-placeholder { /* Firefox 19+ */
- color: #fff;
+  color: #fff;
 }
 .card-input-bg input:-ms-input-placeholder { /* IE 10+ */
- color: #fff;
+  color: #fff;
 }
 .card-input-bg input:-moz-placeholder { /* Firefox 18- */
- color: #fff;
+  color: #fff;
 }
 
 .card-details {
@@ -126,17 +126,17 @@
 	margin-left: 10px;
 }
 
-a.visa.active > img {
+span.visa.active > img {
   border: 2px solid #4A8FE1;
   border-radius: 6px;
 }
 
-a.master_card.active > img {
+span.master_card.active > img {
   border: 2px solid #4A8FE1;
   border-radius: 6px;
 }
 
-a.american_express.active > img {
+span.american_express.active > img {
   border: 2px solid #4A8FE1;
   border-radius: 6px;
 }
@@ -160,5 +160,11 @@ a.american_express.active > img {
   background: #D9534F none repeat scroll 0 0;
   color: #fff;
   padding: 20px;
+}
+
+#add_card {
+  label {
+    text-transform: uppercase;
+  }
 }
 

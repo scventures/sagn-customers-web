@@ -24,6 +24,7 @@
 //= require rails.validations.simple_form
 //= require rails.validations.extension
 //= require js-routes
+//= require perfect-scrollbar
 //= require common
 //= require location
 //= require credit_card_form

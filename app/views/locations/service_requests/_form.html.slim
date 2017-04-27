@@ -4,6 +4,7 @@
       .content-wrapper.category-wrapper.mt100
         h1 What can we help you with?
         h3 Select service to start.
+        = f.input :location_id, as: :hidden
         = f.input :category_id, as: :radio_buttons, collection: categories[nil].map { |c| [ category_icons(c), c.id ]}, label: false
       .content-wrapper.subcategories-wrapper.mt100.hidden
         - categories[nil].each do |category|
@@ -28,8 +29,12 @@
           h1 Describe Issue
           h4 Tell us about the equipment
         .col-md-5.address-form.center-panel
+          = f.input :equipment_item_id, as: :select, label: 'Select Equipment', input_html: { class: 'select_equipment' }
+          p.mt10.mb10.text-center
+            | OR
           p.mt20 What Brand is it?
           = f.input :brand_id, as: :select, label: false, input_html: { class: 'select_brand'}
+          = f.input :brand_name, label: false, input_html: { placeholder: 'Brand Name', class: 'hidden'}
           .row
             .col-sm-6
               = f.input :model, label: false, input_html: { placeholder: 'Model' }
@@ -71,20 +76,24 @@
         .text-center.service-head.center-panel
           h1 Complete Request
         .panel-body.mt20
-          h4.text-center Add Credit Card
+          = link_to '#', class: 'btn btn-red request-service-card-btn', data: { card: 'add'} do
+            h4.text-center Add Credit Card
+          = link_to '#', class: 'btn btn-default request-service-card-btn', data: { card: 'default'} do
+            h4.text-center Default Payment Method
           #flash-messages
           = f.input :token, as: :hidden, input_html: { id: 'service_request_token' }
-          = render 'shared/new_card'
-        .col-md-7.center-panel.text-center.box
-          h4
-            strong Your credit card will never be charged without your approval
-          .line-spacer
-          .icon-lock
-            i.fa.fa-lock aria-hidden="true" 
-          div
-            = image_tag 'powerdBy.png', height: '35', width: '125'
-          h3 Sendaguy now uses Stripe, a leader in online and mobile payments, for all financial transactions.
-          .row
+          .card-wrapper
+            = render 'shared/new_card'
+            .col-md-7.center-panel.text-center.box
+              h4
+                strong Your credit card will never be charged without your approval
+              .line-spacer
+              .icon-lock
+                i.fa.fa-lock aria-hidden="true" 
+              div
+                = image_tag 'powerdBy.png', height: '35', width: '125'
+              h3 Sendaguy now uses Stripe, a leader in online and mobile payments, for all financial transactions.
+          .center-panel.text-center.col-sm-6
             .col-sm-12
               = f.submit 'Schedule', class: 'btn btn-continue text-uppercase'
 

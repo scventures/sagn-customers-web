@@ -12,6 +12,8 @@
   h3.text-center
     = link_to 'See Your Service Request Details', '#', data: { target: '#serviceRequestDetail', toggle: 'modal'}, class: 'grey'
   p
-   = link_to 'Edit Request', '#', class: 'btn btn-default btn-blue'
+   = link_to 'Edit Request', edit_location_service_request_path(service_request.location[:id]), remote: true, class: 'btn btn-default btn-blue'
   p.text-center
    = link_to 'Cancel Request', current_request_cancel_path(service_request), data: { confirm: "You want to cancel Service Request ##{service_request.id}"}, class: 'grey fs16'
+
+#edit_current_request

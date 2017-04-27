@@ -1,0 +1,5 @@
+<% if @service_request.response_errors.blank? %>
+  $("#edit_current_request #modal-window").modal('hide')
+<% else %>
+  $("#edit_current_request .modal-body").bs_alert('<%= @service_request.response_errors[:error] %>', 'Errors!');
+<% end %>

@@ -114,3 +114,35 @@ setContentWrapperClass = (selector) ->
   $(".content-wrapper.#{selector}").removeClass('hidden')
   $('.main-wrapper').scrollTop(0)
   return
+
+setCategories = ->
+  if $('.select_category option:selected').val() != ''
+    categories = $('.select_category option:selected').data('categories')
+    categories.map((obj) -> (obj.text = obj.text or obj.name))
+    $('.select_subcategory').empty()
+    categories.unshift({id: 'prompt', text: 'Please select category'})
+    $('.select_subcategory').select2
+      data: categories
+
+$('.select_category').livequery ->
+  setCategories()
+
+$(document).on 'select2:select, change', '.select_category', (e) ->
+  setCategories()
+
+setSubcategories = (subcategory) ->
+  if subcategory
+    $('.existing-equipment').addClass('hidden')
+    $('.equipment-warranty').removeClass('hidden')
+    $('.equipment-warranty').find('a').addClass('hidden')
+    $('.existing-equipment').removeClass('hidden')
+    subcategory.brands.map((obj) -> (obj.text = obj.text or obj.name))
+    $('.select_brand').empty()
+    subcategory.brands.unshift({id: 'prompt', text: 'Please select brand'})
+    subcategory.brands.push({ id: 'other', text: 'Other'})
+    $('.select_brand').select2
+      data: subcategory.brands
+
+$(document).on 'select2:select', '.select_subcategory', (e) ->
+  if e.params != 'undefined' && e.params.data != 'undefined'
+    setSubcategories(e.params.data)

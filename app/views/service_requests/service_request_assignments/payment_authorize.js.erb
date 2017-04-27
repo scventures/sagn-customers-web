@@ -1,5 +1,6 @@
 <% if @assignment.errors.blank? %>
   $('#add_card.modal').modal('hide')
+  $('.assignment-wrapper#'+<%= @assignment.id %>).html("<%= j render partial: 'current_requests/activities', locals: {service_request: @service_request, activities: @service_request.activities }%>")
 <% else %>
   $("#add_card .modal-body").bs_alert('<%= @assignment.errors.full_messages.to_sentence %>', 'Errors!');
 <% end %>

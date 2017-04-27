@@ -25,11 +25,11 @@
               label for='service_request_category_id'
                 | Category
               p
-                = f.input :category_id, as: :select, collection: categories[nil].map {|c| [c.name, c.id, { 'data-categories' => categories[c.id].to_json }] }, input_html: { class: 'select_category select2'}, label: false
+                = f.input :category_id, as: :select, collection: categories[nil].map {|c| [c.name, c.id, { 'data-categories' => categories[c.id].to_json }] }, input_html: { class: 'select_category select2'}, label: false, selected: f.object.category
               label for='service_request_subcategory_id'
                 | Subcategory
               p
-                = f.input :subcategory_id, collection:[], input_html: { class: 'select_subcategory select2'}, label: false
+                = f.input :subcategory_id, collection:[], input_html: { class: 'select_subcategory select2'}, label: false, selected: f.object.subcategory
               label for='service_request_problem_code'
                 | Code
               p

@@ -187,6 +187,17 @@
     height: 40px;
     padding: 5px;
   }
+  .select2-container {
+    width: 100% !important;
+  }
+  .request-service-card-btn {
+    width: 300px !important;
+    padding: 5px;
+    text-align: center;
+    margin: 0 auto 10px 10px;
+    clear: both;
+    display: inline-table;
+  }
   .address-form {
     .form-control {
       border: 1px solid #979797;

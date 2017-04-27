@@ -1,7 +1,104 @@
-.site-content.mt20.text-center
-  h3.grey Exclusively in NYC
-  small.grey Coming soon to other cities
-  p.mt20
-    = link_to 'login', new_customer_session_path, class: 'btn btn-default btn-blue w100-pct text-capitalize'
-  p
-    = link_to 'sign up', new_customer_registration_path, class: 'btn btn-default btn-red w100-pct text-capitalize'
+.home-container
+  .image-wrapper.text-center
+    .title.text-uppercase
+      | Order Restaurant Repairs
+      br/
+      |on demand
+    .mt40
+      = link_to 'Sendaguy Now', new_customer_path, class: 'btn btn-red text-uppercase'
+    h2.mt20 Get the right repairman right when you need them.
+    .white-border
+      |$150 CREDIT
+    h3 
+      |Download the app today and get 
+      br/ 
+      |$150 off your first service visit
+    .download-btn-wrapper.mt20
+      = link_to "#{ENV['APPLE_STORE_URL']}", class: 'btn' do
+        = image_tag 'white-apple-logo', width: '60'
+        |Download on the
+        h1 App Store
+      = link_to "#{ENV['GOOGLE_STORE_URL']}", class: 'btn ml10' do
+        = image_tag 'playstore-logo.png', width: '60'
+        |Get it on
+        h1 Google Play  
+  .content-wrapper
+    .container-fluid
+      .row.text-center.testimonial
+        .col-sm-3.p20
+          h1.red 
+            | "Definitely would recommend"
+          p
+            | "Exactly what we've needed for so long: a service to find the people we need when we need them. Used several times now and are so happy with the prompt, friendly and professional service."
+          p.mt20
+            | – Jonathan, GM Alice’s Tea Cup
+        .col-sm-3.p20
+          h1.red 
+            | "I love the convenience"
+          p
+            | "I love the convenience and speed of service, the tech was in my restaurant within 30 minutes of placing the service request."
+          p.mt20
+            | – Joseph, GM Choza Taqueria 
+        .col-sm-3.p20
+          h1.red 
+            | "A huge help"
+          p
+            | "SendaGuy Now has been a huge help in getting our repair and maintenance needs organized and under control."
+          p.mt20
+            | – Kristina, GM CorkBuzz
+        .col-sm-3.p20
+          h1.red 
+            | "This is cool"
+          p
+            | "It's about time! This is cool, this is where we should be in terms of technology and the restaurant repair industry."
+          p.mt20
+            | – Chewy, GM Baohaus
+      .row
+        .col-sm-8.mt20
+          .header
+            |Spring has sprung (almost)!
+          .content.mt10
+            strong Spring has sprung and warmer weather is right around the corner! 
+            br/
+            |With Spring coming in a little earlier it’s a great time to make sure your kitchen equipment is in working order. Don’t fall behind, schedule your Spring Tune Up for your HVAC & refrigeration equipment today: 
+            span.purple schedule.
+        .col-sm-4
+          = image_tag 'spring.png'
+      .row.mt40
+        .col-sm-4
+          = image_tag 'finalist.png', class: 'w65-pct'
+        .col-sm-8.mt20
+          .header
+            |SendaGuy Now named finalist at the International Restaurant and Foodservice Show
+          .content.mt10
+            |SendaGuy Now was honored by being nominated as one of the most exciting New Product Innovations on display at the show. Of the hundreds of vendors that came to exhibit this year, we were recognized for creating a revolutionary service that’s changing the industry. Read more about it 
+            span.purple here.
+      .row.mt40
+        .col-sm-8.mt20
+          .header
+            |Restaurant Repairs on Demand
+          .content.mt10
+            |SendaGuy Now is perfect for chefs, 
+            span.purple restaurant owners, 
+            |and their staff – who may not have relationships with quality 
+            span.purple service companies
+            |. SendaGuy Now provides the connection to the right repairmen right when you need them – typically within a few hours. It’s like having your own team of repairmen inside your phone. 
+            span.purple Learn more.
+        .col-sm-4
+          = image_tag 'restaurant-chef.png'
+      .row.mt40
+        .col-sm-4
+          = image_tag 'repair.png', class: 'w65-pct'
+        .col-sm-8
+          .header
+            |We connect Repair & Maintenance Contractors to New Clients
+          .content.mt10
+            strong SendaGuy Now
+            | generates new business for contractors, finding you 'fill-in' work from new, paying customers within a few blocks of where your men are already working. So they spend more time on paying jobs and less time driving. And your fee for showing up is guaranteed. 
+            span.purple Learn More.
+        
+    
+    
+        
+    
+      

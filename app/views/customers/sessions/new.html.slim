@@ -1,17 +1,23 @@
-.signup-form-wrapper
-  h4.text-capitalize.text-center.grey Please login in
-  = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-    .form-inputs
-      = f.input :email, required: false, autofocus: true, label: false, placeholder: 'Email'
-      = f.input :password, required: false, label: false, placeholder: 'Password'
-      .text-right
-        = f.input :remember_me, as: :boolean, label: 'Remember my account.', label_html: { class: 'grey fs16' }, input_html: { value: true } if devise_mapping.rememberable?
-    .form-actions
-      = f.button :submit, 'Login Now', class: 'btn-red'
-.row.mt20.fs12
-  .col-sm-12.text-center
-    p
-      = link_to 'Forgot password?', new_customer_password_path, class: 'text-uppercase mt20'
-    p
-      = link_to new_customer_confirmation_path do
-        u Didn't receive confirmation instructions?
+.container-fluid
+  .row
+    .col-sm-6
+      .col-sm-8.col-sm-offset-2.mt10-pct
+        .signup-form-wrapper
+          h4.text-capitalize.text-center.grey Please login in
+          = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+            .form-inputs
+              = f.input :email, required: false, autofocus: true, label: false, placeholder: 'Email'
+              = f.input :password, required: false, label: false, placeholder: 'Password'
+              .text-right
+                = f.input :remember_me, as: :boolean, label: 'Remember my account.', label_html: { class: 'grey fs16' }, input_html: { value: true } if devise_mapping.rememberable?
+            .form-actions
+              = f.button :submit, 'Login Now', class: 'btn-red'
+        .row.mt20.fs12
+          .col-sm-12.text-center
+            p
+              = link_to 'Forgot password?', new_customer_password_path, class: 'text-uppercase mt20'
+            p
+              = link_to new_customer_confirmation_path do
+                u Didn't receive confirmation instructions?
+    .col-sm-6
+      = render 'shared/testimonials'

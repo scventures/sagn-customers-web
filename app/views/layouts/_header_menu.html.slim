@@ -2,10 +2,10 @@ ul.nav.navbar-nav.navbar-right
   li
     = link_to root_path, class: 'logo-link p0' do 
       = image_tag 'sendaguy.png', width: '200'
-  - unless params[:controller] == 'customers/sessions' or params[:controller] == 'high_voltage/pages'
+  - unless params[:controller] == 'customers/sessions'
     li
       = link_to 'login', new_customer_session_path, class: 'text-capitalize dark-grey bold-text'
-  - unless params[:controller] == 'customers/registrations' or params[:controller] == 'high_voltage/pages'
+  - unless params[:controller] == 'customers/registrations' or params[:controller] == 'pages' or params[:controller] == 'customers'
     li
       = link_to 'Sign up', new_customer_registration_path, class: 'text-capitalize dark-grey bold-text'
   li

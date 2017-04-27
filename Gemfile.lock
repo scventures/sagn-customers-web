@@ -154,6 +154,8 @@ GEM
     nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
     orm_adapter (0.5.0)
+    perfect-scrollbar-rails (0.6.15)
+      railties (>= 3.2, < 6.0)
     puma (3.6.2)
     rack (2.0.1)
     rack-test (0.6.3)
@@ -300,6 +302,7 @@ DEPENDENCIES
   jwt
   listen (~> 3.0.5)
   money-rails (~> 1)
+  perfect-scrollbar-rails
   puma (~> 3.0)
   rails (~> 5.0.1)
   remotipart (~> 1.2)

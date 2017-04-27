@@ -51,6 +51,6 @@ Rails.application.routes.draw do
     end
   end
 
-  root :to => 'pages#show', id: 'home'
+  root :to => 'customers#new'
 
 end

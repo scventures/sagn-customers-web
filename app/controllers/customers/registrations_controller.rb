@@ -3,7 +3,8 @@ class Customers::RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
     if resource.save
       if params[:service_request]
-        sign_in(resource)
+        resource.authenticate!
+        bypass_sign_in(resource)
         if resource.create_service_request(params[:location], params[:service_request])
           redirect_to profile_path, notice: 'Service Request created successfully.'
         else

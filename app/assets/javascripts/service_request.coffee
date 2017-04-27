@@ -161,20 +161,3 @@ $('.select_category').livequery ->
 
 $(document).on 'select2:select, change', '.select_category', (e) ->
   setCategories()
-
-setSubcategories = (subcategory) ->
-  if subcategory
-    $('.existing-equipment').addClass('hidden')
-    $('.equipment-warranty').removeClass('hidden')
-    $('.equipment-warranty').find('a').addClass('hidden')
-    $('.existing-equipment').removeClass('hidden')
-    subcategory.brands.map((obj) -> (obj.text = obj.text or obj.name))
-    $('.select_brand').empty()
-    subcategory.brands.unshift({id: 'prompt', text: 'Please select brand'})
-    subcategory.brands.push({ id: 'other', text: 'Other'})
-    $('.select_brand').select2
-      data: subcategory.brands
-
-$(document).on 'select2:select', '.select_subcategory', (e) ->
-  if e.params != 'undefined' && e.params.data != 'undefined'
-    setSubcategories(e.params.data)

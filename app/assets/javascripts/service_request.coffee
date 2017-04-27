@@ -82,19 +82,43 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   $('.subcategories-wrapper .subcategory_field').val($(this).val())
   brands = $(this).data('brands')
   problem_codes = $(this).data('problem-codes')
-  if problem_codes.length == 0
-    setContentWrapperClass('describe-issue')
-    brands.map((obj) -> (obj.text = obj.text or obj.name))
-    $('.select_brand').empty()
-    $('.select_brand').select2
-      data: brands
-  else
-    setContentWrapperClass('issue-wrapper')
+  $('.select_equipment').empty()
+  setEquipment()
+  brands.map((obj) -> (obj.text = obj.text or obj.name))
+  $('.select_brand').empty()
+  $('.select_brand').select2
+    data: brands
+  if brands.length == 0
+    $('#service_request_brand_name').removeClass('hidden')
+  if problem_codes.length > 0
     problem_codes.map((obj) -> (obj.text = obj.text or obj.name))
     $('.select_problem_code').empty()
     $('.select_problem_code').select2
       data: problem_codes
+    setContentWrapperClass('issue-wrapper')
+  else
+    setContentWrapperClass('describe-issue')
     
+      
+setEquipment = ->
+  location_id = $('#service_request_location_id').val()
+  subcategory_id = $('.subcategories-wrapper .subcategory_field').val()
+  if location_id != ''
+    $.ajax
+      url: Routes.location_equipment_items_path(location_id: location_id, subcategory_id: subcategory_id)
+      type: 'GET'
+      dataType: 'json'
+      success: (data) ->
+        data.map((obj) -> (obj.text = obj.text or obj.subcategory.name))
+        data.unshift({id: 'prompt', text: 'Please select equipment'})
+        $('.select_equipment').select2 
+          data: data
+        
+$(document).on 'select2:select', '.service-request-form-wrapper .select_equipment', (e) ->
+  $('#service_request_brand_name').val(e.brand_name)
+  $('#service_request_model').val(e.model)
+  $('#service_request_serial').val(e.serial)
+        
 $(document).on 'click', '.service-request-form-wrapper .request-continue-btn', (e) ->
   e.preventDefault()
   setContentWrapperClass($(this).data('continue'))
@@ -105,9 +129,17 @@ $(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-bt
   setContentWrapperClass(back)
 
 $(document).on 'click', '.service-request-form-wrapper .btn-schedule-service', (e) ->
-  if !($(this).data('payment'))
-    e.preventDefault()
-    setContentWrapperClass('complete-request')
+  e.preventDefault()
+  setContentWrapperClass('complete-request')
+  if ($(this).data('payment'))
+    $('.service-request-form-wrapper .card-wrapper').addClass('hidden')
+
+$(document).on 'click', '.service-request-form-wrapper .request-service-card-btn', (e) ->
+  e.preventDefault()
+  if $(this).data('card') == 'add'
+    $('.service-request-form-wrapper .card-wrapper').removeClass('hidden')
+  else
+    $('.service-request-form-wrapper .card-wrapper').addClass('hidden')
   
 setContentWrapperClass = (selector) ->
   $('.content-wrapper').addClass('hidden')

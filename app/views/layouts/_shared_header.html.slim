@@ -1,6 +1,7 @@
 head
   title SagnCustomersWeb
   meta content='width=device-width, initial-scale=1.0' name='viewport'
+  meta name='turbolinks-cache-control' content='no-cache'
   = csrf_meta_tags
   = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
   = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_API_KEY']}&libraries=places", nonce: content_security_policy_script_nonce

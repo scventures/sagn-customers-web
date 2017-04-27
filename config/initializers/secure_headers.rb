@@ -9,7 +9,7 @@ SecureHeaders::Configuration.default do |config|
   config.csp.merge!(
     default_src: %W(#{ENV['APP_PROTOCOL']}: 'self'),
     img_src: %w('self' https://maps.googleapis.com https://csi.gstatic.com https://*.s3.amazonaws.com data: https://maps.gstatic.com https://q.stripe.com/),
-    script_src: %w('self' https://maps.googleapis.com https://js.stripe.com/v2/ https://api.stripe.com/v1 'unsafe-eval'),
+    script_src: %w('self' https://maps.googleapis.com https://js.stripe.com/v2/ https://api.stripe.com/v1/ 'unsafe-eval'),
     upgrade_insecure_requests: ENV['APP_PROTOCOL'] == true,
     style_src: %w('unsafe-inline' 'self' https://fonts.googleapis.com/css),
     child_src: %w('self' https://js.stripe.com/v2/)

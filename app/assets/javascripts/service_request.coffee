@@ -83,7 +83,8 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   brands = $(this).data('brands')
   problem_codes = $(this).data('problem-codes')
   $('.select_equipment').empty()
-  setEquipment()
+  if $('.select_equipment').length > 0
+    setEquipment()
   brands.map((obj) -> (obj.text = obj.text or obj.name))
   $('.select_brand').empty()
   $('.select_brand').select2

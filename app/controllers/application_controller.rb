@@ -3,6 +3,11 @@ class ApplicationController < ActionController::Base
 
   before_action :set_customer_api_token
 
+  def sign_in(resource)
+    resource.authenticate! unless resource.jwt?
+    bypass_sign_in(resource)
+  end
+
   protected
   def set_customer_api_token
     if current_customer

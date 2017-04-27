@@ -14,7 +14,10 @@ Rails.application.routes.draw do
   end
   resources :charges
   resources :venues, only: :index
-  resources :locations
+  resources :locations do
+    resources :service_requests, only: [:new, :create], module: 'locations'
+    resources :equipment_items, only: [:index], module: 'locations'
+  end
   resources :staff, only: [:new, :create, :index, :destroy] do
     patch :create_multiple, on: :collection
   end
@@ -23,11 +26,7 @@ Rails.application.routes.draw do
   end
 
   resource :dashboard, only: :show
-  resources :service_requests, except: [:edit, :update, :destroy]
-  
-  resources :location, module: 'location', only: [] do
-    resources :equipment_items, only: [:index]
-  end
+  resources :service_requests, only: [:index, :show]
   
   resources :current_requests, only: [:index, :show] do
     get :cancel
@@ -42,6 +41,12 @@ Rails.application.routes.draw do
   
   authenticated :customer do
     root 'dashboards#show', as: :authenticated_root
+  end
+  
+  resources :service_request, only: [] do
+    resources :assignments, module: 'service_request', only: [] do
+      get :accept
+    end
   end
 
   root :to => 'pages#show', id: 'home'

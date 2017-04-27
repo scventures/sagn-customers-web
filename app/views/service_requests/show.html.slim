@@ -1,35 +1,17 @@
-.text-center.mt-50
-  = link_to dashboard_path do
-    = image_tag 'sendaguy.png', width: '60%'
-.place-service-request
-  .row
-    .col-sm-6
-      .signup-form-wrapper
-        .title.text-uppercase Request Sent!
-        p
-          |(Service Request Id = 
-          = params[:id]
-          |)
-        p.bold
-          |We recieved your request and we’ll send you an text message when we have a contractor for you to review.
-        p
-          |You can view and manage this service request in the mobile app.
-        .text-center
-          = link_to "Place Another Service Request", new_service_request_path, class: 'btn place-service-request-btn'
-    .col-sm-6
-      .title Like SendaGuy Now?
-      .row.mt10
-        .col-sm-1.ml10
-          =link_to ENV['APPLE_STORE_URL'] do
-            = image_tag 'apple.png', width: '40'
-            .col-sm-8
-              u
-                |Write a Review in App Store
-      .row.mt10
-        .col-sm-1.ml10
-          =link_to ENV['GOOGLE_STORE_URL'] do        
-            = image_tag 'android.png', width: '40'
-            .col-sm-8
-              u
-                |Write a Review on Google Play
-          
+div
+  .text-center.service-head.center-panel
+    h1 Congratulation!
+    h3.margintop15 A technician is on your way
+  .address-form.center-panel.col-sm-5
+    h4.text-center
+      | A confirmation email has been sent to your email.
+      br/
+      | You can also log in to your account to overview
+      br/
+      | the progress, send pictures and give feedback
+      br/
+      | once the job is complete.
+    .clearfix
+    .center-panel.col-sm-5
+      = link_to 'Home', root_path, class: 'btn btn-continue'
+    br/

@@ -1,4 +1,4 @@
-class Location::EquipmentItemsController < ApplicationController
+class Locations::EquipmentItemsController < ApplicationController
 
   before_action :authenticate_customer!
   

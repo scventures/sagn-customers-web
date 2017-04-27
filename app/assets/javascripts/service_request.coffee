@@ -40,7 +40,7 @@ setMarkers = (map) ->
         markers[location.id] = marker
         google.maps.event.addListener marker, 'click', do (marker, i) ->
           ->
-            content = "<div><h3>#{location.name}</h3><a href=#{Routes.new_service_request_path(location_id: location.id)} class='btn btn-red btn-lg'>SendaGuy to this location</a></div>"
+            content = "<div><h3>#{location.name}</h3><a href=#{Routes.new_location_service_request_path(location_id: location.id)} class='btn btn-red btn-lg'>SendaGuy to this location</a></div>"
             infowindow.setContent content
             infowindow.open map, marker
             return
@@ -69,8 +69,7 @@ $(document).on 'click', '.map-container a.location-link', (e) ->
   
 $(document).on 'change', '.category-wrapper input[type=radio]', ->
   id = $(this).val()
-  $('.content-wrapper').addClass('hidden')
-  $('.content-wrapper.subcategories-wrapper').removeClass('hidden')
+  setContentWrapperClass('subcategories-wrapper')
   $('.subcategory_icons').addClass('hidden')
   $(".subcategory_icons.category-#{id}").removeClass('hidden')
   $(".subcategory_icons.category-#{id} img").each ->
@@ -80,17 +79,37 @@ $(document).on 'change', '.category-wrapper input[type=radio]', ->
   $('.service-request-form-wrapper .back-btn').removeClass('hidden')
     
 $(document).on 'change', '.subcategories-wrapper input[type=radio]', ->
-  $('.content-wrapper').addClass('hidden')
-  $('.content-wrapper.describe-issue').removeClass('hidden')
+  $('.subcategories-wrapper .subcategory_field').val($(this).val())
   brands = $(this).data('brands')
-  brands.map((obj) -> (obj.text = obj.text or obj.name))
-  $('.select_brand').empty()
-  $('.select_brand').select2
-    data: brands
+  problem_codes = $(this).data('problem-codes')
+  if problem_codes.length == 0
+    setContentWrapperClass('describe-issue')
+    brands.map((obj) -> (obj.text = obj.text or obj.name))
+    $('.select_brand').empty()
+    $('.select_brand').select2
+      data: brands
+  else
+    setContentWrapperClass('issue-wrapper')
+    problem_codes.map((obj) -> (obj.text = obj.text or obj.name))
+    $('.select_problem_code').empty()
+    $('.select_problem_code').select2
+      data: problem_codes
     
+$(document).on 'click', '.service-request-form-wrapper .request-continue-btn', (e) ->
+  e.preventDefault()
+  setContentWrapperClass($(this).data('continue'))
+  
 $(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-btn', (e) ->
   e.preventDefault()
-  $('.content-wrapper').addClass('hidden')
   back = $(this).data('back')
-  $(".content-wrapper.#{back}").removeClass('hidden')
+  setContentWrapperClass(back)
 
+$(document).on 'click', '.service-request-form-wrapper .btn-schedule-service', (e) ->
+  if !($(this).data('payment'))
+    e.preventDefault()
+    setContentWrapperClass('complete-request')
+  
+setContentWrapperClass = (selector) ->
+  $('.content-wrapper').addClass('hidden')
+  $(".content-wrapper.#{selector}").removeClass('hidden')
+  return

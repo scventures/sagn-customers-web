@@ -27,6 +27,27 @@ class Locations::ServiceRequestsController < ApplicationController
     end
   end
   
+  def edit
+    @account = current_customer.current_account
+    @service_request = @account.service_requests.find(params[:id])
+    @service_request.account_id = @account.id
+    @categories = Category.all.fetch.group_by(&:parent_category_id)
+    @location = @account.locations.find(@service_request.location[:id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def update
+    @account = current_customer.current_account
+    service_request = @account.service_requests.find(params[:id])
+    service_request.account_id = @account.id
+    @service_request = ServiceRequest.save_existing(service_request.id, service_request_params.to_h.merge(account_id: @account.id, id: service_request.id))
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
   
   def service_request_params

@@ -146,3 +146,18 @@ setContentWrapperClass = (selector) ->
   $(".content-wrapper.#{selector}").removeClass('hidden')
   $('.main-wrapper').scrollTop(0)
   return
+
+setCategories = ->
+  if $('.select_category option:selected').val() != ''
+    categories = $('.select_category option:selected').data('categories')
+    categories.map((obj) -> (obj.text = obj.text or obj.name))
+    $('.select_subcategory').empty()
+    categories.unshift({id: 'prompt', text: 'Please select category'})
+    $('.select_subcategory').select2
+      data: categories
+
+$('.select_category').livequery ->
+  setCategories()
+
+$(document).on 'select2:select, change', '.select_category', (e) ->
+  setCategories()

@@ -1,82 +1,68 @@
 .details
   - if service_request.assigned? and service_request.responded_request_assignment_id?
-    .white-container
-      .text-center.fs20
-        strong.black We`ve found a technician for you
-        .red Please respond as soon as possible
       .assignments-wrapper.mt20
         - assignments.each do |assignment|
-          .row
-            .col-sm-3
-              - if assignment.technician
-                = image_tag assignment.technician[:photo] || 'default_avatar_icon.png', class: 'img-circle', width: '70'
-            .col-sm-9
-              = "#{assignment.contractor_account[:name]} can send:"
-              br/
-              = assignment.technician[:name] if assignment.technician
-              .rating-container
-                .star.fullStar
-                .star.fullStar
-                .star.fullStar
-                .star.fullStar
-                .star.fullStar
-              br/
-              = "Can come #{assignment.arrive_eta}"
-          input type='text' placeholder= 'Tap here to enter Promo Code' class= 'w100-pct text-center mt20'
-          .black.text-center.fs16
-            |You must authorize a charge of
-            span.ml10
-              = "#{humanized_money_with_symbol(assignment.diagnostic_fee, symbol_after_without_space: true)}"
-            .mt10
-              | This covers the technician's arrival and one hour of
-              br/
-              | work to fix or diagnose the problem. Once you
-              br/
-              | accept this conctractor you cannot cancel and your
-              br/
-              | card will be charged when the technician arrives.
-          - if current_customer.current_account.have_payment_method
-            .authorize-payment-pannel.w100-pct.mt20
-              | Authorize Payment
-            h4
-              | Pick a payment method:
-            = link_to 'Default Payment Method', '#', remote: true, class: 'btn btn-default w100-pct text-center mt20'
-            = link_to "Pay #{humanized_money_with_symbol(assignment.diagnostic_fee, symbol_after_without_space: true)}", service_requests_service_request_assignment_start_accepting_path(assignment.id, service_request_id: service_request.id), remote: true, class: 'btn btn-danger w100-pct text-center mt20'
-          - else
-            = link_to 'Accept and authorize charge', service_requests_service_request_assignment_start_accepting_path(assignment.id, service_request_id: service_request.id), remote: true, class: 'btn btn-danger w100-pct text-center mt20'
-            br/
-            = link_to 'Decline', '#', remote: true, class: 'btn btn-default w100-pct text-center mt10 with-ajax-loader'
-            
-          p.text-center.fs12.mt10
-            |By Accepting you agree to out
-            = link_to 'Terms of use', page_path('terms_of_use')
-          .hidden
-            .bg-red.w100-pct.p10.white.mt20
-                | Authorize Payment
-            .text-center
-              strong Pick a payment method:
-              = link_to 'Decline', '#', class: 'btn btn-default w100-pct text-center mt10'
-              br/
-              = link_to "Pay #{humanized_money_with_symbol(assignment.diagnostic_fee, symbol_after_without_space: true)}", '#', class: 'btn btn-danger w100-pct text-center mt20'
+          .assignment-wrapper.white-container id=assignment.id
+            - if assignment.responded?
+              .text-center.fs20
+                strong.black We`ve found a technician for you
+                .red Please respond as soon as possible
+              .row
+                .col-sm-3
+                  - if assignment.technician
+                    = image_tag assignment.technician[:photo] || 'default_avatar_icon.png', class: 'img-circle', width: '70'
+                .col-sm-9
+                  = "#{assignment.contractor_account[:name]} can send:"
+                  br/
+                  = assignment.technician[:name] if assignment.technician
+                  .rating-container
+                    .star.fullStar
+                    .star.fullStar
+                    .star.fullStar
+                    .star.fullStar
+                    .star.fullStar
+                  br/
+                  = "Can come #{assignment.arrive_eta}"
+              input type='text' placeholder= 'Tap here to enter Promo Code' class= 'w100-pct text-center mt20'
+              .black.text-center.fs16
+                |You must authorize a charge of
+                span.ml10
+                  = "#{humanized_money_with_symbol(assignment.diagnostic_fee, symbol_after_without_space: true)}"
+                .mt10
+                  | This covers the technician's arrival and one hour of
+                  br/
+                  | work to fix or diagnose the problem. Once you
+                  br/
+                  | accept this conctractor you cannot cancel and your
+                  br/
+                  | card will be charged when the technician arrives.
+              - if current_customer.current_account.have_payment_method
+                .authorize-payment-pannel.w100-pct.mt20
+                  | Authorize Payment
+                h4
+                  | Pick a payment method:
+                = link_to 'Default Payment Method', '#', remote: true, class: 'btn btn-default w100-pct text-center mt20'
+                = link_to "Pay #{humanized_money_with_symbol(assignment.diagnostic_fee, symbol_after_without_space: true)}", service_requests_service_request_assignment_start_accepting_path(assignment.id, service_request_id: service_request.id), remote: true, class: 'btn btn-danger w100-pct text-center mt20'
+              - else
+                = link_to 'Accept and authorize charge', service_requests_service_request_assignment_start_accepting_path(assignment.id, service_request_id: service_request.id), remote: true, class: 'btn btn-danger w100-pct text-center mt20'
+                br/
+                = link_to 'Decline', '#', remote: true, class: 'btn btn-default w100-pct text-center mt10 with-ajax-loader'
+              p.text-center.fs12.mt10
+                |By Accepting you agree to out
+                = link_to 'Terms of use', page_path('terms_of_use')
+              .hidden
+                .bg-red.w100-pct.p10.white.mt20
+                    | Authorize Payment
+                .text-center
+                  strong Pick a payment method:
+                  = link_to 'Decline', '#', class: 'btn btn-default w100-pct text-center mt10'
+                  br/
+                  = link_to "Pay #{humanized_money_with_symbol(assignment.diagnostic_fee, symbol_after_without_space: true)}", '#', class: 'btn btn-danger w100-pct text-center mt20'
+            - else
+              = render 'activities', service_request: service_request, activities: activities
   - else
-    .map-container
-      = static_map_for(service_request.location[:geography][:latitude], service_request.location[:geography][:longitude])
-    .content.mt10
-      = image_tag 'notification.png'
-      strong.ml10.fs16 Service Request Status
-      .white-container
-        - activities.each do |activity|
-          p
-            = time_format(activity.created_at)
-            span.ml10
-              = activity.action_humanized
-      h3.text-center
-        = link_to 'See Your Service Request Details', '#', data: { target: '#serviceRequestDetail', toggle: 'modal'}, class: 'grey'
-      p
-       = link_to 'Edit Request', '#', class: 'btn btn-default btn-blue'
-      p.text-center
-       = link_to 'Cancel Request', current_request_cancel_path(service_request), data: { confirm: "You want to cancel Service Request ##{service_request.id}"}, class: 'grey fs16'
-  #serviceRequestDetail.modal.fade role="dialog" 
+    = render 'activities', service_request: service_request, activities: activities
+  #serviceRequestDetail.modal.fade role="dialog"
     .modal-dialog.modal-sm
       .modal-content
         .modal-header.text-center

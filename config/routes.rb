@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   resources :charges
   resources :venues, only: :index
   resources :locations do
-    resources :service_requests, only: [:new, :create], module: 'locations'
+    resources :service_requests, only: [:new, :create, :edit, :update], module: 'locations'
     resources :equipment_items, only: [:index], module: 'locations'
   end
   resources :staff, only: [:new, :create, :index, :destroy] do

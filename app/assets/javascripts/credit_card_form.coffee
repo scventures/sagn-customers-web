@@ -1,7 +1,7 @@
 $('form#add_new_card, form#service-request-form').livequery ->
   $('form#add_new_card, form#service-request-form').on 'submit', (event) ->
     $form = $(this)
-    if $('.card-bg').is(':visible')
+    if $('.card-bg').is(':visible') || $('.add-card-wrapper').hasClass('show')
       if($form.find('#service_request_token').val().length == 0)
         $form.find('input[type=submit]').prop 'disabled', true
         Stripe.card.validateCVC($('[data-stripe=cvv]').val())
@@ -26,6 +26,9 @@ $('form#add_new_card, form#service-request-form').livequery ->
 
   show_error = (message) ->
     $('#flash-messages').html '<div class="alert alert-warning"><a class="close" data-dismiss="alert">×</a><div id="flash_alert">' + message + '</div></div>'
+    if !($('#flash-messages').is(':visible'))
+      $('.content-wrapper').addClass('hidden')
+      $('.content-wrapper.complete-request').removeClass('hidden')
     $('.alert').delay(5000).fadeOut 3000
     false
     

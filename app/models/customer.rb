@@ -10,7 +10,7 @@ class Customer
   attributes :email, :jwt, :password, :password_confirmation, :active,
              :current_account_id, :customer_account_ids, :name,
              :customer_account_name, :unconfirmed_phone, :tos_accepted,
-             :confirmation_token, :photo, :unconfirmed_email, :sms_confirmation_pin, :service_request
+             :confirmation_token, :photo, :unconfirmed_email, :sms_confirmation_pin, :service_request, :location
 
   devise :remote_authenticatable, :recoverable, :registerable, :confirmable
   skip_callback :update, :before, :postpone_email_change_until_confirmation_and_regenerate_confirmation_token
@@ -66,6 +66,18 @@ class Customer
       errors.add(:sms_confirmation_pin, :invalid) unless response.success?
     end
     errors.blank?
+  end
+  
+  def create_service_request(location, service_request)
+    self.populate_attributes
+    location = Location.new(location)
+    location.account_id = self.current_account_id
+    if location.save
+      service_request = ServiceRequest.new(service_request)
+      service_request.location_id = location.id
+      service_request.account_id = self.current_account_id
+      service_request.save
+    end
   end
 
 end

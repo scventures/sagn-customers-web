@@ -26,8 +26,11 @@ module DeviseOverrides
       populate_errors(parsed_data[:errors]) if response.status == 422
     end
   end
-
-
+  
+  def authenticate!
+    customer = Customer.authenticate!(email, password)
+    self.jwt = customer.jwt if customer
+  end
 
   module ClassMethods
     def send_reset_password_instructions(attributes={})
@@ -87,7 +90,9 @@ module DeviseOverrides
       post_raw('customers/auth_token', auth: {email: customer.email, password: customer.password}) do |parsed_data, response|
         customer.jwt = parsed_data[:data][:jwt] if response.status == 201
       end
-      customer.valid_auth_token? ? customer : nil
+      return nil unless customer.valid_auth_token?
+      RequestStore.store[:auth_token] = customer.jwt
+      customer
     end
   end
 

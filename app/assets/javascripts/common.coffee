@@ -16,7 +16,7 @@ window.customAlert = (title, message) ->
     cancelClass: 'hide'
     zIindex: 10099
 
-$('.image-upload').livequery ->
+$.onmount '.image-upload', ->
   $(this).on 'change', (event) ->
     files = event.target.files
     image = files[0]
@@ -30,7 +30,7 @@ $('.image-upload').livequery ->
       $(event.target).focusout()
     reader.readAsDataURL image
 
-$('form[data-client-side-validations][data-turboboost]').livequery ->
+$.onmount 'form[data-client-side-validations][data-turboboost]', ->
   $(this).enableClientSideValidations()
   
 $(document).on 'shown.bs.modal', '.modal', ->
@@ -41,3 +41,7 @@ $(document).on 'turbolinks:load', ->
 
 $(document).on 'click', '[data-toggle=offcanvas]', ->
   $('.row-offcanvas').toggleClass('active')
+
+$(document).on 'ready shown.bs.modal load turbolinks:load', ->
+  $.onmount()
+

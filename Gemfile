@@ -56,6 +56,10 @@ gem 'js-routes'
 gem 'money-rails', '~>1'
 gem 'perfect-scrollbar-rails'
 
+source 'https://rails-assets.org' do
+  gem 'rails-assets-onmount'
+end
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

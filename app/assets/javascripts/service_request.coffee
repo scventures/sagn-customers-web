@@ -67,7 +67,7 @@ $(document).on 'click', '.map-container a.location-link', (e) ->
   google.maps.event.trigger markers[id], 'click'
   $('.map-container').find('button.location-btn').trigger('click')
   
-$(document).on 'change', '.category-wrapper input[type=radio]', ->
+$(document).on 'change, click', '.category-wrapper input[type=radio]', ->
   id = $(this).val()
   setContentWrapperClass('subcategories-wrapper')
   $('.subcategory_icons').addClass('hidden')
@@ -78,7 +78,7 @@ $(document).on 'change', '.category-wrapper input[type=radio]', ->
   $('.category-wrapper').addClass('hidden')
   $('.service-request-form-wrapper .back-btn').removeClass('hidden')
     
-$(document).on 'change', '.subcategories-wrapper input[type=radio]', ->
+$(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   $('.subcategories-wrapper .subcategory_field').val($(this).val())
   brands = $(this).data('brands')
   problem_codes = $(this).data('problem-codes')

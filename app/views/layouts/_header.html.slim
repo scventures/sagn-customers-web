@@ -7,9 +7,9 @@
           span.icon-bar
           span.icon-bar
           span.icon-bar
-        a.navbar-brand.welcome-user href="#" 
-          = image_tag 'user.png'
-          = current_customer.name
+        a.navbar-brand.welcome-user href="#"
+          = image_tag 'user.png', class: 'img-circle', size: '80'
+          = current_customer.name.try(:titleize)
       #navbar.navbar-collapse.collapse
         .col-xs-5
           h3.page-title

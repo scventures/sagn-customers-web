@@ -47,7 +47,7 @@ setMarkers = (map) ->
         bounds.extend markerLatLng
       map.fitBounds bounds
   
-window.initMap = ->
+initMap = ->
   if document.getElementById('google-map')
     map = new google.maps.Map document.getElementById('google-map'),
       minZoom: 1
@@ -57,9 +57,8 @@ window.initMap = ->
       mapTypeId: google.maps.MapTypeId.ROADMAP
     setMarkers(map)
 
-$(document).ready ->
-  google.maps.event.addDomListener(window, 'load', initMap);
-  google.maps.event.addDomListener(window, 'turbolinks:load', initMap);
+$.onmount '#google-map', ->
+  initMap()
 
 $(document).on 'click', '.map-container a.location-link', (e) ->
   e.preventDefault()
@@ -157,7 +156,7 @@ setCategories = ->
     $('.select_subcategory').select2
       data: categories
 
-$('.select_category').livequery ->
+$.onmount '.select_category', ->
   setCategories()
 
 $(document).on 'select2:select, change', '.select_category', (e) ->

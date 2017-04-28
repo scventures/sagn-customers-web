@@ -12,10 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require onmount
 //= require jquery.blockUI
 //= require jquery.remotipart
 //= require bootstrap-sprockets
-//= require jquery.livequery
 //= require cocoon
 //= require select2-full
 //= require rating.min

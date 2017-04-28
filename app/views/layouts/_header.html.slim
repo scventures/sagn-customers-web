@@ -10,7 +10,7 @@
         a.navbar-brand.welcome-user href="#"
       #navbar.navbar-collapse.collapse
         ul.nav.navbar-nav.navbar-left
-          .dropdown
+          .dropdown.text-center
             li.dropdown-toggle.guest-name data-toggle="dropdown" type="button"
               - if current_customer.photo?
                 = image_tag current_customer.photo, class: 'img-circle mt10', size: '80'

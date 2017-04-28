@@ -67,10 +67,11 @@ $(document).on 'click', '.map-container a.location-link', (e) ->
   $('.map-container').find('button.location-btn').trigger('click')
 
 setContentWrapperClass = (selector) ->
-  $('.content-wrapper').addClass('hidden')
+  $(".content-wrapper:not(.#{selector})").addClass('hidden')
   $(".content-wrapper.#{selector}").removeClass('hidden')
   $('.main-wrapper').scrollTop(0)
-  $('.main-wrapper').perfectScrollbar('update')
+  $('.content-wrapper').on 'imagesLoaded', ->
+    $('.main-wrapper').perfectScrollbar('update')
   return
   
 setSubcategoriesImages = (id) ->

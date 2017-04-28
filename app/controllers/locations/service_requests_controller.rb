@@ -22,7 +22,7 @@ class Locations::ServiceRequestsController < ApplicationController
       @contractors = @current_account.contractors
       @service_request.issue_images = Her::Collection.new
       respond_to do |format|
-        format.js { render partial: "locations/service_requests/form", locals: { service_request: @service_request, location: @location, categories: @categories }, replace: ".service-request-form-wrapper" }
+        format.js { render partial: "locations/service_requests/form", locals: { service_request: @service_request, location: @location, categories: @categories }, within: ".service-request-form-wrapper" }
       end
     end
   end

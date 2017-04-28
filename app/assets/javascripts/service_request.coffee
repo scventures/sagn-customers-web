@@ -188,6 +188,6 @@ $(document).on 'click', '.left-sidebar ul li a.past-requests-link', (e) ->
   
 $(document).on 'keyup', '.us_phone_number', ->
   phone_number = $(this).val()
-  if isValidNumber(phone_number, 'US')
+  if isValidNumber(phone_number.replace(/ /g, ''), 'US')
     phone_number = formatNumberForMobileDialing('US', phone_number)
     $(this).val(phone_number)

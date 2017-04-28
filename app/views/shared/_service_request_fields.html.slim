@@ -57,7 +57,7 @@
     h4 When the technician arrives, who should they ask for?
     = f.input :full_name, label: false, input_html: { placeholder: 'Full Name' }
     = f.input :email, label: false, input_html: { placeholder: 'Email' }
-    = f.input :phone_number, label: false, input_html: { placeholder: 'Phone Number'}
+    = f.input :phone_number, label: false, input_html: { placeholder: 'Phone Number', class: 'us_phone_number'}
     = f.input :company_name, label: false, input_html: { placeholder: 'Company Name' }
     = f.input :token, as: :hidden, input_html: { id: 'service_request_token' }
     .clearfix

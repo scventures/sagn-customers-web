@@ -5,11 +5,12 @@
       .content-wrapper.complete-request.hidden
         .text-center.service-head.center-panel
           h1 Complete Request
-        .panel-body.mt20
+        .panel-body.mt20.text-center
           = link_to '#', class: 'btn btn-red request-service-card-btn', data: { card: 'add'} do
             h4.text-center Add Credit Card
-          = link_to '#', class: 'btn btn-default request-service-card-btn', data: { card: 'default'} do
-            h4.text-center Default Payment Method
+          - if current_customer.current_account.have_payment_method
+            = link_to '#', class: 'btn btn-default request-service-card-btn', data: { card: 'default'} do
+              h4.text-center Default Payment Method
           #flash-messages
           = f.input :token, as: :hidden, input_html: { id: 'service_request_token' }
           .card-wrapper

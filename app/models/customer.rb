@@ -31,6 +31,8 @@ class Customer
 
   validates_presence_of     :password, if: :password_required?
   validates_confirmation_of :password, if: :password_required?
+  
+  before_save :set_phone_number
 
   def valid_auth_token?
     if jwt.present?
@@ -76,14 +78,18 @@ class Customer
   
   def create_service_request
     self.populate_attributes
-    location = Location.new(self.location)
+    location = self.location
     location.account_id = self.current_account_id
     if location.save
-      service_request = ServiceRequest.new(self.service_request)
+      service_request = self.service_request
       service_request.location_id = location.id
       service_request.account_id = self.current_account_id
       service_request.save
     end
+  end
+  
+  def set_phone_number
+    self.phone_number = self.phone_number.gsub(/[^0-9]/, '') if self.phone_number
   end
 
 end

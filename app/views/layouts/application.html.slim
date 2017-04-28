@@ -6,7 +6,7 @@ html
     .row-offcanvas.row-offcanvas-left
       .left-sidebar.sidebar-offcanvas.ps-scroll
         ul.sidebar
-          li class="#{ 'active' if params[:controller] == 'service_request'}"
+          li class="#{ 'active' if params[:controller] == 'service_requests'}"
             = link_to service_requests_path, class: '' do
               i.icon-req-services
               p Request Service

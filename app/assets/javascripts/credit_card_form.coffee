@@ -16,12 +16,15 @@ $.onmount 'form#add_new_card, form#service-request-form', ->
     $form = $('form#add_new_card, form#service-request-form')
     if response.error
       show_error response.error.message
+      $('#add_card.modal .panel-body').find('p.error-block').remove()
+      $('#add_card.modal .panel-body').prepend("<p class='error-block'>" + response.error.message + "</p>")
       $form.find('input[type=submit]').prop 'disabled', false
       $('.card-bg').find('input').prop('disabled', false)
     else
       token = response.id
       $form = $form.find('#service_request_token').val(token)
       $('.card-bg').find('input').prop('disabled', true)
+      $('#add_card.modal .panel-body').find('p.error-block').remove()
       $form.submit()
 
   show_error = (message) ->

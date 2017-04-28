@@ -181,3 +181,6 @@ $(document).on 'click', '.equipment-warrant-checkbox', (e) ->
     $(this).find('input[type=checkbox]').prop('checked', false)
   else
     $(this).find('input[type=checkbox]').prop('checked', true)
+
+$(document).on 'click', '.left-sidebar ul li a.past-requests-link', (e) ->
+  e.preventDefault()

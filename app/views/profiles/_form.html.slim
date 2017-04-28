@@ -1,25 +1,35 @@
-= simple_form_for customer, url: :profile, wrapper: :horizontal_form, turboboost: true, validate: true, html: {class: 'form-horizontal edit-profile'} do |f|
-  .row
-    .col-xs-12.text-center
-      .image-wrapper
-        .image-upload-label.center-block
-          - if current_customer.photo?
-            = image_tag current_customer.photo
-          - else
-            = image_tag 'default_avatar_icon.png'
-        .image-upload-label.center-block.preview.hidden
-        = f.label :avatar, label: 'Change Image', class: 'text-uppercase'
-        = f.input :avatar, as: :file, label: false, input_html: { class: 'image-upload' }, validate: true
-  .row
-    .col-xs-12.text-center
-      
-  .row.mt20
-    .panel.panel-default.p20
-      .panel-body
-        .row
-          = f.input :name
-          = f.input :email
-          = f.input :unconfirmed_phone, label: :Phone
-          .pull-right
-            = f.button :submit, 'Update', class: 'btn btn-success'
-            = link_to 'Cancel', profile_path, class: 'ml10 btn btn-danger'
+.right-container
+  .container.pull-left
+    .col-md-12.center-panel
+      = simple_form_for customer, url: :profile, wrapper: :horizontal_form, turboboost: true, validate: true, html: {class: 'form-horizontal edit-profile'} do |f|
+        .user-profile-pic.text-center
+          .image-wrapper
+            .image-upload-label.center-block
+              - if current_customer.photo?
+                = image_tag current_customer.photo
+              - else
+                = image_tag 'user.png'
+            .image-upload-label.center-block.preview.hidden
+            = f.label :avatar, label: 'Change Image', class: 'text-uppercase'
+            = f.input :avatar, as: :file, label: false, input_html: { class: 'image-upload hidden' }, validate: true
+        h2.text-center
+          = f.object.name.try(:titleize)
+        .whiteBox.col-md-10.center-panel.form-my-profile
+          .form-group
+            label.col-sm-3.control-label for=""  Name
+            .col-sm-9
+              = f.input :name, class: 'form-control', label: false
+          .form-group
+            label.col-sm-3.control-label for=""  Email
+            .col-sm-9
+              = f.input :email, class: 'form-control', label: false
+          .form-group
+            label.col-sm-3.control-label for=""  Phone
+            .col-sm-9
+              = f.input :unconfirmed_phone, label: false, class: 'form-control'
+          .form-group.mt15
+            .row
+              .col-sm-6
+                = f.button :submit, 'Save', class: 'btn btn-red text-uppercase'
+              .col-sm-6
+                = link_to 'Back', profile_path, class: 'btn btn-red text-uppercase'

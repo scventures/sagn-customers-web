@@ -1,5 +1,5 @@
-$('form#add_new_card, form#service-request-form').livequery ->
-  $('form#add_new_card, form#service-request-form').on 'submit', (event) ->
+$.onmount 'form#add_new_card, form#service-request-form', ->
+  $(this).on 'submit', (event) ->
     $form = $(this)
     if $('.card-bg').is(':visible') || $('.add-card-wrapper').hasClass('show')
       if($form.find('#service_request_token').val().length == 0)

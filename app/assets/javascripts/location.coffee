@@ -1,4 +1,4 @@
-$('.address_auto_complete_field, .edit_address_auto_complete_field').livequery ->
+$.onmount '.address_auto_complete_field, .edit_address_auto_complete_field', ->
   window.placeAutocomplete = new google.maps.places.Autocomplete($(this)[0], types: [ 'geocode' ])
   placeAutocomplete.addListener('place_changed', fillInAddress);
 
@@ -27,7 +27,7 @@ fillInAddress = ->
     $('#location_geography_latitude').val(place.geometry.location.lng())
     $('#location_geography_longitude').val(place.geometry.location.lat())
   
-$('.location-form-container .venue_name').livequery ->
+$.onmount '.location-form-container .venue_name', ->
   $(this).select2
     theme: 'paper'
     closeOnSelect: false

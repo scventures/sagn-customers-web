@@ -89,7 +89,7 @@ class Customer
   end
   
   def set_phone_number
-    self.phone_number = self.phone_number.gsub(/[^0-9]/, '') if self.phone_number
+    self.unconfirmed_phone = self.unconfirmed_phone.gsub(/[^0-9]/, '') if self.unconfirmed_phone
   end
 
 end

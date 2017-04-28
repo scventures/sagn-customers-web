@@ -72,6 +72,7 @@ setContentWrapperClass = (selector) ->
   $('.main-wrapper').scrollTop(0)
   $('.content-wrapper').on 'imagesLoaded', ->
     $('.main-wrapper').perfectScrollbar('update')
+  $.onmount()
   return
   
 setSubcategoriesImages = (id) ->

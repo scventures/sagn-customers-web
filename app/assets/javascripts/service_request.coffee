@@ -161,3 +161,6 @@ $.onmount '.select_category', ->
 
 $(document).on 'select2:select, change', '.select_category', (e) ->
   setCategories()
+
+$(document).on 'click', '.left-sidebar ul li a.past-requests-link', (e) ->
+  e.preventDefault()

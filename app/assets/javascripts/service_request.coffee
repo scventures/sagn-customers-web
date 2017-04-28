@@ -185,3 +185,9 @@ $(document).on 'click', '.equipment-warrant-checkbox', (e) ->
 
 $(document).on 'click', '.left-sidebar ul li a.past-requests-link', (e) ->
   e.preventDefault()
+  
+$(document).on 'keyup', '.us_phone_number', ->
+  phone_number = $(this).val()
+  if isValidNumber(phone_number, 'US')
+    phone_number = formatNumberForMobileDialing('US', phone_number)
+    $(this).val(phone_number)

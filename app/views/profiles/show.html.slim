@@ -10,7 +10,7 @@
         - if current_customer.photo?
           = image_tag current_customer.photo, class: 'img-circle', size: '100'
         - else
-          = image_tag 'default_avatar_icon', class: 'img-circle', size: '100'
+          = image_tag 'default_avatar_icon.png', class: 'img-circle', size: '100'
         h3= current_customer.name
     .row
       .panel.panel-default

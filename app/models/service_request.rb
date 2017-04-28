@@ -11,9 +11,10 @@ class ServiceRequest
   has_many :issue_images
   has_many :activities
   has_many :assignments
+  belongs_to :customer
   
   accepts_nested_attributes_for :issue_images
-  validates_presence_of :location_id, :category_id, :subcategory_id
+  validates :location_id, :category_id, :subcategory_id, presence: true
 
   before_save :set_urgent, :set_contact_details
   

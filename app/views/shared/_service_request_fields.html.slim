@@ -1,0 +1,68 @@
+.content-wrapper.category-wrapper.mt100
+  h1 What can we help you with?
+  h3 Select service to start.
+  = f.input :category_id, as: :radio_buttons, collection: categories[nil].map { |c| [ category_icons(c), c.id ]}, label: false 
+.content-wrapper.subcategories-wrapper.mt100.hidden
+  - @categories[nil].each do |category|
+    .subcategory_icons.hidden class="category-#{category.id}"
+      h1
+        = category.name
+      = f.input :subcategory, as: :radio_buttons, collection: categories[category.id].map { |s| [category_icons(s), s.id, data: {brands: s.brands.to_json, problem_codes: s.problem_codes.to_json }] }, label: false
+  = f.input :subcategory_id, as: :hidden, input_html: { class: 'subcategory_field', value: f.object.subcategory_id}
+  = link_to 'Back', '#', class: 'btn btn-primary mb20', data: { back: 'category-wrapper' }, id: 'back-btn'
+.content-wrapper.issue-wrapper.text-center.hidden
+  .text-center.service-head.center-panel.col-sm-4
+    h1 What needs to be fixed?
+    h3 Do you have an issue with br/ heating or cooling?
+    p.mt20 What specifically do you have a problem with?
+    = f.input :problem_code_id, as: :select, label: false, input_html: { class: 'select_problem_code'}
+    = link_to 'Continue', '#', class: 'btn btn-continue request-continue-btn mt20', data: { continue: 'describe-issue'}
+    .row
+      .col-sm-12
+        = link_to 'Back', '#', class: 'btn btn-primary mb20', data: { back: 'subcategories-wrapper'}, id: 'back-btn'
+.content-wrapper.describe-issue.hidden
+  .text-center.service-head.center-panel
+    h1 Describe Issue
+    h4 Tell us about the equipment
+  .col-md-5.address-form.center-panel
+    p.mt20 What Brand is it?
+    = f.input :brand_id, as: :select, label: false, input_html: { class: 'select_brand'}
+    = f.input :brand_name, label: false, input_html: { id: 'service_request_brand_name', class: 'hidden', placeholder: 'Brand Name'}
+    .row
+      .col-sm-6
+        = f.input :model, label: false, input_html: { placeholder: 'Model'}
+      .col-sm-6
+        = f.input :serial, label: false, input_html: { placeholder: 'Serial Number'}
+    h5 Is this an urgent service? (need a tech in the next 4-6 hours)?
+    = f.input :urgent, as: :select, label: false, collection: ['Yes', 'No'], selected: 'Yes'
+    = f.input :notes, as: :text, label: 'Please briefly describe the problem'
+    h4.text-center Is Equipment Under Warranty?
+    p SendaGuy Now is not for service on equipment covered by warranty. If your equipment is under warranty, you'll want to contact the manufacturer directly
+    .btn.btn-red.equipment-warrant-checkbox
+      = check_box_tag 'equipment', value: 1, checked: false
+      span.ml10 I understand and wish to continue.
+    = link_to 'See Warranty Information for Brand', '#'
+    .col-md-9.mt10.center-panel
+      = link_to 'Continue', '#', class: 'btn btn-continue request-continue-btn', data: { continue: 'schedule-service'}
+    .row
+      .col-sm-12
+        = link_to 'Back', '#', class: 'btn btn-primary mb20 mt20', data: { back: 'subcategories-wrapper' }, id: 'back-btn'
+.content-wrapper.schedule-service.hidden
+  .text-center.service-head.center-panel
+    h1 Schedule Service
+    h4 Tell us about the service
+  .col-md-5.address-form.center-panel
+    h4.text-center When would you like a technician to arrive?
+    = f.input :work_time_details, as: :text, label: false
+    h4 When the technician arrives, who should they ask for?
+    = f.input :full_name, label: false, input_html: { placeholder: 'Full Name' }
+    = f.input :email, label: false, input_html: { placeholder: 'Email' }
+    = f.input :phone_number, label: false, input_html: { placeholder: 'Phone Number'}
+    = f.input :company_name, label: false, input_html: { placeholder: 'Company Name' }
+    = f.input :token, as: :hidden, input_html: { id: 'service_request_token' }
+    .clearfix
+    .col-md-9.margintop30.center-panel
+      = f.submit 'Schedule', class: 'btn btn-continue request-continue-btn text-uppercase', data: { continue: 'complete-request'}
+  .row
+      .col-sm-12
+        = link_to 'Back', '#', class: 'btn btn-primary mb20 mt20', data: { back: 'describe-issue' }, id: 'back-btn'

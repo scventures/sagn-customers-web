@@ -65,9 +65,15 @@ $(document).on 'click', '.map-container a.location-link', (e) ->
   id = $(this).data('id')
   google.maps.event.trigger markers[id], 'click'
   $('.map-container').find('button.location-btn').trigger('click')
+
+setContentWrapperClass = (selector) ->
+  $('.content-wrapper').addClass('hidden')
+  $(".content-wrapper.#{selector}").removeClass('hidden')
+  $('.main-wrapper').scrollTop(0)
+  $('.main-wrapper').perfectScrollbar('update')
+  return
   
-$(document).on 'change, click', '.category-wrapper input[type=radio]', ->
-  id = $(this).val()
+setSubcategoriesImages = (id) ->
   setContentWrapperClass('subcategories-wrapper')
   $('.subcategory_icons').addClass('hidden')
   $(".subcategory_icons.category-#{id}").removeClass('hidden')
@@ -76,6 +82,12 @@ $(document).on 'change, click', '.category-wrapper input[type=radio]', ->
     $(this).attr('src', imgSrc)
   $('.category-wrapper').addClass('hidden')
   $('.service-request-form-wrapper .back-btn').removeClass('hidden')
+  
+$(document).on 'change, click', '.category-wrapper input[type=radio]', ->
+  setSubcategoriesImages($(this).val())
+  
+$.onmount '.category-wrapper input[type=radio]', ->
+  setSubcategoriesImages($('.category-wrapper input[type=radio]:checked').val())
     
 $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   $('.subcategories-wrapper .subcategory_field').val($(this).val())
@@ -121,7 +133,8 @@ $(document).on 'select2:select', '.service-request-form-wrapper .select_equipmen
         
 $(document).on 'click', '.service-request-form-wrapper .request-continue-btn', (e) ->
   e.preventDefault()
-  setContentWrapperClass($(this).data('continue'))
+  if !($(this).hasClass('.logout-credit-card'))
+    setContentWrapperClass($(this).data('continue'))
   
 $(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-btn', (e) ->
   e.preventDefault()
@@ -141,12 +154,6 @@ $(document).on 'click', '.service-request-form-wrapper .request-service-card-btn
   else
     $('.service-request-form-wrapper .card-wrapper').addClass('hidden')
   
-setContentWrapperClass = (selector) ->
-  $('.content-wrapper').addClass('hidden')
-  $(".content-wrapper.#{selector}").removeClass('hidden')
-  $('.main-wrapper').scrollTop(0)
-  return
-
 setCategories = ->
   if $('.select_category option:selected').val() != ''
     categories = $('.select_category option:selected').data('categories')
@@ -161,6 +168,19 @@ $.onmount '.select_category', ->
 
 $(document).on 'select2:select, change', '.select_category', (e) ->
   setCategories()
+  
+$.onmount 'form#service-request-form', (e) ->
+  $(this).find('.content-wrapper').addClass('hidden')
+  if $(this).find('.has-error').length
+    $(this).find('.has-error').first().parents('.content-wrapper:first').removeClass('hidden')
+  else
+    $(this).find('.content-wrapper:first').removeClass('hidden')
+  
+$(document).on 'click', '.equipment-warrant-checkbox', (e) ->
+  if $(this).find('input[type=checkbox]').is(':checked')
+    $(this).find('input[type=checkbox]').prop('checked', false)
+  else
+    $(this).find('input[type=checkbox]').prop('checked', true)
 
 $(document).on 'click', '.left-sidebar ul li a.past-requests-link', (e) ->
   e.preventDefault()

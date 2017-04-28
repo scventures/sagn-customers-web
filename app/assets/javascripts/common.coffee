@@ -42,6 +42,6 @@ $(document).on 'turbolinks:load', ->
 $(document).on 'click', '[data-toggle=offcanvas]', ->
   $('.row-offcanvas').toggleClass('active')
 
-$(document).on 'ready shown.bs.modal load turbolinks:load', ->
+$(document).on 'ready shown.bs.modal load turbolinks:load turboboost:complete', ->
   $.onmount()
 

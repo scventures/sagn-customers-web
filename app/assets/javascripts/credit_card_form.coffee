@@ -20,13 +20,15 @@ $.onmount 'form#add_new_card, form#service-request-form', ->
       $('#add_card.modal .panel-body').prepend("<p class='error-block'>" + response.error.message + "</p>")
       $form.find('input[type=submit]').prop 'disabled', false
       $('.card-bg').find('input').prop('disabled', false)
+      if ($form.hasClass('logout-form'))
+        $('.content-wrapper').addClass('hidden')
+        $('.content-wrapper.complete-request').removeClass('hidden')
     else
       token = response.id
       $form = $form.find('#service_request_token').val(token)
       $('.card-bg').find('input').prop('disabled', true)
       $('#add_card.modal .panel-body').find('p.error-block').remove()
-      if !($form.hasClass('logout-form'))
-        $form.submit()
+      $form.submit()
 
   show_error = (message) ->
     $('#flash-messages').html '<div class="alert alert-warning"><a class="close" data-dismiss="alert">×</a><div id="flash_alert">' + message + '</div></div>'

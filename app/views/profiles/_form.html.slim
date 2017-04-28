@@ -4,14 +4,12 @@
       = simple_form_for customer, url: :profile, wrapper: :horizontal_form, turboboost: true, validate: true, html: {class: 'form-horizontal edit-profile'} do |f|
         .user-profile-pic.text-center
           .image-wrapper
-            .image-upload-label.center-block
+            label.image-upload-label.center-block for='profile-image'
               - if current_customer.photo?
-                = image_tag current_customer.photo
+                = image_tag current_customer.photo, class: 'img-circle'
               - else
                 = image_tag 'user.png'
-            .image-upload-label.center-block.preview.hidden
-            = f.label :avatar, label: 'Change Image', class: 'text-uppercase'
-            = f.input :avatar, as: :file, label: false, input_html: { class: 'image-upload hidden' }, validate: true
+            = f.input :avatar, as: :file, label: false, input_html: { class: "hide image-upload", id: "profile-image"}, validate: true
         h2.text-center
           = f.object.name.try(:titleize)
         .whiteBox.col-md-10.center-panel.form-my-profile

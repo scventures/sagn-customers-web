@@ -61,5 +61,5 @@ Rails.application.routes.draw do
   end
 
   root :to => 'customers#new'
-
+  get "/pages/*id" => 'pages#show', format: false
 end

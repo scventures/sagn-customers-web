@@ -7,10 +7,10 @@ class PagesController < ApplicationController
 
   def layout_for_page
     case params[:id]
-    when 'home'
-      'devise'
-    else
+    when 'terms_of_use'
       'application'
+    else
+      'devise'
     end
   end
 end

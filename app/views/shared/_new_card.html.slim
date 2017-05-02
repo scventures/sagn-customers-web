@@ -20,7 +20,7 @@
         label for='card_holder_name'
           | Card holder
         .card-input-bg
-          = text_field_tag :card_holder_name, nil, class: 'input-block-level', 'data-stripe' => 'name'
+          = text_field_tag :card_holder_name, nil, class: 'input-block-level', 'data-stripe' => 'name', autocomplete: 'off'
       .col-md-4
         .row
           label for='exp_month'
@@ -34,6 +34,6 @@
   .card-back
     div
       label for='card_verification'
-        | Cvc/cvv
+        | cvc/cvv
       .card-input-bg
         = text_field_tag :card_verification, nil, class: 'input-block-level', 'data-stripe' => 'cvv'

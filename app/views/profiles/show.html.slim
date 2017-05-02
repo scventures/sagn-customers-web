@@ -1,55 +1,62 @@
 - content_for :title do
-  .header-title.text-uppercase Profile
-.p20
-  = link_to edit_profile_path, class: 'pull-right red text-center' do
-    = fa_icon 'pencil-square-o', class: 'fa-3x red'
-    p Edit Profile 
-  .center-block style='max-width: 500px;'
-    .row
-      .col-xs-12.text-center
+  .header-title.text-uppercase My Profile
+.right-container
+  .container.pull-left
+    .col-md-7.center-panel
+      .user-profile-pic.text-center
         - if current_customer.photo?
-          = image_tag current_customer.photo, class: 'img-circle', size: '100'
+          = image_tag current_customer.photo, class: 'img-circle', size: '150'
         - else
-          = image_tag 'default_avatar_icon', class: 'img-circle', size: '100'
-        h3= current_customer.name
-    .row
-      .panel.panel-default
-        .panel-body
-          .row
-            .col-xs-2
-              .pull-right
-                = fa_icon 'check-circle', class: "fa-3x #{current_customer.confirmation_pending? ? 'text-muted' : 'text-success'}"
-            .col-xs-10
-              - if current_customer.confirmation_pending?
-                h4.text-uppercase confirm your email
-                div We've sent a confirmation email to:
-                div.text-primary
-                  = current_customer.confirmable_email
-                br/
-                div Just click link in the email to confirm.
-                = link_to 'Resend Confirmation', resend_email_confirmation_profile_path, remote: true, class: 'btn btn-danger with-ajax-loader'
-              - else
-                h4.text-uppercase Email confirmed
-                div We've confirmed your email:
-                div.text-primary
-                  = current_customer.email
-          hr
-          .row
-            .col-xs-2
-              .pull-right
-                = fa_icon 'check-circle', class: "fa-3x #{current_customer.phone_confirmation_pending? ? 'text-muted' : 'text-success'}"
-            .col-xs-10
-              - if current_customer.phone_confirmation_pending?
-                h4.text-uppercase confirm your mobile phone
-                div We've sent a code to:
-                div
-                  = current_customer.unconfirmed_phone
-                br/
-                = render 'phone_confirmation_form'
-                .mt10
-                  = link_to 'Send New Code', resend_phone_confirmation_profile_path, remote: true, class: 'btn btn-danger with-ajax-loader'
-              - elsif current_customer.phone_number?
-                h4.text-uppercase mobile phone confirmed
-                div We've confirmed your phone number:
-                div.text-primary
-                  = current_customer.phone_number
+          = image_tag 'user.png', class: 'img-circle', size: '150'
+      h2.text-center
+        = current_customer.name.try(:titleize)
+      .grayBg.col-md-10.center-panel.confirm-box.padding30
+        .head-text
+          - if current_customer.confirmation_pending?
+            i.fa.fa-check-circle aria-hidden="true"
+            span.pl20
+              | Confirm Your Email
+            p
+              | We`ve sent a confirmation email to:
+              br/
+              = current_customer.confirmable_email
+            p Just click link in this email to confirm.
+            .clearfix
+            .col-md-7
+              = link_to 'Resend Confirmation', resend_email_confirmation_profile_path, remote: true, class: 'btn btn-danger with-ajax-loader'
+            .clearfix
+          - else
+            i.fa.fa-check-circle.green aria-hidden="true"
+            span.pl20
+              | Email Confirmed
+            p
+              | We`ve confirmed your email:
+              br/
+              = current_customer.email
+          p
+            = link_to 'Need to change your email addess?', edit_profile_path, class: 'font-bold'
+        .head-text.margintop30
+          - if current_customer.phone_confirmation_pending?
+            i.fa.fa-check-circle aria-hidden="true"
+            span.pl20
+              | Confirm Your Mobile Phone
+            p
+              | We`ve sent a code to:
+              br/
+              = current_customer.unconfirmed_phone
+            p
+              | Please enter the code you recieved:
+            p
+              = render 'phone_confirmation_form'
+            p
+              = link_to 'Send New Code', resend_phone_confirmation_profile_path, remote: true, class: 'btn btn-danger with-ajax-loader'
+          - else
+            i.fa.fa-check-circle.green aria-hidden="true"
+            span.pl20
+              | Mobile Phone Confirmed
+            p
+              | We`ve confirmed your mobile phone:
+              br/
+              = current_customer.phone_number
+          p
+            = link_to 'Need to change your phone number?', edit_profile_path, class: 'font-bold'

@@ -321,6 +321,20 @@
       padding-left: 35px;
     }
   }
+  .equipment-warrant-checkbox {
+    input[type=checkbox] {
+      width: 15px;
+      height: 15px
+    }
+    span {
+      vertical-align: top;
+    }
+  }
+  .location-map-wrapper {
+    #location-map {
+      height: 300px;
+    }
+  }
 }
 
 .center-panel {
@@ -364,4 +378,11 @@
     font-weight: bold;
     font-style: italic;
   }
+}
+
+.service-request-edit-form .form-control {
+  border: 1px solid #979797;
+  border-radius: 4px;
+  height: 45px;
+  padding-left: 20px;
 }

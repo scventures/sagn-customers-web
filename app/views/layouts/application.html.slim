@@ -6,7 +6,7 @@ html
     .row-offcanvas.row-offcanvas-left
       .left-sidebar.sidebar-offcanvas.ps-scroll
         ul.sidebar
-          li class="#{ 'active' if params[:controller] == 'service_request'}"
+          li class="#{ 'active' if params[:controller] == 'service_requests'}"
             = link_to service_requests_path, class: '' do
               i.icon-req-services
               p Request Service
@@ -15,14 +15,14 @@ html
               i.icon-req-service-current
               p Current Requests
           li
-            = link_to '#', class: '' do
+            = link_to '#', class: 'past-requests-link' do
               i.icon-past-req
               p Past Requests
           li class="#{ 'active' if params[:controller] == 'locations'}"
             = link_to locations_path, class: '' do
               i.icon-location
               p Locations
-          li class="#{ 'active' if params[:controller] == 'dashboards'}"
+          li class="#{ 'active' if params[:controller] == 'dashboards' or params[:controller] == 'profiles'}"
             = link_to dashboard_path, class: '' do
               i.icon-profile
               p Profile

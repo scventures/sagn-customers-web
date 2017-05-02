@@ -7,10 +7,22 @@
           span.icon-bar
           span.icon-bar
           span.icon-bar
-        a.navbar-brand.welcome-user href="#" 
-          = image_tag 'user.png'
-          = current_customer.name
+        a.navbar-brand.welcome-user href="#"
       #navbar.navbar-collapse.collapse
+        ul.nav.navbar-nav.navbar-left
+          .dropdown
+            li.dropdown-toggle.guest-name data-toggle="dropdown" type="button"
+              - if current_customer.photo?
+                = image_tag current_customer.photo, class: 'img-circle mt10', size: '80'
+              - else
+                = image_tag 'user.png', class: 'img-circle mt10', size: '80'
+              br/
+              span.current-customer
+                = current_customer.name.try(:titleize)
+              span.caret
+            ul.dropdown-menu
+              li
+                = link_to 'Logout', destroy_customer_session_path, method: :delete
         .col-xs-5
           h3.page-title
             = yield :title
@@ -18,5 +30,3 @@
           .pull-right.inner-log
             = link_to dashboard_path, class: 'logo-link p0'
               = image_tag 'sendaguy.png', width: '200'
-            = link_to 'Logout', destroy_customer_session_path, method: :delete, class: 'pull-right logout-btn mt10' 
-            

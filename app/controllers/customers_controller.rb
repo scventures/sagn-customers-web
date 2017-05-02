@@ -4,6 +4,8 @@ class CustomersController < ApplicationController
   
   def new
     @customer = Customer.new
+    @customer.location = Location.new
+    @customer.service_request = ServiceRequest.new
     @categories = Category.all.fetch.group_by(&:parent_category_id)
   end
 

@@ -1,4 +1,5 @@
-.header-title.hidden Profile
+- content_for :title do
+  .header-title.text-uppercase My Profile
 .p20
   .center-block style='max-width: 500px;'
     = render 'form', customer: @customer

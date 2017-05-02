@@ -1,9 +1,9 @@
 .col-sm-4
-  .my-guy-container
+  .my-guy-container.h350-min
     .inverted-circle
-    h3
+    h3.title
       = staff.customer[:name]
-    p.list
+    p.list.content
       = staff.customer[:email]
-    p.mt20.text-center
-      = link_to 'Remove', staff_path(staff.customer_id), method: :delete, data: { confirm: "You want to remove this staff #{staff.customer[:name]}?"}, class: 'btn btn-danger'
+    p.mt20.text-center.footer
+      = link_to 'Remove', staff_path(staff.customer_id), method: :delete, data: { confirm: "You want to remove this staff #{staff.customer[:name]}?"}, class: 'btn btn-danger btn-lg'

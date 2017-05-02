@@ -198,7 +198,7 @@ $(document).on 'keyup', '.us_phone_number', ->
 
 $(document).on 'change', '.urgent-service', ->
   if $(this).val() == 'Yes'
-    $('.urgent-wrapper').find('h5').html('Please indicate any times withinthe next 4-6 hours that are NOT good for you to have a technician arrive.')
+    $('.urgent-wrapper').find('h5').html('Please indicate any times within the next 4-6 hours that are NOT good for you to have a technician arrive.')
     $('.urgent-wrapper').find('textarea').attr('placeholder', '')
   else
     $('.urgent-wrapper').find('h5').html('When would you like a technician to arrive?')

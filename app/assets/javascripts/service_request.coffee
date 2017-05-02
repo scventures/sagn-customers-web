@@ -45,7 +45,10 @@ setMarkers = (map) ->
             infowindow.open map, marker
             return
         bounds.extend markerLatLng
-      map.fitBounds bounds
+      unless bounds.isEmpty()
+        map.fitBounds bounds
+        if bounds.length == 1
+          map.setZoom 10
   
 initMap = ->
   if document.getElementById('google-map')

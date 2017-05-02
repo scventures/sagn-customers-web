@@ -3,7 +3,7 @@
   h3 Select service to start.
   = f.input :category_id, as: :radio_buttons, collection: categories[nil].map { |c| [ category_icons(c), c.id ]}, label: false 
 .content-wrapper.subcategories-wrapper.mt100.hidden
-  - @categories[nil].each do |category|
+  - categories[nil].each do |category|
     .subcategory_icons.hidden class="category-#{category.id}"
       h1
         = category.name

@@ -8,7 +8,7 @@
           | Service Request
       .modal-body
         .col-md-9.service-request-edit-form.center-panel
-          = simple_form_for service_request, url: "/locations/#{location.id}/service_requests/#{service_request.id}", validate: true, turboboost: true, html: { multipart: true, id: 'service-request-form' } do |f|
+          = simple_form_for service_request, url: location_service_request_path(location, service_request), validate: true, turboboost: true, html: { multipart: true, id: 'service-request-form' } do |f|
             .form-group
               label for='service_request_brand_name'
                 | Brand

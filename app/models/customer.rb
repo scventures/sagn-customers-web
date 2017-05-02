@@ -10,7 +10,7 @@ class Customer
   attributes :email, :jwt, :password, :password_confirmation, :active,
              :current_account_id, :customer_account_ids, :name,
              :customer_account_name, :unconfirmed_phone, :tos_accepted,
-             :confirmation_token, :photo, :unconfirmed_email, :sms_confirmation_pin, :service_request, :location
+             :confirmation_token, :photo, :unconfirmed_email, :sms_confirmation_pin
 
   devise :remote_authenticatable, :recoverable, :registerable, :confirmable
   skip_callback :update, :before, :postpone_email_change_until_confirmation_and_regenerate_confirmation_token
@@ -25,13 +25,12 @@ class Customer
   
   accepts_nested_attributes_for :service_request
   accepts_nested_attributes_for :location
+  validates :name, :email, :customer_account_name, :password, presence: true
+  validates_confirmation_of :password
 
   validates :avatar, file_size: { less_than_or_equal_to: 50.megabytes, message: 'File size exceeded. Maximum size 50MB.' },
                     file_content_type: { allow: ['image/gif', 'image/png', 'image/x-png', 'image/jpeg', 'image/pjpeg', 'image/jpg'], message: 'Image type not allowed. Allowed types are png/jpg/gif.' } 
 
-  validates_presence_of     :password, if: :password_required?
-  validates_confirmation_of :password, if: :password_required?
-  
   before_save :set_phone_number
 
   def valid_auth_token?

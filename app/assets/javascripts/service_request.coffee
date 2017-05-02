@@ -69,6 +69,7 @@ $(document).on 'click', '.map-container a.location-link', (e) ->
 setContentWrapperClass = (selector) ->
   $(".content-wrapper:not(.#{selector})").addClass('hidden')
   $(".content-wrapper.#{selector}").removeClass('hidden')
+  $('form').enableClientSideValidations()
   $('.main-wrapper').scrollTop(0)
   $('.content-wrapper').on 'imagesLoaded', ->
     $('.main-wrapper').perfectScrollbar('update')

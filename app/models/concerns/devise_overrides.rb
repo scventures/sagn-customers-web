@@ -9,10 +9,6 @@ module DeviseOverrides
     false
   end
 
-  def password_required?
-    !password.nil? || !password_confirmation.nil?
-  end
-
   def send_confirmation_instructions
     confirmable_value = pending_reconfirmation? ? unconfirmed_email : email
     errors.add(email, :blank) and return if confirmable_value.blank?

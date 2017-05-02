@@ -277,3 +277,16 @@ body {
     left: 0;
   }
 }
+
+.signup-form, #new_customer {
+  .form-group.required:before {
+    content: "*";
+    color: red;
+    margin: -5px -25px;
+    padding: 16px;
+    position: absolute;
+  }
+  .form-control {
+    display: inline-block;
+  }
+}

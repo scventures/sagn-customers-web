@@ -10,21 +10,28 @@ class Customer
   attributes :email, :jwt, :password, :password_confirmation, :active,
              :current_account_id, :customer_account_ids, :name,
              :customer_account_name, :unconfirmed_phone, :tos_accepted,
-             :confirmation_token, :photo, :unconfirmed_email, :sms_confirmation_pin, :service_request, :location
+             :confirmation_token, :photo, :unconfirmed_email, :sms_confirmation_pin
 
   devise :remote_authenticatable, :recoverable, :registerable, :confirmable
   skip_callback :update, :before, :postpone_email_change_until_confirmation_and_regenerate_confirmation_token
 
   has_many :accounts
+  # only for logout users
+  has_one :service_request
+  has_one :location
   belongs_to :current_account, class_name: 'Account'
 
   has_file_upload :avatar
+  
+  accepts_nested_attributes_for :service_request
+  accepts_nested_attributes_for :location
+  validates :name, :email, :customer_account_name, :password, presence: true
+  validates_confirmation_of :password
 
   validates :avatar, file_size: { less_than_or_equal_to: 50.megabytes, message: 'File size exceeded. Maximum size 50MB.' },
                     file_content_type: { allow: ['image/gif', 'image/png', 'image/x-png', 'image/jpeg', 'image/pjpeg', 'image/jpg'], message: 'Image type not allowed. Allowed types are png/jpg/gif.' } 
 
-  validates_presence_of     :password, if: :password_required?
-  validates_confirmation_of :password, if: :password_required?
+  before_save :set_phone_number
 
   def valid_auth_token?
     if jwt.present?
@@ -68,16 +75,20 @@ class Customer
     errors.blank?
   end
   
-  def create_service_request(location, service_request)
+  def create_service_request
     self.populate_attributes
-    location = Location.new(location)
+    location = self.location
     location.account_id = self.current_account_id
     if location.save
-      service_request = ServiceRequest.new(service_request)
+      service_request = self.service_request
       service_request.location_id = location.id
       service_request.account_id = self.current_account_id
       service_request.save
     end
+  end
+  
+  def set_phone_number
+    self.unconfirmed_phone = self.unconfirmed_phone.gsub(/[^0-9]/, '') if self.unconfirmed_phone
   end
 
 end

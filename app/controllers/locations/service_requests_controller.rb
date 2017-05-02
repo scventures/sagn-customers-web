@@ -22,7 +22,7 @@ class Locations::ServiceRequestsController < ApplicationController
       @contractors = @current_account.contractors
       @service_request.issue_images = Her::Collection.new
       respond_to do |format|
-        format.js { render partial: "locations/service_requests/form", locals: { service_request: @service_request, location: @location, categories: @categories }, replace: ".place-request-service-form-container" }
+        format.js { render partial: "locations/service_requests/form", locals: { service_request: @service_request, location: @location, categories: @categories }, within: ".service-request-form-wrapper" }
       end
     end
   end
@@ -52,8 +52,8 @@ class Locations::ServiceRequestsController < ApplicationController
   
   def service_request_params
     permitted_params = params.required(:service_request).permit(
-      :location_id, :equipment_id, :brand_name, :model, :serial, :urgent, :work_time_details, :select_guy,
-      :problem, :category_id, :subcategory_id, :token, :full_name, :email, :phone_number, :company_name, issue_images_attributes: [:image]
+      :location_id, :equipment_id, :brand_name, :brand_id, :model, :serial, :urgent, :work_time_details, :select_guy,
+      :problem, :category_id, :subcategory_id, :token, :full_name, :email, :phone_number, :company_name, :notes, issue_images_attributes: [:image]
     ).to_h
     permitted_params.merge(location_id: params[:location_id])
   end

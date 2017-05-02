@@ -13,6 +13,7 @@
 .mt10-pct { margin-top: 10% !important; } 
 .ml10-pct { margin-left: 10% !important; } 
 .ml20 { margin-left: 20px !important; }
+.ml40 { margin-left: 40px !important; }
 .ml20-pct { margin-left: 20% !important; }
 .mb10 { margin-bottom: 10px; }
 .mb20 { margin-bottom: 20px; }
@@ -41,13 +42,15 @@
 .black { color: #000; }
 .dark-grey { color: #040404 }
 .purple { color: #7049ba; }
+.green { color: #17d74e; }
 .m-auto { margin: 0px auto; }
 .w20-pct { width: 20%; }
 .w40-pct { width: 40%; }
 .w65-pct { width: 65% !important; }
 .w100-pct { width: 100%; }
 .display-inline { display: inline; }
-
+.font-bold { font-weight: bold; }
+.padding30 { padding: 30px; }
 nav.navbar {
   margin-bottom: 0;
   .navbar-brand {
@@ -203,6 +206,11 @@ body {
   }
 }
 
+.error-block {
+  color: red;
+  font-size: 15px;
+}
+
 .header-inside {
   background: #f9f9f9;
   .navbar-header {
@@ -225,6 +233,7 @@ body {
 
 .page-title {
   margin: 78px 0px 0px 0px;
+  .header-title { padding-left: 30px; }
 }
 
 .inner-logo {
@@ -267,6 +276,18 @@ body {
   }
   .row-offcanvas-left.active {
     left: 0;
+  }
+}
+.signup-form, #new_customer {
+  .form-group.required:before {
+    content: "*";
+    color: red;
+    margin: -5px -25px;
+    padding: 16px;
+    position: absolute;
+  }
+  .form-control {
+    display: inline-block;
   }
 }
 

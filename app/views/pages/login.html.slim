@@ -1,0 +1,10 @@
+.login-type
+  h1.ml15-pct Log In
+  .col-md-6.contractor.border-right
+    .w40-pct.m-auto
+      h2 Im a contractor
+      = link_to 'Log In', "#{ENV['CONTRACTOR_INVITATION_URL']}", class: 'btn btn-red w40-pct'
+  .col-md-6.customer
+    .w40-pct.m-auto
+      h2 Im a customer
+      = link_to 'Log In', new_customer_session_path, class: 'btn btn-red w40-pct'

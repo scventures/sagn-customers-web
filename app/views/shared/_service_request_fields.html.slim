@@ -33,9 +33,12 @@
         = f.input :model, label: false, input_html: { placeholder: 'Model'}
       .col-sm-6
         = f.input :serial, label: false, input_html: { placeholder: 'Serial Number'}
+    = f.input :notes, as: :text, label: 'Please briefly describe the problem', placeholder: 'Problem description'
     h5 Is this an urgent service? (need a tech in the next 4-6 hours)?
-    = f.input :urgent, as: :select, label: false, collection: ['Yes', 'No'], selected: 'Yes'
-    = f.input :notes, as: :text, label: 'Please briefly describe the problem'
+    = f.input :urgent, as: :select, label: false, collection: ['Yes', 'No'], selected: 'No', input_html: { class: 'urgent-service' }
+    .urgent-wrapper
+      h5.text-center When would you like a technician to arrive?
+      = f.input :work_time_details, as: :text, label: false, placeholder: 'Please be specific. For example: Any time next week, Tuesday afternoon, Friday morning, etc.'
     h4.text-center Is Equipment Under Warranty?
     p SendaGuy Now is not for service on equipment covered by warranty. If your equipment is under warranty, you'll want to contact the manufacturer directly
     .btn.btn-red.equipment-warrant-checkbox
@@ -52,8 +55,6 @@
     h1 Schedule Service
     h4 Tell us about the service
   .col-md-5.address-form.center-panel
-    h4.text-center When would you like a technician to arrive?
-    = f.input :work_time_details, as: :text, label: false
     h4 When the technician arrives, who should they ask for?
     = f.input :full_name, label: false, input_html: { placeholder: 'Full Name' }
     = f.input :email, label: false, input_html: { placeholder: 'Email' }

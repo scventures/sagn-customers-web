@@ -195,3 +195,11 @@ $(document).on 'keyup', '.us_phone_number', ->
   if isValidNumber(phone_number.replace(/ /g, ''), 'US')
     phone_number = formatNumberForMobileDialing('US', phone_number)
     $(this).val(phone_number)
+
+$(document).on 'change', '.urgent-service', ->
+  if $(this).val() == 'Yes'
+    $('.urgent-wrapper').find('h5').html('Please indicate any times within the next 4-6 hours that are NOT good for you to have a technician arrive.')
+    $('.urgent-wrapper').find('textarea').attr('placeholder', '')
+  else
+    $('.urgent-wrapper').find('h5').html('When would you like a technician to arrive?')
+    $('.urgent-wrapper').find('textarea').attr('placeholder', 'Please be specific. For example: Any time next week, Tuesday afternoon, Friday morning, etc.')

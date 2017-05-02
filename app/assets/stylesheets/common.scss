@@ -232,7 +232,7 @@ body {
   margin-top: 35px;
 }
 
-@media screen and (max-width: 768px) {
+@mixin hidden-sidebar() {
   .row-offcanvas {
     position: relative;
     -webkit-transition: all 0.25s ease-out;
@@ -240,6 +240,7 @@ body {
     transition: all 0.25s ease-out;
     width: calc(100% + 150px);
     button[data-toggle='offcanvas'] {
+      display: block !important;
       i {
         &.fa-angle-left {
           display: none
@@ -268,4 +269,12 @@ body {
   .row-offcanvas-left.active {
     left: 0;
   }
+}
+
+body#service_requests_index, body#service_requests_new {
+  @include hidden-sidebar()
+}
+
+@media screen and (max-width: 768px) {
+  @include hidden-sidebar()
 }

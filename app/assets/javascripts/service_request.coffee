@@ -125,7 +125,7 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
 setEquipment = ->
   location_id = $('#service_request_location_id').val()
   subcategory_id = $('.subcategories-wrapper .subcategory_field').val()
-  if location_id != undefined
+  if location_id?
     $.ajax
       url: Routes.location_equipment_items_path(location_id: location_id, subcategory_id: subcategory_id)
       type: 'GET'

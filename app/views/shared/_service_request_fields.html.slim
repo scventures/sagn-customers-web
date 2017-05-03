@@ -7,7 +7,7 @@
     .subcategory_icons.hidden class="category-#{category.id}"
       h1
         = category.name
-      = f.input :subcategory, as: :radio_buttons, collection: categories[category.id].map { |s| [category_icons(s), s.id, data: {brands: s.brands.to_json, problem_codes: s.problem_codes.to_json }] }, label: false
+      = f.input :subcategory, as: :radio_buttons, collection: categories[category.id].map { |s| [category_icons(s), s.id, data: {brands: s.brands.to_json, problem_codes: s.problem_codes.to_json, equipment: s.is_equipment }] }, label: false
   = f.input :subcategory_id, as: :hidden, input_html: { class: 'subcategory_field', value: f.object.subcategory_id}
   = link_to 'Back', '#', class: 'btn btn-primary mb20', data: { back: 'category-wrapper' }, id: 'back-btn'
 .content-wrapper.issue-wrapper.text-center.hidden
@@ -25,14 +25,19 @@
     h1 Describe Issue
     h4 Tell us about the equipment
   .col-md-5.address-form.center-panel
-    p.mt20 What Brand is it?
-    = f.input :brand_id, as: :select, label: false, input_html: { class: 'select_brand'}
-    = f.input :brand_name, label: false, input_html: { id: 'service_request_brand_name', class: 'hidden', placeholder: 'Brand Name'}
-    .row
-      .col-sm-6
-        = f.input :model, label: false, input_html: { placeholder: 'Model'}
-      .col-sm-6
-        = f.input :serial, label: false, input_html: { placeholder: 'Serial Number'}
+    .equipment_wrapper.hidden
+      .equipment-field-wrapper.hidden
+        = f.input :equipment_item_id, as: :select, collection: [],  label: 'Select Equipment', input_html: { class: 'select_equipment' }
+        p.mt10.mb10.text-center
+          | OR
+      p.mt20 What Brand is it?
+      = f.input :brand_id, as: :select, collection: [], label: false, input_html: { class: 'select_brand'}
+      = f.input :brand_name, label: false, input_html: { id: 'service_request_brand_name', class: 'hidden', placeholder: 'Brand Name'}
+      .row
+        .col-sm-6
+          = f.input :model, label: false, input_html: { placeholder: 'Model'}
+        .col-sm-6
+          = f.input :serial, label: false, input_html: { placeholder: 'Serial Number'}
     = f.input :notes, as: :text, label: 'Please briefly describe the problem', placeholder: 'Problem description'
     h5 Is this an urgent service? (need a tech in the next 4-6 hours)?
     = f.input :urgent, as: :select, label: false, collection: ['Yes', 'No'], selected: 'No', input_html: { class: 'urgent-service' }

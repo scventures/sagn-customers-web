@@ -98,8 +98,13 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   $('.subcategories-wrapper .subcategory_field').val($(this).val())
   brands = $(this).data('brands')
   problem_codes = $(this).data('problem-codes')
-  $('.select_equipment').empty()
-  if $('.select_equipment').length > 0
+  $('.equipment_wrapper').addClass('hidden')
+  $('.equipment-field-wrapper').addClass('hidden')
+  if $(this).data('equipment')
+    $('.equipment_wrapper').removeClass('hidden')
+    if !($('form:visible').hasClass('logout-form'))
+      $('.equipment-field-wrapper').removeClass('hidden')
+    $('.select_equipment').select2()
     setEquipment()
   brands.map((obj) -> (obj.text = obj.text or obj.name))
   $('.select_brand').empty()
@@ -120,7 +125,7 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
 setEquipment = ->
   location_id = $('#service_request_location_id').val()
   subcategory_id = $('.subcategories-wrapper .subcategory_field').val()
-  if location_id != ''
+  if location_id?
     $.ajax
       url: Routes.location_equipment_items_path(location_id: location_id, subcategory_id: subcategory_id)
       type: 'GET'
@@ -128,6 +133,7 @@ setEquipment = ->
       success: (data) ->
         data.map((obj) -> (obj.text = obj.text or obj.subcategory.name))
         data.unshift({id: 'prompt', text: 'Please select equipment'})
+        $('.select_equipment').empty()
         $('.select_equipment').select2 
           data: data
         

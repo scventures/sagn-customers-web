@@ -6,13 +6,17 @@ Rails.application.routes.draw do
     registrations: 'customers/registrations',
     confirmations: 'customers/confirmations'
   }
-  
+
   resources :customers, only: :new do
     collection do
       post :layer_identity
     end
   end
   
+  devise_scope :customer do
+    post "/customers/create_with_service_request", to: 'customers/registrations#create_with_service_request'
+  end
+
   resource :profile, only: [:show, :edit, :update] do
     get :resend_email_confirmation
     get :resend_phone_confirmation
@@ -55,6 +59,6 @@ Rails.application.routes.draw do
     end
   end
 
-  root :to => 'pages#show', id: 'home'
-
+  root :to => 'customers#new'
+  get "/pages/*id" => 'pages#show', format: false
 end

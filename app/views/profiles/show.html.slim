@@ -1,7 +1,6 @@
 - content_for :title do
-  .header-title.text-uppercase Profile
-.p20
-  = link_to edit_profile_path, class: 'pull-right red text-center' do
-    = fa_icon 'pencil-square-o', class: 'fa-3x red'
-    p Edit Profile
-  = render 'details'
+  .header-title.text-uppercase My Profile
+.right-container
+  .container.pull-left
+    #profile-details.col-md-7.center-panel data-layer-channel-id=current_customer.current_account.messenger_channel_id
+      = render 'details'

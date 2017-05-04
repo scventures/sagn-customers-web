@@ -11,9 +11,10 @@ class ServiceRequest
   has_many :issue_images
   has_many :activities
   has_many :assignments
+  belongs_to :customer
   
   accepts_nested_attributes_for :issue_images
-  validates_presence_of :location_id, :category_id, :subcategory_id
+  validates :location_id, :category_id, :subcategory_id, presence: true
 
   before_save :set_urgent, :set_contact_details
   
@@ -21,6 +22,10 @@ class ServiceRequest
     status == 'assigned'
   end
   
+  def can_editable?
+    self.status == 'waiting'
+  end
+
   def cancel
     ServiceRequest.put_raw("customers/accounts/#{account_id}/service_requests/#{id}/cancel", {account_id: account_id, id: id}) do |parsed_data, response|
       populate_errors(parsed_data[:errors]) if response.status == 400

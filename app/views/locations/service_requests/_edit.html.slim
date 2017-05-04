@@ -7,37 +7,35 @@
         span.modal-title.white.fs20
           | Service Request
       .modal-body
-        = simple_form_for service_request, url: "/locations/#{location.id}/service_requests/#{service_request.id}", validate: true, turboboost: true, html: { multipart: true, id: 'service-request-form' } do |f|
-          .row
-            .col-sm-6
+        .col-md-9.service-request-edit-form.center-panel
+          = simple_form_for service_request, url: location_service_request_path(location, service_request), validate: true, turboboost: true, html: { multipart: true, id: 'service-request-form' } do |f|
+            .form-group
               label for='service_request_brand_name'
                 | Brand
-              p
-                = f.input :brand_name, label: false
+              = f.input :brand_name, label: false, class: 'form-control'
+            .form-group
               label for='service_request_model'
                 | Model
-              p
-                = f.input :model, label: false
+              = f.input :model, label: false, class: 'form-control'
+            .form-group
               label for='service_request_serial'
                 | Serial
-              p
-                = f.input :serial, label: false
+              = f.input :serial, label: false, class: 'form-control'
+            .form-group
               label for='service_request_category_id'
                 | Category
-              p
-                = f.input :category_id, as: :select, collection: categories[nil].map {|c| [c.name, c.id, { 'data-categories' => categories[c.id].to_json }] }, input_html: { class: 'select_category select2'}, label: false
+              = f.input :category_id, as: :select, collection: categories[nil].map {|c| [c.name, c.id, { 'data-categories' => categories[c.id].to_json }] }, input_html: { class: 'select_category select2'}, label: false, selected: f.object.category
+            .form-group
               label for='service_request_subcategory_id'
                 | Subcategory
-              p
-                = f.input :subcategory_id, collection:[], input_html: { class: 'select_subcategory select2'}, label: false
+              = f.input :subcategory_id, collection:[], input_html: { class: 'select_subcategory select2'}, label: false, selected: f.object.subcategory
+            .form-group
               label for='service_request_problem_code'
                 | Code
-              p
-                = f.input :problem_code, label: false
+              = f.input :problem_code, label: false, class: 'form-control'
+            .form-group
               label for='service_request_fix_notes'
                 | Notes
-              p
-                = f.input :fix_notes, label: false
-            .text-center.mb-15
-              = f.submit 'Update', class: 'btn btn-default btn-blue'
-                
+              = f.input :fix_notes, label: false, class: 'form-control'
+              .text-center.text-uppercase
+                = f.submit 'Confirm', class: 'btn btn-red'

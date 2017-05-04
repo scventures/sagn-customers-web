@@ -45,7 +45,10 @@ setMarkers = (map) ->
             infowindow.open map, marker
             return
         bounds.extend markerLatLng
-      map.fitBounds bounds
+      unless bounds.isEmpty()
+        map.fitBounds bounds
+        if bounds.length == 1
+          map.setZoom 10
   
 initMap = ->
   if document.getElementById('google-map')
@@ -65,9 +68,17 @@ $(document).on 'click', '.map-container a.location-link', (e) ->
   id = $(this).data('id')
   google.maps.event.trigger markers[id], 'click'
   $('.map-container').find('button.location-btn').trigger('click')
+
+setContentWrapperClass = (selector) ->
+  $(".content-wrapper:not(.#{selector})").addClass('hidden')
+  $(".content-wrapper.#{selector}").removeClass('hidden')
+  $('form').enableClientSideValidations()
+  $('.main-wrapper').scrollTop(0)
+  $('.content-wrapper').on 'imagesLoaded', ->
+    $('.main-wrapper').perfectScrollbar('update')
+  return
   
-$(document).on 'change, click', '.category-wrapper input[type=radio]', ->
-  id = $(this).val()
+setSubcategoriesImages = (id) ->
   setContentWrapperClass('subcategories-wrapper')
   $('.subcategory_icons').addClass('hidden')
   $(".subcategory_icons.category-#{id}").removeClass('hidden')
@@ -76,13 +87,24 @@ $(document).on 'change, click', '.category-wrapper input[type=radio]', ->
     $(this).attr('src', imgSrc)
   $('.category-wrapper').addClass('hidden')
   $('.service-request-form-wrapper .back-btn').removeClass('hidden')
+  
+$(document).on 'change, click', '.category-wrapper input[type=radio]', ->
+  setSubcategoriesImages($(this).val())
+  
+$.onmount '.category-wrapper input[type=radio]', ->
+  setSubcategoriesImages($('.category-wrapper input[type=radio]:checked').val())
     
 $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   $('.subcategories-wrapper .subcategory_field').val($(this).val())
   brands = $(this).data('brands')
   problem_codes = $(this).data('problem-codes')
-  $('.select_equipment').empty()
-  if $('.select_equipment').length > 0
+  $('.equipment_wrapper').addClass('hidden')
+  $('.equipment-field-wrapper').addClass('hidden')
+  if $(this).data('equipment')
+    $('.equipment_wrapper').removeClass('hidden')
+    if !($('form:visible').hasClass('logout-form'))
+      $('.equipment-field-wrapper').removeClass('hidden')
+    $('.select_equipment').select2()
     setEquipment()
   brands.map((obj) -> (obj.text = obj.text or obj.name))
   $('.select_brand').empty()
@@ -103,7 +125,7 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
 setEquipment = ->
   location_id = $('#service_request_location_id').val()
   subcategory_id = $('.subcategories-wrapper .subcategory_field').val()
-  if location_id != ''
+  if location_id?
     $.ajax
       url: Routes.location_equipment_items_path(location_id: location_id, subcategory_id: subcategory_id)
       type: 'GET'
@@ -111,6 +133,7 @@ setEquipment = ->
       success: (data) ->
         data.map((obj) -> (obj.text = obj.text or obj.subcategory.name))
         data.unshift({id: 'prompt', text: 'Please select equipment'})
+        $('.select_equipment').empty()
         $('.select_equipment').select2 
           data: data
         
@@ -121,7 +144,8 @@ $(document).on 'select2:select', '.service-request-form-wrapper .select_equipmen
         
 $(document).on 'click', '.service-request-form-wrapper .request-continue-btn', (e) ->
   e.preventDefault()
-  setContentWrapperClass($(this).data('continue'))
+  if !($(this).hasClass('.logout-credit-card'))
+    setContentWrapperClass($(this).data('continue'))
   
 $(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-btn', (e) ->
   e.preventDefault()
@@ -141,12 +165,6 @@ $(document).on 'click', '.service-request-form-wrapper .request-service-card-btn
   else
     $('.service-request-form-wrapper .card-wrapper').addClass('hidden')
   
-setContentWrapperClass = (selector) ->
-  $('.content-wrapper').addClass('hidden')
-  $(".content-wrapper.#{selector}").removeClass('hidden')
-  $('.main-wrapper').scrollTop(0)
-  return
-
 setCategories = ->
   if $('.select_category option:selected').val() != ''
     categories = $('.select_category option:selected').data('categories')
@@ -161,3 +179,33 @@ $.onmount '.select_category', ->
 
 $(document).on 'select2:select, change', '.select_category', (e) ->
   setCategories()
+  
+$.onmount 'form#service-request-form', (e) ->
+  $(this).find('.content-wrapper').addClass('hidden')
+  if $(this).find('.has-error').length
+    $(this).find('.has-error').first().parents('.content-wrapper:first').removeClass('hidden')
+  else
+    $(this).find('.content-wrapper:first').removeClass('hidden')
+  
+$(document).on 'click', '.equipment-warrant-checkbox', (e) ->
+  if $(this).find('input[type=checkbox]').is(':checked')
+    $(this).find('input[type=checkbox]').prop('checked', false)
+  else
+    $(this).find('input[type=checkbox]').prop('checked', true)
+
+$(document).on 'click', '.left-sidebar ul li a.past-requests-link', (e) ->
+  e.preventDefault()
+  
+$(document).on 'keyup', '.us_phone_number', ->
+  phone_number = $(this).val()
+  if isValidNumber(phone_number.replace(/ /g, ''), 'US')
+    phone_number = formatNumberForMobileDialing('US', phone_number)
+    $(this).val(phone_number)
+
+$(document).on 'change', '.urgent-service', ->
+  if $(this).val() == 'Yes'
+    $('.urgent-wrapper').find('h5').html('Please indicate any times within the next 4-6 hours that are NOT good for you to have a technician arrive.')
+    $('.urgent-wrapper').find('textarea').attr('placeholder', '')
+  else
+    $('.urgent-wrapper').find('h5').html('When would you like a technician to arrive?')
+    $('.urgent-wrapper').find('textarea').attr('placeholder', 'Please be specific. For example: Any time next week, Tuesday afternoon, Friday morning, etc.')

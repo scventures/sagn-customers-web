@@ -1,0 +1,59 @@
+= simple_form_for customer, url: customers_create_with_service_request_path, validate: true, turboboost: true, html: { id: 'service-request-form', class: 'logout-form' }do |f|
+  .row
+    .col-sm-8.col-sm-offset-2.text-center
+      = f.simple_fields_for :service_request do |s|
+        =  render 'shared/service_request_fields', f: s, categories: categories
+      .content-wrapper.complete-request.hidden
+        .text-center.service-head.center-panel
+          h1 Complete Request
+        .col-md-7.center-panel.text-center.mt20
+          = f.simple_fields_for :location do |l|
+            .row
+              .col-sm-10.col-sm-offset-1
+                h4.text-center Address
+                = l.input :name, label: false, validate: true, input_html: { placeholder: 'Name' }
+                = l.input :address_1, label: false, input_html: { class: 'address_auto_complete_field' }
+                = l.input :address_2, as: :hidden, input_html: {id: 'location_sublocality_level_1'}
+                = l.input :address_3, as: :hidden, input_html: {id: 'location_administrative_area_level_2' }
+                = l.input :city, as: :hidden, input_html: {id: 'location_locality' }
+                = l.input :state, as: :hidden, input_html: {id: 'location_administrative_area_level_1' }
+                = l.input :zip, as: :hidden, input_html: {id: 'location_postal_code'}
+                = l.input :geography, as: :hidden, input_html: { name: 'location[geography][latitude]', id: 'location_geography_latitude' }
+                = l.input :geography, as: :hidden, input_html: { name: 'location[geography][longitude]', id: 'location_geography_longitude' }
+          .location-map-wrapper
+            #location-map.hidden
+          h4.text-center Add Credit Card
+          #flash-messages
+          .add-card-wrapper.show
+            = render 'shared/new_card'
+        .col-md-7.center-panel.text-center.box
+          h4
+            strong Your credit card will never be charged without your approval
+          .line-spacer
+          .icon-lock
+            i.fa.fa-lock aria-hidden="true" 
+          div
+            = image_tag 'powerdBy.png', height: '35', width: '125'
+          h3 Sendaguy now uses Stripe, a leader in online and mobile payments, for all financial transactions.
+          .row
+            .col-sm-12
+              = f.submit 'Schedule', class: 'btn btn-continue text-uppercase request-continue-btn logout-credit-card', data: { continue: 'signup-form', card: 'add'}
+          .row
+            .col-sm-12
+              = link_to 'Back', '#', class: 'btn btn-primary mb20 mt20', data: { back: 'schedule-service' }, id: 'back-btn'
+      .content-wrapper.signup-form.hidden
+        .col-md-5.center-panel.text-center.mt20
+          h4.text-center Enter your details for signup
+          .form-inputs.text-left
+            = f.input :name, required: true, autofocus: true, placeholder: 'Your Name', label: false
+            = f.input :customer_account_name, required: true, placeholder: 'Your Business Name', label: false
+            = f.input :email, as: :email, required: true, placeholder: 'Email', label: false
+            = f.input :unconfirmed_phone, as: :tel, required: false, placeholder: 'Phone Number', label: false, input_html: { class: 'us_phone_number' }
+            = f.input :password, required: true, placeholder: 'Your Password', label: false
+            = f.input :password_confirmation, required: true, placeholder: 'Confirm Password', label: false
+            = f.input :tos_accepted, as: :boolean, label: tos_label
+          .form-actions
+            = f.button :submit, 'Submit' , class: 'btn-red'
+          .row
+            .col-sm-12
+              = link_to 'Back', '#', class: 'btn btn-primary mb20 mt20', data: { back: 'complete-request' }, id: 'back-btn'

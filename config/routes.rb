@@ -7,7 +7,11 @@ Rails.application.routes.draw do
     confirmations: 'customers/confirmations'
   }
   
-  resources :customers, only: :new
+  resources :customers, only: :new do
+    collection do
+      post :layer_identity
+    end
+  end
   
   resource :profile, only: [:show, :edit, :update] do
     get :resend_email_confirmation

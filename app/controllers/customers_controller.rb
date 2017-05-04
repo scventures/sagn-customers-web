@@ -18,4 +18,8 @@ class CustomersController < ApplicationController
   
   end
 
+  def layer_identity
+    render json: {token: current_customer.get_layer_identity_token(params[:nonce])}
+  end
+
 end

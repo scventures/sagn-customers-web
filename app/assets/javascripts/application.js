@@ -30,5 +30,6 @@
 //= require credit_card_form
 //= require ajax_error
 //= require service_request
+//= require layer/layer
 //= require turbolinks
 //= require turboboost/turboboost

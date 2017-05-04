@@ -80,4 +80,10 @@ class Customer
     end
   end
 
+  def get_layer_identity_token(nonce)
+    Customer.post_raw('customers/layer/identity', nonce: nonce) do |parsed_data, response|
+      return response.status == 200 ? parsed_data[:data][:token] : nil
+    end
+  end
+
 end

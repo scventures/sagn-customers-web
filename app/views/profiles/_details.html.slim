@@ -1,0 +1,49 @@
+#profile-details.center-block style='max-width: 500px;' data-layer-channel-id=current_customer.current_account.messenger_channel_id
+  .row
+    .col-xs-12.text-center
+      - if current_customer.photo?
+        = image_tag current_customer.photo, class: 'img-circle', size: '100'
+      - else
+        = image_tag 'default_avatar_icon', class: 'img-circle', size: '100'
+      h3= current_customer.name
+  .row
+    .panel.panel-default
+      .panel-body
+        .row
+          .col-xs-2
+            .pull-right
+              = fa_icon 'check-circle', class: "fa-3x #{current_customer.confirmation_pending? ? 'text-muted' : 'text-success'}"
+          .col-xs-10
+            - if current_customer.confirmation_pending?
+              h4.text-uppercase confirm your email
+              div We've sent a confirmation email to:
+              div.text-primary
+                = current_customer.confirmable_email
+              br/
+              div Just click link in the email to confirm.
+              = link_to 'Resend Confirmation', resend_email_confirmation_profile_path, remote: true, class: 'btn btn-danger with-ajax-loader'
+            - else
+              h4.text-uppercase Email confirmed
+              div We've confirmed your email:
+              div.text-primary
+                = current_customer.email
+        hr
+        .row
+          .col-xs-2
+            .pull-right
+              = fa_icon 'check-circle', class: "fa-3x #{current_customer.phone_confirmation_pending? ? 'text-muted' : 'text-success'}"
+          .col-xs-10
+            - if current_customer.phone_confirmation_pending?
+              h4.text-uppercase confirm your mobile phone
+              div We've sent a code to:
+              div
+                = current_customer.unconfirmed_phone
+              br/
+              = render 'phone_confirmation_form'
+              .mt10
+                = link_to 'Send New Code', resend_phone_confirmation_profile_path, remote: true, class: 'btn btn-danger with-ajax-loader'
+            - elsif current_customer.phone_number?
+              h4.text-uppercase mobile phone confirmed
+              div We've confirmed your phone number:
+              div.text-primary
+                = current_customer.phone_number

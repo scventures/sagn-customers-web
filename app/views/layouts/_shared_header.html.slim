@@ -5,6 +5,6 @@ head
   = csrf_meta_tags
   = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
   = javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_API_KEY']}&libraries=places", 'data-turbolinks-eval': false
-  = javascript_include_tag 'https://js.stripe.com/v2/', 'data-turbolinks-eval': false
+  = javascript_include_tag 'https://js.stripe.com/v3/', 'data-turbolinks-eval': false
   = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
-  = javascript_tag "Stripe.setPublishableKey('#{ENV['STRIPE_PUBLISHABLE_KEY']}')"
+  = javascript_tag "stripe = Stripe('#{ENV['STRIPE_PUBLISHABLE_KEY']}')"

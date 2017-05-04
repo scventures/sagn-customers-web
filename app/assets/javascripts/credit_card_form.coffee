@@ -61,4 +61,41 @@ $(document).on 'keyup', 'input#card_number', ->
     $('.card-image').removeClass('master-card-img')
     $('.card-image').addClass('american-express-img')
     $('.card-image').removeClass('visa-card-img')
+    
+$.onmount '.card-details', ->
+  elements = stripe.elements()
+  style = 
+    base:
+      color: '#32325d'
+      lineHeight: '24px'
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif'
+      fontSmoothing: 'antialiased'
+      fontSize: '16px'
+      '::placeholder': color: '#aab7c4'
+    invalid:
+      color: '#fa755a'
+      iconColor: '#fa755a'
+  card = elements.create('card', style: style)
+  card.mount '#card-element'
+  card.addEventListener 'change', (event) ->
+    displayError = document.getElementById('card-errors')
+    if event.error
+      displayError.textContent = event.error.message
+    else
+      displayError.textContent = ''
+    return
+  form = document.getElementById('payment-form')
+  form.addEventListener 'submit', (event) ->
+    event.preventDefault()
+    stripe.createToken(card).then (result) ->
+      if result.error
+        # Inform the user if there was an error
+        errorElement = document.getElementById('card-errors')
+        errorElement.textContent = result.error.message
+      else
+        # Send the token to your server
+        stripeTokenHandler result.token
+      return
+    return
+
 

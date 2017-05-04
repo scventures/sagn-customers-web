@@ -106,6 +106,8 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
       $('.equipment-field-wrapper').removeClass('hidden')
     $('.select_equipment').select2()
     setEquipment()
+  else
+    $('a.problem-details-link').attr('data-equipment', true)
   brands.map((obj) -> (obj.text = obj.text or obj.name))
   $('.select_brand').empty()
   $('.select_brand').select2
@@ -119,8 +121,10 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
       data: problem_codes
     setContentWrapperClass('issue-wrapper')
   else
-    setContentWrapperClass('describe-issue')
-    
+    if $(this).data('equipment')
+      setContentWrapperClass('product-details')
+    else
+      setContentWrapperClass('describe-issue')
       
 setEquipment = ->
   location_id = $('#service_request_location_id').val()
@@ -150,7 +154,10 @@ $(document).on 'click', '.service-request-form-wrapper .request-continue-btn', (
 $(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-btn', (e) ->
   e.preventDefault()
   back = $(this).data('back')
-  setContentWrapperClass(back)
+  if back == 'product-details' and $('a.problem-details-link').data('equipment')
+    setContentWrapperClass('subcategories-wrapper')
+  else
+    setContentWrapperClass(back)
 
 $(document).on 'click', '.service-request-form-wrapper .btn-schedule-service', (e) ->
   e.preventDefault()

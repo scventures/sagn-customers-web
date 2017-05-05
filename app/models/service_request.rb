@@ -15,7 +15,7 @@ class ServiceRequest
   accepts_nested_attributes_for :issue_images
   validates :location_id, :category_id, :subcategory_id, presence: true
 
-  before_save :set_urgent, :set_contact_details
+  before_save :set_urgent
   
   def assigned?
     status == 'assigned'
@@ -33,10 +33,6 @@ class ServiceRequest
   
   def set_urgent
     self.urgent = self.urgent.to_b
-  end
-  
-  def set_contact_details
-    self.contact_details = [self.full_name, self.email, self.phone_number, self.company_name].compact.reject { |a| a == "" }.join(", ")
   end
   
   def to_params

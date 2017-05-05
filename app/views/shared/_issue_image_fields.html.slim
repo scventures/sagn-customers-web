@@ -1,8 +1,8 @@
-.nested-fields.col-sm-2.mt20
+.nested-fields
   .image-wrapper.provide-photo-img
     = link_to_remove_association f do
-    i class="fa fa-times-circle" aria-hidden="true"
+      i class="fa fa-times-circle" aria-hidden="true"
     = f.label :image, class: 'text-uppercase'
-      .image-upload-label
+      .image-upload-label.default-label
       .image-upload-label.hidden
     = f.input :image, as: :file, label: false, input_html: { class: 'image-upload hidden' }, validate: true

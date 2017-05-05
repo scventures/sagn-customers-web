@@ -16,19 +16,19 @@ window.customAlert = (title, message) ->
     cancelClass: 'hide'
     zIindex: 10099
 
-$.onmount '.image-upload', ->
-  $(this).on 'change', (event) ->
-    files = event.target.files
-    image = files[0]
-    reader = new FileReader
-    reader.onload = (file) ->
-      img = new Image
-      $(event.target).parents('.image-wrapper').find('.image-upload-label').first().addClass('hidden')
-      $(event.target).parents('.image-wrapper').find('.image-upload-label').last().removeClass('hidden').html $('<img>').attr(
-        src: file.target.result
-        class: 'img-preview')
-      $(event.target).focusout()
-    reader.readAsDataURL image
+$(document).on 'change', '.image-upload', (event) ->
+  console.log 1
+  files = event.target.files
+  image = files[0]
+  reader = new FileReader
+  reader.onload = (file) ->
+    img = new Image
+    $(event.target).parents('.image-wrapper').find('.image-upload-label').first().addClass('hidden')
+    $(event.target).parents('.image-wrapper').find('.image-upload-label').last().removeClass('hidden').html $('<img>').attr(
+      src: file.target.result
+      class: 'img-preview')
+    $(event.target).focusout()
+  reader.readAsDataURL image
 
 $.onmount 'form[data-client-side-validations][data-turboboost]', ->
   $(this).enableClientSideValidations()

@@ -26,6 +26,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
       @categories = Category.all.fetch.group_by(&:parent_category_id)
       @customer.location = Location.new unless @customer.location?
       @customer.service_request = ServiceRequest.new unless @customer.service_request?
+      @customer.service_request.issue_images = Her::Collection.new
       respond_to do |format|
         format.js { render partial: 'customers/form', locals: { customer: resource, categories: @categories }, within: ".service-request-form-wrapper"}
       end
@@ -37,7 +38,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   def sign_up_params
     params.require(:customer).permit(
       :name, :customer_account_name, :email, :unconfirmed_phone, :password, :password_confirmation, :tos_accepted, service_request_attributes: [:location_id, :equipment_id, :brand_name, :brand_id, :model, :serial, :urgent, :work_time_details,
-      :problem, :category_id, :subcategory_id, :token, :full_name, :email, :phone_number, :company_name, :notes], location_attributes: [ :name, :address_1, :address_2, :address_3, :city, :state, :zip, :phone_number, {:geography => [:latitude, :longitude]}] )
+      :problem, :category_id, :subcategory_id, :token, :phone_number, :notes, issue_images_attributes: [:image] ], location_attributes: [ :name, :address_1, :address_2, :address_3, :city, :state, :zip, :phone_number, { geography: [:latitude, :longitude]}] )
   end
   
   def build_resource(hash=nil)

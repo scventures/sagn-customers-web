@@ -26,17 +26,6 @@ fillInAddress = ->
   if place.geometry.location
     $('#location_geography_latitude').val(place.geometry.location.lat())
     $('#location_geography_longitude').val(place.geometry.location.lng())
-  $('#location-map').removeClass('hidden')
-  map = new google.maps.Map document.getElementById('location-map'),
-      minZoom: 1
-      maxZoom: 21
-      zoom: 10
-      center: new google.maps.LatLng place.geometry.location.lat(), place.geometry.location.lng()
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-  marker = new google.maps.Marker
-            position: { lat: place.geometry.location.lat(), lng: place.geometry.location.lng() }
-            map: map
-
   
 $.onmount '.location-form-container .venue_name', ->
   $(this).select2

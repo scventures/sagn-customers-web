@@ -6,12 +6,11 @@ class ServiceRequest
   include_root_in_json true
   attributes :location_id, :equipment_item_id, :model, :serial, :brand_name, :brand_id, :category_id, :subcategory_id, :subcategory, :urgent, :problem_code_id, 
              :account_id, :equipmemt_warranty, :work_time_details, :customer_accounts_contractor_id, :select_guy, :catergory_search, :notes,
-             :contact_details, :full_name, :email, :phone_number, :company_name, :token
+             :contact_details, :phone_number, :token
   
   has_many :issue_images
   has_many :activities
   has_many :assignments
-  belongs_to :customer
   
   accepts_nested_attributes_for :issue_images
   validates :location_id, :category_id, :subcategory_id, presence: true

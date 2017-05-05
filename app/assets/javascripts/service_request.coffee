@@ -78,6 +78,8 @@ setContentWrapperClass = (selector) ->
     $('.main-wrapper').perfectScrollbar('update')
   return
   
+window.setContentWrapperClass = setContentWrapperClass
+
 setSubcategoriesImages = (id) ->
   setContentWrapperClass('subcategories-wrapper')
   $('.subcategory_icons').addClass('hidden')

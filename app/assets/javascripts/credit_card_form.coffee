@@ -1,4 +1,4 @@
-$(document).on 'ajax:beforeSend', 'form#add_new_card, form#service-request-form', (e)->
+$(document).on 'ajax:beforeSend', 'form#add_new_card', (e)->
   $form = $(this)
   if $('.card-bg').is(':visible') || $('.add-card-wrapper').hasClass('show')
     if($form.find('#service_request_token').val().length == 0)
@@ -61,7 +61,8 @@ $(document).on 'keyup', 'input#card_number', ->
     $('.card-image').removeClass('master-card-img')
     $('.card-image').addClass('american-express-img')
     $('.card-image').removeClass('visa-card-img')
-    
+  
+card = ''  
 $.onmount '.card-details', ->
   elements = stripe.elements()
   style = 
@@ -75,7 +76,7 @@ $.onmount '.card-details', ->
     invalid:
       color: '#fa755a'
       iconColor: '#fa755a'
-  card = elements.create('card', style: style)
+  card = elements.create('card', style: style, hidePostalCode: true)
   card.mount '#card-element'
   card.addEventListener 'change', (event) ->
     displayError = document.getElementById('card-errors')
@@ -84,18 +85,18 @@ $.onmount '.card-details', ->
     else
       displayError.textContent = ''
     return
-  form = document.getElementById('payment-form')
-  form.addEventListener 'submit', (event) ->
-    event.preventDefault()
-    stripe.createToken(card).then (result) ->
-      if result.error
-        # Inform the user if there was an error
-        errorElement = document.getElementById('card-errors')
-        errorElement.textContent = result.error.message
-      else
-        # Send the token to your server
-        stripeTokenHandler result.token
-      return
-    return
+  
+$(document).on 'click', '.credit_card_button', (e) ->
+  form = $(this).parents('form:first')
+  e.preventDefault()
+  stripe.createToken(card).then (result) ->
+    if result.error
+      errorElement = document.getElementById('card-errors')
+      errorElement.textContent = result.error.message
+    else
+      stripeTokenHandler result.token, form
 
-
+stripeTokenHandler = (token, form) ->
+  $(form).find('#service_request_token').val(token.id)
+  if $('form').hasClass('logout-form')
+    setContentWrapperClass('signup-form')

@@ -7,6 +7,7 @@ class CustomersController < ApplicationController
     @customer.location = Location.new
     @customer.service_request = ServiceRequest.new
     @categories = Category.all.fetch.group_by(&:parent_category_id)
+    @customer.service_request.issue_images = Her::Collection.new
   end
 
   def resend_email_confirmation

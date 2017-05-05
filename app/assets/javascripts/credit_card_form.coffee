@@ -35,6 +35,6 @@ $(document).on 'click', '.credit_card_button', (e) ->
 stripeTokenHandler = (token, form) ->
   $(form).find('#service_request_token').val(token.id)
   if $(form).hasClass('service-request-logout-form')
-    setContentWrapperClass('signup-form')
+    $('#wizard').steps('next')
   else
     $(form).submit()

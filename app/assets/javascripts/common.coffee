@@ -1,3 +1,15 @@
+$.fn.steps.setStep = (step) ->
+  wizard = $('#wizard')
+  index = $(wizard).data('state').currentIndex
+  i = 0
+  while i < Math.abs(step - index)
+    if step > index
+      $(wizard).steps 'next'
+    else
+      $(wizard).steps 'previous'
+    i++
+  return
+
 $(document).on 'ajax:beforeSend', 'a.with-ajax-loader', (e)->
   $(this).append($('<i>').addClass('fa fa-spinner fa-pulse loader ml10'))
 

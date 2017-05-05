@@ -69,33 +69,35 @@ $(document).on 'click', '.map-container a.location-link', (e) ->
   google.maps.event.trigger markers[id], 'click'
   $('.map-container').find('button.location-btn').trigger('click')
 
-setContentWrapperClass = (selector) ->
-  $(".content-wrapper:not(.#{selector})").addClass('hidden')
-  $(".content-wrapper.#{selector}").removeClass('hidden')
-  $('form').enableClientSideValidations()
-  $('.main-wrapper').scrollTop(0)
-  $('.content-wrapper').on 'imagesLoaded', ->
-    $('.main-wrapper').perfectScrollbar('update')
-  return
-  
-window.setContentWrapperClass = setContentWrapperClass
+$.onmount '#wizard' , ->
+  $(this).steps
+    headerTag: 'h2'
+    bodyTag: 'section'
+    transitionEffect: 'slideLeft'
+    titleTemplate: '<div class="number step-#index#"><div class="line line-left"></div><div class="line line-right"></div><div class="icon"></div><div class="title">#title#</div></div>'
+    onInit: ->
+      $('#wizard > .steps').appendTo '#wizard'
+      $.each [1, 4, 5, 7, 9], ->
+        $('#wizard-t-' + this).parent().attr 'aria-substep', true
+        return
+      return
+    onStepChanged: (event, currentIndex, priorIndex) ->
+      li = $('#wizard-t-' + priorIndex).parent()
+      if li.hasClass('done') and !li.attr('aria-done')
+        li.attr 'aria-done', true
+      return
 
 setSubcategoriesImages = (id) ->
-  setContentWrapperClass('subcategories-wrapper')
   $('.subcategory_icons').addClass('hidden')
   $(".subcategory_icons.category-#{id}").removeClass('hidden')
   $(".subcategory_icons.category-#{id} img").each ->
     imgSrc = $(this).data('src')
     $(this).attr('src', imgSrc)
-  $('.category-wrapper').addClass('hidden')
-  $('.service-request-form-wrapper .back-btn').removeClass('hidden')
+  $('#wizard').steps('next')
   
 $(document).on 'change, click', '.category-wrapper input[type=radio]', ->
   setSubcategoriesImages($(this).val())
   
-$.onmount '.category-wrapper input[type=radio]', ->
-  setSubcategoriesImages($('.category-wrapper input[type=radio]:checked').val())
-    
 $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   $('.subcategories-wrapper .subcategory_field').val($(this).val())
   brands = $(this).data('brands')
@@ -121,12 +123,17 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
     $('.select_problem_code').empty()
     $('.select_problem_code').select2
       data: problem_codes
-    setContentWrapperClass('issue-wrapper')
+    $('#wizard').steps('next');
+    $('#wizard #wizard-p-3 #back-btn, #wizard #wizard-p-4 #back-btn').removeData('step')
   else
     if $(this).data('equipment')
-      setContentWrapperClass('product-details')
+      $('#wizard').steps('setStep', 3)
+      #$('#wizard #wizard-p-1 #next-btn').data('step', 3)
+      $('#wizard #wizard-p-3 #back-btn').data('step', 1)
     else
-      setContentWrapperClass('describe-issue')
+      $('#wizard').steps('setStep', 4)
+      #$('#wizard #wizard-p-1 #next-btn').data('step', 4)
+      $('#wizard #wizard-p-4 #back-btn').data('step', 1)
       
 setEquipment = ->
   location_id = $('#service_request_location_id').val()
@@ -150,22 +157,15 @@ $(document).on 'select2:select', '.service-request-form-wrapper .select_equipmen
         
 $(document).on 'click', '.service-request-form-wrapper .request-continue-btn', (e) ->
   e.preventDefault()
-  if !($(this).hasClass('.logout-credit-card'))
-    setContentWrapperClass($(this).data('continue'))
+  $('#wizard').steps('next');
   
 $(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-btn', (e) ->
   e.preventDefault()
-  back = $(this).data('back')
-  if back == 'product-details' and $('a.problem-details-link').data('equipment')
-    setContentWrapperClass('subcategories-wrapper')
+  if stepNumber = $(this).data('step')
+    $('#wizard').steps('setStep', stepNumber);
   else
-    setContentWrapperClass(back)
-
-$(document).on 'click', '.service-request-form-wrapper .btn-schedule-service', (e) ->
-  e.preventDefault()
-  setContentWrapperClass('complete-request')
-  if ($(this).data('payment'))
-    $('.service-request-form-wrapper .card-wrapper').addClass('hidden')
+    $('#wizard').steps('previous');
+  
 
 $(document).on 'click', '.service-request-form-wrapper .request-service-card-btn', (e) ->
   e.preventDefault()
@@ -190,11 +190,11 @@ $(document).on 'select2:select, change', '.select_category', (e) ->
   setCategories()
   
 $.onmount 'form#service-request-form', (e) ->
-  $(this).find('.content-wrapper').addClass('hidden')
-  if $(this).find('.has-error').length
-    $(this).find('.has-error').first().parents('.content-wrapper:first').removeClass('hidden')
-  else
-    $(this).find('.content-wrapper:first').removeClass('hidden')
+  #$(this).find('.content-wrapper').addClass('hidden')
+  #if $(this).find('.has-error').length
+  #  $(this).find('.has-error').first().parents('.content-wrapper:first').removeClass('hidden')
+  #else
+  #  $(this).find('.content-wrapper:first').removeClass('hidden')
   
 $(document).on 'click', '.equipment-warrant-checkbox', (e) ->
   if $(this).find('input[type=checkbox]').is(':checked')

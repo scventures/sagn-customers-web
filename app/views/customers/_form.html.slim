@@ -1,9 +1,10 @@
 = simple_form_for customer, url: customers_create_with_service_request_path, validate: true, turboboost: true, html: { id: 'service-request-form', class: 'service-request-logout-form' }do |f|
-  .row
-    .col-sm-12
-      = f.simple_fields_for :service_request do |s|
-        =  render 'shared/service_request_fields', f: s, categories: categories
-      .content-wrapper.restaurant-details.hidden
+  #wizard
+    = f.simple_fields_for :service_request do |s|
+      =  render 'shared/service_request_fields', f: s, categories: categories
+    h2 Restaurant Details
+    section          
+      .content-wrapper.restaurant-details
         .col-sm-1
           .back-btn-wrapper
             = link_to '#', class: 'mb20', data: { back: 'contact-details' }, id: 'back-btn' do
@@ -26,7 +27,9 @@
                   = l.input :geography, as: :hidden, input_html: { name: 'customer[location_attributes][geography][latitude]', id: 'location_geography_latitude' }
                   = l.input :geography, as: :hidden, input_html: { name: 'customer[location_attributes][geography][longitude]', id: 'location_geography_longitude' }
                   = f.submit 'Save & Continue', class: 'btn btn-continue text-uppercase request-continue-btn logout-credit-card', data: { continue: 'provide-photo', card: 'add'}
-      .content-wrapper.card-details.hidden
+    h2 Summary & Payment
+    section 
+      .content-wrapper.card-details
         .col-sm-1
           .back-btn-wrapper
             = link_to '#', class: 'mb20', data: { back: 'provide-photo' }, id: 'back-btn' do
@@ -48,8 +51,9 @@
             div
               = image_tag 'powerdBy.png', height: '35', width: '125'
             h4 Sendaguy now uses Stripe, a leader in online and mobile payments, for all financial transactions.
-          .row
-      .content-wrapper.signup-form.hidden
+    h2 Summary & Payment
+    section 
+      .content-wrapper.signup-form
         .col-sm-1
           .back-btn-wrapper
             = link_to '#', class: 'mb20', data: { back: 'card-details' }, id: 'back-btn' do

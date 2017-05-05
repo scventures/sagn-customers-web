@@ -1,0 +1,109 @@
+#wizard {
+  height: calc(100vh - 120px);
+  position: relative;
+  .steps {
+    margin-top: 20px;
+  }
+  .content {
+    margin: 0;
+    background: none;
+    overflow: auto;
+    max-height: calc(100% - 150px);
+    min-height: calc(100% - 150px);
+    .body {
+      padding: 0px;
+      .category-wrapper, .subcategories-wrapper {
+        input {
+          display: none;
+        }
+      }
+    }
+  }
+  .actions { display: none; }
+  .steps {
+    ul {
+      display: table;
+      font-size: 0;
+      height: 91px;
+      list-style: outside none none;
+      margin-bottom: 0;
+      padding-left: 0;
+      position: relative;
+      width: 100%;
+      li[aria-substep] {
+        display: none;
+      }
+      li:not([aria-substep]) {
+        bottom: 0;
+        display: table-cell;
+        font-size: 14px;
+        position: relative;
+        text-align: center;
+        transition: all 0.25s ease 0s;
+        vertical-align: bottom;
+        width: 20%;
+        z-index: 1;
+        a {
+          margin: 0;
+          padding: 0;
+          background: none;
+          color: #c6c6c6;
+          .line {
+            background: #c6c6c6 none repeat scroll 0 0;
+            transition: all 0.25s ease 0s;
+            top: 7px;
+            height: 4px;
+            position: absolute;
+            &.line-left {
+              left: 0;
+              right: 50%;
+            }
+            &.line-right {
+              left: 50%;
+              right: 0;
+            }
+          }
+          .icon {
+            background: #c6c6c6 none repeat scroll 0 0;
+            border-radius: 50%;
+            display: block;
+            fill: transparent;
+            height: 18px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            position: absolute;
+            transition: all 0.25s ease 0s;
+            width: 18px;
+            z-index: 1;
+          }
+          .title {
+            padding-top: 50px;
+          }
+        }
+        &.current, &.done, &[aria-done] {
+          a {
+            color: #D12328;
+            .icon {
+              background-color: #D12328;
+            }
+            .line {
+              &.line-left {
+                background-color: #D12328;
+                margin-right: 14px;
+              }
+              &.line-right {
+                margin-left: 14px;
+              }
+            }
+          }
+        }
+        &.done, &[aria-done] {
+          .line {
+            background-color: #D12328;
+          }
+        }
+      }
+    }
+  }
+}

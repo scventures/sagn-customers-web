@@ -4,7 +4,7 @@ ul.nav.navbar-nav.navbar-right
       = image_tag 'sendaguy.png', width: '200'
   - unless params[:controller] == 'customers/sessions' or params[:controller] == 'pages'
     li
-      = link_to 'login', page_path('login'), class: 'text-capitalize dark-grey bold-text'
+      = link_to 'login', new_customer_session_path, class: 'text-capitalize dark-grey bold-text'
   - unless params[:controller] == 'customers/registrations' or params[:controller] == 'customers'
     li
       = link_to 'Sign up', new_customer_registration_path, class: 'text-capitalize dark-grey bold-text'

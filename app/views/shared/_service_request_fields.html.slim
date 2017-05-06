@@ -49,7 +49,7 @@ section
           p.title What needs to be fixed?
           p.sub-title Do you have an issue with br/ heating or cooling?
           p.mt20 What specifically do you have a problem with?
-          = f.input :problem_code_id, as: :select, label: false, input_html: { class: 'select_problem_code'}
+          = f.input :problem_code_id, as: :select, collection: [], label: false, input_html: { class: 'select_problem_code'}
           = link_to 'Save & Continue', '#', class: 'btn btn-continue request-continue-btn mt20', data: { continue: 'product-details'}
       .col-sm-1
         .next-btn-wrapper
@@ -179,7 +179,10 @@ section
               .col-sm-6.location
                 |
               .col-sm-4
-                = link_to 'change', '#', data: { step: 8 }, class: 'details-change-link'
+                - if f.object.location_id?
+                  = link_to 'change', service_requests_path
+                - else
+                  = link_to 'change', '#', data: { step: 8 }, class: 'details-change-link'
             .row.details-wrapper
               .col-sm-2
                 .fa.fa-wrench.fa-3x.red

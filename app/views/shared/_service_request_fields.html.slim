@@ -13,6 +13,10 @@ section
           = content_for :equipment_category
           p.sub-title Other Services
           = content_for :non_equipment_category
+      .col-sm-1
+        .next-btn-wrapper
+          = link_to '#', class: 'hidden', id: 'next-btn' do
+            = fa_icon 'chevron-right'
 h2 Sub Category
 section          
   .content-wrapper.subcategories-wrapper
@@ -28,6 +32,10 @@ section
               = category.name
             = f.input :subcategory, as: :radio_buttons, collection: categories[category.id].map { |s| [category_icons(s), s.id, data: {brands: s.brands.to_json, problem_codes: s.problem_codes.to_json, equipment: s.is_equipment }] }, label: false
           = f.input :subcategory_id, as: :hidden, input_html: { class: 'subcategory_field', value: f.object.subcategory_id}
+      .col-sm-1
+        .next-btn-wrapper
+          = link_to '#', class: 'hidden', id: 'next-btn' do
+            = fa_icon 'chevron-right'
 h2 Specific issue
 section
   .content-wrapper.issue-wrapper.text-center
@@ -43,6 +51,10 @@ section
           p.mt20 What specifically do you have a problem with?
           = f.input :problem_code_id, as: :select, label: false, input_html: { class: 'select_problem_code'}
           = link_to 'Save & Continue', '#', class: 'btn btn-continue request-continue-btn mt20', data: { continue: 'product-details'}
+      .col-sm-1
+        .next-btn-wrapper
+          = link_to '#', class: 'hidden', id: 'next-btn' do
+            = fa_icon 'chevron-right'
 h2 Order Details
 section
   .content-wrapper.product-details
@@ -66,10 +78,14 @@ section
             = f.input :brand_name, label: false, input_html: { id: 'service_request_brand_name', class: 'hidden', placeholder: 'Brand Name'}
             .row
               .col-sm-6
-                = f.input :model, label: false, input_html: { placeholder: 'Model'}
+                = f.input :model, label: false, input_html: { placeholder: 'Model', class: 'service_request_model'}
               .col-sm-6
-                = f.input :serial, label: false, input_html: { placeholder: 'Serial Number'}
+                = f.input :serial, label: false, input_html: { placeholder: 'Serial Number', class: 'service_request_serial'}
             = link_to 'Save & Continue', '#', class: 'btn btn-continue request-continue-btn mt20', data: { continue: 'describe-issue'}
+      .col-sm-1
+        .next-btn-wrapper
+          = link_to '#', class: 'hidden', id: 'next-btn' do
+            = fa_icon 'chevron-right'
 h2 Schedule
 section
   .content-wrapper.describe-issue
@@ -90,6 +106,10 @@ section
             h5.text-center When would you like a technician to arrive?
             = f.input :work_time_details, as: :text, label: false, placeholder: 'Please be specific. For example: Any time next week, Tuesday afternoon, Friday morning, etc.'
           = link_to 'Save & Continue', '#', class: 'btn btn-continue request-continue-btn', data: { continue: 'contact-details'}
+      .col-sm-1
+        .next-btn-wrapper
+          = link_to '#', class: 'hidden', id: 'next-btn' do
+            = fa_icon 'chevron-right'
 h2 Contact
 section
   .content-wrapper.contact-details
@@ -109,14 +129,18 @@ section
           = f.input :phone_number, label: false, input_html: { placeholder: 'Phone Number' }
           = f.input :token, as: :hidden, input_html: { id: 'service_request_token' }
           .clearfix
-          = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn text-uppercase', data: { continue: f.object.location_id? ?  'card-details' :  'restaurant-details'}
+          = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn text-uppercase'
+      .col-sm-1
+        .next-btn-wrapper
+          = link_to '#', class: 'hidden', id: 'next-btn' do
+            = fa_icon 'chevron-right'
 h2 Issue Image
 section
   .content-wrapper.provide-photo
     .row
       .col-sm-1
         .back-btn-wrapper
-          = link_to '#', class: 'mb20', data: { back: f.object.location_id? ?  'contact-details' :  'restaurant-details' }, id: 'back-btn' do
+          = link_to '#', id: 'back-btn' do
             = fa_icon 'chevron-left'
       .col-sm-10.text-center
         .text-center.service-head.center-panel
@@ -130,5 +154,61 @@ section
               = fa_icon 'upload'
               span.ml10 Add Image
           .clearfix
-          = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn text-uppercase', data: { continue: 'card-details'}
-
+          = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn'
+      .col-sm-1
+        .next-btn-wrapper
+          = link_to '#', class: 'hidden', id: 'next-btn' do
+            = fa_icon 'chevron-right'
+h2 Summary
+section
+  .content-wrapper.details-summary
+    .row
+      .col-sm-1
+        .back-btn-wrapper
+          = link_to '#', class: 'mb20', id: 'back-btn' do
+            = fa_icon 'chevron-left'
+      .col-sm-10.text-center
+        .text-center.service-head.center-panel
+          p.title Request Service
+          p.sub-title Details Summary
+        .col-md-5.address-form.center-panel
+          .summary-details-wrapper
+            .row.details-wrapper
+              .col-sm-2
+                .fa.fa-map-marker.fa-3x.red
+              .col-sm-6.location
+                |
+              .col-sm-4
+                = link_to 'change', '#', data: { step: 8 }, class: 'details-change-link'
+            .row.details-wrapper
+              .col-sm-2
+                .fa.fa-wrench.fa-3x.red
+              .col-sm-6.category
+                |
+              .col-sm-4
+                = link_to 'change', '#', data: { step: 0 }, class: 'details-change-link'
+            .row.details-wrapper
+              .col-sm-2
+                .fa.fa-info-circle.fa-3x.red
+              .col-sm-6.brand
+                | —/—
+              .col-sm-4
+                = link_to 'change', '#', data: { step: 3 }, class: 'details-change-link'
+            .row.details-wrapper
+              .col-sm-2
+                .fa.fa-camera.fa-3x.red
+              .col-sm-6.issue_image
+                | 
+              .col-sm-4
+                = link_to 'change', '#', data: { step: 6 }, class: 'details-change-link'
+          .clearfix
+          .text-uppercase.mt10.mb10
+            | Is this equipment under warranty?
+          .summary-details-subwrapper
+            p
+              | SendaGuy Now is not for service on equipment covered by warranty. If your equipment is under warranty, you’ll want to contact the manufacturer directly.
+            = f.submit 'I understand and wish to continue', class: 'btn btn-continue request-continue-btn text-uppercase', data: { continue: 'card-details'}
+      .col-sm-1
+        .next-btn-wrapper
+          = link_to '#', class: 'hidden', id: 'next-btn' do
+            = fa_icon 'chevron-right'    

@@ -77,14 +77,15 @@ $.onmount '#wizard' , ->
     titleTemplate: '<div class="number step-#index#"><div class="line line-left"></div><div class="line line-right"></div><div class="icon"></div><div class="title">#title#</div></div>'
     onInit: ->
       $('#wizard > .steps').appendTo '#wizard'
-      $.each [1, 4, 5, 7, 9], ->
+      $.each [1, 4, 5, 6, 7, 9], ->
         $('#wizard-t-' + this).parent().attr 'aria-substep', true
         return
       return
     onStepChanged: (event, currentIndex, priorIndex) ->
-      li = $('#wizard-t-' + priorIndex).parent()
+      li = $("#wizard-t-#{priorIndex}").parent()
       if li.hasClass('done') and !li.attr('aria-done')
         li.attr 'aria-done', true
+        $("#wizard-p-#{priorIndex}").find('#next-btn').removeClass('hidden')
       return
 
 setSubcategoriesImages = (id) ->
@@ -114,6 +115,7 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
     $('a.problem-details-link').attr('data-equipment', true)
   brands.map((obj) -> (obj.text = obj.text or obj.name))
   $('.select_brand').empty()
+  brands.unshift({id: 'prompt', text: 'Please select brand'})
   $('.select_brand').select2
     data: brands
   if brands.length == 0
@@ -128,12 +130,16 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   else
     if $(this).data('equipment')
       $('#wizard').steps('setStep', 3)
-      #$('#wizard #wizard-p-1 #next-btn').data('step', 3)
+      $('#wizard #wizard-p-1 #next-btn').data('step', 3)
       $('#wizard #wizard-p-3 #back-btn').data('step', 1)
     else
       $('#wizard').steps('setStep', 4)
-      #$('#wizard #wizard-p-1 #next-btn').data('step', 4)
+      $('#wizard #wizard-p-1 #next-btn').data('step', 4)
       $('#wizard #wizard-p-4 #back-btn').data('step', 1)
+  
+      
+$(document).on 'select2:select', '.select_brand', (e)  ->
+  $('#service_request_brand_name').val(e.params.data.text)
       
 setEquipment = ->
   location_id = $('#service_request_location_id').val()
@@ -158,6 +164,14 @@ $(document).on 'select2:select', '.service-request-form-wrapper .select_equipmen
 $(document).on 'click', '.service-request-form-wrapper .request-continue-btn', (e) ->
   e.preventDefault()
   $('#wizard').steps('next');
+  category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
+  subcategory = $('#service-request-form .subcategories-wrapper input[type=radio]:checked').parent().find('p').html()
+  $('.summary-details-wrapper').find('.category').html("#{category} #{subcategory}")
+  $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_name').val())
+  model = $('input.service_request_model').val()
+  brand_name = $('#service_request_brand_name').val()
+  serial = $('input.service_request_serial').val()
+  $('.summary-details-wrapper').find('.brand').html("#{brand_name} #{model} #{serial}")
   
 $(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-btn', (e) ->
   e.preventDefault()
@@ -165,6 +179,13 @@ $(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-bt
     $('#wizard').steps('setStep', stepNumber);
   else
     $('#wizard').steps('previous');
+    
+$(document).on 'click', '.service-request-form-wrapper .content-wrapper #next-btn', (e) ->
+  e.preventDefault()
+  if stepNumber = $(this).data('step')
+    $('#wizard').steps('setStep', stepNumber);
+  else
+    $('#wizard').steps('next');
   
 
 $(document).on 'click', '.service-request-form-wrapper .request-service-card-btn', (e) ->
@@ -196,12 +217,6 @@ $.onmount 'form#service-request-form', (e) ->
   #else
   #  $(this).find('.content-wrapper:first').removeClass('hidden')
   
-$(document).on 'click', '.equipment-warrant-checkbox', (e) ->
-  if $(this).find('input[type=checkbox]').is(':checked')
-    $(this).find('input[type=checkbox]').prop('checked', false)
-  else
-    $(this).find('input[type=checkbox]').prop('checked', true)
-
 $(document).on 'click', '.left-sidebar ul li a.past-requests-link', (e) ->
   e.preventDefault()
   
@@ -218,3 +233,10 @@ $(document).on 'change', '.urgent-service', ->
   else
     $('.urgent-wrapper').find('h5').html('When would you like a technician to arrive?')
     $('.urgent-wrapper').find('textarea').attr('placeholder', 'Please be specific. For example: Any time next week, Tuesday afternoon, Friday morning, etc.')
+    
+$(document).on 'cocoon:after-insert', '.provide-photo', (e) ->
+  $(this).find('.image-upload:last').trigger('click')
+  
+$(document).on 'click', '.details-change-link', (e) ->
+  e.preventDefault()
+  $('#wizard').steps('setStep', $(this).data('step'));

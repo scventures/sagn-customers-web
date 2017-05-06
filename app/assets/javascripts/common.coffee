@@ -29,17 +29,20 @@ window.customAlert = (title, message) ->
     zIindex: 10099
 
 $(document).on 'change', '.image-upload', (event) ->
-  console.log 1
+  $(event.target).parents('.image-wrapper').find('.remove_fields dynamic').removeClass('hidden')
   files = event.target.files
   image = files[0]
   reader = new FileReader
   reader.onload = (file) ->
     img = new Image
+    $(event.target).parents('.image-wrapper').find('.remove_fields').removeClass('hidden')
     $(event.target).parents('.image-wrapper').find('.image-upload-label').first().addClass('hidden')
     $(event.target).parents('.image-wrapper').find('.image-upload-label').last().removeClass('hidden').html $('<img>').attr(
       src: file.target.result
       class: 'img-preview')
     $(event.target).focusout()
+    if $(event.target).parents('.image-wrapper').hasClass('provide-photo-img')
+      $('.summary-details-wrapper').find('.issue_image').append($('<img>').attr(src: file.target.result, class: 'preview'))
   reader.readAsDataURL image
 
 $.onmount 'form[data-client-side-validations][data-turboboost]', ->

@@ -77,9 +77,14 @@ $.onmount '#wizard' , ->
     titleTemplate: '<div class="number step-#index#"><div class="line line-left"></div><div class="line line-right"></div><div class="icon"></div><div class="title">#title#</div></div>'
     onInit: ->
       $('#wizard > .steps').appendTo '#wizard'
-      $.each [1, 4, 5, 6, 7, 9], ->
-        $('#wizard-t-' + this).parent().attr 'aria-substep', true
-        return
+      if $('#service-request-form').hasClass('service-request-logout-form')
+        $.each [1, 4, 5, 6, 7, 9], ->
+          $('#wizard-t-' + this).parent().attr 'aria-substep', true
+          return
+      else
+        $.each [1, 4, 5, 8], ->
+          $('#wizard-t-' + this).parent().attr 'aria-substep', true
+          return
       return
     onStepChanged: (event, currentIndex, priorIndex) ->
       li = $("#wizard-t-#{priorIndex}").parent()
@@ -136,7 +141,6 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
       $('#wizard').steps('setStep', 4)
       $('#wizard #wizard-p-1 #next-btn').data('step', 4)
       $('#wizard #wizard-p-4 #back-btn').data('step', 1)
-  
       
 $(document).on 'select2:select', '.select_brand', (e)  ->
   $('#service_request_brand_name').val(e.params.data.text)
@@ -191,9 +195,11 @@ $(document).on 'click', '.service-request-form-wrapper .content-wrapper #next-bt
 $(document).on 'click', '.service-request-form-wrapper .request-service-card-btn', (e) ->
   e.preventDefault()
   if $(this).data('card') == 'add'
-    $('.service-request-form-wrapper .card-wrapper').removeClass('hidden')
+    $('.service-request-form-wrapper #payment-form').removeClass('hidden')
+    $('.service-request-form-wrapper .service-request-submit-btn').addClass('hidden')
   else
-    $('.service-request-form-wrapper .card-wrapper').addClass('hidden')
+    $('.service-request-form-wrapper #payment-form').addClass('hidden')
+    $('.service-request-form-wrapper .service-request-submit-btn').removeClass('hidden')
   
 setCategories = ->
   if $('.select_category option:selected').val() != ''

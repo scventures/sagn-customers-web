@@ -1,7 +1,8 @@
 = simple_form_for service_request, url: location_service_requests_path(location), validate: true, turboboost: true, html: { multipart: true, id: 'service-request-form' } do |f|
   = hidden_field_tag 'location_name', location.name, class: 'location_name'
   #wizard
-    =  render 'shared/service_request_fields', f: f, categories: categories
+    = render 'shared/service_request_fields', f: f, categories: categories
+    = render 'shared/details_summary', f: f
     h2 Summary & Payment
     section
       .content-wrapper.card-details
@@ -30,3 +31,6 @@
                 div
                   = image_tag 'powerdBy.png', height: '35', width: '125'
                 h3 Sendaguy now uses Stripe, a leader in online and mobile payments, for all financial transactions.
+              .col-md-7.center-panel.text-center
+                .row
+                  = f.submit 'Save & Continue', class: 'btn btn-continue service-request-submit-btn hidden'

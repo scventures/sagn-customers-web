@@ -78,7 +78,7 @@ $.onmount '#wizard' , ->
     onInit: ->
       $('#wizard > .steps').appendTo '#wizard'
       if $('#service-request-form').hasClass('service-request-logout-form')
-        $.each [1, 4, 5, 6, 7, 9], ->
+        $.each [1, 4, 5, 6, 8, 9], ->
           $('#wizard-t-' + this).parent().attr 'aria-substep', true
           return
       else

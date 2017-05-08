@@ -1,8 +1,12 @@
 $.fn.steps.setStep = (step) ->
   wizard = $('#wizard')
   index = $(wizard).data('state').currentIndex
+  currentTransitionEffect = wizard.data('options').transitionEffect
   i = 0
+  $.fn.steps.transitionEffect = 0
   while i < Math.abs(step - index)
+    #disable transition effect for intermediate steps
+    wizard.data('options').transitionEffect = if i == (Math.abs(step - index) - 1) then currentTransitionEffect else 0
     if step > index
       $(wizard).steps 'next'
     else
@@ -41,8 +45,6 @@ $(document).on 'change', '.image-upload', (event) ->
       src: file.target.result
       class: 'img-preview')
     $(event.target).focusout()
-    if $(event.target).parents('.image-wrapper').hasClass('provide-photo-img')
-      $('.summary-details-wrapper').find('.issue_image').append($('<img>').attr(src: file.target.result, class: 'preview'))
   reader.readAsDataURL image
 
 $.onmount 'form[data-client-side-validations][data-turboboost]', ->
@@ -59,4 +61,3 @@ $(document).on 'click', '[data-toggle=offcanvas]', ->
 
 $(document).on 'ready shown.bs.modal load turbolinks:load turboboost:complete', ->
   $.onmount()
-

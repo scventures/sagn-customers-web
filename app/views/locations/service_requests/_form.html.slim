@@ -1,16 +1,16 @@
 = simple_form_for service_request, url: location_service_requests_path(location), validate: true, turboboost: true, html: { multipart: true, id: 'service-request-form' } do |f|
-  = hidden_field_tag 'location_name', location.name, class: 'location_name'
+  = hidden_field_tag 'location_address', location.address_1, class: 'location_address'
+  p.title Request Service
   #wizard
     = render 'shared/service_request_fields', f: f, categories: categories
     = render 'shared/details_summary', f: f
     h2 Summary & Payment
     section
       .content-wrapper.card-details
-        .col-sm-1
-          .back-btn-wrapper
-            = link_to '#', class: 'mb20', data: { back: 'provide-photo' }, id: 'back-btn' do
-              = fa_icon 'chevron-left'
-        .col-sm-10.text-center
+        .back-btn-wrapper
+          = link_to '#', class: 'mb20', data: { back: 'provide-photo' }, id: 'back-btn' do
+            = fa_icon 'chevron-left'
+        .col-sm-10.col-sm-offset-1.text-center
           p.sub-title Provide a Credit Card
           .panel-body.mt20.text-center
             = link_to '#', class: 'btn btn-red request-service-card-btn', data: { card: 'add'} do

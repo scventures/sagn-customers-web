@@ -1,24 +1,23 @@
-= simple_form_for customer, url: customers_create_with_service_request_path, validate: true, turboboost: true, html: { id: 'service-request-form', class: 'service-request-logout-form' }do |f|
+= simple_form_for customer, url: customers_create_with_service_request_path, validate: true, turboboost: true, html: { id: 'service-request-form', class: 'service-request-logout-form' } do |f|
+  p.title Request Service
   #wizard
-    = f.simple_fields_for :service_request do |s|
+    = f.simple_fields_for :service_request, validate: true do |s|
       = render 'shared/service_request_fields', f: s, categories: categories
     h2 Restaurant Details
     section          
       .content-wrapper.restaurant-details
-        .col-sm-1
-          .back-btn-wrapper
-            = link_to '#', class: 'mb20', data: { back: 'contact-details' }, id: 'back-btn' do
-              = fa_icon 'chevron-left'
-        .col-sm-10.text-center
+        .back-btn-wrapper
+          = link_to '#', class: 'mb20', data: { back: 'contact-details' }, id: 'back-btn' do
+            = fa_icon 'chevron-left'
+        .col-sm-10.col-sm-offset-1.text-center
           .text-center.service-head.center-panel
-            p.title Request Service
             p.sub-title Where is the Restaurant?
           .col-md-6.center-panel.text-center.mt20
-            = f.simple_fields_for :location do |l|
+            = f.simple_fields_for :location, validate: true do |l|
               .row
                 .col-sm-10.col-sm-offset-1
                   = l.input :name, label: false, validate: true, input_html: { placeholder: 'Name', class: 'location_name' }
-                  = l.input :address_1, label: false, input_html: { class: 'address_auto_complete_field', placeholder: 'Address 1' }
+                  = l.input :address_1, label: false, input_html: { class: 'address_auto_complete_field location_address', placeholder: 'Address 1' }
                   = l.input :address_2, label: false, input_html: {id: 'location_sublocality_level_1', placeholder: 'Address 2'}
                   = l.input :address_3, label: false, input_html: {id: 'location_administrative_area_level_2', placeholder: 'Address 3' }
                   = l.input :city, label: false, input_html: {id: 'location_locality', placeholder: 'City' }
@@ -27,20 +26,18 @@
                   = l.input :geography, as: :hidden, input_html: { name: 'customer[location_attributes][geography][latitude]', id: 'location_geography_latitude' }
                   = l.input :geography, as: :hidden, input_html: { name: 'customer[location_attributes][geography][longitude]', id: 'location_geography_longitude' }
                   = f.submit 'Save & Continue', class: 'btn btn-continue text-uppercase request-continue-btn logout-credit-card', data: { continue: 'provide-photo'}
-        .col-sm-1
-          .next-btn-wrapper
-            = link_to '#', class: 'hidden', id: 'next-btn' do
-              = fa_icon 'chevron-right'
+        .next-btn-wrapper
+          = link_to '#', class: 'hidden', id: 'next-btn' do
+            = fa_icon 'chevron-right'
     = f.simple_fields_for :service_request do |s|
       = render 'shared/details_summary', f: s
     h2 Summary & Payment
     section 
       .content-wrapper.card-details
-        .col-sm-1
-          .back-btn-wrapper
-            = link_to '#', class: 'mb20', data: { back: 'provide-photo' }, id: 'back-btn' do
-              = fa_icon 'chevron-left'
-        .col-sm-10.text-center
+        .back-btn-wrapper
+          = link_to '#', class: 'mb20', data: { back: 'provide-photo' }, id: 'back-btn' do
+            = fa_icon 'chevron-left'
+        .col-sm-10.col-sm-offset-1.text-center
           .text-center.service-head.center-panel
             p.sub-title Provide a Credit Card
             h4.text-center In order to place this service request you must have a credit card on file.
@@ -57,17 +54,15 @@
             div
               = image_tag 'powerdBy.png', height: '35', width: '125'
             h4 Sendaguy now uses Stripe, a leader in online and mobile payments, for all financial transactions.
-        .col-sm-1
-          .next-btn-wrapper
-            = link_to '#', class: 'hidden', id: 'next-btn' do
-              = fa_icon 'chevron-right'
+        .next-btn-wrapper
+          = link_to '#', class: 'hidden', id: 'next-btn' do
+            = fa_icon 'chevron-right'
     h2 Summary & Payment
     section 
       .content-wrapper.signup-form
-        .col-sm-1
-          .back-btn-wrapper
-            = link_to '#', class: 'mb20', data: { back: 'card-details' }, id: 'back-btn' do
-              = fa_icon 'chevron-left'
+        .back-btn-wrapper
+          = link_to '#', class: 'mb20', data: { back: 'card-details' }, id: 'back-btn' do
+            = fa_icon 'chevron-left'
         .col-md-6.center-panel.text-center.mt20
           h3.text-center Enter your details for signup
           .row.mt40
@@ -86,7 +81,6 @@
               .mobile-wrapper
                 h3 Get repairs on demand
                 = image_tag 'mobile.png', width: '250', height: '350'
-        .col-sm-1
-          .next-btn-wrapper
-            = link_to '#', class: 'hidden', id: 'next-btn' do
-              = fa_icon 'chevron-right'
+        .next-btn-wrapper
+          = link_to '#', class: 'hidden', id: 'next-btn' do
+            = fa_icon 'chevron-right'

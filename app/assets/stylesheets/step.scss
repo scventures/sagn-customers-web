@@ -1,5 +1,11 @@
+body#service_requests_new {
+  #wizard {
+    height: calc(100vh - 220px);
+  }
+}
+
 #wizard {
-  height: calc(100vh - 120px);
+  height: calc(100vh - 190px);
   position: relative;
   .steps {
     margin-top: 20px;
@@ -8,10 +14,11 @@
     margin: 0;
     background: none;
     overflow: auto;
-    max-height: calc(100% - 150px);
-    min-height: calc(100% - 150px);
+    max-height: calc(100% - 170px);
+    min-height: calc(100% - 170px);
     .body {
       padding: 0px;
+      width: 100%;
       .category-wrapper, .subcategories-wrapper {
         input {
           display: none;
@@ -107,3 +114,4 @@
     }
   }
 }
+

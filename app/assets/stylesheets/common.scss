@@ -66,6 +66,18 @@ nav.navbar {
   }
 }
 
+.navbar-brand {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  text-align: center;
+  margin: auto;
+  img {
+    display: inline;
+  }
+}
+
 .btn-red {
   width: 100% !important;
   background: #d1232a !important;
@@ -293,6 +305,8 @@ body {
     display: inline-block;
   }
 }
+
+
 
 body#service_requests_index, body#service_requests_new {
   @include hidden-sidebar()

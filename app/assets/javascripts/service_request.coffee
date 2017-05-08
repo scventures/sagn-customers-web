@@ -74,7 +74,7 @@ $.onmount '#wizard' , ->
     headerTag: 'h2'
     bodyTag: 'section'
     transitionEffect: 'slideLeft'
-    titleTemplate: '<div class="number step-#index#"><div class="line line-left"></div><div class="line line-right"></div><div class="icon"></div><div class="title">#title#</div></div>'
+    titleTemplate: '<div class="number step-#index#"><div class="line line-left"></div><div class="line line-right"></div><div class="icon"></div><div class="title">#title#</div><div class="summary-data grey"></div></div>'
     onInit: ->
       $('#wizard > .steps').appendTo '#wizard'
       if $('#service-request-form').hasClass('service-request-logout-form')
@@ -86,13 +86,53 @@ $.onmount '#wizard' , ->
           $('#wizard-t-' + this).parent().attr 'aria-substep', true
           return
       return
+    onStepChanging: (event, currentIndex, newIndex) ->
+      form = $(this).parents('form:first')
+      valid = true
+      if newIndex > currentIndex
+        $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("input, select"), (i, element) ->
+          valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
+          return
+      return valid
     onStepChanged: (event, currentIndex, priorIndex) ->
       li = $("#wizard-t-#{priorIndex}").parent()
       if li.hasClass('done') and !li.attr('aria-done')
         li.attr 'aria-done', true
         $("#wizard-p-#{priorIndex}").find('#next-btn').removeClass('hidden')
+      $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find('input, select').enableClientSideValidations()
+      switch $('#wizard').steps('getStep', priorIndex).title
+        when 'Sub Category'
+          category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
+          subcategory = $('#service-request-form .subcategories-wrapper input[type=radio]:checked').parent().find('p').html() 
+          $('.steps #wizard-t-0 .summary-data').html("#{category} / #{subcategory}")
+          $('.summary-details-wrapper').find('.category').html("#{category} #{subcategory}")
+        when 'Specific issue'
+          $('.steps #wizard-t-2 .summary-data').html()
+        when 'Order Details'
+          model = $('input.service_request_model').val()
+          brand_name = $('#service_request_brand_name').val()
+          serial = $('input.service_request_serial').val()
+          data = $.grep([brand_name, model], Boolean).join(' ')
+          data = $.grep([data, serial], Boolean).join(' - ')
+          $('.steps #wizard-t-3 .summary-data').html(data)
+          $('.summary-details-wrapper').find('.brand').html(data)
+        when 'Schedule'
+          if $('.urgent-service').val() == 'Yes'
+            if $('.steps #wizard-t-3 .summary-data').html().length == 0
+              $('.steps #wizard-t-3 .summary-data').html('Urgent Request')
+            else
+              $('.steps #wizard-t-3 .summary-data').append(', Urgent Request')
+        when 'Restaurant Details'
+          $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
+          $('.steps #wizard-t-7 .summary-data').html($('#service-request-form .location_address').val())
+        when 'Issue Image'
+          setSummaryDetailsImages()
+          $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
+          if !$('.steps #wizard-t-6').parents('li:first').hasClass('disabled')
+            images = $('.provide-photo-img').find('img').length
+            $('.steps #wizard-t-6 .summary-data').html("#{images} Issue Image(s)")
       return
-
+      
 setSubcategoriesImages = (id) ->
   $('.subcategory_icons').addClass('hidden')
   $(".subcategory_icons.category-#{id}").removeClass('hidden')
@@ -126,6 +166,7 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   if brands.length == 0
     $('#service_request_brand_name').removeClass('hidden')
   if problem_codes.length > 0
+    $('.steps #wizard-t-2').parents('li:first').removeClass('disabled')
     problem_codes.map((obj) -> (obj.text = obj.text or obj.name))
     $('.select_problem_code').empty()
     $('.select_problem_code').select2
@@ -141,6 +182,7 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
       $('#wizard').steps('setStep', 4)
       $('#wizard #wizard-p-1 #next-btn').data('step', 4)
       $('#wizard #wizard-p-4 #back-btn').data('step', 1)
+    $('.steps #wizard-t-2').parents('li:first').addClass('disabled')
       
 $(document).on 'select2:select', '.select_brand', (e)  ->
   $('#service_request_brand_name').val(e.params.data.text)
@@ -168,14 +210,6 @@ $(document).on 'select2:select', '.service-request-form-wrapper .select_equipmen
 $(document).on 'click', '.service-request-form-wrapper .request-continue-btn', (e) ->
   e.preventDefault()
   $('#wizard').steps('next');
-  category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
-  subcategory = $('#service-request-form .subcategories-wrapper input[type=radio]:checked').parent().find('p').html()
-  $('.summary-details-wrapper').find('.category').html("#{category} #{subcategory}")
-  $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_name').val())
-  model = $('input.service_request_model').val()
-  brand_name = $('#service_request_brand_name').val()
-  serial = $('input.service_request_serial').val()
-  $('.summary-details-wrapper').find('.brand').html("#{brand_name} #{model} #{serial}")
   
 $(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-btn', (e) ->
   e.preventDefault()
@@ -217,11 +251,9 @@ $(document).on 'select2:select, change', '.select_category', (e) ->
   setCategories()
   
 $.onmount 'form#service-request-form', (e) ->
-  #$(this).find('.content-wrapper').addClass('hidden')
-  #if $(this).find('.has-error').length
-  #  $(this).find('.has-error').first().parents('.content-wrapper:first').removeClass('hidden')
-  #else
-  #  $(this).find('.content-wrapper:first').removeClass('hidden')
+  if $(this).find('.has-error').length > 0
+    $('section').css('display', 'none')
+    $(this).find('.has-error').first().parents('section').css('display', 'block')
   
 $(document).on 'click', '.left-sidebar ul li a.past-requests-link', (e) ->
   e.preventDefault()
@@ -246,3 +278,11 @@ $(document).on 'cocoon:after-insert', '.provide-photo', (e) ->
 $(document).on 'click', '.details-change-link', (e) ->
   e.preventDefault()
   $('#wizard').steps('setStep', $(this).data('step'));
+  
+setSummaryDetailsImages = ->
+  $('.summary-details-wrapper').find('.issue_image').html('')
+  images = $('.provide-photo-img').find('img').map(->
+    $(this).attr 'src'
+  ).get()
+  $.each images, (i, img) ->
+    $('.summary-details-wrapper').find('.issue_image').append($('<img>').attr(src: img, class: 'preview'))

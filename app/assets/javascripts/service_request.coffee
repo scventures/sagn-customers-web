@@ -74,6 +74,7 @@ $.onmount '#wizard' , ->
     headerTag: 'h2'
     bodyTag: 'section'
     transitionEffect: 'slideLeft'
+    enableKeyNavigation: false
     titleTemplate: '<div class="number step-#index#"><div class="line line-left"></div><div class="line line-right"></div><div class="icon"></div><div class="title">#title#</div><div class="summary-data grey"></div></div>'
     onInit: ->
       $('#wizard > .steps').appendTo '#wizard'
@@ -257,7 +258,7 @@ $.onmount 'form#service-request-form', (e) ->
   
 $(document).on 'click', '.left-sidebar ul li a.past-requests-link', (e) ->
   e.preventDefault()
-  
+
 $(document).on 'keyup', '.us_phone_number', ->
   phone_number = $(this).val()
   if isValidNumber(phone_number.replace(/ /g, ''), 'US')

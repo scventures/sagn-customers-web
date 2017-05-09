@@ -107,9 +107,9 @@ section
         p.sub-title Contact Details
       .col-md-5.address-form.center-panel
         h4 When the technician arrives, who should they ask for?
-        = f.input :contact_details, label: false, input_html: { placeholder: 'Full Name', class: 'us_phone_number' }
+        = f.input :contact_details, label: false, input_html: { placeholder: 'Full Name' }
         h4 Best number to call for questions
-        = f.input :phone_number, label: false, input_html: { placeholder: 'Phone Number' }
+        = f.input :phone_number, label: false, input_html: { placeholder: 'Phone Number', class: 'us_phone_number'  }
         = f.input :token, as: :hidden, input_html: { id: 'service_request_token' }
         .clearfix
         = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn'

@@ -15,7 +15,7 @@ class ServiceRequest
   accepts_nested_attributes_for :issue_images
   validates :location_id, :category_id, :subcategory_id, presence: true
 
-  before_save :set_urgent
+  before_save :set_urgent, :set_brand_and_equipment
   
   def assigned?
     status == 'assigned'
@@ -24,7 +24,7 @@ class ServiceRequest
   def can_editable?
     self.status == 'waiting'
   end
-
+  
   def cancel
     ServiceRequest.put_raw("customers/accounts/#{account_id}/service_requests/#{id}/cancel", {account_id: account_id, id: id}) do |parsed_data, response|
       populate_errors(parsed_data[:errors]) if response.status == 400
@@ -33,6 +33,11 @@ class ServiceRequest
   
   def set_urgent
     self.urgent = self.urgent.to_b
+  end
+  
+  def set_brand_and_equipment
+    self.brand_id = nil if self.brand_id and self.brand_id.to_i == 0
+    self.equipment_item_id = nil if self.equipment_item_id and self.equipment_item_id.to_i == 0
   end
   
   def to_params

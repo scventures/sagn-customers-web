@@ -152,7 +152,7 @@ setEquipment = ->
       dataType: 'json'
       success: (data) ->
         data.map((obj) -> (obj.text = obj.text or obj.subcategory.name))
-        data.unshift({id: 'prompt', text: 'Please select equipment'})
+        data.unshift({id: '0', text: 'Please select equipment'})
         $('.select_equipment').empty()
         $('.select_equipment').select2 
           data: data
@@ -176,7 +176,7 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
     $('a.problem-details-link').attr('data-equipment', true)
   brands.map((obj) -> (obj.text = obj.text or obj.name))
   $('.select_brand').empty()
-  brands.unshift({id: 'prompt', text: 'Please select brand'})
+  brands.unshift({id: '0', text: 'Please select brand'})
   $('.select_brand').select2
     data: brands
   if brands.length == 0

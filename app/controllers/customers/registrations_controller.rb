@@ -37,7 +37,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
 
   def sign_up_params
     params.require(:customer).permit(
-      :name, :customer_account_name, :email, :unconfirmed_phone, :password, :password_confirmation, :tos_accepted, service_request_attributes: [:location_id, :equipment_id, :brand_name, :brand_id, :model, :serial, :urgent, :work_time_details, :problem_code_id, :equipment_item_id,
+      :name, :customer_account_name, :email, :unconfirmed_phone, :password, :password_confirmation, :tos_accepted, service_request_attributes: [:location_id, :brand_name, :brand_id, :model, :serial, :urgent, :work_time_details, :problem_code_id, :equipment_item_id,
       :problem, :category_id, :subcategory_id, :token, :phone_number, :notes, :contact_details, issue_images_attributes: [:image, :id]], location_attributes: [ :name, :address_1, :address_2, :address_3, :city, :state, :zip, :phone_number, { geography: [:latitude, :longitude]}]).to_h
   end
   

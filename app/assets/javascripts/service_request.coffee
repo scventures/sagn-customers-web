@@ -79,11 +79,11 @@ $.onmount '#wizard' , ->
     onInit: ->
       $('#wizard > .steps').appendTo '#wizard'
       if $('#service-request-form').hasClass('service-request-logout-form')
-        $.each [1, 4, 5, 6, 8, 9], ->
+        $.each [1, 4, 5, 6, 7, 8, 9], ->
           $('#wizard-t-' + this).parent().attr 'aria-substep', true
           return
       else
-        $.each [1, 4, 5, 8], ->
+        $.each [1, 4, 5, 6, 8], ->
           $('#wizard-t-' + this).parent().attr 'aria-substep', true
           return
       return
@@ -142,6 +142,21 @@ setSubcategoriesImages = (id) ->
     $(this).attr('src', imgSrc)
   $('#wizard').steps('next')
   
+setEquipment = ->
+  location_id = $('#service_request_location_id').val()
+  subcategory_id = $('.subcategories-wrapper .subcategory_field').val()
+  if location_id?
+    $.ajax
+      url: Routes.location_equipment_items_path(location_id: location_id, subcategory_id: subcategory_id)
+      type: 'GET'
+      dataType: 'json'
+      success: (data) ->
+        data.map((obj) -> (obj.text = obj.text or obj.subcategory.name))
+        data.unshift({id: 'prompt', text: 'Please select equipment'})
+        $('.select_equipment').empty()
+        $('.select_equipment').select2 
+          data: data
+  
 $(document).on 'change, click', '.category-wrapper input[type=radio]', ->
   setSubcategoriesImages($(this).val())
   
@@ -166,52 +181,43 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
     data: brands
   if brands.length == 0
     $('#service_request_brand_name').removeClass('hidden')
-  if problem_codes.length > 0
-    $('.steps #wizard-t-2').parents('li:first').removeClass('disabled')
-    problem_codes.map((obj) -> (obj.text = obj.text or obj.name))
-    $('.select_problem_code').empty()
-    $('.select_problem_code').select2
-      data: problem_codes
-    $('#wizard').steps('next');
-    $('#wizard #wizard-p-3 #back-btn, #wizard #wizard-p-4 #back-btn').removeData('step')
+  category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
+  if category == 'Preventive Maintenance'
+    $('#wizard').steps('setStep', 6)
+    $('#wizard #wizard-p-1 #next-btn').data('step', 6)
+    $('#wizard #wizard-p-6 #back-btn').data('step', 1)
+    $('.preventative-maintenance-contact').prop('disabled', false)
   else
-    if $(this).data('equipment')
-      $('#wizard').steps('setStep', 3)
-      $('#wizard #wizard-p-1 #next-btn').data('step', 3)
-      $('#wizard #wizard-p-3 #back-btn').data('step', 1)
+    $('#wizard #wizard-p-5 .request-continue-btn').data('step', 7)
+    $('#wizard #wizard-p-5 #next-btn').data('step', 7)
+    $('#wizard #wizard-p-7 #back-btn').data('step', 5)
+    if problem_codes.length > 0
+      $('.steps #wizard-t-2').parents('li:first').removeClass('disabled')
+      problem_codes.map((obj) -> (obj.text = obj.text or obj.name))
+      $('.select_problem_code').empty()
+      $('.select_problem_code').select2
+        data: problem_codes
+      $('#wizard').steps('next');
+      $('#wizard #wizard-p-3 #back-btn, #wizard #wizard-p-4 #back-btn').removeData('step')
     else
-      $('#wizard').steps('setStep', 4)
-      $('#wizard #wizard-p-1 #next-btn').data('step', 4)
-      $('#wizard #wizard-p-4 #back-btn').data('step', 1)
-    $('.steps #wizard-t-2').parents('li:first').addClass('disabled')
+      if $(this).data('equipment')
+        $('#wizard').steps('setStep', 3)
+        $('#wizard #wizard-p-1 #next-btn').data('step', 3)
+        $('#wizard #wizard-p-3 #back-btn').data('step', 1)
+      else
+        $('#wizard').steps('setStep', 4)
+        $('#wizard #wizard-p-1 #next-btn').data('step', 4)
+        $('#wizard #wizard-p-4 #back-btn').data('step', 1)
+      $('.steps #wizard-t-2').parents('li:first').addClass('disabled')
       
 $(document).on 'select2:select', '.select_brand', (e)  ->
   $('#service_request_brand_name').val(e.params.data.text)
       
-setEquipment = ->
-  location_id = $('#service_request_location_id').val()
-  subcategory_id = $('.subcategories-wrapper .subcategory_field').val()
-  if location_id?
-    $.ajax
-      url: Routes.location_equipment_items_path(location_id: location_id, subcategory_id: subcategory_id)
-      type: 'GET'
-      dataType: 'json'
-      success: (data) ->
-        data.map((obj) -> (obj.text = obj.text or obj.subcategory.name))
-        data.unshift({id: 'prompt', text: 'Please select equipment'})
-        $('.select_equipment').empty()
-        $('.select_equipment').select2 
-          data: data
-        
 $(document).on 'select2:select', '.service-request-form-wrapper .select_equipment', (e) ->
   $('#service_request_brand_name').val(e.brand_name)
   $('#service_request_model').val(e.model)
   $('#service_request_serial').val(e.serial)
         
-$(document).on 'click', '.service-request-form-wrapper .request-continue-btn', (e) ->
-  e.preventDefault()
-  $('#wizard').steps('next');
-  
 $(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-btn', (e) ->
   e.preventDefault()
   if stepNumber = $(this).data('step')
@@ -219,7 +225,7 @@ $(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-bt
   else
     $('#wizard').steps('previous');
     
-$(document).on 'click', '.service-request-form-wrapper .content-wrapper #next-btn', (e) ->
+$(document).on 'click', '.service-request-form-wrapper .content-wrapper #next-btn, .service-request-form-wrapper .request-continue-btn',  (e) ->
   e.preventDefault()
   if stepNumber = $(this).data('step')
     $('#wizard').steps('setStep', stepNumber);

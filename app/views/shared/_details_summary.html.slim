@@ -1,11 +1,10 @@
 h2 Summary
 section
   .content-wrapper.details-summary
-    .col-sm-1
-      .back-btn-wrapper
-        = link_to '#', class: 'mb20', id: 'back-btn' do
-          = fa_icon 'chevron-left'
-    .col-sm-10.text-center
+    .back-btn-wrapper
+      = link_to '#', class: 'mb20', id: 'back-btn' do
+        = fa_icon 'chevron-left'
+    .col-sm-10.col-sm-offset-1.text-center
       .text-center.service-head.center-panel
         p.sub-title Details Summary
       .col-md-5.address-form.center-panel
@@ -48,7 +47,6 @@ section
           p
             | SendaGuy Now is not for service on equipment covered by warranty. If your equipment is under warranty, you’ll want to contact the manufacturer directly.
           = f.submit 'I understand and wish to continue', class: 'btn btn-continue request-continue-btn text-uppercase', data: { continue: 'card-details'}
-    .col-sm-1
-      .next-btn-wrapper
-        = link_to '#', class: 'hidden', id: 'next-btn' do
-          = fa_icon 'chevron-right'    
+    .next-btn-wrapper
+      = link_to '#', class: 'hidden', id: 'next-btn' do
+        = fa_icon 'chevron-right'    

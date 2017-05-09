@@ -28,6 +28,8 @@ body#service_requests_new {
   }
   .actions { display: none; }
   .steps {
+    width: 85%;
+    margin: 20px auto;
     ul {
       display: table;
       font-size: 0;

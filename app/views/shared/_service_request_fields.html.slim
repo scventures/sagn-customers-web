@@ -18,7 +18,7 @@ h2 Sub Category
 section          
   .content-wrapper.subcategories-wrapper
     .back-btn-wrapper
-      = link_to '#', class: 'mb20', data: { back: 'category-wrapper' }, id: 'back-btn' do
+      = link_to '#', class: 'mb20', id: 'back-btn' do
         = fa_icon 'chevron-left'
     .col-sm-10.col-sm-offset-1.text-center
       - categories[nil].each do |category|
@@ -34,7 +34,7 @@ h2 Specific issue
 section
   .content-wrapper.issue-wrapper.text-center
     .back-btn-wrapper
-      = link_to '#', class: 'mb20', data: { back: 'subcategories-wrapper'}, id: 'back-btn' do
+      = link_to '#', class: 'mb20', id: 'back-btn' do
         = fa_icon 'chevron-left'
     .col-sm-10.col-sm-offset-1.text-center
       .text-center.service-head.center-panel.col-sm-5
@@ -53,7 +53,7 @@ h2 Order Details
 section
   .content-wrapper.product-details
     .back-btn-wrapper
-      = link_to '#', class: 'mb20', data: { back: 'subcategories-wrapper'}, id: 'back-btn' do
+      = link_to '#', class: 'mb20', id: 'back-btn' do
         = fa_icon 'chevron-left'
     .col-sm-10.col-sm-offset-1.text-center
       .text-center.service-head.center-panel
@@ -72,7 +72,7 @@ section
               = f.input :model, label: false, input_html: { placeholder: 'Model', class: 'service_request_model'}
             .col-sm-6
               = f.input :serial, label: false, input_html: { placeholder: 'Serial Number', class: 'service_request_serial'}
-          = link_to 'Save & Continue', '#', class: 'btn btn-continue request-continue-btn mt20', data: { step: 'brand' }
+          = link_to 'Save & Continue', '#', class: 'btn btn-continue request-continue-btn mt20'
     .next-btn-wrapper
       = link_to '#', class: 'hidden', id: 'next-btn' do
         = fa_icon 'chevron-right'
@@ -80,7 +80,7 @@ h2 Schedule
 section
   .content-wrapper.describe-issue
     .back-btn-wrapper
-      = link_to '#', class: 'mb20 problem-details-link', data: { back: 'product-details' }, id: 'back-btn' do
+      = link_to '#', class: 'mb20 problem-details-link', id: 'back-btn' do
         = fa_icon 'chevron-left'
     .col-sm-10.col-sm-offset-1.text-center
       .text-center.service-head.center-panel
@@ -100,17 +100,35 @@ h2 Contact
 section
   .content-wrapper.contact-details
     .back-btn-wrapper
-      = link_to '#', class: 'mb20', data: { back: 'describe-issue' }, id: 'back-btn' do
+      = link_to '#', class: 'mb20', id: 'back-btn' do
         = fa_icon 'chevron-left'
     .col-sm-10.col-sm-offset-1.text-center
       .text-center.service-head.center-panel
         p.sub-title Contact Details
       .col-md-5.address-form.center-panel
         h4 When the technician arrives, who should they ask for?
-        = f.input :contact_details, label: false, input_html: { placeholder: 'Full Name' }
+        = f.input :contact_details, label: false, input_html: { placeholder: 'Full Name', class: 'us_phone_number' }
         h4 Best number to call for questions
         = f.input :phone_number, label: false, input_html: { placeholder: 'Phone Number' }
         = f.input :token, as: :hidden, input_html: { id: 'service_request_token' }
+        .clearfix
+        = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn'
+    .next-btn-wrapper
+      = link_to '#', class: 'hidden', id: 'next-btn' do
+        = fa_icon 'chevron-right'
+h2 Preventative Maintenance
+section
+  .content-wrapper.preventive-maintenance
+    .back-btn-wrapper
+      = link_to '#', class: 'mb20', id: 'back-btn' do
+        = fa_icon 'chevron-left'
+    .col-sm-10.col-sm-offset-1.text-center
+      .text-center.service-head.center-panel
+        p.sub-title Contact Details
+      .col-md-5.address-form.center-panel
+        h4.mb20 Thanks for interest in preventative maintenance. After you put in this request we'll follow up with you to confirm.
+        h4 What is the best number to call for questions?
+        = f.input :phone_number, label: false, input_html: { placeholder: 'Phone Number', class: 'us_phone_number preventative-maintenance-contact', disabled: true}
         .clearfix
         = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn'
     .next-btn-wrapper

@@ -1,6 +1,6 @@
 body#service_requests_new {
   #wizard {
-    height: calc(100vh - 220px);
+    height: calc(100vh - 210px);
   }
 }
 
@@ -14,8 +14,8 @@ body#service_requests_new {
     margin: 0;
     background: none;
     overflow: auto;
-    max-height: calc(100% - 170px);
-    min-height: calc(100% - 170px);
+    max-height: calc(100% - 160px);
+    min-height: calc(100% - 160px);
     .body {
       padding: 0px;
       width: 100%;

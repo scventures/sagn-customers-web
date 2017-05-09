@@ -1,93 +1,3 @@
-.place-request-service-wrapper{
-  padding: 20px 10px;
-  font-size: 18px;
-  .header {
-    font-weight: bold;
-    font-size: 50px;
-    margin-top: 30px;
-    color: #c80000;
-  }
-  .select2-container {
-    width: 100% !important;
-    .select2-selection {
-      height: 35px;
-      padding: 3px 8px;
-    }
-  }
-  .error {
-    color: red;
-  }
-  hr {
-    border-color: #999;
-  }
-  .border {
-    border: 2px solid #666;
-  }
-  .border-box {
-    background: #212121 none repeat scroll 0 0;
-    margin-top: 10px;
-    padding: 10px 20px;
-    color: #fff;
-    label {
-      display: inline;
-      margin-left: 10px;
-      font-weight: 200;
-    }
-  }
-  .form-wrapper {
-    .btn-primary { 
-      background: #999 none repeat scroll 0 0;
-      border: 1px solid #999;
-      font-size: 18px;
-      padding: 15px;
-      width: 250px;
-      &:hover, &:focus {
-        background: #999;
-      }
-    }
-    hr {
-      margin: 5px 0px;
-    }
-    .has-error {
-      font-size: 12px;
-    }
-  }
-  .remove_fields.dynamic {
-    color: #4d4d4d;
-    float: right;
-    font-size: 30px;
-    margin-right: 15px;
-    margin-top: -20px;
-    position: relative;
-  } 
-  .brand-info-link {
-    color: #000;
-    text-decoration: underline;
-  }
-}
-.place-service-request {
-  .title {
-    font-weight: bold;
-    font-size: 26px;
-  }
-  p {
-    font-size: 18px;
-    margin-top: 15px;
-  }
-  .place-service-request-btn {
-    border-radius: 10px;
-    color: #000;
-    font-size: 18px;
-    margin: 15px;
-    padding: 10px 20px;
-    background: #999;
-  }
-  .col-sm-8 {
-    font-size: 18px;
-    margin-top: 10px;
-  }
-}
-
 .summary-details-wrapper {
   background: #f9f9f9;
   padding: 40px;
@@ -181,8 +91,11 @@
   p.title {
     font-size: 34px;
     color: #7f7f7f;
-    margin-bottom: 20px;
     text-align: center;
+  }
+  p.sub-title {
+    font-size: 45px;
+    margin-bottom: 30px;
   }
   input[type=radio] {
     display: none;
@@ -352,10 +265,6 @@
     font-weight: bold;
     font-style: italic;
   }
-  .sub-title {
-    font-size: 45px;
-    margin-bottom: 50px;
-  }
 }
 
 .service-request-edit-form .form-control {
@@ -365,27 +274,27 @@
   padding-left: 20px;
 }
 
-.next-btn-wrapper {
-  right: 90px;
+.next-btn-wrapper #next-btn {
+  right: 20px;
 }
 
-.back-btn-wrapper {
-  left: 40px;
+.back-btn-wrapper #back-btn {
+  left: 20px;
 }
 
 .back-btn-wrapper, .next-btn-wrapper {
-  top: 40%;
-  position: fixed !important;
-  height: 100%;
   #back-btn, #next-btn {
     background: #c3272d none repeat scroll 0 0;
     border-radius: 50%;
+    bottom: 0;
     color: #fff;
     height: 50px;
+    margin: auto 0;
     padding: 15px;
     position: absolute;
-    width: 50px;
     text-align: center;
+    top: 0;
+    width: 50px;
   }
 }
 

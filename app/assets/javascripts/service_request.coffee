@@ -103,8 +103,8 @@ $.onmount '#wizard' , ->
       $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find('input, select').enableClientSideValidations()
       switch $('#wizard').steps('getStep', priorIndex).title
         when 'Sub Category'
-          category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
-          subcategory = $('#service-request-form .subcategories-wrapper input[type=radio]:checked').parent().find('p').html() 
+          category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html() || ''
+          subcategory = $('#service-request-form .subcategories-wrapper input[type=radio]:checked').parent().find('p').html() || '' 
           $('.steps #wizard-t-0 .summary-data').html("#{category} / #{subcategory}")
           $('.summary-details-wrapper').find('.category').html("#{category} #{subcategory}")
         when 'Specific issue'

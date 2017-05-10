@@ -6,7 +6,7 @@ section
         p.sub-title What needs to be fixed?
         - categories[nil].each do |category|
           - content_for @categories[category.id].any?(&:is_equipment?) ? :equipment_category : :non_equipment_category do
-            = f.label :category_id, category_icons(category), value: category.id, class: 'p10'
+            = f.label :category_id, category_icons(category, true), value: category.id, class: 'p10'
             = f.radio_button :category_id, category.id
         = content_for :equipment_category
         p.sub-title Other Services

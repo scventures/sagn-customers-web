@@ -3,6 +3,7 @@ class Assignment
   parse_root_in_json :service_requests_assignment, format: :active_model_serializers
   collection_path 'customers/accounts/:account_id/service_requests/:service_request_id/assignments'
   belongs_to :service_request
+  has_many :customer_ratings
   attributes :account_id, :service_request_id, :id, :status, :reason
   
   CUSTOMER_DECLINE_REASONS = {

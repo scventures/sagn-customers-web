@@ -4,25 +4,20 @@
     padding-right: 0px !important;
   }
 }
-.current-request-wrapper {
-  border-color: #c2272d #c7c7c7 #c7c7c7;
-  border-image: none;
+.current-request-wrapper, .past-request-wrapper {
+  border-top: 30px solid #c2272d;
   border-radius: 5px;
-  border-style: solid;
-  border-width: 30px 1px 1px;
-  box-shadow: 0 1px 3px #c7c7c7;
   margin: 10px;
   .content {
     padding: 10px 20px;
   }
   .footer {
     background: #eaeaea none repeat scroll 0 0;
-    margin-bottom: 15px;
     padding: 10px 20px;
     color: #5c5c5c;
   }
 }
-.current-request-details {
+.current-request-details, .past-request-details {
   padding-left: 0px !important;
   padding-right: 0px !important;
   min-height: calc(100vh - 100px);
@@ -49,6 +44,13 @@
     text-decoration: none;
   }
 }
+
+.current-request-list {
+  min-height: calc(100vh - 120px) !important;
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+}
+
 #serviceRequestDetail {
   .modal-header {
     background: #c2272d;

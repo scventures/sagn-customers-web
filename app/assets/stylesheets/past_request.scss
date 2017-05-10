@@ -1,0 +1,42 @@
+#issueModal {
+  border-radius: 0px;
+  .modal-header {
+    background: #c2272d;
+    color: #fff;
+    .modal-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+  .modal-body {
+    padding: 10px 40px;
+  }
+  .links {
+    a, span {
+      width: 100%;
+      background: #dadbda;
+      color: #5c5c5c;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 10px;
+    }
+  }
+}
+
+.past-request-list {
+  min-height: calc(100vh - 120px) !important;
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+}
+
+.past-request-wrapper {
+  border-top: 40px solid #e1e1e1;
+  background: #eee;
+  .footer {
+    background: #dadada;
+    font-size: 18px;
+  }
+}
+.past-request-wrapper.selected {
+  border-color: #898989;
+}

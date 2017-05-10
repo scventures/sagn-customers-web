@@ -43,6 +43,8 @@ Rails.application.routes.draw do
     get :cancel
   end
   
+  resources :past_requests, only: [:index, :show]
+  
   namespace :service_requests do
     resources :service_request_assignments do
       get :start_accepting
@@ -54,9 +56,9 @@ Rails.application.routes.draw do
     root 'dashboards#show', as: :authenticated_root
   end
   
-  resources :service_request, only: [] do
-    resources :assignments, module: 'service_request', only: [] do
-      get :accept
+  resources :service_requests, only: [] do
+    resources :assignments, module: 'service_requests', only: [] do
+      resources :customer_ratings, module: 'assignments', only: [:create]
     end
   end
 

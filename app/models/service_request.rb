@@ -6,17 +6,16 @@ class ServiceRequest
   include_root_in_json true
   attributes :location_id, :equipment_item_id, :model, :serial, :brand_name, :brand_id, :category_id, :subcategory_id, :subcategory, :urgent, :problem_code_id, 
              :account_id, :equipmemt_warranty, :work_time_details, :customer_accounts_contractor_id, :select_guy, :catergory_search, :notes,
-             :contact_details, :full_name, :email, :phone_number, :company_name, :token
+             :contact_details, :phone_number, :token
   
   has_many :issue_images
   has_many :activities
   has_many :assignments
-  belongs_to :customer
   
   accepts_nested_attributes_for :issue_images
   validates :location_id, :category_id, :subcategory_id, presence: true
 
-  before_save :set_urgent, :set_contact_details
+  before_save :set_urgent, :set_brand_and_equipment
   
   def assigned?
     status == 'assigned'
@@ -25,7 +24,7 @@ class ServiceRequest
   def can_editable?
     self.status == 'waiting'
   end
-
+  
   def cancel
     ServiceRequest.put_raw("customers/accounts/#{account_id}/service_requests/#{id}/cancel", {account_id: account_id, id: id}) do |parsed_data, response|
       populate_errors(parsed_data[:errors]) if response.status == 400
@@ -36,8 +35,9 @@ class ServiceRequest
     self.urgent = self.urgent.to_b
   end
   
-  def set_contact_details
-    self.contact_details = [self.full_name, self.email, self.phone_number, self.company_name].compact.reject { |a| a == "" }.join(", ")
+  def set_brand_and_equipment
+    self.brand_id = nil if self.brand_id and self.brand_id.to_i == 0
+    self.equipment_item_id = nil if self.equipment_item_id and self.equipment_item_id.to_i == 0
   end
   
   def to_params

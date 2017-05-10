@@ -55,6 +55,7 @@ gem 'secure_headers', '~> 3.6.1'
 gem 'js-routes'
 gem 'money-rails', '~>1'
 gem 'perfect-scrollbar-rails'
+gem 'rails-jquery-steps'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-onmount'

@@ -3,6 +3,7 @@
 .left { float: left }
 .mt-50  { margin-top: -50px; }
 .m0 { margin: 0px !important; }
+.mt0 { margin-top: 0px !important; }
 .mt10 { margin-top: 10px; }
 .mt15 { margin-top: 15px; }
 .mt20 { margin-top: 20px; }
@@ -62,6 +63,18 @@ nav.navbar {
   .nav >li >a {
     padding-top: 20px;
     padding-bottom: 20px;
+  }
+}
+
+.navbar-brand {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
+  text-align: center;
+  margin: auto;
+  img {
+    display: inline;
   }
 }
 
@@ -292,6 +305,8 @@ body {
     display: inline-block;
   }
 }
+
+
 
 body#service_requests_index, body#service_requests_new {
   @include hidden-sidebar()

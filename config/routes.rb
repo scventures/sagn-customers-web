@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   }
   
   devise_scope :customer do
-    post "/customers/create_with_service_request", to: 'customers/registrations#create_with_service_request'
+    post '/customers/create_with_service_request', to: 'customers/registrations#create_with_service_request'
+    post '/customers/create_serivce_request_with_login', to: 'customers/sessions#create_service_request_with_login'
   end
  # namespace :customers do
   #  resources :registrations, only: [] do

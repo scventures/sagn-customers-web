@@ -53,8 +53,13 @@ $.onmount 'form[data-client-side-validations][data-turboboost]', ->
 $(document).on 'shown.bs.modal', '.modal', ->
   $('form').enableClientSideValidations()
 
-$(document).on 'turbolinks:load', ->
-  $('.ps-scroll').perfectScrollbar()
+$.onmount '.ps-scroll, #wizard > .content', ->
+  $(this).perfectScrollbar()
+
+window.updatePerfectScroll = (container, resetScroll) ->
+  if resetScroll
+    $(container).scrollTop(0)
+  $(container).perfectScrollbar('update')
 
 $(document).on 'click', '[data-toggle=offcanvas]', ->
   $('.row-offcanvas').toggleClass('active')

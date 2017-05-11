@@ -79,7 +79,7 @@ $.onmount '#wizard' , ->
     onInit: ->
       $('#wizard > .steps').appendTo '#wizard'
       if $('#service-request-form').hasClass('service-request-logout-form')
-        $.each [1, 4, 5, 6, 7, 8, 9], ->
+        $.each [1, 4, 5, 6, 7, 9, 10], ->
           $('#wizard-t-' + this).parent().attr 'aria-substep', true
           return
       else
@@ -125,13 +125,15 @@ $.onmount '#wizard' , ->
               $('.steps #wizard-t-3 .summary-data').append(', Urgent Request')
         when 'Restaurant Details'
           $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
-          $('.steps #wizard-t-7 .summary-data').html($('#service-request-form .location_address').val())
+          $('.steps #wizard-t-8 .summary-data').html($('#service-request-form .location_address').val())
         when 'Issue Image'
           setSummaryDetailsImages()
           $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
-          if !$('.steps #wizard-t-6').parents('li:first').hasClass('disabled')
+          if !$('.steps #wizard-t-7').parents('li:first').hasClass('disabled')
             images = $('.provide-photo-img').find('img').length
-            $('.steps #wizard-t-6 .summary-data').html("#{images} Issue Image(s)")
+            $('.steps #wizard-t-7 .summary-data').html("#{images} Issue Image(s)")
+      $.onmount()
+      updatePerfectScroll('#wizard > .content', true)
       return
       
 setSubcategoriesImages = (id) ->
@@ -293,3 +295,22 @@ setSummaryDetailsImages = ->
   ).get()
   $.each images, (i, img) ->
     $('.summary-details-wrapper').find('.issue_image').append($('<img>').attr(src: img, class: 'preview'))
+    
+$(document).on 'click', '.service-request-login-link', (e) ->
+  e.preventDefault()
+  form = $(this).parents('form:first')
+  $(form).attr('action', Routes.customers_create_serivce_request_with_login_path())
+  $('.signup-header').addClass('hidden')
+  $('.signin-header').removeClass('hidden')
+  $('.sign-up-fields').addClass('hidden').find('input').prop('disabled', true)
+  $('.sign-in-fields').removeClass('hidden').find('input').prop('disabled', false)
+
+$(document).on 'click', '.service-request-logout-link', (e) ->
+  e.preventDefault()
+  form = $(this).parents('form:first')
+  $(form).attr('action', Routes.customers_create_with_service_request_path())
+  $('.signup-header').removeClass('hidden')
+  $('.signin-header').addClass('hidden')
+  $('.sign-up-fields').removeClass('hidden').find('input').prop('disabled', false)
+  $('.sign-in-fields').addClass('hidden').find('input').prop('disabled', true)
+

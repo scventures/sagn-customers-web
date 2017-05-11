@@ -6,6 +6,6 @@
     input.rating name="example" type="radio" value="3" 
     input.rating name="example" type="radio" value="4" 
     input.rating name="example" type="radio" value="5"
-  = f.input :stars, as: :hidden, input_html: { class: 'rating customer-rating-input mb20' }
+  = f.input :stars, as: :hidden, input_html: { class: 'rating customer-rating-input mb20', value: '0' }
   = f.input :comment, as: :text, label: false, placeholder: 'Please provide any comments about your experience.'
   = f.submit 'Submit Rating', class: 'btn btn-red with-ajax-loader'

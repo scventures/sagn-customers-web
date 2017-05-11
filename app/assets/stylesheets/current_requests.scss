@@ -20,7 +20,8 @@
 .current-request-details, .past-request-details {
   padding-left: 0px !important;
   padding-right: 0px !important;
-  min-height: calc(100vh - 100px);
+  max-height: calc(100vh - 120px);
+  overflow: auto;
   background: #d8ddea;
   margin-top: 10px;
   .content {

@@ -47,7 +47,7 @@ setMarkers = (map) ->
         bounds.extend markerLatLng
       unless bounds.isEmpty()
         map.fitBounds bounds
-        if bounds.length == 1
+        unless $.isArray bounds.toJSON()
           map.setZoom 10
   
 initMap = ->

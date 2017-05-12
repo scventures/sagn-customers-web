@@ -11,6 +11,7 @@ class ServiceRequest
   has_many :issue_images
   has_many :activities
   has_many :assignments
+  has_many :estimations
   
   accepts_nested_attributes_for :issue_images
   validates :location_id, :category_id, :subcategory_id, presence: true
@@ -23,6 +24,10 @@ class ServiceRequest
   
   def can_editable?
     self.status == 'waiting'
+  end
+  
+  def completed?
+    self.status == 'completed'
   end
   
   def cancel

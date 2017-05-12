@@ -64,5 +64,11 @@ window.updatePerfectScroll = (container, resetScroll) ->
 $(document).on 'click', '[data-toggle=offcanvas]', ->
   $('.row-offcanvas').toggleClass('active')
 
+$.onmount '.rating-container', ->
+  $(this).rating()
+  
 $(document).on 'ready shown.bs.modal load turbolinks:load turboboost:complete', ->
   $.onmount()
+
+$(document).on 'click', '.stars a.star', ->
+  $('.customer-rating-input').val($('.rating-container input:checked').val())

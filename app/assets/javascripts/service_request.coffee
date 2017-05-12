@@ -9,11 +9,11 @@ $(document).on 'change', '.radio-btn input[type="radio"]', ->
     $('.select-guy').addClass 'hidden'
     $('.select-guy select').prop 'disabled', true
     
-$(document).on 'click', '.current-request-list .details-link', ->
-  $('.current-request-wrapper').removeClass('selected')
-  $(this).find('.current-request-wrapper').addClass('selected')
-  $('.current-request-details').html('')
-  $('.current-request-details').block
+$(document).on 'click', '.current-request-list .details-link, .past-request-list .details-link', ->
+  $('.current-request-wrapper, .past-request-wrapper').removeClass('selected')
+  $(this).find('.current-request-wrapper, .past-request-wrapper').addClass('selected')
+  $('.current-request-details, .past-request-details').html('')
+  $('.current-request-details, .past-request-details').block
       message: '<i class="fa fa-spinner fa-spin fa-4x"></i>'
       css:
         border: 'none'

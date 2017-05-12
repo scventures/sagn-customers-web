@@ -11,5 +11,9 @@ module ServiceRequestHelper
       content_tag(:p, resource.name )
     end
   end
-
+  
+  def cents_to_money(cents)
+    Money.new(cents)
+  end
+  
 end

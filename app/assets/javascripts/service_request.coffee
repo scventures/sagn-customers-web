@@ -155,9 +155,9 @@ setEquipment = ->
       dataType: 'json'
       success: (data) ->
         data.map((obj) -> (obj.text = obj.text or obj.subcategory.name))
-        data.unshift({id: '0', text: 'Please select equipment'})
         $('.select_equipment').empty()
-        $('.select_equipment').select2 
+        $('.select_equipment').select2
+          placeholder: 'Please select Equipment'
           data: data
   
 $(document).on 'change, click', '.category-wrapper input[type=radio]', ->
@@ -179,8 +179,8 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
     $('a.problem-details-link').attr('data-equipment', true)
   brands.map((obj) -> (obj.text = obj.text or obj.name))
   $('.select_brand').empty()
-  brands.unshift({id: '0', text: 'Please select brand'})
   $('.select_brand').select2
+    placeholder: 'Please select Brand'
     data: brands
   if brands.length == 0
     $('#service_request_brand_name').removeClass('hidden')
@@ -195,7 +195,6 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
     $('#wizard #wizard-p-5 .next-btn').data('step', 7)
     $('#wizard #wizard-p-7 .back-btn').data('step', 5)
     if problem_codes.length > 0
-      $('.steps #wizard-t-2').parents('li:first').removeClass('disabled')
       problem_codes.map((obj) -> (obj.text = obj.text or obj.name))
       $('.select_problem_code').empty()
       $('.select_problem_code').select2
@@ -211,7 +210,6 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
         $('#wizard').steps('setStep', 4)
         $('#wizard #wizard-p-1 .next-btn').data('step', 4)
         $('#wizard #wizard-p-4 .back-btn').data('step', 1)
-      $('.steps #wizard-t-2').parents('li:first').addClass('disabled')
       
 $(document).on 'select2:select', '.select_brand', (e)  ->
   $('#service_request_brand_name').val(e.params.data.text)

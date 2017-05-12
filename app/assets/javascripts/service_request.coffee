@@ -32,6 +32,7 @@ setMarkers = (map) ->
     type: 'GET'
     dataType: 'JSON'
     success: (data) ->
+      markers_length =  data.length
       $.each data, (i, location) ->
         markerLatLng = new google.maps.LatLng location.geography.latitude, location.geography.longitude
         marker = new google.maps.Marker
@@ -47,7 +48,7 @@ setMarkers = (map) ->
         bounds.extend markerLatLng
       unless bounds.isEmpty()
         map.fitBounds bounds
-        unless $.isArray bounds.toJSON()
+        if markers_length == 1
           map.setZoom 10
   
 initMap = ->
@@ -79,7 +80,7 @@ $.onmount '#wizard' , ->
     onInit: ->
       $('#wizard > .steps').appendTo '#wizard'
       if $('#service-request-form').hasClass('service-request-logout-form')
-        $.each [1, 4, 5, 6, 7, 8, 9], ->
+        $.each [1, 4, 5, 6, 7, 9, 10], ->
           $('#wizard-t-' + this).parent().attr 'aria-substep', true
           return
       else
@@ -99,7 +100,7 @@ $.onmount '#wizard' , ->
       li = $("#wizard-t-#{priorIndex}").parent()
       if li.hasClass('done') and !li.attr('aria-done')
         li.attr 'aria-done', true
-        $("#wizard-p-#{priorIndex}").find('#next-btn').removeClass('hidden')
+        $("#wizard-p-#{priorIndex}").find('.next-btn').removeClass('hidden')
       $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find('input, select').enableClientSideValidations()
       switch $('#wizard').steps('getStep', priorIndex).title
         when 'Sub Category'
@@ -125,13 +126,15 @@ $.onmount '#wizard' , ->
               $('.steps #wizard-t-3 .summary-data').append(', Urgent Request')
         when 'Restaurant Details'
           $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
-          $('.steps #wizard-t-7 .summary-data').html($('#service-request-form .location_address').val())
+          $('.steps #wizard-t-8 .summary-data').html($('#service-request-form .location_address').val())
         when 'Issue Image'
           setSummaryDetailsImages()
           $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
-          if !$('.steps #wizard-t-6').parents('li:first').hasClass('disabled')
+          if !$('.steps #wizard-t-7').parents('li:first').hasClass('disabled')
             images = $('.provide-photo-img').find('img').length
-            $('.steps #wizard-t-6 .summary-data').html("#{images} Issue Image(s)")
+            $('.steps #wizard-t-7 .summary-data').html("#{images} Issue Image(s)")
+      $.onmount()
+      updatePerfectScroll('#wizard > .content', true)
       return
       
 setSubcategoriesImages = (id) ->
@@ -152,9 +155,9 @@ setEquipment = ->
       dataType: 'json'
       success: (data) ->
         data.map((obj) -> (obj.text = obj.text or obj.subcategory.name))
-        data.unshift({id: '0', text: 'Please select equipment'})
         $('.select_equipment').empty()
-        $('.select_equipment').select2 
+        $('.select_equipment').select2
+          placeholder: 'Please select Equipment'
           data: data
   
 $(document).on 'change, click', '.category-wrapper input[type=radio]', ->
@@ -168,7 +171,7 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   $('.equipment-field-wrapper').addClass('hidden')
   if $(this).data('equipment')
     $('.equipment_wrapper').removeClass('hidden')
-    if !($('form:visible').hasClass('logout-form'))
+    if !($('form:visible').hasClass('service-request-logout-form'))
       $('.equipment-field-wrapper').removeClass('hidden')
     $('.select_equipment').select2()
     setEquipment()
@@ -176,39 +179,37 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
     $('a.problem-details-link').attr('data-equipment', true)
   brands.map((obj) -> (obj.text = obj.text or obj.name))
   $('.select_brand').empty()
-  brands.unshift({id: '0', text: 'Please select brand'})
   $('.select_brand').select2
+    placeholder: 'Please select Brand'
     data: brands
   if brands.length == 0
     $('#service_request_brand_name').removeClass('hidden')
   category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
   if category == 'Preventive Maintenance'
     $('#wizard').steps('setStep', 6)
-    $('#wizard #wizard-p-1 #next-btn').data('step', 6)
-    $('#wizard #wizard-p-6 #back-btn').data('step', 1)
+    $('#wizard #wizard-p-1 .next-btn').data('step', 6)
+    $('#wizard #wizard-p-6 .back-btn').data('step', 1)
     $('.preventative-maintenance-contact').prop('disabled', false)
   else
     $('#wizard #wizard-p-5 .request-continue-btn').data('step', 7)
-    $('#wizard #wizard-p-5 #next-btn').data('step', 7)
-    $('#wizard #wizard-p-7 #back-btn').data('step', 5)
+    $('#wizard #wizard-p-5 .next-btn').data('step', 7)
+    $('#wizard #wizard-p-7 .back-btn').data('step', 5)
     if problem_codes.length > 0
-      $('.steps #wizard-t-2').parents('li:first').removeClass('disabled')
       problem_codes.map((obj) -> (obj.text = obj.text or obj.name))
       $('.select_problem_code').empty()
       $('.select_problem_code').select2
         data: problem_codes
       $('#wizard').steps('next');
-      $('#wizard #wizard-p-3 #back-btn, #wizard #wizard-p-4 #back-btn').removeData('step')
+      $('#wizard #wizard-p-3 .back-btn, #wizard #wizard-p-4 .back-btn').removeData('step')
     else
       if $(this).data('equipment')
         $('#wizard').steps('setStep', 3)
-        $('#wizard #wizard-p-1 #next-btn').data('step', 3)
-        $('#wizard #wizard-p-3 #back-btn').data('step', 1)
+        $('#wizard #wizard-p-1 .next-btn').data('step', 3)
+        $('#wizard #wizard-p-3 .back-btn').data('step', 1)
       else
         $('#wizard').steps('setStep', 4)
-        $('#wizard #wizard-p-1 #next-btn').data('step', 4)
-        $('#wizard #wizard-p-4 #back-btn').data('step', 1)
-      $('.steps #wizard-t-2').parents('li:first').addClass('disabled')
+        $('#wizard #wizard-p-1 .next-btn').data('step', 4)
+        $('#wizard #wizard-p-4 .back-btn').data('step', 1)
       
 $(document).on 'select2:select', '.select_brand', (e)  ->
   $('#service_request_brand_name').val(e.params.data.text)
@@ -218,14 +219,14 @@ $(document).on 'select2:select', '.service-request-form-wrapper .select_equipmen
   $('#service_request_model').val(e.model)
   $('#service_request_serial').val(e.serial)
         
-$(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-btn', (e) ->
+$(document).on 'click', '.service-request-form-wrapper .content-wrapper .back-btn', (e) ->
   e.preventDefault()
   if stepNumber = $(this).data('step')
     $('#wizard').steps('setStep', stepNumber);
   else
     $('#wizard').steps('previous');
     
-$(document).on 'click', '.service-request-form-wrapper .content-wrapper #next-btn, .service-request-form-wrapper .request-continue-btn',  (e) ->
+$(document).on 'click', '.service-request-form-wrapper .content-wrapper .next-btn, .service-request-form-wrapper .request-continue-btn',  (e) ->
   e.preventDefault()
   if stepNumber = $(this).data('step')
     $('#wizard').steps('setStep', stepNumber);
@@ -293,3 +294,22 @@ setSummaryDetailsImages = ->
   ).get()
   $.each images, (i, img) ->
     $('.summary-details-wrapper').find('.issue_image').append($('<img>').attr(src: img, class: 'preview'))
+    
+$(document).on 'click', '.service-request-signin-link', (e) ->
+  e.preventDefault()
+  form = $(this).parents('form:first')
+  $(form).attr('action', Routes.customers_create_serivce_request_with_login_path())
+  $('.signup-header').addClass('hidden')
+  $('.signin-header').removeClass('hidden')
+  $('.sign-up-fields').addClass('hidden').find('input').prop('disabled', true)
+  $('.sign-in-fields').removeClass('hidden').find('input').prop('disabled', false)
+
+$(document).on 'click', '.service-request-signup-link', (e) ->
+  e.preventDefault()
+  form = $(this).parents('form:first')
+  $(form).attr('action', Routes.customers_create_with_service_request_path())
+  $('.signup-header').removeClass('hidden')
+  $('.signin-header').addClass('hidden')
+  $('.sign-up-fields').removeClass('hidden').find('input').prop('disabled', false)
+  $('.sign-in-fields').addClass('hidden').find('input').prop('disabled', true)
+

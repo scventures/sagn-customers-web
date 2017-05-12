@@ -18,7 +18,7 @@ h2 Sub Category
 section          
   .content-wrapper.subcategories-wrapper
     .back-btn-wrapper
-      = link_to '#', class: 'mb20', id: 'back-btn' do
+      = link_to '#', class: 'mb20 back-btn' do
         = fa_icon 'chevron-left'
     .col-sm-10.col-sm-offset-1.text-center
       - categories[nil].each do |category|
@@ -28,13 +28,13 @@ section
           = f.input :subcategory, as: :radio_buttons, collection: categories[category.id].map { |s| [category_icons(s), s.id, data: {brands: s.brands.to_json, problem_codes: s.problem_codes.to_json, equipment: s.is_equipment }] }, label: false
         = f.input :subcategory_id, as: :hidden, input_html: { class: 'subcategory_field', value: f.object.subcategory_id}
     .next-btn-wrapper
-      = link_to '#', class: 'hidden', id: 'next-btn' do
+      = link_to '#', class: 'hidden next-btn' do
         = fa_icon 'chevron-right'
 h2 Specific issue
 section
   .content-wrapper.issue-wrapper.text-center
     .back-btn-wrapper
-      = link_to '#', class: 'mb20', id: 'back-btn' do
+      = link_to '#', class: 'mb20 back-btn' do
         = fa_icon 'chevron-left'
     .col-sm-10.col-sm-offset-1.text-center
       .text-center.service-head.center-panel.col-sm-5
@@ -47,13 +47,13 @@ section
         = f.input :problem_code_id, as: :select, collection: [], label: false, input_html: { class: 'select_problem_code'}
         = link_to 'Save & Continue', '#', class: 'btn btn-continue request-continue-btn mt20'
     .next-btn-wrapper
-      = link_to '#', class: 'hidden', id: 'next-btn' do
+      = link_to '#', class: 'hidden next-btn' do
         = fa_icon 'chevron-right'
 h2 Order Details
 section
   .content-wrapper.product-details
     .back-btn-wrapper
-      = link_to '#', class: 'mb20', id: 'back-btn' do
+      = link_to '#', class: 'mb20 back-btn' do
         = fa_icon 'chevron-left'
     .col-sm-10.col-sm-offset-1.text-center
       .text-center.service-head.center-panel
@@ -74,13 +74,13 @@ section
               = f.input :serial, label: false, input_html: { placeholder: 'Serial Number', class: 'service_request_serial'}
           = link_to 'Save & Continue', '#', class: 'btn btn-continue request-continue-btn mt20'
     .next-btn-wrapper
-      = link_to '#', class: 'hidden', id: 'next-btn' do
+      = link_to '#', class: 'hidden next-btn' do
         = fa_icon 'chevron-right'
 h2 Schedule
 section
   .content-wrapper.describe-issue
     .back-btn-wrapper
-      = link_to '#', class: 'mb20 problem-details-link', id: 'back-btn' do
+      = link_to '#', class: 'mb20 problem-details-link back-btn' do
         = fa_icon 'chevron-left'
     .col-sm-10.col-sm-offset-1.text-center
       .text-center.service-head.center-panel
@@ -94,13 +94,13 @@ section
           = f.input :work_time_details, as: :text, label: false, placeholder: 'Please be specific. For example: Any time next week, Tuesday afternoon, Friday morning, etc.'
         = link_to 'Save & Continue', '#', class: 'btn btn-continue request-continue-btn'
     .next-btn-wrapper
-      = link_to '#', class: 'hidden', id: 'next-btn' do
+      = link_to '#', class: 'hidden next-btn' do
         = fa_icon 'chevron-right'
 h2 Contact
 section
   .content-wrapper.contact-details
     .back-btn-wrapper
-      = link_to '#', class: 'mb20', id: 'back-btn' do
+      = link_to '#', class: 'mb20 back-btn' do
         = fa_icon 'chevron-left'
     .col-sm-10.col-sm-offset-1.text-center
       .text-center.service-head.center-panel
@@ -114,13 +114,13 @@ section
         .clearfix
         = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn'
     .next-btn-wrapper
-      = link_to '#', class: 'hidden', id: 'next-btn' do
+      = link_to '#', class: 'hidden next-btn' do
         = fa_icon 'chevron-right'
 h2 Preventative Maintenance
 section
   .content-wrapper.preventive-maintenance
     .back-btn-wrapper
-      = link_to '#', class: 'mb20', id: 'back-btn' do
+      = link_to '#', class: 'mb20 back-btn' do
         = fa_icon 'chevron-left'
     .col-sm-10.col-sm-offset-1.text-center
       .text-center.service-head.center-panel
@@ -132,13 +132,13 @@ section
         .clearfix
         = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn'
     .next-btn-wrapper
-      = link_to '#', class: 'hidden', id: 'next-btn' do
+      = link_to '#', class: 'hidden next-btn' do
         = fa_icon 'chevron-right'
 h2 Issue Image
 section
   .content-wrapper.provide-photo
     .back-btn-wrapper
-      = link_to '#', id: 'back-btn' do
+      = link_to '#', class: 'back-btn' do
         = fa_icon 'chevron-left'
     .col-sm-10.col-sm-offset-1.text-center
       .text-center.service-head.center-panel
@@ -153,5 +153,5 @@ section
         .clearfix
         = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn'
     .next-btn-wrapper
-      = link_to '#', class: 'hidden', id: 'next-btn' do
+      = link_to '#', class: 'hidden next-btn' do
         = fa_icon 'chevron-right'

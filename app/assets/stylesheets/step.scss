@@ -30,6 +30,21 @@ body#service_requests_new {
   .steps {
     width: 85%;
     margin: 20px auto;
+    .number {
+      font-size: 16px;
+    }
+    &::after {
+      bottom: 78px;
+      content: " ";
+      display: block;
+      height: 100%;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+    }
     ul {
       display: table;
       font-size: 0;

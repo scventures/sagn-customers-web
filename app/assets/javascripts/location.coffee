@@ -1,4 +1,4 @@
-$.onmount '.address_auto_complete_field, .edit_address_auto_complete_field', ->
+$.onmount '.address_auto_complete_field:visible, .edit_address_auto_complete_field:visible', ->
   window.placeAutocomplete = new google.maps.places.Autocomplete($(this)[0], types: [ 'geocode' ])
   placeAutocomplete.addListener('place_changed', fillInAddress);
 

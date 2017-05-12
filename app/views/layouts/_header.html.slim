@@ -26,7 +26,5 @@
         .col-xs-5
           h3.page-title
             = yield :title
-        .col-xs-5.pull-right
-          .pull-right.inner-log
-            = link_to dashboard_path, class: 'logo-link p0'
-              = image_tag 'sendaguy.png', width: '200'
+        = link_to dashboard_path, class: 'logo-link p0 navbar-brand' do
+          = image_tag 'sendaguy.png', width: '300'

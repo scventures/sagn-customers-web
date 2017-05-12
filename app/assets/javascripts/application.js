@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require onmount
+//= require jquery.steps
 //= require jquery.blockUI
 //= require jquery.remotipart
 //= require bootstrap-sprockets

@@ -15,4 +15,9 @@ class Location
     [address_1, address_2, address_3, city, state, zip].compact.reject { |a| a == "" }.join(", ")
   end
   
+  def geography=(value)
+    value = value.to_h if value.is_a?(ActionController::Parameters)
+    super(value)
+  end
+  
 end

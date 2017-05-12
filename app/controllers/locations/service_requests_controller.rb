@@ -53,7 +53,7 @@ class Locations::ServiceRequestsController < ApplicationController
   def service_request_params
     permitted_params = params.required(:service_request).permit(
       :location_id, :equipment_id, :brand_name, :brand_id, :model, :serial, :urgent, :work_time_details, :select_guy,
-      :problem, :category_id, :subcategory_id, :token, :full_name, :email, :phone_number, :company_name, :notes, issue_images_attributes: [:image]
+      :problem, :category_id, :subcategory_id, :token, :phone_number, :notes, :contact_details, issue_images_attributes: [:image]
     ).to_h
     permitted_params.merge(location_id: params[:location_id])
   end

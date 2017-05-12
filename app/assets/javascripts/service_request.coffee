@@ -47,7 +47,7 @@ setMarkers = (map) ->
         bounds.extend markerLatLng
       unless bounds.isEmpty()
         map.fitBounds bounds
-        if bounds.length == 1
+        unless $.isArray bounds.toJSON()
           map.setZoom 10
   
 initMap = ->
@@ -69,31 +69,97 @@ $(document).on 'click', '.map-container a.location-link', (e) ->
   google.maps.event.trigger markers[id], 'click'
   $('.map-container').find('button.location-btn').trigger('click')
 
-setContentWrapperClass = (selector) ->
-  $(".content-wrapper:not(.#{selector})").addClass('hidden')
-  $(".content-wrapper.#{selector}").removeClass('hidden')
-  $('form').enableClientSideValidations()
-  $('.main-wrapper').scrollTop(0)
-  $('.content-wrapper').on 'imagesLoaded', ->
-    $('.main-wrapper').perfectScrollbar('update')
-  return
-  
+$.onmount '#wizard' , ->
+  $(this).steps
+    headerTag: 'h2'
+    bodyTag: 'section'
+    transitionEffect: 'slideLeft'
+    enableKeyNavigation: false
+    titleTemplate: '<div class="number step-#index#"><div class="line line-left"></div><div class="line line-right"></div><div class="icon"></div><div class="title">#title#</div><div class="summary-data grey"></div></div>'
+    onInit: ->
+      $('#wizard > .steps').appendTo '#wizard'
+      if $('#service-request-form').hasClass('service-request-logout-form')
+        $.each [1, 4, 5, 6, 7, 8, 9], ->
+          $('#wizard-t-' + this).parent().attr 'aria-substep', true
+          return
+      else
+        $.each [1, 4, 5, 6, 8], ->
+          $('#wizard-t-' + this).parent().attr 'aria-substep', true
+          return
+      return
+    onStepChanging: (event, currentIndex, newIndex) ->
+      form = $(this).parents('form:first')
+      valid = true
+      if newIndex > currentIndex
+        $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("input, select"), (i, element) ->
+          valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
+          return
+      return valid
+    onStepChanged: (event, currentIndex, priorIndex) ->
+      li = $("#wizard-t-#{priorIndex}").parent()
+      if li.hasClass('done') and !li.attr('aria-done')
+        li.attr 'aria-done', true
+        $("#wizard-p-#{priorIndex}").find('#next-btn').removeClass('hidden')
+      $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find('input, select').enableClientSideValidations()
+      switch $('#wizard').steps('getStep', priorIndex).title
+        when 'Sub Category'
+          category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html() || ''
+          subcategory = $('#service-request-form .subcategories-wrapper input[type=radio]:checked').parent().find('p').html() || '' 
+          $('.steps #wizard-t-0 .summary-data').html("#{category} / #{subcategory}")
+          $('.summary-details-wrapper').find('.category').html("#{category} #{subcategory}")
+        when 'Specific issue'
+          $('.steps #wizard-t-2 .summary-data').html()
+        when 'Order Details'
+          model = $('input.service_request_model').val()
+          brand_name = $('#service_request_brand_name').val()
+          serial = $('input.service_request_serial').val()
+          data = $.grep([brand_name, model], Boolean).join(' ')
+          data = $.grep([data, serial], Boolean).join(' - ')
+          $('.steps #wizard-t-3 .summary-data').html(data)
+          $('.summary-details-wrapper').find('.brand').html(data)
+        when 'Schedule'
+          if $('.urgent-service').val() == 'Yes'
+            if $('.steps #wizard-t-3 .summary-data').html().length == 0
+              $('.steps #wizard-t-3 .summary-data').html('Urgent Request')
+            else
+              $('.steps #wizard-t-3 .summary-data').append(', Urgent Request')
+        when 'Restaurant Details'
+          $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
+          $('.steps #wizard-t-7 .summary-data').html($('#service-request-form .location_address').val())
+        when 'Issue Image'
+          setSummaryDetailsImages()
+          $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
+          if !$('.steps #wizard-t-6').parents('li:first').hasClass('disabled')
+            images = $('.provide-photo-img').find('img').length
+            $('.steps #wizard-t-6 .summary-data').html("#{images} Issue Image(s)")
+      return
+      
 setSubcategoriesImages = (id) ->
-  setContentWrapperClass('subcategories-wrapper')
   $('.subcategory_icons').addClass('hidden')
   $(".subcategory_icons.category-#{id}").removeClass('hidden')
   $(".subcategory_icons.category-#{id} img").each ->
     imgSrc = $(this).data('src')
     $(this).attr('src', imgSrc)
-  $('.category-wrapper').addClass('hidden')
-  $('.service-request-form-wrapper .back-btn').removeClass('hidden')
+  $('#wizard').steps('next')
+  
+setEquipment = ->
+  location_id = $('#service_request_location_id').val()
+  subcategory_id = $('.subcategories-wrapper .subcategory_field').val()
+  if location_id?
+    $.ajax
+      url: Routes.location_equipment_items_path(location_id: location_id, subcategory_id: subcategory_id)
+      type: 'GET'
+      dataType: 'json'
+      success: (data) ->
+        data.map((obj) -> (obj.text = obj.text or obj.subcategory.name))
+        data.unshift({id: '0', text: 'Please select equipment'})
+        $('.select_equipment').empty()
+        $('.select_equipment').select2 
+          data: data
   
 $(document).on 'change, click', '.category-wrapper input[type=radio]', ->
   setSubcategoriesImages($(this).val())
   
-$.onmount '.category-wrapper input[type=radio]', ->
-  setSubcategoriesImages($('.category-wrapper input[type=radio]:checked').val())
-    
 $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   $('.subcategories-wrapper .subcategory_field').val($(this).val())
   brands = $(this).data('brands')
@@ -106,64 +172,75 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
       $('.equipment-field-wrapper').removeClass('hidden')
     $('.select_equipment').select2()
     setEquipment()
+  else
+    $('a.problem-details-link').attr('data-equipment', true)
   brands.map((obj) -> (obj.text = obj.text or obj.name))
   $('.select_brand').empty()
+  brands.unshift({id: '0', text: 'Please select brand'})
   $('.select_brand').select2
     data: brands
   if brands.length == 0
     $('#service_request_brand_name').removeClass('hidden')
-  if problem_codes.length > 0
-    problem_codes.map((obj) -> (obj.text = obj.text or obj.name))
-    $('.select_problem_code').empty()
-    $('.select_problem_code').select2
-      data: problem_codes
-    setContentWrapperClass('issue-wrapper')
+  category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
+  if category == 'Preventive Maintenance'
+    $('#wizard').steps('setStep', 6)
+    $('#wizard #wizard-p-1 #next-btn').data('step', 6)
+    $('#wizard #wizard-p-6 #back-btn').data('step', 1)
+    $('.preventative-maintenance-contact').prop('disabled', false)
   else
-    setContentWrapperClass('describe-issue')
-    
+    $('#wizard #wizard-p-5 .request-continue-btn').data('step', 7)
+    $('#wizard #wizard-p-5 #next-btn').data('step', 7)
+    $('#wizard #wizard-p-7 #back-btn').data('step', 5)
+    if problem_codes.length > 0
+      $('.steps #wizard-t-2').parents('li:first').removeClass('disabled')
+      problem_codes.map((obj) -> (obj.text = obj.text or obj.name))
+      $('.select_problem_code').empty()
+      $('.select_problem_code').select2
+        data: problem_codes
+      $('#wizard').steps('next');
+      $('#wizard #wizard-p-3 #back-btn, #wizard #wizard-p-4 #back-btn').removeData('step')
+    else
+      if $(this).data('equipment')
+        $('#wizard').steps('setStep', 3)
+        $('#wizard #wizard-p-1 #next-btn').data('step', 3)
+        $('#wizard #wizard-p-3 #back-btn').data('step', 1)
+      else
+        $('#wizard').steps('setStep', 4)
+        $('#wizard #wizard-p-1 #next-btn').data('step', 4)
+        $('#wizard #wizard-p-4 #back-btn').data('step', 1)
+      $('.steps #wizard-t-2').parents('li:first').addClass('disabled')
       
-setEquipment = ->
-  location_id = $('#service_request_location_id').val()
-  subcategory_id = $('.subcategories-wrapper .subcategory_field').val()
-  if location_id?
-    $.ajax
-      url: Routes.location_equipment_items_path(location_id: location_id, subcategory_id: subcategory_id)
-      type: 'GET'
-      dataType: 'json'
-      success: (data) ->
-        data.map((obj) -> (obj.text = obj.text or obj.subcategory.name))
-        data.unshift({id: 'prompt', text: 'Please select equipment'})
-        $('.select_equipment').empty()
-        $('.select_equipment').select2 
-          data: data
-        
+$(document).on 'select2:select', '.select_brand', (e)  ->
+  $('#service_request_brand_name').val(e.params.data.text)
+      
 $(document).on 'select2:select', '.service-request-form-wrapper .select_equipment', (e) ->
   $('#service_request_brand_name').val(e.brand_name)
   $('#service_request_model').val(e.model)
   $('#service_request_serial').val(e.serial)
         
-$(document).on 'click', '.service-request-form-wrapper .request-continue-btn', (e) ->
-  e.preventDefault()
-  if !($(this).hasClass('.logout-credit-card'))
-    setContentWrapperClass($(this).data('continue'))
-  
 $(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-btn', (e) ->
   e.preventDefault()
-  back = $(this).data('back')
-  setContentWrapperClass(back)
-
-$(document).on 'click', '.service-request-form-wrapper .btn-schedule-service', (e) ->
+  if stepNumber = $(this).data('step')
+    $('#wizard').steps('setStep', stepNumber);
+  else
+    $('#wizard').steps('previous');
+    
+$(document).on 'click', '.service-request-form-wrapper .content-wrapper #next-btn, .service-request-form-wrapper .request-continue-btn',  (e) ->
   e.preventDefault()
-  setContentWrapperClass('complete-request')
-  if ($(this).data('payment'))
-    $('.service-request-form-wrapper .card-wrapper').addClass('hidden')
+  if stepNumber = $(this).data('step')
+    $('#wizard').steps('setStep', stepNumber);
+  else
+    $('#wizard').steps('next');
+  
 
 $(document).on 'click', '.service-request-form-wrapper .request-service-card-btn', (e) ->
   e.preventDefault()
   if $(this).data('card') == 'add'
-    $('.service-request-form-wrapper .card-wrapper').removeClass('hidden')
+    $('.service-request-form-wrapper #payment-form').removeClass('hidden')
+    $('.service-request-form-wrapper .service-request-submit-btn').addClass('hidden')
   else
-    $('.service-request-form-wrapper .card-wrapper').addClass('hidden')
+    $('.service-request-form-wrapper #payment-form').addClass('hidden')
+    $('.service-request-form-wrapper .service-request-submit-btn').removeClass('hidden')
   
 setCategories = ->
   if $('.select_category option:selected').val() != ''
@@ -181,21 +258,13 @@ $(document).on 'select2:select, change', '.select_category', (e) ->
   setCategories()
   
 $.onmount 'form#service-request-form', (e) ->
-  $(this).find('.content-wrapper').addClass('hidden')
-  if $(this).find('.has-error').length
-    $(this).find('.has-error').first().parents('.content-wrapper:first').removeClass('hidden')
-  else
-    $(this).find('.content-wrapper:first').removeClass('hidden')
+  if $(this).find('.has-error').length > 0
+    $('section').css('display', 'none')
+    $(this).find('.has-error').first().parents('section').css('display', 'block')
   
-$(document).on 'click', '.equipment-warrant-checkbox', (e) ->
-  if $(this).find('input[type=checkbox]').is(':checked')
-    $(this).find('input[type=checkbox]').prop('checked', false)
-  else
-    $(this).find('input[type=checkbox]').prop('checked', true)
-
 $(document).on 'click', '.left-sidebar ul li a.past-requests-link', (e) ->
   e.preventDefault()
-  
+
 $(document).on 'keyup', '.us_phone_number', ->
   phone_number = $(this).val()
   if isValidNumber(phone_number.replace(/ /g, ''), 'US')
@@ -209,3 +278,18 @@ $(document).on 'change', '.urgent-service', ->
   else
     $('.urgent-wrapper').find('h5').html('When would you like a technician to arrive?')
     $('.urgent-wrapper').find('textarea').attr('placeholder', 'Please be specific. For example: Any time next week, Tuesday afternoon, Friday morning, etc.')
+    
+$(document).on 'cocoon:after-insert', '.provide-photo', (e) ->
+  $(this).find('.image-upload:last').trigger('click')
+  
+$(document).on 'click', '.details-change-link', (e) ->
+  e.preventDefault()
+  $('#wizard').steps('setStep', $(this).data('step'));
+  
+setSummaryDetailsImages = ->
+  $('.summary-details-wrapper').find('.issue_image').html('')
+  images = $('.provide-photo-img').find('img').map(->
+    $(this).attr 'src'
+  ).get()
+  $.each images, (i, img) ->
+    $('.summary-details-wrapper').find('.issue_image').append($('<img>').attr(src: img, class: 'preview'))

@@ -1,4 +1,4 @@
-- url = url.nil? ? customers_create_with_service_request_path() : url
+- url ||= customers_create_with_service_request_path()
 = simple_form_for customer, url: url, validate: true, turboboost: true, html: { id: 'service-request-form', class: 'service-request-logout-form' } do |f|
   p.title Request Service
   #wizard
@@ -69,12 +69,12 @@
             span Enter your details for signup
             strong.ml10 OR
             span.ml10.w30-pct
-              = link_to 'Login', '#', class: 'service-request-login-link btn btn-danger btn-danger btn-lg'
+              = link_to 'Login', '#', class: 'service-request-signin-link btn btn-danger btn-danger btn-lg'
           h3.text-center.signin-header.hidden
             span Enter your details for signin
             strong.ml10 OR
             span.ml10
-              = link_to 'Sign Up', '#', class: 'service-request-logout-link btn btn-danger btn-lg'
+              = link_to 'Sign Up', '#', class: 'service-request-signup-link btn btn-danger btn-lg'
           .row.mt40
             .col-sm-6.mt10
               .form-inputs.text-left

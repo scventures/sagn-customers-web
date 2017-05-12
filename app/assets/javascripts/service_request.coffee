@@ -171,7 +171,7 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   $('.equipment-field-wrapper').addClass('hidden')
   if $(this).data('equipment')
     $('.equipment_wrapper').removeClass('hidden')
-    if !($('form:visible').hasClass('logout-form'))
+    if !($('form:visible').hasClass('service-request-logout-form'))
       $('.equipment-field-wrapper').removeClass('hidden')
     $('.select_equipment').select2()
     setEquipment()
@@ -295,7 +295,7 @@ setSummaryDetailsImages = ->
   $.each images, (i, img) ->
     $('.summary-details-wrapper').find('.issue_image').append($('<img>').attr(src: img, class: 'preview'))
     
-$(document).on 'click', '.service-request-login-link', (e) ->
+$(document).on 'click', '.service-request-signin-link', (e) ->
   e.preventDefault()
   form = $(this).parents('form:first')
   $(form).attr('action', Routes.customers_create_serivce_request_with_login_path())
@@ -304,7 +304,7 @@ $(document).on 'click', '.service-request-login-link', (e) ->
   $('.sign-up-fields').addClass('hidden').find('input').prop('disabled', true)
   $('.sign-in-fields').removeClass('hidden').find('input').prop('disabled', false)
 
-$(document).on 'click', '.service-request-logout-link', (e) ->
+$(document).on 'click', '.service-request-signup-link', (e) ->
   e.preventDefault()
   form = $(this).parents('form:first')
   $(form).attr('action', Routes.customers_create_with_service_request_path())

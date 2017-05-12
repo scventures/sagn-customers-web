@@ -14,7 +14,7 @@
             li
               = link_to location.name.titleize, '#', data: { id: location.id }, class: 'location-link'
           li
-            = link_to '#', data: { toggle: 'modal', target: '#addLocation' , class: 'black' do
+            = link_to '#', data: { toggle: 'modal', target: '#addLocation'} , class: 'black' do
               = fa_icon 'plus' 
               | Add New Location
 #addLocation.modal.fade role='dialog'

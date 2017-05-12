@@ -1,0 +1,57 @@
+.user-profile-pic.text-center
+  - if current_customer.photo?
+    = image_tag current_customer.photo, class: 'img-circle', size: '150'
+  - else
+    = image_tag 'user.png', class: 'img-circle', size: '150'
+h2.text-center
+  = current_customer.name.try(:titleize)
+.grayBg.col-md-10.center-panel.confirm-box.padding30
+  .head-text
+    - if current_customer.confirmation_pending?
+      i.fa.fa-check-circle aria-hidden="true"
+      span.pl20
+        | Confirm Your Email
+      p
+        | We`ve sent a confirmation email to:
+        br/
+        = current_customer.confirmable_email
+      p Just click link in this email to confirm.
+      .clearfix
+      .col-md-7
+        = link_to 'Resend Confirmation', resend_email_confirmation_profile_path, remote: true, class: 'btn btn-danger with-ajax-loader'
+      .clearfix
+    - else
+      i.fa.fa-check-circle.green aria-hidden="true"
+      span.pl20
+        | Email Confirmed
+      p
+        | We`ve confirmed your email:
+        br/
+        = current_customer.email
+    p
+      = link_to 'Need to change your email addess?', edit_profile_path, class: 'font-bold'
+  .head-text.margintop30
+    - if current_customer.phone_confirmation_pending?
+      i.fa.fa-check-circle aria-hidden="true"
+      span.pl20
+        | Confirm Your Mobile Phone
+      p
+        | We`ve sent a code to:
+        br/
+        = current_customer.unconfirmed_phone
+      p
+        | Please enter the code you received:
+      p
+        = render 'phone_confirmation_form'
+      p
+        = link_to 'Send New Code', resend_phone_confirmation_profile_path, remote: true, class: 'btn btn-danger with-ajax-loader'
+    - else
+      i.fa.fa-check-circle.green aria-hidden="true"
+      span.pl20
+        | Mobile Phone Confirmed
+      p
+        | We`ve confirmed your mobile phone:
+        br/
+        = current_customer.phone_number
+    p
+      = link_to 'Need to change your phone number?', edit_profile_path, class: 'font-bold'

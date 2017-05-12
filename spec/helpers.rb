@@ -53,6 +53,13 @@ module Helpers
       to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
+  def stub_layer_identity_token(nonce, return_body, response_code)
+    stub_request(:post, "#{ENV['API_URL']}/customers/layer/identity").
+         with(:body => {"nonce"=>nonce},
+              :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+         to_return(:status => response_code, :body => return_body.to_json, :headers => {})
+  end
+  
   def verified_return_body
     {
       'customer': {
@@ -209,6 +216,11 @@ module Helpers
         'is an invalid number'
       ]
     }.to_json
+  end
+  
+  def jwt
+    payload = {data: 'test@gmail.com'}
+    JWT.encode payload, nil, 'none'
   end
   
   def have_attached_file name

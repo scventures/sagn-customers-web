@@ -6,18 +6,17 @@ Rails.application.routes.draw do
     registrations: 'customers/registrations',
     confirmations: 'customers/confirmations'
   }
+
+  resources :customers, only: :new do
+    collection do
+      post :layer_identity
+    end
+  end
   
   devise_scope :customer do
     post "/customers/create_with_service_request", to: 'customers/registrations#create_with_service_request'
   end
- # namespace :customers do
-  #  resources :registrations, only: [] do
-   #   post :create_with_service_request, on: :collection
-    #end
-  #end
-  
-  resources :customers, only: :new
-  
+
   resource :profile, only: [:show, :edit, :update] do
     get :resend_email_confirmation
     get :resend_phone_confirmation

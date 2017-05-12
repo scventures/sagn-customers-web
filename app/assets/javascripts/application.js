@@ -34,5 +34,6 @@
 //= require ajax_error
 //= require service_request
 //= require past_request_service
+//= require layer/layer
 //= require turbolinks
 //= require turboboost/turboboost

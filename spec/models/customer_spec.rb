@@ -75,20 +75,12 @@ describe Customer do
   
   describe 'Validations' do
     let(:customer) {Customer.new}
-    context 'if password_required?' do
-      it do
-        allow(customer).to receive(:password_required?).and_return(true) 
-        expect(customer).to validate_presence_of(:password)
-        expect(customer).to validate_confirmation_of(:password)
-      end
-    end
-    
-    context 'unless password_required?' do
-      it do
-        allow(customer).to receive(:password_required?).and_return(false) 
-        expect(customer).not_to validate_presence_of(:password)
-        expect(customer).not_to validate_confirmation_of(:password)
-      end
+    it do
+      expect(customer).to validate_presence_of(:name)
+      expect(customer).to validate_presence_of(:email)
+      expect(customer).to validate_presence_of(:customer_account_name)
+      expect(customer).to validate_presence_of(:password)
+      expect(customer).to validate_confirmation_of(:password)
     end
   end
   
@@ -130,7 +122,7 @@ describe Customer do
   describe '#populate_attributes' do
     context 'user with valid auth token' do
       it 'populates user attributes' do
-        stub_auth_api_request('test@gmail.com', 'test123', { 'jwt': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTQyMjIxMTAsImF1ZCI6ZmFsc2UsInN1YiI6ImN1c3RvbWVyXzU5In0.8PjEL9nyWtHbJ9X5lt-r1ZXQT5_Y7Y0oClnA8xaSyAs'}, 201 )
+        stub_auth_api_request('test@gmail.com', 'test123', { 'jwt': jwt }, 201 )
         customer = Customer.authenticate!('test@gmail.com', 'test123')
         stub_verified_api_request(customer.jwt, verified_return_body , 201)
         customer = customer.populate_attributes
@@ -258,6 +250,15 @@ describe Customer do
         stub_verify_phone(customer.sms_confirmation_pin, 400, ''.to_json)
         expect(customer.verify_phone).to be_falsy
       end
+    end
+  end
+  
+  describe '#get_layer_identity_token(nonce)' do
+    let(:customer) { Customer.new }
+    it do
+      stub_layer_identity_token('testnonce', { 'token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6ImxheWVyLWVpdDt2P'}, 200)
+      token = customer.get_layer_identity_token('testnonce')
+      expect(token).to eq(token)
     end
   end
    

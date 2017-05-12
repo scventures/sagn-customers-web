@@ -17,27 +17,6 @@ describe DeviseOverrides do
     end
   end
   
-  describe '#password_required?' do
-    context 'password is nil and password_cofirmation is present' do
-      it 'return true' do
-        c = Customer.new(password: '123451', password_confirmation: nil)
-        expect(c.password_required?).to be_truthy
-      end
-    end
-    context 'password is present and password_cofirmation is nil' do
-      it 'return true' do
-        c = Customer.new(password: nil, password_confirmation: '123451')
-        expect(c.password_required?).to be_truthy
-      end
-    end
-    context 'password and password_cofirmation are nil' do
-      it 'return false' do
-        c = Customer.new(password: nil, password_confirmation: nil)
-        expect(c.password_required?).to be_falsy
-      end
-    end
-  end
-  
   describe '#send_confirmation_instructions' do
     context 'valid customer email' do
       let(:customer) { Customer.new(email: 'test@gmail.com') }
@@ -156,7 +135,7 @@ describe DeviseOverrides do
     describe '.authenticate!(email, password)' do
       context 'user with valid credentials' do
         it 'authenticate user' do
-          stub_auth_api_request('test@gmail.com', 'test123', { 'jwt': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0OTQyMjIxMTAsImF1ZCI6ZmFsc2UsInN1YiI6ImN1c3RvbWVyXzU5In0.8PjEL9nyWtHbJ9X5lt-r1ZXQT5_Y7Y0oClnA8xaSyAs'}, 201 )
+          stub_auth_api_request('test@gmail.com', 'test123', { 'jwt': jwt}, 201 )
           expect(Customer.authenticate!('test@gmail.com', 'test123')).to be_instance_of(Customer)
         end
       end

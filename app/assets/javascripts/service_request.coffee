@@ -32,6 +32,7 @@ setMarkers = (map) ->
     type: 'GET'
     dataType: 'JSON'
     success: (data) ->
+      markers_length =  data.length
       $.each data, (i, location) ->
         markerLatLng = new google.maps.LatLng location.geography.latitude, location.geography.longitude
         marker = new google.maps.Marker
@@ -47,7 +48,7 @@ setMarkers = (map) ->
         bounds.extend markerLatLng
       unless bounds.isEmpty()
         map.fitBounds bounds
-        unless $.isArray bounds.toJSON()
+        if markers_length == 1
           map.setZoom 10
   
 initMap = ->
@@ -99,7 +100,7 @@ $.onmount '#wizard' , ->
       li = $("#wizard-t-#{priorIndex}").parent()
       if li.hasClass('done') and !li.attr('aria-done')
         li.attr 'aria-done', true
-        $("#wizard-p-#{priorIndex}").find('#next-btn').removeClass('hidden')
+        $("#wizard-p-#{priorIndex}").find('.next-btn').removeClass('hidden')
       $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find('input, select').enableClientSideValidations()
       switch $('#wizard').steps('getStep', priorIndex).title
         when 'Sub Category'
@@ -186,13 +187,13 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
   if category == 'Preventive Maintenance'
     $('#wizard').steps('setStep', 6)
-    $('#wizard #wizard-p-1 #next-btn').data('step', 6)
-    $('#wizard #wizard-p-6 #back-btn').data('step', 1)
+    $('#wizard #wizard-p-1 .next-btn').data('step', 6)
+    $('#wizard #wizard-p-6 .back-btn').data('step', 1)
     $('.preventative-maintenance-contact').prop('disabled', false)
   else
     $('#wizard #wizard-p-5 .request-continue-btn').data('step', 7)
-    $('#wizard #wizard-p-5 #next-btn').data('step', 7)
-    $('#wizard #wizard-p-7 #back-btn').data('step', 5)
+    $('#wizard #wizard-p-5 .next-btn').data('step', 7)
+    $('#wizard #wizard-p-7 .back-btn').data('step', 5)
     if problem_codes.length > 0
       $('.steps #wizard-t-2').parents('li:first').removeClass('disabled')
       problem_codes.map((obj) -> (obj.text = obj.text or obj.name))
@@ -200,16 +201,16 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
       $('.select_problem_code').select2
         data: problem_codes
       $('#wizard').steps('next');
-      $('#wizard #wizard-p-3 #back-btn, #wizard #wizard-p-4 #back-btn').removeData('step')
+      $('#wizard #wizard-p-3 .back-btn, #wizard #wizard-p-4 .back-btn').removeData('step')
     else
       if $(this).data('equipment')
         $('#wizard').steps('setStep', 3)
-        $('#wizard #wizard-p-1 #next-btn').data('step', 3)
-        $('#wizard #wizard-p-3 #back-btn').data('step', 1)
+        $('#wizard #wizard-p-1 .next-btn').data('step', 3)
+        $('#wizard #wizard-p-3 .back-btn').data('step', 1)
       else
         $('#wizard').steps('setStep', 4)
-        $('#wizard #wizard-p-1 #next-btn').data('step', 4)
-        $('#wizard #wizard-p-4 #back-btn').data('step', 1)
+        $('#wizard #wizard-p-1 .next-btn').data('step', 4)
+        $('#wizard #wizard-p-4 .back-btn').data('step', 1)
       $('.steps #wizard-t-2').parents('li:first').addClass('disabled')
       
 $(document).on 'select2:select', '.select_brand', (e)  ->
@@ -220,14 +221,14 @@ $(document).on 'select2:select', '.service-request-form-wrapper .select_equipmen
   $('#service_request_model').val(e.model)
   $('#service_request_serial').val(e.serial)
         
-$(document).on 'click', '.service-request-form-wrapper .content-wrapper #back-btn', (e) ->
+$(document).on 'click', '.service-request-form-wrapper .content-wrapper .back-btn', (e) ->
   e.preventDefault()
   if stepNumber = $(this).data('step')
     $('#wizard').steps('setStep', stepNumber);
   else
     $('#wizard').steps('previous');
     
-$(document).on 'click', '.service-request-form-wrapper .content-wrapper #next-btn, .service-request-form-wrapper .request-continue-btn',  (e) ->
+$(document).on 'click', '.service-request-form-wrapper .content-wrapper .next-btn, .service-request-form-wrapper .request-continue-btn',  (e) ->
   e.preventDefault()
   if stepNumber = $(this).data('step')
     $('#wizard').steps('setStep', stepNumber);

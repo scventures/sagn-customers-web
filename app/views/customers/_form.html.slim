@@ -8,7 +8,7 @@
     section          
       .content-wrapper.restaurant-details
         .back-btn-wrapper
-          = link_to '#', class: 'mb20', data: { back: 'contact-details' }, id: 'back-btn' do
+          = link_to '#', class: 'mb20 back-btn' do
             = fa_icon 'chevron-left'
         .col-sm-10.col-sm-offset-1.text-center
           .text-center.service-head.center-panel
@@ -28,7 +28,7 @@
                   = l.input :geography, as: :hidden, input_html: { name: 'customer[location_attributes][geography][longitude]', id: 'location_geography_longitude' }
                   = f.submit 'Save & Continue', class: 'btn btn-continue text-uppercase request-continue-btn logout-credit-card', data: { continue: 'provide-photo'}
         .next-btn-wrapper
-          = link_to '#', class: 'hidden', id: 'next-btn' do
+          = link_to '#', class: 'hidden next-btn' do
             = fa_icon 'chevron-right'
     = f.simple_fields_for :service_request do |s|
       = render 'shared/details_summary', f: s
@@ -36,7 +36,7 @@
     section 
       .content-wrapper.card-details
         .back-btn-wrapper
-          = link_to '#', class: 'mb20', data: { back: 'provide-photo' }, id: 'back-btn' do
+          = link_to '#', class: 'mb20 back-btn' do
             = fa_icon 'chevron-left'
         .col-sm-10.col-sm-offset-1.text-center
           .text-center.service-head.center-panel
@@ -56,13 +56,13 @@
               = image_tag 'powerdBy.png', height: '35', width: '125'
             h4 Sendaguy now uses Stripe, a leader in online and mobile payments, for all financial transactions.
         .next-btn-wrapper
-          = link_to '#', class: 'hidden', id: 'next-btn' do
+          = link_to '#', class: 'hidden next-btn' do
             = fa_icon 'chevron-right'
     h2 Summary & Payment
     section 
       .content-wrapper.signup-form
         .back-btn-wrapper
-          = link_to '#', class: 'mb20', data: { back: 'card-details' }, id: 'back-btn' do
+          = link_to '#', class: 'mb20 back-btn' do
             = fa_icon 'chevron-left'
         .col-md-6.center-panel.text-center.mt20
           h3.text-center.signup-header
@@ -96,5 +96,5 @@
                 h3 Get repairs on demand
                 = image_tag 'mobile.png', width: '250', height: '350'
         .next-btn-wrapper
-          = link_to '#', class: 'hidden', id: 'next-btn' do
+          = link_to '#', class: 'hidden next-btn' do
             = fa_icon 'chevron-right'

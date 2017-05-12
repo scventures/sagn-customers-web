@@ -30,6 +30,9 @@ body#service_requests_new {
   .steps {
     width: 85%;
     margin: 20px auto;
+    .number {
+      font-size: 16px;
+    }
     ul {
       display: table;
       font-size: 0;

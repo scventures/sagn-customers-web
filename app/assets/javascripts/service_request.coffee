@@ -14,14 +14,14 @@ $(document).on 'click', '.current-request-list .details-link', ->
   $(this).find('.current-request-wrapper').addClass('selected')
   $('.current-request-details').html('')
   $('.current-request-details').block
-      message: '<i class="fa fa-spinner fa-spin fa-4x"></i>'
-      css:
-        border: 'none'
-        background: 'none'
-        color: '#808080'
-      overlayCSS:
-        backgroundColor: 'transparent'
-        cursor: 'wait'
+    message: '<i class="fa fa-spinner fa-spin fa-4x"></i>'
+    css:
+      border: 'none'
+      background: 'none'
+      color: '#808080'
+    overlayCSS:
+      backgroundColor: 'transparent'
+      cursor: 'wait'
         
 setMarkers = (map) ->
   infowindow = new google.maps.InfoWindow()
@@ -76,6 +76,7 @@ $.onmount '#wizard' , ->
     bodyTag: 'section'
     transitionEffect: 'slideLeft'
     enableKeyNavigation: false
+    autoFocus: false
     titleTemplate: '<div class="number step-#index#"><div class="line line-left"></div><div class="line line-right"></div><div class="icon"></div><div class="title">#title#</div><div class="summary-data grey"></div></div>'
     onInit: ->
       $('#wizard > .steps').appendTo '#wizard'
@@ -164,7 +165,7 @@ $(document).on 'change, click', '.category-wrapper input[type=radio]', ->
   setSubcategoriesImages($(this).val())
   
 $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
-  $('.subcategories-wrapper .subcategory_field').val($(this).val())
+  #$('.subcategories-wrapper .subcategory_field').val($(this).val())
   brands = $(this).data('brands')
   problem_codes = $(this).data('problem-codes')
   $('.equipment_wrapper').addClass('hidden')
@@ -303,6 +304,7 @@ $(document).on 'click', '.service-request-signin-link', (e) ->
   $('.signin-header').removeClass('hidden')
   $('.sign-up-fields').addClass('hidden').find('input').prop('disabled', true)
   $('.sign-in-fields').removeClass('hidden').find('input').prop('disabled', false)
+  $(form).resetClientSideValidations()
 
 $(document).on 'click', '.service-request-signup-link', (e) ->
   e.preventDefault()
@@ -312,4 +314,4 @@ $(document).on 'click', '.service-request-signup-link', (e) ->
   $('.signin-header').addClass('hidden')
   $('.sign-up-fields').removeClass('hidden').find('input').prop('disabled', false)
   $('.sign-in-fields').addClass('hidden').find('input').prop('disabled', true)
-
+  $(form).resetClientSideValidations()

@@ -1,0 +1,46 @@
+- content_for :title do
+  .header-title.text-uppercase Past Requests
+.row.is-flex
+  .col-sm-6.past-request-list
+    - unless @past_requests.count.zero? 
+      - @past_requests.each do |past_request|
+        = link_to past_request_path(past_request), remote: true, class: 'details-link' do
+          .past-request-wrapper
+            .content.grey
+              = fa_icon 'chevron-right', class: 'fa-2x grey pull-right mt20'
+              p
+                = date_format(past_request.created_at)
+              p
+                = time_format(past_request.created_at)
+                span.ml10 |
+                span.ml10
+                  = "##{past_request.id}"
+              h3.black
+                = past_request.location[:address_1]
+            .footer
+              - if past_request.category and past_request.subcategory
+                = "#{past_request.category[:name]}: #{past_request.subcategory[:name]}"
+              p
+                span.text-uppercase STATUS:
+                span.ml10
+                  = past_request.latest_activity_status
+    - else
+      h3.ml10.grey You dont have any service requests to show
+  .col-sm-6.past-request-details
+#issueModal.modal.fade role="dialog"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        = link_to '#', data: { dismiss: 'modal'}, class: 'pull-left' do
+          = fa_icon 'chevron-left', class: 'fa-2x white'
+        span.modal-title.ml20 Need Help
+      .modal-body    
+        strong.mt20.fs16 If you have an issue or need support, you can contact us at 800-214-5410 or email us at support@sendaguy.com
+        .links.mt40
+          p
+            span.btn 
+              = "Call Us Now (#{ENV['SUPPORT_PHONE']})"
+          p
+            = mail_to "#{ENV['SUPPORT_EMAIL']}", 'Email Us Now', class: 'btn'
+          p
+            = link_to 'Close', '#', data: { dismiss: 'modal'}, class: 'btn'

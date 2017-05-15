@@ -14,8 +14,8 @@ html
             = link_to current_requests_path, class: '' do
               i.icon-req-service-current
               p Current Requests
-          li
-            = link_to '#', class: 'past-requests-link' do
+          li class="#{ 'active' if params[:controller] == 'past_requests'}"
+            = link_to past_requests_path do
               i.icon-past-req
               p Past Requests
           li class="#{ 'active' if params[:controller] == 'locations'}"

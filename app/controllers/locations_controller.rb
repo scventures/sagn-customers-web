@@ -14,7 +14,7 @@ class LocationsController < ApplicationController
   def create
     @location = current_customer.current_account.locations.build(location_params)
     if @location.save
-      redirect_to locations_path
+      redirect_to request.referrer || locations_path
     else
       respond_to do |format|
         format.js { render partial: "locations/form", locals: { location: @location }, replace: ".location-form-container" }

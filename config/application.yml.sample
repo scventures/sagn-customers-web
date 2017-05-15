@@ -11,6 +11,7 @@ development:
   SUPPORT_EMAIL:
   SUPPORT_PHONE:
   LAYER_APP_ID:
+  ANALYTICS:
 
 test:
   API_URL:

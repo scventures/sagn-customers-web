@@ -24,6 +24,7 @@ div
               = location.full_address
             .text-center.btn-holder
               = link_to 'Edit', edit_location_path(location), remote: true, class: 'btn btn-edit'
+              = link_to 'Delete', location_path(location), method: :delete, data: { confirm: 'You want to remove this location?'}, class: 'btn btn-edit ml10'
             .clearfix
 #editLocation.modal.fade role='dialog'
   .modal-dialog

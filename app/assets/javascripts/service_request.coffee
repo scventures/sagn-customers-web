@@ -165,7 +165,7 @@ $(document).on 'change, click', '.category-wrapper input[type=radio]', ->
   setSubcategoriesImages($(this).val())
   
 $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
-  #$('.subcategories-wrapper .subcategory_field').val($(this).val())
+  $('.subcategories-wrapper .subcategory_field').val($(this).val())
   brands = $(this).data('brands')
   problem_codes = $(this).data('problem-codes')
   $('.equipment_wrapper').addClass('hidden')

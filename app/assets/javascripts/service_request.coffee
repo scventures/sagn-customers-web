@@ -92,8 +92,9 @@ $.onmount '#wizard' , ->
       form = $(this).parents('form:first')
       valid = true
       if newIndex > currentIndex
-        $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("input, select"), (i, element) ->
-          valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
+        $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select"), (i, element) ->
+          unless $(element).hasClass('venue_name')
+            valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
           return
       return valid
     onStepChanged: (event, currentIndex, priorIndex) ->

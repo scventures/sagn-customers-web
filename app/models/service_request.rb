@@ -30,6 +30,15 @@ class ServiceRequest
     self.status == 'completed'
   end
   
+  def closed?
+    self.status == 'closed'
+  end
+
+  def can_be_cancelled?
+    status_array = [:initial, :scheduled, :waiting, :responded, :declined, :customer_accepting, :customer_declined]
+    (self.can_editable? || self.assigned? || self.closed?) && (self.assignments.blank? || (self.assignments.map(&:status).uniq & status_array).length > 0 && (self.assignments.map(&:status).uniq & status_array).length == self.assignments.count)
+  end
+  
   def cancel
     ServiceRequest.put_raw("customers/accounts/#{account_id}/service_requests/#{id}/cancel", {account_id: account_id, id: id}) do |parsed_data, response|
       populate_errors(parsed_data[:errors]) if response.status == 400

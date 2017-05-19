@@ -1,6 +1,5 @@
 class VenuesController < ApplicationController
   
-  before_action :authenticate_customer!
   
   def index
     if params[:ll]

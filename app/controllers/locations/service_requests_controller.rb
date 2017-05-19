@@ -8,6 +8,7 @@ class Locations::ServiceRequestsController < ApplicationController
     @contractors = @current_account.contractors
     @location = @current_account.locations.find(params[:location_id])
     @service_request = @location.service_requests.build()
+    @service_request.attributes = params[:service_request] if params[:service_request]
     @service_request.issue_images = Her::Collection.new
   end
   

@@ -20,7 +20,7 @@
             .form-group
               label for='service_request_brand_name'
                 | Brand
-              = f.input :brand_id, label: false, collection: f.object.subcategory[:brands].map {|b| [b[:name], b[:id]]}, class: 'form-control', input_html: { class: 'select_brand select2'},  selected: f.object.brand[:id]
+              = f.input :brand_id, label: false, collection: f.object.subcategory[:brands] ? f.object.subcategory[:brands].map {|b| [b[:name], b[:id]]} : [], class: 'form-control', input_html: { class: 'select_brand select2'},  selected: f.object.brand? ? f.object.brand: '' 
             .form-group
               label for='service_request_model'
                 | Model

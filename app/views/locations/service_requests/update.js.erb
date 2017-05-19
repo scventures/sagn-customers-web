@@ -1,6 +1,8 @@
+$('body').find('.alert').remove()
 <% if @service_request.response_errors.blank? %>
+  $("#current-request-details-<%= @service_request.id %>").html('<%= j render partial: "current_requests/details", locals: { current_request: @service_request } %>')
   $("#edit_current_request #modal-window").modal('hide')
-  $('.main-wrapper').bs_success('Service Request updated successfully', 'Success')
+  $('.main-wrapper').prepend('<%= flash_container(:success, 'Service Request updated successfully') %>')
 <% else %>
-  $("#edit_current_request .modal-body").bs_alert('<%= @service_request.response_errors[:error] %>', 'Errors!');
+  $("#edit_current_request .modal-body").prepend('<%= flash_container(:danger, @service_request.response_errors[:error]) %>')
 <% end %>

@@ -50,7 +50,7 @@ setMarkers = (map) ->
         map.fitBounds bounds
         if markers_length == 1
           map.setZoom 10
-  
+
 initMap = ->
   if document.getElementById('google-map')
     map = new google.maps.Map document.getElementById('google-map'),
@@ -251,12 +251,25 @@ setCategories = ->
     categories.unshift({id: 'prompt', text: 'Please select category'})
     $('.select_subcategory').select2
       data: categories
-
-$.onmount '.select_category', ->
-  setCategories()
+    $('.select_brand').empty()
 
 $(document).on 'select2:select, change', '.select_category', (e) ->
   setCategories()
+  
+setBrands = (e) ->
+  if $('.select_subcategory option:selected').val() != ''
+    if e.params.data.brands
+      brands = e.params.data.brands
+    else
+      brands = $('.select_subcategory option:selected').data('brands')
+    brands.map((obj) -> (obj.text = obj.text or obj.name))
+    $('.select_brand').empty()
+    brands.unshift({id: 'prompt', text: 'Please select brand'})
+    $('.select_brand').select2
+      data: brands
+
+$(document).on 'select2:select', '.select_subcategory', (e) ->
+  setBrands(e)
   
 $.onmount 'form#service-request-form', (e) ->
   if $(this).find('.has-error').length > 0

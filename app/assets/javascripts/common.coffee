@@ -15,6 +15,7 @@ $.fn.steps.setStep = (step) ->
   return
 
 $(document).on 'ajax:beforeSend', 'a.with-ajax-loader', (e)->
+  $(this).find('i.loader').remove()
   $(this).append($('<i>').addClass('fa fa-spinner fa-pulse loader ml10'))
 
 $(document).on 'ajax:complete', 'a.with-ajax-loader', (e)->
@@ -70,5 +71,5 @@ $.onmount '.rating-container', ->
 $(document).on 'ready shown.bs.modal load turbolinks:load turboboost:complete', ->
   $.onmount()
 
-$(document).on 'click', '.stars a.star', ->
-  $('.customer-rating-input').val($('.rating-container input:checked').val())
+$.onmount '.select2', ->
+  $(this).select2()

@@ -1,22 +1,35 @@
 - content_for :title do
   .header-title.text-uppercase Home
-.map-container
-  #google-map.container.pull-left
-  .service-popup
-    .map-location-list
-      button.btn.btn-link.location-btn data-target='#map-location-list' data-toggle='collapse' type='button'
-        h3.red
-          = fa_icon 'map-marker'  
-          | Choose Location
-      #map-location-list.collapse
-        ul
-          - @locations.each do |location|
-            li
-              = link_to location.name.titleize, '#', data: { id: location.id }, class: 'location-link'
-        div.footer
-          = link_to '#', data: { toggle: 'modal', target: '#addLocation'} , class: 'black' do
-            = fa_icon 'plus'
-            | Add New Location
+.row
+  .col-sm-5
+    .location-images-container
+      - @locations.each do |location|
+        = link_to '#', data: { id: location.id, collapse: false }, class: 'location-link' do
+          .location-image-wrapper
+            = image_tag 'location.png'
+            .location-info
+              p.name
+                = location.name
+              p.address
+                = location.address_1
+  .col-sm-7
+    .map-container
+      #google-map.container.pull-left
+      .service-popup
+        .map-location-list
+          button.btn.btn-link.location-btn data-target='#map-location-list' data-toggle='collapse' type='button'
+            h3.red
+              = fa_icon 'map-marker'  
+              | Choose Location
+          #map-location-list.collapse
+            ul
+              - @locations.each do |location|
+                li
+                  = link_to location.name.titleize, '#', data: { id: location.id, collapse: true }, class: 'location-link'
+              li
+                = link_to '#', data: { toggle: 'modal', target: '#addLocation'} , class: 'black' do
+                  = fa_icon 'plus' 
+                  | Add New Location
 #addLocation.modal.fade role='dialog'
   .modal-dialog
     .modal-content

@@ -70,6 +70,3 @@ $.onmount '.rating-container', ->
   
 $(document).on 'ready shown.bs.modal load turbolinks:load turboboost:complete', ->
   $.onmount()
-
-$.onmount '.select2', ->
-  $(this).select2()

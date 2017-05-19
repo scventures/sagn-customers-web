@@ -64,11 +64,12 @@ initMap = ->
 $.onmount '#google-map', ->
   initMap()
 
-$(document).on 'click', '.map-container a.location-link', (e) ->
+$(document).on 'click', '.map-container a.location-link, .location-images-container a.location-link', (e) ->
   e.preventDefault()
   id = $(this).data('id')
   google.maps.event.trigger markers[id], 'click'
-  $('.map-container').find('button.location-btn').trigger('click')
+  if $(this).data('collapse')
+    $('.map-container').find('button.location-btn').trigger('click')
 
 $.onmount '#wizard' , ->
   $(this).steps

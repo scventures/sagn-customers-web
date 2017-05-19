@@ -329,8 +329,7 @@ $(document).on 'click', '.service-request-signup-link', (e) ->
   $('.signin-header').addClass('hidden')
   $('.sign-up-fields').removeClass('hidden').find('input').prop('disabled', false)
   $('.sign-in-fields').addClass('hidden').find('input').prop('disabled', true)
-  
-$(form).resetClientSideValidations()
+  $(form).resetClientSideValidations()
 
 $.onmount '.service-request-edit-form .select2', ->
   $(this).select2()

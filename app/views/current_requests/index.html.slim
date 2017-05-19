@@ -4,23 +4,6 @@
   .col-sm-6.current-request-list
     - @current_requests.each do |current_request|
       = link_to current_request_path(current_request), remote: true, class: 'details-link' do
-        .current-request-wrapper
-          .content.grey
-            = fa_icon 'chevron-right', class: 'fa-2x grey pull-right mt20'
-            p
-              = date_format(current_request.created_at)
-            p
-              = time_format(current_request.created_at)
-              span.ml10 |
-              span.ml10
-                = "##{current_request.id}"
-            h3.black
-              = current_request.location[:address_1]
-          .footer
-            - if current_request.category and current_request.subcategory
-              = "#{current_request.category[:name]}: #{current_request.subcategory[:name]}"
-            h4
-              | STATUS:
-              span.ml10
-                = current_request.latest_activity_status
+        .current-request-wrapper id = "current-request-details-#{current_request.id}"
+          = render 'details', current_request: current_request
   .col-sm-6.current-request-details

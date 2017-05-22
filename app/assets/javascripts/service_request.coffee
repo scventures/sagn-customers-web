@@ -128,8 +128,9 @@ $.onmount '#wizard' , ->
             else
               $('.steps #wizard-t-3 .summary-data').append(', Urgent Request')
         when 'Restaurant Details'
-          $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
-          $('.steps #wizard-t-8 .summary-data').html($('#service-request-form .location_address').val())
+          location = $('#service-request-form .location_address').val() || $('#service-request-form .location_name').val()
+          $('.summary-details-wrapper').find('.location').html(location)
+          $('.steps #wizard-t-8 .summary-data').html(location)
         when 'Issue Image'
           setSummaryDetailsImages()
           $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
@@ -329,8 +330,13 @@ $(document).on 'click', '.service-request-signup-link', (e) ->
   $('.signin-header').addClass('hidden')
   $('.sign-up-fields').removeClass('hidden').find('input').prop('disabled', false)
   $('.sign-in-fields').addClass('hidden').find('input').prop('disabled', true)
+
   $(form).resetClientSideValidations()
 
 $.onmount '.service-request-edit-form .select2', ->
   $(this).select2()
-
+  
+$(document).on 'keypress', 'form#service-request-form', (e) ->
+  if e.which != 13
+    return
+  e.preventDefault()

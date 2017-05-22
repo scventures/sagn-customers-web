@@ -2,8 +2,9 @@
   .header-title.text-uppercase Current Requests
 .row.is-flex
   .col-sm-6.current-request-list
-    - @current_requests.each do |current_request|
+    - @current_requests.each_with_index do |current_request, index|
       = link_to current_request_path(current_request), remote: true, class: 'details-link' do
-        .current-request-wrapper id = "current-request-details-#{current_request.id}"
+        .current-request-wrapper id = "current-request-details-#{current_request.id}" class = "#{'selected' if index == 0}"
           = render 'details', current_request: current_request
   .col-sm-6.current-request-details
+    = render 'show', service_request: @current_request, account: @account, activities: @activities, assignments: @assignments

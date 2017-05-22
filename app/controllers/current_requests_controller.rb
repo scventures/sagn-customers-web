@@ -3,7 +3,12 @@ class CurrentRequestsController < ApplicationController
   before_action :authenticate_customer!
   
   def index
-    @current_requests = current_customer.current_account.current_service_requests
+    @account = current_customer.current_account
+    @current_requests = @account.current_service_requests
+    @current_request = @current_requests.first
+    @current_request.account_id = @account.id
+    @activities = @current_request.activities
+    @assignments = @current_request.assignments if @current_request.assigned?
   end
   
   def show

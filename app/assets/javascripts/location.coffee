@@ -44,6 +44,8 @@ $.onmount '.location-form-container .venue_name, .restaurant-details .venue_name
       results: (data, page)->
         return data.result
       processResults: (data, params) ->
+        $.each data, (i, loc) ->
+          loc.text = loc.name
         results: data
     templateResult: (data) =>
       if data.id

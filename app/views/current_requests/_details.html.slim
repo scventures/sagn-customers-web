@@ -8,6 +8,8 @@
     span.ml10
       = "##{current_request.id}"
   h3.black
+    = current_request.location[:name]
+  h5.black
     = current_request.location[:address_1]
 .footer
   - if current_request.category and current_request.subcategory

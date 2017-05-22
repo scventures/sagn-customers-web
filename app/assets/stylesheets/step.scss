@@ -1,11 +1,11 @@
 body#service_requests_new {
   #wizard {
-    height: calc(100vh - 210px);
+    height: calc(100vh - 205px);
   }
 }
 
 #wizard {
-  height: calc(100vh - 190px);
+  height: calc(100vh - 175px);
   position: relative;
   .steps {
     margin-top: 20px;
@@ -14,8 +14,8 @@ body#service_requests_new {
     margin: 0;
     background: none;
     overflow: auto;
-    max-height: calc(100% - 160px);
-    min-height: calc(100% - 160px);
+    max-height: calc(100% - 120px);
+    min-height: calc(100% - 120px);
     .body {
       padding: 0px;
       width: 100%;
@@ -29,9 +29,9 @@ body#service_requests_new {
   .actions { display: none; }
   .steps {
     width: 85%;
-    margin: 20px auto;
+    margin: 20px auto 5px;
     .number {
-      font-size: 16px;
+      font-size: 10.5pt;
     }
     &::after {
       bottom: 78px;
@@ -102,7 +102,7 @@ body#service_requests_new {
             z-index: 1;
           }
           .title {
-            padding-top: 50px;
+            padding-top: 30px;
           }
         }
         &.current, &.done, &[aria-done] {

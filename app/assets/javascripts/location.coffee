@@ -27,7 +27,7 @@ fillInAddress = ->
     $('#location_geography_latitude').val(place.geometry.location.lat())
     $('#location_geography_longitude').val(place.geometry.location.lng())
   
-$.onmount '.location-form-container .venue_name', ->
+$.onmount '.location-form-container .venue_name, .restaurant-details .venue_name', ->
   $(this).select2
     theme: 'paper'
     closeOnSelect: false
@@ -44,6 +44,8 @@ $.onmount '.location-form-container .venue_name', ->
       results: (data, page)->
         return data.result
       processResults: (data, params) ->
+        $.each data, (i, loc) ->
+          loc.text = loc.name
         results: data
     templateResult: (data) =>
       if data.id
@@ -67,19 +69,28 @@ $(document).on 'click', '.provide-address-btn', (e) ->
   e.preventDefault()
   $('.venue-address').addClass('hidden')
   $('.provide-address').removeClass('hidden')
+  $.onmount()
   
-$(document).on 'select2:select', '.location-form-container .venue_name', (e)->
+$(document).on 'select2:select', '.location-form-container .venue_name, .service-request-logout-form .venue_name', (e)->
   $('.location_name').val(e.params.data.name)
   $('.address_auto_complete_field').val(e.params.data.location.address)
   $('#location_geography_latitude').val(e.params.data.location.lat)
   $('#location_geography_longitude').val(e.params.data.location.lng)
   $('#location_locality').val(e.params.data.location.city)
   $('#location_administrative_area_level_1').val(e.params.data.location.state)
-  if $('.location_name').val()
-    $(this).parents('form').submit()
-
-$(document).on 'shown.bs.modal', '#addLocation', ->
+  $(this).parents('form').resetClientSideValidations()
+  if $(this).parents('form').hasClass('service-request-logout-form')
+    $('#wizard').steps('next')
+  else
+    if $('.location_name').val()
+      $(this).parents('form').submit()
+      
+window.resetLocationForm = (form) ->
   $('.venue-address').removeClass('hidden')
   $('.provide-address').addClass('hidden')
-  $(this).parents().find('form')[0].reset()
-  $('form').resetClientSideValidations()
+  $(form)[0].reset()
+  $(form).resetClientSideValidations()
+
+$(document).on 'shown.bs.modal', '#addLocation', ->
+  form = $(this).parents().find('form')
+  resetLocationForm(form)

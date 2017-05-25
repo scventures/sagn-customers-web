@@ -93,8 +93,9 @@ $.onmount '#wizard' , ->
       form = $(this).parents('form:first')
       valid = true
       if newIndex > currentIndex
-        $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("input, select"), (i, element) ->
-          valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
+        $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select"), (i, element) ->
+          unless $(element).hasClass('venue_name')
+            valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
           return
       return valid
     onStepChanged: (event, currentIndex, priorIndex) ->
@@ -126,8 +127,9 @@ $.onmount '#wizard' , ->
             else
               $('.steps #wizard-t-3 .summary-data').append(', Urgent Request')
         when 'Restaurant Details'
-          $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
-          $('.steps #wizard-t-8 .summary-data').html($('#service-request-form .location_address').val())
+          location = $('#service-request-form .location_address').val() || $('#service-request-form .location_name').val()
+          $('.summary-details-wrapper').find('.location').html(location)
+          $('.steps #wizard-t-8 .summary-data').html(location)
         when 'Issue Image'
           setSummaryDetailsImages()
           $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
@@ -313,4 +315,9 @@ $(document).on 'click', '.service-request-signup-link', (e) ->
   $('.signin-header').addClass('hidden')
   $('.sign-up-fields').removeClass('hidden').find('input').prop('disabled', false)
   $('.sign-in-fields').addClass('hidden').find('input').prop('disabled', true)
+  
+$(document).on 'keypress', 'form#service-request-form', (e) ->
+  if e.which != 13
+    return
+  e.preventDefault()
 

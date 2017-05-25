@@ -17,16 +17,29 @@
             = f.simple_fields_for :location, validate: true do |l|
               .row
                 .col-sm-10.col-sm-offset-1
-                  = l.input :name, label: false, validate: true, input_html: { placeholder: 'Name', class: 'location_name' }
-                  = l.input :address_1, label: false, input_html: { class: 'address_auto_complete_field location_address', placeholder: 'Address 1' }
-                  = l.input :address_2, label: false, input_html: {id: 'location_sublocality_level_1', placeholder: 'Address 2'}
-                  = l.input :address_3, label: false, input_html: {id: 'location_administrative_area_level_2', placeholder: 'Address 3' }
-                  = l.input :city, label: false, input_html: {id: 'location_locality', placeholder: 'City' }
-                  = l.input :state, label: false, input_html: {id: 'location_administrative_area_level_1', placeholder: 'State' }
-                  = l.input :zip, label: false, input_html: {id: 'location_postal_code', placeholder: 'Zip'}
-                  = l.input :geography, as: :hidden, input_html: { name: 'customer[location_attributes][geography][latitude]', id: 'location_geography_latitude' }
-                  = l.input :geography, as: :hidden, input_html: { name: 'customer[location_attributes][geography][longitude]', id: 'location_geography_longitude' }
-                  = f.submit 'Save & Continue', class: 'btn btn-continue text-uppercase request-continue-btn logout-credit-card', data: { continue: 'provide-photo'}
+                  .venue-address
+                    = l.label 'Enter restaurant name'
+                    = l.input :name, as: :select, collection: [], input_html: { class: 'venue_name' }, label: false
+                    .select2-dropdown-container
+                    .text-center.bg-grey.mt20.p20
+                      strong Sendaguy Now currently provides service to New York City locations only.
+                      .p20
+                        p Follow us as we launch more cities.
+                        p.mt10 To recieve an alert when your city is added send your contact info to support@sendaguy.com.
+                    .footer
+                      h4 Cant find your location?
+                      button class= 'btn btn-red provide-address-btn' PROVIDE ADDRESS
+                  .provide-address.hidden
+                    = l.input :name, label: false, validate: true, input_html: { placeholder: 'Name', class: 'location_name' }
+                    = l.input :address_1, label: false, input_html: { class: 'address_auto_complete_field location_address', placeholder: 'Address 1' }
+                    = l.input :address_2, label: false, input_html: {id: 'location_sublocality_level_1', placeholder: 'Address 2'}
+                    = l.input :address_3, label: false, input_html: {id: 'location_administrative_area_level_2', placeholder: 'Address 3' }
+                    = l.input :city, label: false, input_html: {id: 'location_locality', placeholder: 'City' }
+                    = l.input :state, label: false, input_html: {id: 'location_administrative_area_level_1', placeholder: 'State' }
+                    = l.input :zip, label: false, input_html: {id: 'location_postal_code', placeholder: 'Zip'}
+                    = l.input :geography, as: :hidden, input_html: { name: 'customer[location_attributes][geography][latitude]', id: 'location_geography_latitude' }
+                    = l.input :geography, as: :hidden, input_html: { name: 'customer[location_attributes][geography][longitude]', id: 'location_geography_longitude' }
+                    = f.submit 'Save & Continue', class: 'btn btn-continue text-uppercase request-continue-btn logout-credit-card', data: { continue: 'provide-photo'}
         .next-btn-wrapper
           = link_to '#', class: 'hidden next-btn' do
             = fa_icon 'chevron-right'

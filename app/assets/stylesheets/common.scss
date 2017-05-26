@@ -264,6 +264,9 @@ body {
     width: calc(100% + 150px);
     button[data-toggle='offcanvas'] {
       display: block !important;
+      position: absolute;
+      top: 0;
+      left: 0;
       i {
         &.fa-angle-left {
           display: none
@@ -274,7 +277,15 @@ body {
       }
     }
     &.active {
+      .left-sidebar {
+        position: absolute;
+      }
+      .main-wrapper {
+        padding-left: 150px;
+        overflow-x: hidden;
+      }
       button[data-toggle='offcanvas'] {
+        left: 149px;
         i {
           &.fa-angle-left {
             display: block
@@ -291,6 +302,8 @@ body {
   }
   .row-offcanvas-left.active {
     left: 0;
+    width: 100%;
+    overflow-x: hidden;
   }
 }
 .signup-form, #new_customer {

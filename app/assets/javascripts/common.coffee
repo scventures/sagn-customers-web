@@ -62,7 +62,8 @@ window.updatePerfectScroll = (container, resetScroll) ->
   $(container).perfectScrollbar('update')
 
 $(document).on 'click', '[data-toggle=offcanvas]', ->
-  $('.row-offcanvas').toggleClass('active')
+  $('.row-offcanvas').toggleClass('active').promise().done ()->
+    $(document).trigger('sidebar:toggled')
 
 $.onmount '.rating-container', ->
   $(this).rating()

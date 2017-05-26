@@ -60,6 +60,8 @@ initMap = ->
       center: new google.maps.LatLng 37.09024, -95.712891
       mapTypeId: google.maps.MapTypeId.ROADMAP
     setMarkers(map)
+  $(document).on 'sidebar:toggled', (e) =>
+    google.maps.event.trigger(map, 'resize')
 
 $.onmount '#google-map', ->
   initMap()

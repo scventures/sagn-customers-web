@@ -3,15 +3,6 @@
 .row
   .col-sm-5
     .location-images-container
-      - @locations.each do |location|
-        = link_to '#', data: { id: location.id, collapse: false }, class: 'location-link' do
-          .location-image-wrapper
-            = image_tag 'location.png'
-            .location-info
-              p.name
-                = location.name
-              p.address
-                = location.address_1
   .col-sm-7
     .map-container
       #google-map.container.pull-left
@@ -25,7 +16,7 @@
             ul
               - @locations.each do |location|
                 li
-                  = link_to location.name.titleize, '#', data: { id: location.id, collapse: true }, class: 'location-link'
+                  = link_to location.name.titleize, '#', data: { id: location.id }, class: 'location-link'
               li
                 = link_to '#', data: { toggle: 'modal', target: '#addLocation'} , class: 'black' do
                   = fa_icon 'plus' 

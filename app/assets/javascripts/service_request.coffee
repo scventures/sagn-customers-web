@@ -23,6 +23,19 @@ $(document).on 'click', '.current-request-list .details-link, .past-request-list
         backgroundColor: 'transparent'
         cursor: 'wait'
         
+showLocationImages = (location_id) ->
+  $('.location-images-container').html('')
+  $('.location-images-container').block
+    message: '<i class="fa fa-spinner fa-pulse fa-4x"></i>'
+    css:
+      border: 'none'
+      background: 'none'
+      color: '#808080'
+    overlayCSS:
+      backgroundColor: 'transparent'
+      cursor: 'wait'
+  $.get Routes.images_venue_path(location_id)
+
 setMarkers = (map) ->
   infowindow = new google.maps.InfoWindow()
   bounds = new google.maps.LatLngBounds()
@@ -32,6 +45,7 @@ setMarkers = (map) ->
     type: 'GET'
     dataType: 'JSON'
     success: (data) ->
+      first_marker = data[0]
       markers_length =  data.length
       $.each data, (i, location) ->
         markerLatLng = new google.maps.LatLng location.geography.latitude, location.geography.longitude
@@ -44,12 +58,14 @@ setMarkers = (map) ->
             content = "<div><h3>#{location.name}</h3><a href=#{Routes.new_location_service_request_path(location_id: location.id)} class='btn btn-red btn-lg'>SendaGuy to this location</a></div>"
             infowindow.setContent content
             infowindow.open map, marker
+            showLocationImages(location.id)
             return
         bounds.extend markerLatLng
       unless bounds.isEmpty()
         map.fitBounds bounds
         if markers_length == 1
           map.setZoom 10
+      google.maps.event.trigger(markers[first_marker.id], 'click');
   
 initMap = ->
   if document.getElementById('google-map')
@@ -64,12 +80,11 @@ initMap = ->
 $.onmount '#google-map', ->
   initMap()
 
-$(document).on 'click', '.map-container a.location-link, .location-images-container a.location-link', (e) ->
+$(document).on 'click', '.map-container a.location-link', (e) ->
   e.preventDefault()
   id = $(this).data('id')
   google.maps.event.trigger markers[id], 'click'
-  if $(this).data('collapse')
-    $('.map-container').find('button.location-btn').trigger('click')
+  $('.map-container').find('button.location-btn').trigger('click')
 
 $.onmount '#wizard' , ->
   $(this).steps

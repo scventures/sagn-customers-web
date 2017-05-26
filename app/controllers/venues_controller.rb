@@ -1,5 +1,6 @@
 class VenuesController < ApplicationController
   
+  before_action :authenticate_customer!, only: :images
   
   def index
     if params[:ll]
@@ -9,5 +10,13 @@ class VenuesController < ApplicationController
     end
     render json: venues, each_serializer: VenueSerializer
   end
-  
+
+  def images
+    @location = current_customer.current_account.locations.find(params[:id])
+    @images = Venue.images(@location.foursquare_venue_id) unless @location.foursquare_venue_id.nil? or @location.foursquare_venue_id.blank?
+    respond_to do |format|
+      format.js
+    end
+  end
+
 end

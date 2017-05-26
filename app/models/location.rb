@@ -5,7 +5,7 @@ class Location
   collection_path 'customers/accounts/:account_id/locations'
   include_root_in_json true
 
-  attributes :id, :name, :address_1, :address_2, :address_3, :city, :state, :zip, :geography, :phone_number
+  attributes :id, :name, :address_1, :address_2, :address_3, :city, :state, :zip, :geography, :phone_number, :foursquare_venue_id
   has_many :equipment_items
   has_many :service_requests
   belongs_to :customer

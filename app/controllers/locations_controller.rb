@@ -58,7 +58,7 @@ class LocationsController < ApplicationController
   
   def location_params
     params.required(:location).permit(
-      :name, :address_1, :address_2, :address_3, :city, :state, :zip, :phone_number, {:geography => [:latitude, :longitude]}, :id
+      :name, :address_1, :address_2, :address_3, :city, :state, :zip, :phone_number, :foursquare_venue_id, {:geography => [:latitude, :longitude]}, :id
     ).to_h
   end
 

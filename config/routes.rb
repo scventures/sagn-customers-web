@@ -24,7 +24,9 @@ Rails.application.routes.draw do
     patch :confirm_phone
   end
   resources :charges
-  resources :venues, only: :index
+  resources :venues, only: :index do
+    get :images, on: :member
+  end
   resources :locations do
     resources :service_requests, only: [:new, :create, :edit, :update], module: 'locations'
     resources :equipment_items, only: [:index], module: 'locations'

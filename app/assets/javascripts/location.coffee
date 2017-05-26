@@ -78,6 +78,7 @@ $(document).on 'select2:select', '.location-form-container .venue_name, .service
   $('#location_geography_longitude').val(e.params.data.location.lng)
   $('#location_locality').val(e.params.data.location.city)
   $('#location_administrative_area_level_1').val(e.params.data.location.state)
+  $('#location_foursquare_venue_id').val(e.params.data.id)
   $(this).parents('form').resetClientSideValidations()
   if $(this).parents('form').hasClass('service-request-logout-form')
     $('#wizard').steps('next')
@@ -94,3 +95,18 @@ window.resetLocationForm = (form) ->
 $(document).on 'shown.bs.modal', '#addLocation', ->
   form = $(this).parents().find('form')
   resetLocationForm(form)
+
+window.locationStreetView = (lat, lng) ->
+  $('#location-street-view').removeClass('hidden')
+  streetViewService = new (google.maps.StreetViewService)
+  STREETVIEW_MAX_DISTANCE = 100
+  latLng = new google.maps.LatLng lat, lng
+  streetViewService.getPanoramaByLocation latLng, STREETVIEW_MAX_DISTANCE, (streetViewPanoramaData, status) ->
+    if status == google.maps.StreetViewStatus.OK
+      panorama = new google.maps.StreetViewPanorama document.getElementById('location-street-view'),
+        position:
+          lat: lat
+          lng: lng
+        zoom: 1
+    else
+      $('#location-street-view').html($('<span>').addClass('message').html('Location Image is not available.'))

@@ -22,6 +22,7 @@
         = f.input :state, input_html: {id: 'location_administrative_area_level_1' }
         = f.input :zip, input_html: {id: 'location_postal_code' }
         = f.input :phone_number
+        = f.input :foursquare_venue_id, as: :hidden, input_html: { id: 'location_foursquare_venue_id' }
         = f.input :geography, as: :hidden, input_html: { name: 'location[geography][latitude]', id: 'location_geography_latitude' }
         = f.input :geography, as: :hidden, input_html: { name: 'location[geography][longitude]', id: 'location_geography_longitude' }
         .row

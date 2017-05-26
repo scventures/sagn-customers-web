@@ -18,7 +18,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
       resource.authenticate!
       bypass_sign_in(resource)
       if resource.create_service_request
-        redirect_to profile_path, notice: 'Service Request created successfully.'
+        redirect_to current_requests_path, notice: 'Service Request created successfully.'
       else
         redirect_to profile_path, alert: 'Unable to create Service Request. Please try again'
       end

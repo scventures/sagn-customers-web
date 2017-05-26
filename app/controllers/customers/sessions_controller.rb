@@ -5,7 +5,7 @@ class Customers::SessionsController < Devise::SessionsController
     if customer.authenticate!
       bypass_sign_in(customer)
       if customer.create_service_request
-        redirect_to after_sign_in_path_for(customer), notice: 'Service Request created successfully.'
+        redirect_to current_requests_path, notice: 'Service Request created successfully.'
       else
         redirect_to after_sign_in_path_for(customer), alert: 'Unable to create Service Request. Please try again'
       end

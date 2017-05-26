@@ -37,7 +37,7 @@ Rails.application.routes.draw do
   end
 
   resource :dashboard, only: :show
-  resources :service_requests, only: [:index, :show]
+  resources :service_requests, only: [:index]
   
   resources :current_requests, only: [:index, :show] do
     get :cancel

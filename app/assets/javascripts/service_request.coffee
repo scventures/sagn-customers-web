@@ -55,7 +55,7 @@ setMarkers = (map) ->
         markers[location.id] = marker
         google.maps.event.addListener marker, 'click', do (marker, i) ->
           ->
-            content = "<div><h3>#{location.name}</h3><a href=#{Routes.new_location_service_request_path(location_id: location.id)} class='btn btn-red btn-lg'>SendaGuy to this location</a></div>"
+            content = "<div><h4>#{location.name}</h4><a href=#{Routes.new_location_service_request_path(location_id: location.id)} class='btn btn-red btn-lg'>SendaGuy to this location</a></div>"
             infowindow.setContent content
             infowindow.open map, marker
             showLocationImages(location.id)

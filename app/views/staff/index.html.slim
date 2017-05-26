@@ -1,14 +1,15 @@
 - content_for :title do
   .header-title.text-uppercase My Staff
 .row.mt20
-  .col-sm-12
+  .col-sm-6
+    - unless @registered_staff.size.zero?
+      h3 Registered Staff
+  .col-sm-6
     = link_to new_staff_path, class: 'pull-right', remote: true do
       p.text-center
-        = image_tag 'request-service-icon.png', width: '40%'
+        = image_tag 'request-service-icon.png', width: '50'
       span.text-center.red.text-uppercase
         |Add Staff
-- unless @registered_staff.size.zero?
-  strong Registered Staff
 .my-guys-wrapper
   .row
     - @registered_staff.in_groups_of(3) do |staff|
@@ -16,7 +17,7 @@
         - staff.compact.each do |staff|
           = render 'details', staff: staff
 - unless @invited_staff.size.zero?
-  strong Invited Staff
+  h3 Invited Staff
 .my-guys-wrapper
   .row
     - @invited_staff.in_groups_of(3) do |staff|

@@ -41,10 +41,6 @@ class LocationsController < ApplicationController
     end
   end
   
-  def show
-    @location = current_customer.current_account.locations.find(params[:id])
-  end
-  
   def destroy
     @location = current_customer.current_account.locations.build(id: params[:id])
     if @location.destroy

@@ -37,7 +37,7 @@
                     = l.input :city, label: false, input_html: {id: 'location_locality', placeholder: 'City' }
                     = l.input :state, label: false, input_html: {id: 'location_administrative_area_level_1', placeholder: 'State' }
                     = l.input :zip, label: false, input_html: {id: 'location_postal_code', placeholder: 'Zip'}
-                    = f.input :foursquare_venue_id, as: :hidden, input_html: { id: 'location_foursquare_venue_id' }
+                    = l.input :foursquare_venue_id, as: :hidden, input_html: { id: 'location_foursquare_venue_id' }
                     = l.input :geography, as: :hidden, input_html: { name: 'customer[location_attributes][geography][latitude]', id: 'location_geography_latitude' }
                     = l.input :geography, as: :hidden, input_html: { name: 'customer[location_attributes][geography][longitude]', id: 'location_geography_longitude' }
                     = f.submit 'Save & Continue', class: 'btn btn-continue text-uppercase request-continue-btn logout-credit-card', data: { continue: 'provide-photo'}

@@ -67,6 +67,7 @@ $(document).on 'click', '.provide-address-btn', (e) ->
   e.preventDefault()
   $('.venue-address').addClass('hidden')
   $('.provide-address').removeClass('hidden')
+  $.onmount()
   
 $(document).on 'select2:select', '.location-form-container .venue_name', (e)->
   $('.location_name').val(e.params.data.name)

@@ -1,0 +1,13 @@
+.row.splash
+  .col-xs-12.text-center
+    .row.content_area
+      .col-xs-12
+        p
+          strong You're one step closer to getting qualified, licensed and insured repairmen on demand!
+        p Please click the button below to download SendaGuy Now
+
+    .row.content_area#getapps_area
+      .col-xs-12.text-center
+        = link_to image_tag('btn-apple.png', class: "img-responsive"), ENV['APPLE_STORE_URL'], id: 'apple_app_link', target: :_blank, class: 'inline-block'
+      .col-xs-12.text-center
+        = link_to image_tag('btn-google.png', class: "img-responsive"), ENV['GOOGLE_STORE_URL'], id: 'android_app_link', target: :_blank, class: 'inline-block'

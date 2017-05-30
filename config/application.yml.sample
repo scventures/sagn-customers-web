@@ -11,6 +11,7 @@ development:
   SUPPORT_EMAIL:
   SUPPORT_PHONE:
   LAYER_APP_ID:
+  SEGMENT_KEY:
 
 test:
   API_URL:
@@ -25,3 +26,4 @@ test:
   SUPPORT_EMAIL:
   SUPPORT_PHONE:
   LAYER_APP_ID:
+  SEGMENT_KEY:

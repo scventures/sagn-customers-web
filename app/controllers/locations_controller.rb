@@ -50,7 +50,7 @@ class LocationsController < ApplicationController
     if @location.destroy
       redirect_to locations_path, notice: 'Location deleted successfully'
     else
-      redirect_to locations_path, alert: @staff.errors.full_messages.join(', ')
+      redirect_to locations_path, alert: @location.errors.full_messages.join(', ')
     end
   end
   

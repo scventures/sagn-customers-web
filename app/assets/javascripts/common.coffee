@@ -15,6 +15,7 @@ $.fn.steps.setStep = (step) ->
   return
 
 $(document).on 'ajax:beforeSend', 'a.with-ajax-loader', (e)->
+  $(this).find('i.loader').remove()
   $(this).append($('<i>').addClass('fa fa-spinner fa-pulse loader ml10'))
 
 $(document).on 'ajax:complete', 'a.with-ajax-loader', (e)->

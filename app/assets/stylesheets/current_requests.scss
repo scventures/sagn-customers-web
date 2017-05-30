@@ -5,7 +5,7 @@
   }
 }
 .current-request-wrapper, .past-request-wrapper {
-  border-top: 30px solid #c2272d;
+  border-top: 30px solid #898989;
   border-radius: 5px;
   margin: 10px;
   .content {
@@ -70,7 +70,7 @@
 }
 
 .current-request-wrapper.selected {
-  border-color: #898989;
+  border-color: #c2272d;
 }
 
 .card-bg {

@@ -21,11 +21,15 @@
                 = current_customer.name.try(:titleize)
               span.caret
             ul.dropdown-menu
-              li
-                = link_to 'Logout', destroy_customer_session_path, method: :delete
+             li
+               = link_to 'Profile', profile_path
+             li
+               = link_to 'Need Help?', faqs_path
+             li.no-border
+               = link_to 'Logout', destroy_customer_session_path, method: :delete
         .col-xs-5
           h3.page-title
             = yield :title
         .navbar-brand
-          = link_to dashboard_path, class: 'logo-link p0' do
+          = link_to service_requests_path, class: 'logo-link p0' do
             = image_tag 'sendaguy.png', width: '300'

@@ -1,0 +1,17 @@
+.container.faqs-page
+  .row
+    #main.col-md-12
+      h3.text-center.text-bold
+        | Help
+      - @faqs.each_with_index do |faq, index|
+        .accordion.panel-group aria-multiselectable="true" role="tablist" id = "accordion-#{index}"
+          .panel.panel-default
+            #headingOne.panel-heading role="tab" 
+              h4.panel-title
+                a aria-controls="collapseOne" aria-expanded="true" data-parent="#accordion-#{index-1}" data-toggle="collapse" href="#collapseOne-#{index}" role="button"
+                  = faq[:title]
+            .panel-collapse.collapse aria-labelledby="headingOne" role="tabpanel" id= "collapseOne-#{index}"
+              .panel-body
+                ul
+                  li
+                    = faq[:text_html].html_safe

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     get :resend_phone_confirmation
     patch :confirm_phone
   end
+  resources :faqs, only: :index
   resources :charges
   resources :venues, only: :index
   resources :locations do

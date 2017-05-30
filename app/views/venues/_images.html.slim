@@ -1,0 +1,5 @@
+.location-street-image.hidden id = "location-street-view-#{location.id}"
+#images-container
+  - if images
+    - images[:items].each do |img|
+      = image_tag "#{img[:prefix]}500x500#{img[:suffix]}", class: 'img-responsive'

@@ -25,7 +25,9 @@ Rails.application.routes.draw do
   end
   resources :faqs, only: :index
   resources :charges
-  resources :venues, only: :index
+  resources :venues, only: :index do
+    get :images, on: :member
+  end
   resources :locations, except: [:show] do
     resources :service_requests, only: [:new, :create, :edit, :update], module: 'locations'
     resources :equipment_items, only: [:index], module: 'locations'

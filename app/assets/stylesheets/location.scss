@@ -59,7 +59,28 @@ h4 {
   text-align: center;
 }
 
-#editLocation, #addLocation {
+.restaurant-details {
+  .select2-dropdown-container {
+    .select2-results {
+      max-height: 300px !important;
+    }
+  }
+  .footer {
+    margin-top: 150px;
+  }
+  .select2-container--paper:nth-child(3) {
+    display: none;
+    margin-bottom: 5px;
+  }
+  .select2-results__option.select2-results__message {
+    margin: 10px;
+  }
+  .select2-container .select2-selection--single {
+    width: 100% !important;
+  }
+}
+
+#editLocation, #addLocation, .restaurant-details {
   .modal-header {
     background: #d9534f;
     color: #FFF;
@@ -116,13 +137,6 @@ h4 {
   .select2.select2-container {
     width: 100% !important;
   }
-  .footer {
-    bottom: 0;
-    left: 0;
-    padding: 20px 15%;
-    position: fixed;
-    right: 0;
-  }
   .select2-dropdown-container {
     .select2-results {
       max-height: 400px;
@@ -147,6 +161,16 @@ h4 {
   .provide-address {
     z-index: 9999;
   }
+}
+
+#editLocation, #addLocation {
+  .footer {
+    bottom: 0;
+    left: 0;
+    padding: 20px 15%;
+    position: fixed;
+    right: 0;
+  } 
 }
 
 .pac-container {

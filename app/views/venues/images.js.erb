@@ -1,0 +1,5 @@
+$('.location-images-container').unblock()
+$(".location-images-container .location-image-wrapper#location-<%= @location.id%>").html('<%= j render 'venues/images', location: @location, images: @images || nil %>')
+<% unless @images and !@images[:items].empty? %>
+  locationStreetView(<%= @location.geography[:latitude] %>, <%= @location.geography[:longitude] %>, <%= @location.id %>)
+<% end %>

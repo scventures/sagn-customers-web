@@ -32,6 +32,7 @@ setMarkers = (map) ->
     type: 'GET'
     dataType: 'JSON'
     success: (data) ->
+      first_marker = data[0]
       markers_length =  data.length
       $.each data, (i, location) ->
         markerLatLng = new google.maps.LatLng location.geography.latitude, location.geography.longitude
@@ -41,7 +42,7 @@ setMarkers = (map) ->
         markers[location.id] = marker
         google.maps.event.addListener marker, 'click', do (marker, i) ->
           ->
-            content = "<div><h3>#{location.name}</h3><a href=#{Routes.new_location_service_request_path(location_id: location.id)} class='btn btn-red btn-lg'>SendaGuy to this location</a></div>"
+            content = "<div class='info-window'><h4>#{location.name}</h4><a href=#{Routes.new_location_service_request_path(location_id: location.id)} class='btn btn-red btn-lg'>SendaGuy to this location</a></div>"
             infowindow.setContent content
             infowindow.open map, marker
             return
@@ -50,7 +51,8 @@ setMarkers = (map) ->
         map.fitBounds bounds
         if markers_length == 1
           map.setZoom 10
-
+      google.maps.event.trigger(markers[first_marker.id], 'click');
+  
 initMap = ->
   if document.getElementById('google-map')
     map = new google.maps.Map document.getElementById('google-map'),
@@ -64,11 +66,12 @@ initMap = ->
 $.onmount '#google-map', ->
   initMap()
 
-$(document).on 'click', '.map-container a.location-link', (e) ->
+$(document).on 'click', '.map-container a.location-link, .location-images-container a.location-link', (e) ->
   e.preventDefault()
   id = $(this).data('id')
   google.maps.event.trigger markers[id], 'click'
-  $('.map-container').find('button.location-btn').trigger('click')
+  if $(this).data('collapse')
+    $('.map-container').find('button.location-btn').trigger('click')
 
 $.onmount '#wizard' , ->
   $(this).steps
@@ -93,8 +96,9 @@ $.onmount '#wizard' , ->
       form = $(this).parents('form:first')
       valid = true
       if newIndex > currentIndex
-        $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("input, select"), (i, element) ->
-          valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
+        $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select"), (i, element) ->
+          unless $(element).hasClass('venue_name')
+            valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
           return
       return valid
     onStepChanged: (event, currentIndex, priorIndex) ->
@@ -126,8 +130,9 @@ $.onmount '#wizard' , ->
             else
               $('.steps #wizard-t-3 .summary-data').append(', Urgent Request')
         when 'Restaurant Details'
-          $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
-          $('.steps #wizard-t-8 .summary-data').html($('#service-request-form .location_address').val())
+          location = $('#service-request-form .location_address').val() || $('#service-request-form .location_name').val()
+          $('.summary-details-wrapper').find('.location').html(location)
+          $('.steps #wizard-t-8 .summary-data').html(location)
         when 'Issue Image'
           setSummaryDetailsImages()
           $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
@@ -329,5 +334,41 @@ $(document).on 'click', '.service-request-signup-link', (e) ->
   $('.sign-in-fields').addClass('hidden').find('input').prop('disabled', true)
   $(form).resetClientSideValidations()
   
+$(document).on 'keypress', 'form#service-request-form', (e) ->
+  if e.which != 13
+    return
+  e.preventDefault()
+
+$.onmount '.location-container', ->
+  $this = $(this)
+  $(this).block
+    message: '<i class="fa fa-spinner fa-pulse fa-4x"></i>'
+    css:
+      border: 'none'
+      background: 'none'
+      color: '#808080'
+    overlayCSS:
+      backgroundColor: 'transparent'
+      cursor: 'wait'
+  venue_id = $(this).data('venue-id')
+  id = $(this).data('location-id')
+  lng = $(this).data('lng')
+  lat = $(this).data('lat')
+  if venue_id
+    $.ajax
+      url: Routes.images_venue_path(venue_id)
+      type: 'GET'
+      dataType: 'JSON'
+      success: (data) -> 
+        $this.unblock()
+        if data.count == 1
+          img_src = "#{data.items[0].prefix}500x500#{data.items[0].suffix}"
+          $this.find('.images-container').html($('<img>').attr({'src': img_src}))
+        else
+          locationStreetView(lat, lng, id)
+  else
+    $(this).unblock()
+    locationStreetView(lat, lng, id)
+    
 $.onmount '.service-request-edit-form .select2', ->
   $(this).select2()

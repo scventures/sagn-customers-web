@@ -70,6 +70,25 @@ $(document).on 'click', '.map-container a.location-link', (e) ->
   google.maps.event.trigger markers[id], 'click'
   $('.map-container').find('button.location-btn').trigger('click')
 
+unmarkSubSteps = (indices = []) ->
+  currentSubSteps = $('#wizard .steps ul li[aria-substep]').map ()->
+    return $(this).index()
+  markSubSteps(currentSubSteps.not(indices).toArray())
+
+markSubSteps = (indices = []) ->
+  if $('#service-request-form').hasClass('service-request-logout-form')
+    subStepIndices = indices.concat([1, 4, 5, 6, 7, 9, 10])
+  else
+    subStepIndices = indices.concat([1, 4, 5, 6, 8])
+  steps = $('#wizard .steps ul li')
+  subSteps = steps.filter(':eq(' + subStepIndices.join('), :eq(') + ')')
+  parentSteps = steps.not subSteps
+  parentSteps.removeAttr 'aria-substep'
+  subSteps.attr 'aria-substep', true
+  parentSteps.css
+    width: "#{100 / parentSteps.length}%"
+
+
 $.onmount '#wizard' , ->
   $(this).steps
     headerTag: 'h2'
@@ -80,14 +99,7 @@ $.onmount '#wizard' , ->
     titleTemplate: '<div class="number step-#index#"><div class="line line-left"></div><div class="line line-right"></div><div class="icon"></div><div class="title">#title#</div><div class="summary-data grey"></div></div>'
     onInit: ->
       $('#wizard > .steps').appendTo '#wizard'
-      if $('#service-request-form').hasClass('service-request-logout-form')
-        $.each [1, 4, 5, 6, 7, 9, 10], ->
-          $('#wizard-t-' + this).parent().attr 'aria-substep', true
-          return
-      else
-        $.each [1, 4, 5, 6, 8], ->
-          $('#wizard-t-' + this).parent().attr 'aria-substep', true
-          return
+      markSubSteps()
       return
     onStepChanging: (event, currentIndex, newIndex) ->
       form = $(this).parents('form:first')
@@ -104,10 +116,13 @@ $.onmount '#wizard' , ->
         $("#wizard-p-#{priorIndex}").find('.next-btn').removeClass('hidden')
       $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find('input, select').enableClientSideValidations()
       switch $('#wizard').steps('getStep', priorIndex).title
+        when 'Service Request'
+          category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
+          $('.steps #wizard-t-0 .summary-data').html(category)
         when 'Sub Category'
-          category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html() || ''
-          subcategory = $('#service-request-form .subcategories-wrapper input[type=radio]:checked').parent().find('p').html() || '' 
-          $('.steps #wizard-t-0 .summary-data').html("#{category} / #{subcategory}")
+          category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
+          subcategory = $('#service-request-form .subcategories-wrapper input[type=radio]:checked').parent().find('p').html()
+          $('.steps #wizard-t-0 .summary-data').html([category, subcategory].join(' / '))
           $('.summary-details-wrapper').find('.category').html("#{category} #{subcategory}")
         when 'Specific issue'
           $('.steps #wizard-t-2 .summary-data').html()
@@ -196,6 +211,7 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
     $('#wizard #wizard-p-5 .next-btn').data('step', 7)
     $('#wizard #wizard-p-7 .back-btn').data('step', 5)
     if problem_codes.length > 0
+      unmarkSubSteps([2])
       problem_codes.map((obj) -> (obj.text = obj.text or obj.name))
       $('.select_problem_code').empty()
       $('.select_problem_code').select2
@@ -203,6 +219,7 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
       $('#wizard').steps('next');
       $('#wizard #wizard-p-3 .back-btn, #wizard #wizard-p-4 .back-btn').removeData('step')
     else
+      markSubSteps([2])
       if $(this).data('equipment')
         $('#wizard').steps('setStep', 3)
         $('#wizard #wizard-p-1 .next-btn').data('step', 3)

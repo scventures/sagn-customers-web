@@ -5,7 +5,7 @@ class Customers::SessionsController < Devise::SessionsController
     if customer.authenticate!
       bypass_sign_in(customer)
       if customer.create_service_request
-        redirect_to after_sign_in_path_for(customer), notice: 'Service Request created successfully.'
+        redirect_to current_requests_path, notice: 'Service Request created successfully.'
       else
         if customer.location.errors.any?
           redirect_to service_requests_path, alert: 'Unable to create location.'
@@ -27,6 +27,6 @@ class Customers::SessionsController < Devise::SessionsController
   end
   
   def after_sign_in_path_for(resource_or_scope)
-    stored_location_for(resource_or_scope) || dashboard_path
+    stored_location_for(resource_or_scope) || service_requests_path
   end
 end

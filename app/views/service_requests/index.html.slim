@@ -1,7 +1,19 @@
 .row
-  .col-sm-5
+  .col-sm-4
     .location-images-container
-  .col-sm-7
+      - @locations.each do |location|
+          = link_to '#', data: { id: location.id, collapse: false }, class: 'location-link' do
+            .location-container data-venue-id= "#{location.foursquare_venue_id}" data-lng= "#{location.geography[:longitude]}" data-lat= "#{location.geography[:latitude]}" data-location-id="#{location.id}"
+              .location-image-wrapper
+                .location-street-image.hidden id= "location-street-view-#{location.id}"
+                .images-container
+              .location-info
+                p.name
+                  = location.name
+                p.address
+                  = location.address_1
+            hr/
+  .col-sm-8
     .map-container
       #google-map.container.pull-left
       .service-popup
@@ -14,7 +26,7 @@
             ul
               - @locations.each do |location|
                 li
-                  = link_to location.name.titleize, '#', data: { id: location.id }, class: 'location-link'
+                  = link_to location.name.titleize, '#', data: { id: location.id, collapse: true }, class: 'location-link'
               li
                 = link_to '#', data: { toggle: 'modal', target: '#addLocation'} , class: 'black' do
                   = fa_icon 'plus' 

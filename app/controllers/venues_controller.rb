@@ -12,11 +12,9 @@ class VenuesController < ApplicationController
   end
 
   def images
-    @location = current_customer.current_account.locations.find(params[:id])
-    @images = Venue.images(@location.foursquare_venue_id) unless @location.foursquare_venue_id.nil? or @location.foursquare_venue_id.blank?
-    respond_to do |format|
-      format.js
-    end
+    venue = Venue.new(id: params[:id])
+    images = venue.images
+    render json: images
   end
 
 end

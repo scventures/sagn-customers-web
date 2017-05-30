@@ -32,6 +32,9 @@
     overflow: hidden;
     position: relative;
     width: 100%;
+    .info-window {
+      max-width: 300px;
+    }
   }
   .service-popup {
     position: relative;
@@ -355,48 +358,65 @@
 }
 
 .location-images-container {
+  max-height: calc(100vh - 150px);
+  min-height: calc(100vh - 150px);
+  overflow: auto;
+  border: 2px solid #000;
+  border-radius: 5px;
   position: relative;
-  .location-image-wrapper {
-    max-height: calc(100vh - 150px);
-    overflow: auto;
-    border: 2px solid #000;
-    border-radius: 5px;
-    position: relative;
-    padding: 5px;
-    img {
-      width: 100%;
-      height: auto;
-      margin-bottom: 5px;
-    }
+  padding: 5px;
+  hr {
+    border-color: #999;
+    margin: 0px;
   }
-  .location-info {
-    background: #fff none repeat scroll 0 0;
-    border-radius: 10px;
-    bottom: 10px;
-    left: 0;
-    margin: 0 auto;
-    padding: 10px;
-    position: absolute;
-    right: 10px;
-    width: 94%;
-    z-index: 1;
-    .name {
-      font-size: 20px;
+  .location-container {
+    position: relative;
+    min-height: 350px;
+    max-height: 350px;
+    .location-image-wrapper {
+      max-height: 340px;
+      overflow: auto;
+      background: #eee;
+      img {
+        width: 100%;
+        height: 330px;
+        margin-bottom: 5px;
+      }
     }
-    .address {
-      font-size: 14px;
+    .location-info {
+      background: #fff none repeat scroll 0 0;
+      border-radius: 10px;
+      bottom: 25px;
+      left: 0;
+      margin: 0 auto;
+      padding: 10px;
+      position: absolute;
+      right: 0px;
+      width: 98%;
+      z-index: 1;
+      color: #494949;
+      .name {
+        font-size: 16px;
+        margin: 5px;
+      }
+      .address {
+        font-size: 12px;
+        margin: 5px;
+      }
     }
   }
   .blockUI.blockMsg.blockElement {
     margin-top: 40% !important;
   }
-  #location-street-view {
-    min-height: calc(100vh - 165px);
+  .location-street-image{
+    width: 100%;
+    max-height: 340px;
+    min-height: 340px;
     .message {
       color: #d1232a;
       font-size: 16px;
       left: 0;
-      padding-top: 40%;
+      padding-top: 100px;
       position: absolute;
       right: 0;
       text-align: center;

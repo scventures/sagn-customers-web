@@ -96,17 +96,17 @@ $(document).on 'shown.bs.modal', '#addLocation', ->
   form = $(this).parents().find('form')
   resetLocationForm(form)
 
-window.locationStreetView = (lat, lng) ->
-  $('#location-street-view').removeClass('hidden')
+window.locationStreetView = (lat, lng, location_id) ->
+  $("#location-street-view-#{location_id}").removeClass('hidden')
   streetViewService = new (google.maps.StreetViewService)
   STREETVIEW_MAX_DISTANCE = 100
   latLng = new google.maps.LatLng lat, lng
   streetViewService.getPanoramaByLocation latLng, STREETVIEW_MAX_DISTANCE, (streetViewPanoramaData, status) ->
     if status == google.maps.StreetViewStatus.OK
-      panorama = new google.maps.StreetViewPanorama document.getElementById('location-street-view'),
+      panorama = new google.maps.StreetViewPanorama document.getElementById("location-street-view-#{location_id}"),
         position:
           lat: lat
           lng: lng
         zoom: 1
     else
-      $('#location-street-view').html($('<span>').addClass('message').html('Location Image is not available.'))
+      $("#location-street-view-#{location_id}").html($('<span>').addClass('message').html('Location Image is not available.'))

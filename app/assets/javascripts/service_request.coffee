@@ -23,19 +23,6 @@ $(document).on 'click', '.current-request-list .details-link, .past-request-list
         backgroundColor: 'transparent'
         cursor: 'wait'
         
-showLocationImages = (location_id) ->
-  $('.location-images-container').html('')
-  $('.location-images-container').block
-    message: '<i class="fa fa-spinner fa-pulse fa-4x"></i>'
-    css:
-      border: 'none'
-      background: 'none'
-      color: '#808080'
-    overlayCSS:
-      backgroundColor: 'transparent'
-      cursor: 'wait'
-  $.get Routes.images_venue_path(location_id)
-
 setMarkers = (map) ->
   infowindow = new google.maps.InfoWindow()
   bounds = new google.maps.LatLngBounds()
@@ -55,10 +42,9 @@ setMarkers = (map) ->
         markers[location.id] = marker
         google.maps.event.addListener marker, 'click', do (marker, i) ->
           ->
-            content = "<div><h4>#{location.name}</h4><a href=#{Routes.new_location_service_request_path(location_id: location.id)} class='btn btn-red btn-lg'>SendaGuy to this location</a></div>"
+            content = "<div class='info-window'><h4>#{location.name}</h4><a href=#{Routes.new_location_service_request_path(location_id: location.id)} class='btn btn-red btn-lg'>SendaGuy to this location</a></div>"
             infowindow.setContent content
             infowindow.open map, marker
-            showLocationImages(location.id)
             return
         bounds.extend markerLatLng
       unless bounds.isEmpty()
@@ -80,11 +66,12 @@ initMap = ->
 $.onmount '#google-map', ->
   initMap()
 
-$(document).on 'click', '.map-container a.location-link', (e) ->
+$(document).on 'click', '.map-container a.location-link, .location-images-container a.location-link', (e) ->
   e.preventDefault()
   id = $(this).data('id')
   google.maps.event.trigger markers[id], 'click'
-  $('.map-container').find('button.location-btn').trigger('click')
+  if $(this).data('collapse')
+    $('.map-container').find('button.location-btn').trigger('click')
 
 $.onmount '#wizard' , ->
   $(this).steps
@@ -336,3 +323,33 @@ $(document).on 'keypress', 'form#service-request-form', (e) ->
     return
   e.preventDefault()
 
+$.onmount '.location-container', ->
+  $this = $(this)
+  $(this).block
+    message: '<i class="fa fa-spinner fa-pulse fa-4x"></i>'
+    css:
+      border: 'none'
+      background: 'none'
+      color: '#808080'
+    overlayCSS:
+      backgroundColor: 'transparent'
+      cursor: 'wait'
+  venue_id = $(this).data('venue-id')
+  id = $(this).data('location-id')
+  lng = $(this).data('lng')
+  lat = $(this).data('lat')
+  if venue_id
+    $.ajax
+      url: Routes.images_venue_path(venue_id)
+      type: 'GET'
+      dataType: 'JSON'
+      success: (data) -> 
+        $this.unblock()
+        if data.count == 1
+          img_src = "#{data.items[0].prefix}500x500#{data.items[0].suffix}"
+          $this.find('.images-container').html($('<img>').attr({'src': img_src}))
+        else
+          locationStreetView(lat, lng, id)
+  else
+    $(this).unblock()
+    locationStreetView(lat, lng, id)

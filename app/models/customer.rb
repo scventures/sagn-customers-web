@@ -97,4 +97,10 @@ class Customer
     end
   end
 
+  def get_faqs
+    Customer.get_raw('customers/faqs') do |parsed_data, response|
+      return response.status == 200 ? parsed_data[:data][:faqs] : nil
+    end
+  end
+
 end

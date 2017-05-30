@@ -6,15 +6,16 @@
 .location-list {
   background: #eeeeee;
   border-radius: 5px;
+  min-height: 430px;
   img {
     width: 100%;
   }
   h3 {
-    font-size: 22px;
+    font-size: 18px;
   }
   h4 {
-    font-size: 18px;
-    line-height: 25px;
+    font-size: 14px;
+    line-height: 18px;
   }
   h3 {
     text-align: center;
@@ -28,7 +29,7 @@ h4 {
 
 .location-list h4::before {
   content: "■";
-  font-size: 50px;
+  font-size: 40px;
   color: #d8d8d8;
   vertical-align: middle;
 }
@@ -45,7 +46,11 @@ h4 {
 }
 
 .btn-holder {
-  margin:30px auto 15px auto
+  margin: 30px auto 15px auto;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
 }
 
 .icon-add{ 

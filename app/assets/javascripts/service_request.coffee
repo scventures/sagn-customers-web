@@ -79,6 +79,7 @@ $.onmount '#wizard' , ->
     bodyTag: 'section'
     transitionEffect: 'slideLeft'
     enableKeyNavigation: false
+    autoFocus: false
     titleTemplate: '<div class="number step-#index#"><div class="line line-left"></div><div class="line line-right"></div><div class="icon"></div><div class="title">#title#</div><div class="summary-data grey"></div></div>'
     onInit: ->
       $('#wizard > .steps').appendTo '#wizard'
@@ -308,6 +309,7 @@ $(document).on 'click', '.service-request-signin-link', (e) ->
   $('.signin-header').removeClass('hidden')
   $('.sign-up-fields').addClass('hidden').find('input').prop('disabled', true)
   $('.sign-in-fields').removeClass('hidden').find('input').prop('disabled', false)
+  $(form).resetClientSideValidations()
 
 $(document).on 'click', '.service-request-signup-link', (e) ->
   e.preventDefault()
@@ -317,6 +319,7 @@ $(document).on 'click', '.service-request-signup-link', (e) ->
   $('.signin-header').addClass('hidden')
   $('.sign-up-fields').removeClass('hidden').find('input').prop('disabled', false)
   $('.sign-in-fields').addClass('hidden').find('input').prop('disabled', true)
+  $(form).resetClientSideValidations()
   
 $(document).on 'keypress', 'form#service-request-form', (e) ->
   if e.which != 13

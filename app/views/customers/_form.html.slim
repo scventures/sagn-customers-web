@@ -102,13 +102,10 @@
                   = f.input :tos_accepted, as: :boolean, label: tos_label
                 .sign-in-fields.hidden
                   = f.input :email, required: false, autofocus: true, label: false, placeholder: 'Email', disabled: true
-                  = f.input :password, required: false, label: false, placeholder: 'Password', disabled: true
+                  = f.input :password, required: false, label: false, placeholder: 'Password', disabled: true, validate: false
               .form-actions
                 = f.button :submit, 'Submit' , class: 'btn-red'
             .col-sm-6
               .mobile-wrapper
                 h3 Get repairs on demand
                 = image_tag 'mobile.png', width: '250', height: '350'
-        .next-btn-wrapper
-          = link_to '#', class: 'hidden next-btn' do
-            = fa_icon 'chevron-right'

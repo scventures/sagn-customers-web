@@ -11,3 +11,4 @@ head
   = javascript_tag "stripe = Stripe('#{ENV['STRIPE_PUBLISHABLE_KEY']}')"
   - if customer_signed_in?
     = javascript_tag "setupLayerClient('#{ENV['LAYER_APP_ID']}')"
+  = javascript_include_tag 'segment', 'data-turbolinks-eval': false

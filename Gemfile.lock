@@ -54,6 +54,7 @@ GEM
       sass (>= 3.3.4)
     bootstrap-sass-extras (0.0.7)
       rails (>= 3.1.0)
+    browser (2.4.0)
     builder (3.2.3)
     byebug (9.0.6)
     case_transform (0.2)
@@ -288,6 +289,7 @@ DEPENDENCIES
   active_model_serializers
   bootstrap-sass (~> 3.3.7)
   bootstrap-sass-extras
+  browser
   byebug
   client_side_validations
   client_side_validations-simple_form

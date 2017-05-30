@@ -8,5 +8,3 @@ ul.nav.navbar-nav.navbar-right
   - unless params[:controller] == 'customers/registrations' or params[:controller] == 'customers'
     li
       = link_to 'Sign up', new_customer_registration_path, class: 'text-capitalize dark-grey bold-text'
-  li
-    = link_to 'Join Now', "#{ENV['CONTRACTOR_INVITATION_URL']}", class: 'text-uppercase ml10 btn-border'

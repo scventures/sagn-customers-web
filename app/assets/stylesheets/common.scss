@@ -264,7 +264,7 @@ body {
     -webkit-transition: all 0.25s ease-out;
     -moz-transition: all 0.25s ease-out;
     transition: all 0.25s ease-out;
-    width: calc(100% + 150px);
+    width: calc(100% + 105px);
     button[data-toggle='offcanvas'] {
       display: block !important;
       i {
@@ -290,7 +290,7 @@ body {
     }
   }
   .row-offcanvas-left {
-    left: -150px;
+    left: -105px;
   }
   .row-offcanvas-left.active {
     left: 0;

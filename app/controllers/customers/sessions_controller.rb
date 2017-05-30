@@ -7,13 +7,13 @@ class Customers::SessionsController < Devise::SessionsController
       if customer.create_service_request
         redirect_to current_requests_path, notice: 'Service Request created successfully.'
       else
-        redirect_to after_sign_in_path_for(customer), alert: 'Unable to create Service Request. Please try again'
+        if customer.location.errors.any?
+          redirect_to service_requests_path, alert: 'Unable to create location.'
+        else
+          redirect_to new_location_service_request_path(customer.location, service_request: customer.service_request.attributes), alert: 'Unable to create service request. Please try again.'
+        end
       end
     else
-      @categories = Category.all.fetch.group_by(&:parent_category_id)
-      customer.location = Location.new unless customer.location?
-      customer.service_request = ServiceRequest.new unless customer.service_request?
-      customer.service_request.issue_images = Her::Collection.new
       respond_to do |format|
         format.js
       end

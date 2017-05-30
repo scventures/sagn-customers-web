@@ -41,9 +41,8 @@
       padding: 0px 15px;
       display: inline-block;
       position: absolute;
-      left: 50%;
-      margin-left: -100px;
-      min-width: 400px;
+      right: 1%;
+      min-width: 300px;
       min-height: 75px;
     }
     button {
@@ -61,21 +60,17 @@
       color: #fc3535;
     }
     ul {
-      max-height: 350px;
+      max-height: 300px;
       overflow-y: auto;
-      max-width: 400px;
-      margin: 0px;
+      max-width: 300px;
+      margin-bottom: 70px;
       padding: 0px;
       li {
         margin: 0px;
         padding: 0px;
         list-style: none;
-        font-size: 20px;
+        font-size: 16px;
         padding: 10px 0 15px 10%;
-        &:last-child {
-          border-top: 1px solid #eee;
-          padding: 20px 10px;
-        }
         a {
           color: #999;
           &:hover, &:focus {
@@ -83,6 +78,13 @@
           }
         }
       }
+    }
+    .footer {
+      border-top: 1px solid #eee;
+      padding: 20px 10px;
+      position: absolute;
+      bottom: 0px;
+      font-size: 20px;
     }
   }
 }

@@ -69,6 +69,3 @@ $.onmount '.rating-container', ->
   
 $(document).on 'ready shown.bs.modal load turbolinks:load turboboost:complete', ->
   $.onmount()
-
-$(document).on 'click', '.stars a.star', ->
-  $('.customer-rating-input').val($('.rating-container input:checked').val())

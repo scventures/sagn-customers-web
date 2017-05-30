@@ -1,5 +1,6 @@
-= link_to root_path, class: 'logo-link p0 navbar-brand' do
-  = image_tag 'sendaguy.png', width: '300'
+.navbar-brand
+  = link_to root_path, class: 'logo-link p0' do
+    = image_tag 'sendaguy.png', width: '300'
 ul.nav.navbar-nav.navbar-right
   - unless params[:controller] == 'customers/sessions' or params[:controller] == 'pages'
     li

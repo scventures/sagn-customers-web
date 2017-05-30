@@ -1,7 +1,7 @@
 .left-sidebar {
   width: inherit;
-  min-width: 150px;
-  max-width: 150px;
+  min-width: 105px;
+  max-width: 105px;
   background: #fafafa;
   float: left;
   height: 100%;
@@ -88,3 +88,7 @@
 }
 
 span.current-customer { padding-left: 10px; font-size: 18px; margin: 5px; }
+
+nav.navbar.header-inside.inner-header.navbar-fixed-top {
+  height: 118px !important;
+}

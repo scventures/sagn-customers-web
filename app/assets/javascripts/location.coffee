@@ -37,10 +37,7 @@ $.onmount '.location-form-container .venue_name, .restaurant-details .venue_name
       dataType: 'JSON'
       type: 'GET'
       data: (params) ->
-        if $('.main-wrapper').data('ll')
-          {ll: $('.main-wrapper').data('ll'), query: params['term'] }
-        else
-          {intent: 'global', query: params['term'] }
+        { query: params['term'], near: 'New York, NY' }
       results: (data, page)->
         return data.result
       processResults: (data, params) ->
@@ -54,16 +51,16 @@ $.onmount '.location-form-container .venue_name, .restaurant-details .venue_name
         data.text
     dropdownParent: $('.select2-dropdown-container')
 
-$(document).ready ->
-  getLocation()
+#$(document).ready ->
+#  getLocation()
 
-getLocation = ->
-  if navigator.geolocation
-    navigator.geolocation.getCurrentPosition showPosition
+#getLocation = ->
+#  if navigator.geolocation
+#    navigator.geolocation.getCurrentPosition showPosition
 
-showPosition = (position) ->
-  ll = "#{position.coords.latitude},#{position.coords.longitude}"
-  $('.main-wrapper').attr('data-ll', ll)
+#showPosition = (position) ->
+#  ll = "#{position.coords.latitude},#{position.coords.longitude}"
+#  $('.main-wrapper').attr('data-ll', ll)
 
 $(document).on 'click', '.provide-address-btn', (e) ->
   e.preventDefault()

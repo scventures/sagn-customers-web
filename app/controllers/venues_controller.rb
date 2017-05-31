@@ -3,11 +3,7 @@ class VenuesController < ApplicationController
   before_action :authenticate_customer!, only: :images
   
   def index
-    if params[:ll]
-      venues = Venue.all(ll: params[:ll], query: params[:query])
-    else
-      venues = Venue.all(query: params[:query], intent: params[:intent])
-    end
+    venues = Venue.all(params)
     render json: venues, each_serializer: VenueSerializer
   end
 

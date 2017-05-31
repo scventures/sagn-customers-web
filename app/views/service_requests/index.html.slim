@@ -29,7 +29,7 @@
               - @locations.each do |location|
                 li
                   = link_to location.name.titleize, '#', data: { id: location.id, collapse: true }, class: 'location-link'
-              li
+              li.footer
                 = link_to '#', data: { toggle: 'modal', target: '#addLocation'} , class: 'black' do
                   = fa_icon 'plus' 
                   | Add New Location

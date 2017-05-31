@@ -32,7 +32,7 @@ setMarkers = (map) ->
     type: 'GET'
     dataType: 'JSON'
     success: (data) ->
-      first_marker = data[0]
+      last_marker = data[data.length - 1]
       markers_length =  data.length
       $.each data, (i, location) ->
         markerLatLng = new google.maps.LatLng location.geography.latitude, location.geography.longitude
@@ -51,7 +51,7 @@ setMarkers = (map) ->
         map.fitBounds bounds
         if markers_length == 1
           map.setZoom 10
-      google.maps.event.trigger(markers[first_marker.id], 'click');
+      google.maps.event.trigger(markers[last_marker.id], 'click');
   
 initMap = ->
   if document.getElementById('google-map')
@@ -105,6 +105,11 @@ $.onmount '#wizard' , ->
       markSubSteps()
       return
     onStepChanging: (event, currentIndex, newIndex) ->
+      title = $('#wizard').steps('getStep', currentIndex).title
+      if title == 'Summary &amp; Payment'
+        $('.service-request-logout-form p.title').addClass('hidden')
+      else
+        $('.service-request-logout-form p.title').removeClass('hidden')
       form = $(this).parents('form:first')
       valid = true
       if newIndex > currentIndex

@@ -8,7 +8,7 @@ class PagesController < ApplicationController
   def layout_for_page
     case params[:id]
     when 'terms_of_use'
-      'application'
+      customer_signed_in? ? 'application' : 'devise'
     else
       'devise'
     end

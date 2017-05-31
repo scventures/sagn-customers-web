@@ -3,9 +3,9 @@
 .row.is-flex
   .col-sm-6.past-request-list
     - unless @past_requests.count.zero? 
-      - @past_requests.each do |past_request|
+      - @past_requests.each_with_index do |past_request, index|
         = link_to past_request_path(past_request), remote: true, class: 'details-link' do
-          .past-request-wrapper
+          .past-request-wrapper class = "#{'selected' if index == 0}"
             .content.grey
               = fa_icon 'chevron-right', class: 'fa-2x grey pull-right mt20'
               p

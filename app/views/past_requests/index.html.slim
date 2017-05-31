@@ -27,6 +27,8 @@
     - else
       h3.ml10.grey You dont have any service requests to show
   .col-sm-6.past-request-details
+    - if @service_request
+      = render 'show', service_request: @service_request, account: @account, activities: @activities, estimate: @estimate, assignment: @assignment, customer_rating: @customer_rating
 #issueModal.modal.fade role="dialog"
   .modal-dialog
     .modal-content

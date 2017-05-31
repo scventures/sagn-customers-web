@@ -22,10 +22,6 @@ html
             = link_to locations_path, class: '' do
               i.icon-location
               p Locations
-          li class="#{ 'active' if params[:controller] == 'dashboards' or params[:controller] == 'profiles'}"
-            = link_to profile_path, class: '' do
-              i.icon-profile
-              p Profile
           li class="#{ 'active' if params[:controller] == 'staff'}"
             = link_to staff_index_path, class: '' do
               i.icon-staff

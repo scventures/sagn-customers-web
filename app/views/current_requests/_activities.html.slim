@@ -4,7 +4,7 @@
   = image_tag 'notification.png'
   strong.ml10.fs16 Service Request Status
   .white-container
-    - activities.each do |activity|
+    - activities.reverse.each do |activity|
       p
         = time_format(activity.created_at)
         span.ml10

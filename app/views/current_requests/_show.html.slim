@@ -1,5 +1,8 @@
 .details
   - if service_request.assigned? and service_request.responded_request_assignment_id?
+    - if service_request.service_requests_assignments and (service_request.service_requests_assignments.first[:current_estimation] and service_request.service_requests_assignments.first[:current_estimation][:status] != 'accepted')
+      = render 'current_requests/estimation', service_request: service_request, assignment: service_request.service_requests_assignments.first
+    - else
       .assignments-wrapper.mt20
         - assignments.each do |assignment|
           .assignment-wrapper.white-container id=assignment.id
@@ -15,7 +18,7 @@
                   = "#{assignment.contractor_account[:name]} can send:"
                   br/
                   = assignment.technician[:name] if assignment.technician
-                  .rating-container
+                  .static-rating-container
                     .star.fullStar
                     .star.fullStar
                     .star.fullStar
@@ -59,9 +62,9 @@
                   br/
                   = link_to "Pay #{humanized_money_with_symbol(assignment.diagnostic_fee, symbol_after_without_space: true)}", '#', class: 'btn btn-danger w100-pct text-center mt20'
             - else
-              = render 'activities', service_request: service_request, activities: activities
+              = render 'current_requests/activities', service_request: service_request, activities: activities
   - else
-    = render 'activities', service_request: service_request, activities: activities
+    = render 'current_requests/activities', service_request: service_request, activities: activities
   #serviceRequestDetail.modal.fade role="dialog"
     .modal-dialog.modal-sm
       .modal-content

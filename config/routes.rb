@@ -51,6 +51,11 @@ Rails.application.routes.draw do
     resources :service_request_assignments do
       get :start_accepting
       post :payment_authorize
+      get :start_accepting_estimation
+      post :accept_estimation
+      get :consider_estimation
+      get :start_declining_estimation
+      post :decline_estimation
     end
   end
   

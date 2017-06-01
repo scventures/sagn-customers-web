@@ -1,0 +1,6 @@
+<% unless @start_accepting_estimation %>
+  $('.current-request-details').prepend('<%= flash_container(:danger, 'Something went wrong. Please try again') %>')
+<% else %>
+  $('#addCardForEstimate').modal('show')
+  $('#addCardForEstimate .modal-body').html('<%= j render partial: 'estimation_default_payment', locals: { service_request: @service_request, assignment: @assignment} %>')
+<% end %>

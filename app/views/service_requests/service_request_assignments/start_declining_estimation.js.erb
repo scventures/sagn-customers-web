@@ -1,0 +1,2 @@
+$('#declineEstimate').modal('show')
+$('#declineEstimate .modal-body').html('<%= j render partial: 'start_declining_estimation', locals: {assignment: @assignment, service_request: @service_request, estimation: @estimation} %>')

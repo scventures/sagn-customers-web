@@ -26,6 +26,10 @@ class Assignment
     self.status == 'customer_accepted'
   end
   
+  def customer_accepting?
+    self.status == 'customer_accepting'
+  end
+  
   def waiting?
     self.status == 'waiting'
   end

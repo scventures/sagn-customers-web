@@ -6,7 +6,7 @@
       .assignments-wrapper.mt20
         - assignments.each do |assignment|
           .assignment-wrapper.white-container id=assignment.id
-            - if assignment.responded?
+            - if assignment.responded? or assignment.customer_accepting?
               .text-center.fs20
                 strong.black We`ve found a technician for you
                 .red Please respond as soon as possible

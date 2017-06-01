@@ -39,7 +39,7 @@
         = "You must authorize a charge of #{assignment[:current_estimation][:total_estimate]} that will becharged when the work is completed"
     .p20
       p
-        button.btn.btn-red data-target="#payment-methods" data-toggle="collapse" type="button" Accept and authorize charge
+        button.btn.btn-red data-target="#payment-methods" data-toggle="collapse" type="button" Accept and Authorize charge
       #payment-methods.white-container.collapse
         strong.fs20.text-center Pick a payment method:
         = link_to 'Default Payment Method', service_requests_service_request_assignment_start_accepting_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-grey mt10'

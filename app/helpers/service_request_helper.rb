@@ -18,7 +18,7 @@ module ServiceRequestHelper
   
   def estimation_dies(dies_at)
     dies_at = Time.parse dies_at
-    dies_at > Time.now ? true : false
+    Time.now > dies_at ? true : false
   end
   
   

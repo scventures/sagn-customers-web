@@ -16,4 +16,10 @@ module ServiceRequestHelper
     Money.new(cents)
   end
   
+  def estimation_dies(dies_at)
+    dies_at = Time.parse dies_at
+    Time.current > dies_at ? true : false
+  end
+  
+  
 end

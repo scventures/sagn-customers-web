@@ -8,3 +8,19 @@
           = render 'details', current_request: current_request
   .col-sm-6.current-request-details
     = render 'show', service_request: @current_request, account: @account, activities: @activities, assignments: @assignments
+
+#addCardForEstimate.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close data-dismiss="modal" type="button"  ×
+        h4.modal-title Authorize Payment
+      .modal-body
+
+#declineEstimate.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close data-dismiss="modal" type="button"  ×
+        h4.modal-title Decline Estimate
+      .modal-body

@@ -1,0 +1,9 @@
+.message
+  | If you decline this estimate, this service request will be closed and the contractor will only be able to charge for the diagnostic fee. If you still need service, you'll need to put in a new service request.
+  p.links.text-right
+    = link_to 'Decline Estimate', '#', class: 'decline-estimate-link text-uppercase'
+    = link_to 'Cancel', '#', data: { dismiss: 'modal' }, class: 'text-uppercase ml10'
+.decline-reason.hidden
+  = simple_form_for estimation, url: service_requests_service_request_assignment_decline_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true do |f|
+    = f.input :reason, as: :radio_buttons, collection: ['Found another Technician', 'Price too high', 'Dont like/trust contractor', 'Other Reason'], label: 'Please choose a reason:'
+    = f.submit 'Submit'

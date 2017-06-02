@@ -1,0 +1,12 @@
+.panel-body.card-details.mt0
+  #payment-form
+    #flash-messages
+    .form-row.col-sm-12
+      label for="card-element"
+        | Credit or debit card
+      #card-element
+      #card-errors
+  = simple_form_for @service_request, url: service_requests_service_request_assignment_accept_estimation_path({service_request_assignment_id: params[:service_request_assignment_id], service_request_id: @service_request.id}), method: 'post', turboboost: true, html: {id: 'add_new_card', class: 'form-horizontal'} do |f|
+    = f.input :token, as: 'hidden', input_html: {class: 'token'}
+    .actions.center
+      = f.submit "Pay #{humanized_money_with_symbol(@assignment.diagnostic_fee, symbol_after_without_space: true)}", class: 'btn btn-danger mt20 w50-pct credit_card_button'

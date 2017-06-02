@@ -301,8 +301,10 @@ $(document).on 'select2:select', '.select_subcategory', (e) ->
   
 $.onmount 'form#service-request-form', (e) ->
   if $(this).find('.has-error').length > 0
-    $('section').css('display', 'none')
-    $(this).find('.has-error').first().parents('section').css('display', 'block')
+    section_id = $(this).find('.has-error').first().parents('section').attr('id')
+    stepNumber = section_id.split('-')[2]
+    $('#wizard').steps('setStep', stepNumber);
+    $('.steps li').addClass('done')
   
 $(document).on 'click', '.left-sidebar ul li a.past-requests-link', (e) ->
   e.preventDefault()
@@ -394,3 +396,8 @@ $.onmount '.location-container', ->
     
 $.onmount '.service-request-edit-form .select2', ->
   $(this).select2()
+
+$(document).on 'click', '.decline-estimate-link', (e)->
+  e.preventDefault()
+  $('#declineEstimate .message').addClass('hidden')
+  $('#declineEstimate .decline-reason').removeClass('hidden')

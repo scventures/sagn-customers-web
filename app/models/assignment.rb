@@ -52,4 +52,43 @@ class Assignment
     end
   end
   
+  def start_accepting_estimation
+    Assignment.post_raw("customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/start_accepting_estimation" ) do |parsed_data, response|
+      if response.status == 400
+        populate_errors(parsed_data[:errors])
+      elsif response.status == 200
+        return true
+      end
+    end
+  end
+  
+  def accept_estimation(token)
+    Assignment.post_raw("customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/accept_estimation", {stripe_token: token} ) do |parsed_data, response|
+      if response.status == 400
+        populate_errors(parsed_data[:errors])
+      elsif response.status == 200
+        return true
+      end
+    end
+  end
+  
+  def decline_estimation(reason)
+    Assignment.post_raw("customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/decline_estimation", {reason: reason} ) do |parsed_data, response|
+      if response.status == 400
+        populate_errors(parsed_data[:errors])
+      elsif response.status == 200
+        return true
+      end
+    end
+  end
+  
+  def consider_estimation
+    Assignment.post_raw("customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/consider_estimation") do |parsed_data, response|
+      if response.status == 400
+        populate_errors(parsed_data[:errors])
+      elsif response.status == 200
+        return true
+      end
+    end
+  end
 end

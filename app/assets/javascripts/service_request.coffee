@@ -13,15 +13,17 @@ $(document).on 'click', '.current-request-list .details-link, .past-request-list
   $('.current-request-wrapper, .past-request-wrapper').removeClass('selected')
   $(this).find('.current-request-wrapper, .past-request-wrapper').addClass('selected')
   $('.current-request-details, .past-request-details').html('')
-  $('.current-request-details, .past-request-details').block
-      message: '<i class="fa fa-spinner fa-spin fa-4x"></i>'
-      css:
-        border: 'none'
-        background: 'none'
-        color: '#808080'
-      overlayCSS:
-        backgroundColor: 'transparent'
-        cursor: 'wait'
+  $('.current-request-details, .past-request-details').block blockUI
+
+blockUI =
+  message: '<i class="fa fa-spinner fa-pulse fa-4x"></i>'
+  css:
+    border: 'none'
+    background: 'none'
+    color: '#808080'
+  overlayCSS:
+    backgroundColor: 'transparent'
+    cursor: 'wait'
         
 setMarkers = (map) ->
   infowindow = new google.maps.InfoWindow()
@@ -150,12 +152,12 @@ $.onmount '#wizard' , ->
             else
               $('.steps #wizard-t-3 .summary-data').append(', Urgent Request')
         when 'Restaurant Details'
-          location = $('#service-request-form .location_address').val() || $('#service-request-form .location_name').val()
+          location = $('#service-request-form .location_name').val() || $('#service-request-form .location_address').val()
           $('.summary-details-wrapper').find('.location').html(location)
           $('.steps #wizard-t-8 .summary-data').html(location)
         when 'Issue Image'
           setSummaryDetailsImages()
-          $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_address').val())
+          $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_name').val())
           if !$('.steps #wizard-t-7').parents('li:first').hasClass('disabled')
             images = $('.provide-photo-img').find('img').length
             $('.steps #wizard-t-7 .summary-data').html("#{images} Issue Image(s)")
@@ -180,11 +182,14 @@ setEquipment = ->
       type: 'GET'
       dataType: 'json'
       success: (data) ->
-        data.map((obj) -> (obj.text = obj.text or obj.subcategory.name))
-        $('.select_equipment').empty()
-        $('.select_equipment').select2
-          placeholder: 'Please select Equipment'
-          data: data
+        $('form:visible').unblock()
+        if data.length > 0
+          data.map((obj) -> (obj.text = obj.text or obj.subcategory.name))
+          $('.equipment-field-wrapper').removeClass('hidden')
+          $('.select_equipment').empty()
+          $('.select_equipment').select2
+            placeholder: 'Please select Equipment'
+            data: data
   
 $(document).on 'change, click', '.category-wrapper input[type=radio]', ->
   setSubcategoriesImages($(this).val())
@@ -198,12 +203,12 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   if $(this).data('equipment')
     $('.equipment_wrapper').removeClass('hidden')
     if !($('form:visible').hasClass('service-request-logout-form'))
-      $('.equipment-field-wrapper').removeClass('hidden')
-    $('.select_equipment').select2()
-    setEquipment()
+      $('form:visible').block blockUI
+      setEquipment()
   else
     $('a.problem-details-link').attr('data-equipment', true)
   brands.map((obj) -> (obj.text = obj.text or obj.name))
+  $('#service_request_brand_name').val(brands[0].name)
   $('.select_brand').empty()
   $('.select_brand').select2
     placeholder: 'Please select Brand'

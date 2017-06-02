@@ -1,4 +1,5 @@
 = simple_form_for service_request, url: location_service_requests_path(location), validate: true, turboboost: true, html: { multipart: true, id: 'service-request-form' } do |f|
+  = hidden_field_tag 'location_name', location.name, class: 'location_name'
   = hidden_field_tag 'location_address', location.address_1, class: 'location_address'
   = f.input :location_id, as: :hidden
   p.title Request Service

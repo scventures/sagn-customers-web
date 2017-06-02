@@ -397,7 +397,7 @@ $.onmount '.location-container', ->
 $.onmount '.service-request-edit-form .select2', ->
   $(this).select2()
 
-$(document).on 'click', '.declin-estimate-link', (e)->
+$(document).on 'click', '.decline-estimate-link', (e)->
   e.preventDefault()
   $('#declineEstimate .message').addClass('hidden')
   $('#declineEstimate .decline-reason').removeClass('hidden')

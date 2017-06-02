@@ -15,6 +15,7 @@ class ServiceRequests::ServiceRequestAssignmentsController < ApplicationControll
     token = params['service_request']['token'] if params['service_request']
     if @assignment.accept(token)
       @service_request = @account.service_requests.find(params[:service_request_id])
+      @service_request.account_id = @account.id
       @activities = @service_request.activities
     end
     respond_to do |format|

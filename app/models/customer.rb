@@ -74,14 +74,22 @@ class Customer
     end
     errors.blank?
   end
-  
+
+  def create_or_find_location
+    return location if location.save
+    if location.errors[:name].include? 'Location already exists'
+      current_account.locations.bsearch {|l| l.name == location.name }
+    elsif location.errors[:address_1].include? 'Location already exists'
+      current_account.locations.bsearch {|l| l.address_1 == location.address_1 }
+    end
+  end
+
   def create_service_request
     self.populate_attributes
-    location = self.location
     location.account_id = self.current_account_id
-    if location.save
+    if loc = create_or_find_location
       service_request = self.service_request
-      service_request.location_id = location.id
+      service_request.location_id = loc.id
       service_request.account_id = self.current_account_id
       service_request.save
     end

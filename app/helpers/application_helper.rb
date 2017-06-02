@@ -7,7 +7,7 @@ module ApplicationHelper
   
   def time_format(date)
     datetime = DateTime.parse date
-    datetime.strftime('%I:%H %p')
+    datetime.getlocal.strftime('%I:%M %p')
   end 
   
   def flash_container(type, message, args={})

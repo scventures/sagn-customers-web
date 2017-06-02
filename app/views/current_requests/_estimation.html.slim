@@ -1,0 +1,63 @@
+.p20
+  h3 We have an estimate for you to review:
+  .estimation-container
+    .header.fs20
+      = "The diagnostic fee of #{humanized_money_with_symbol(cents_to_money(assignment[:diagnostic_fee_cents]), symbol_after_without_space: true)}  has already been paid"
+    .content
+      h3.mt10 This estimate is for the additional work needed to complete your job.
+      .mt10
+        - if estimation_dies(assignment[:current_estimation][:dies_at])
+          h3.text-center.red You did not approve this estimate within 30 minutes.
+          p.mt10.fs16 You can still accept this estimate, but the techinican will likely provide revised estimate including the cost for them to return to you location
+        - else
+          h3.text-center.red You have 30 minutes left to approve this estimate
+          p.mt10.fs16
+            |This can be fixed today by the technician currently on site and this is the estimate to complete the fix. If you dont approve in time there may be added cost for the technician to return.
+      .mt20.fs20
+        strong
+          p = "#{assignment[:contractor_account][:name]} has provided the following estimate"
+          .row
+            .col-sm-6 Labor:
+            .col-sm-6.text-right
+              = humanized_money_with_symbol(cents_to_money(assignment[:current_estimation][:labor_cents]), symbol_after_without_space: true)
+          .row
+            .col-sm-6 Parts:
+            .col-sm-6.text-right
+              = humanized_money_with_symbol(cents_to_money(assignment[:current_estimation][:parts_cents]), symbol_after_without_space: true)
+          .row
+            .col-sm-6 Tax:
+            .col-sm-6.text-right
+              = humanized_money_with_symbol(cents_to_money(assignment[:current_estimation][:tax_cents]), symbol_after_without_space: true)
+          .row.mt10
+            .col-sm-6 Estimate Total:
+            .col-sm-6.text-right
+              = assignment[:current_estimation][:total_estimate]
+      - unless assignment[:current_estimation][:description].blank?
+        h4 Description of Work
+        p.fs16 = assignment[:current_estimation][:description]
+      h4.text-left.mt30
+        = "You must authorize a charge of #{assignment[:current_estimation][:total_estimate]} that will becharged when the work is completed"
+    .p20
+      p
+        button.btn.btn-red data-target="#payment-methods" data-toggle="collapse" type="button" Accept and Authorize charge
+      #payment-methods.white-container.collapse
+        strong.fs20.text-center Pick a payment method:
+        = link_to 'Default Payment Method', service_requests_service_request_assignment_start_accepting_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-grey mt10 with-ajax-loader'
+        br/
+        = link_to "Pay #{assignment[:current_estimation][:total_estimate]}", service_requests_service_request_assignment_accept_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-grey mt10 with-ajax-loader', method: :post
+      p
+        = link_to 'Decline', service_requests_service_request_assignment_start_declining_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-grey mt10 with-ajax-loader'
+      p
+        = link_to 'I need to think about it', service_requests_service_request_assignment_consider_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, data: { confirm: 'Keep in mind this estimate will expire shortly and there may be added cost if the technician needs to return.' }, class: 'btn btn-grey with-ajax-loader'
+      p.text-center.fs12.mt10
+        |By Accepting you agree to out 
+        = link_to 'Terms of use', page_path('terms_of_use')
+#add_card.modal.fade role="dialog"
+  .modal-dialog
+    .modal-content.w110-pct
+      .modal-header.text-center.bg-red
+        = link_to '#', data: { dismiss: 'modal'}, class: 'pull-left' do
+          = fa_icon 'chevron-left', class: 'fa-2x white'
+        span.modal-title.white.fs20
+          | Authorize Payment
+      .modal-body            

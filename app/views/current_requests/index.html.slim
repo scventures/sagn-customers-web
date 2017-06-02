@@ -6,5 +6,30 @@
       = link_to current_request_path(current_request), remote: true, class: 'details-link' do
         .current-request-wrapper id = "current-request-details-#{current_request.id}" class = "#{'selected' if index == 0}"
           = render 'details', current_request: current_request
-  .col-sm-6.current-request-details
-    = render 'show', service_request: @current_request, account: @account, activities: @activities, assignments: @assignments
+  .col-sm-6
+    .current-request-details
+      = render 'show', service_request: @current_request, account: @account, activities: @activities, assignments: @assignments
+
+#addCardForEstimate.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close data-dismiss="modal" type="button"  ×
+        h4.modal-title Authorize Payment
+      .modal-body
+
+#declineEstimate.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close data-dismiss="modal" type="button"  ×
+        h4.modal-title Decline Estimate
+      .modal-body
+      
+#declineAssignment.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close data-dismiss="modal" type="button"  ×
+        h4.modal-title Decline Assignment
+      .modal-body

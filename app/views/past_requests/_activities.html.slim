@@ -13,6 +13,6 @@
             - else
               = image_tag 'default_avatar_icon.png', width: '70', class: 'img-circle'
           .col-sm-9
-            = assignment.technician[:name]
+            strong = assignment.technician[:name]
             br/
             = assignment.technician[:company_name]

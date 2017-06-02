@@ -1,0 +1,2 @@
+$('#declineAssignment').modal('show')
+$('#declineAssignment .modal-body').html('<%= j render partial: 'start_declining_assignment', locals: {assignment: @assignment, service_request: @service_request} %>')

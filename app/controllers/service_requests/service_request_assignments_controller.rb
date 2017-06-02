@@ -12,9 +12,29 @@ class ServiceRequests::ServiceRequestAssignmentsController < ApplicationControll
   end
 
   def payment_authorize
-    token = params['service_request']['token']
+    token = params['service_request']['token'] if params['service_request']
     find_service_request_and_assignment
-    @assignment.accept(token)
+    if @assignment.accept(token)
+      @service_request = @account.service_requests.find(params[:service_request_id])
+      @activities = @service_request.activities
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+  
+  def start_declining
+    find_service_request_and_assignment
+    respond_to do |format|
+      format.js
+    end
+  end
+  
+  def decline
+    find_service_request_and_assignment
+    if @decline_assignment = @assignment.decline(params[:assignment][:reason])
+      @activities = @service_request.activities
+    end
     respond_to do |format|
       format.js
     end
@@ -22,9 +42,7 @@ class ServiceRequests::ServiceRequestAssignmentsController < ApplicationControll
   
   def start_accepting_estimation
     find_service_request_and_assignment
-    if @assignment[:current_estimation][:status] != 'accepting'
-      @start_accepting_estimation = @assignment.start_accepting_estimation
-    end
+    @start_accepting_estimation = @assignment.start_accepting_estimation
     respond_to do |format|
       format.js
     end

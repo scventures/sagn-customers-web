@@ -1,4 +1,4 @@
-= simple_form_for customer_rating, url: service_request_assignment_customer_ratings_path(service_request, assignment), turboboost: true do |f|
+= simple_form_for customer_rating, url: service_requests_service_request_assignment_customer_ratings_path(assignment, service_request_id: service_request.id), turboboost: true do |f|
   = f.error :base
   .rating-container.mt20.mb20
     input.rating name="example" type="radio" value="1" 

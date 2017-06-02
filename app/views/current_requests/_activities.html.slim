@@ -9,6 +9,35 @@
         = time_format(activity.created_at)
         span.ml10
           = activity.action_humanized
+      - if activity.customer_accepted? or activity.customer_declined?
+        p
+          .row
+            .col-sm-3.text-center
+              - assignment = activity.service_request.service_requests_assignments[0]
+              - if assignment[:technician][:photo]
+                = image_tag assignment[:technician][:photo], width: '70', class: 'img-circle'
+              - else
+                = image_tag 'default_avatar_icon.png', width: '70', class: 'img-circle'
+            .col-sm-9
+              strong = assignment[:technician][:name]
+              br/
+              = assignment[:technician][:company_name]
+      - if activity.accepted? or activity.declined?
+        .w60-pct.m-auto
+          p.mt10
+            button.btn-link.black data-target="#see-details" data-toggle="collapse" type="button" See Details
+          #see-details.mt10.collapse
+            - estimation = activity.service_request.service_requests_assignments[0][:current_estimation]
+            .grey-container
+              .row
+                .col-sm-6 Labor:
+                .col-sm-6 = humanized_money_with_symbol(cents_to_money(estimation[:labor_cents]), symbol_after_without_space: true)
+                .col-sm-6 Parts:
+                .col-sm-6 = humanized_money_with_symbol(cents_to_money(estimation[:parts_cents]), symbol_after_without_space: true)
+                .col-sm-6 Tax:
+                .col-sm-6 = humanized_money_with_symbol(cents_to_money(estimation[:tax_cents]), symbol_after_without_space: true)
+                .col-sm-6.mt10 Total
+                .col-sm-6.mt10 = estimation[:total_estimate]
   h3.text-center
     = link_to 'See Your Service Request Details', '#', data: { target: '#serviceRequestDetail', toggle: 'modal'}, class: 'grey'
   - if service_request.can_editable?

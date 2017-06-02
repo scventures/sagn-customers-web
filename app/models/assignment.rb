@@ -26,6 +26,10 @@ class Assignment
     self.status == 'customer_accepted'
   end
   
+  def customer_accepting?
+    self.status == 'customer_accepting'
+  end
+  
   def waiting?
     self.status == 'waiting'
   end
@@ -46,9 +50,13 @@ class Assignment
     end
   end
 
-  def decline
+  def decline(reason)
     Assignment.post_raw("customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/decline", {account_id: account_id, service_request_id: service_request_id, id: id, reason: reason}) do |parsed_data, response|
-      populate_errors(parsed_data[:errors]) if response.status == 400
+      if response.status == 400
+        populate_errors(parsed_data[:errors])
+      elsif response.status == 200
+        return true
+      end
     end
   end
   

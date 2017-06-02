@@ -17,10 +17,14 @@
     color: #5c5c5c;
   }
 }
+.current-request-list, .past-request-list {
+  padding-right: 0px !important;
+}
 .current-request-details, .past-request-details {
   padding-left: 0px !important;
   padding-right: 0px !important;
-  max-height: calc(100vh - 120px);
+  min-height: calc(100vh - 130px);
+  max-height: calc(100vh - 130px);
   overflow: auto;
   background: #d8ddea;
   margin-top: 10px;
@@ -37,12 +41,27 @@
     margin: 10px 20px;
     background: #fff none repeat scroll 0 0;
     color: #949494;
-    font-size: 18px;
+    font-size: 16px;
     margin-top: 20px;
     padding: 15px 20px;
+    .grey-container {
+      background: #eee none repeat scroll 0 0;
+      margin-bottom: 5px;
+      padding: 10px;
+    }
+    a {
+      text-decoration: none;
+    }
   }
   a:focus, a:hover {
     text-decoration: none;
+  }
+  .btn-grey {
+    width: 100%;
+    background: #dbdadb;
+    padding: 10px;
+    color: #5c5c5c;
+    font-weight: bold;
   }
 }
 
@@ -181,16 +200,9 @@ span.american_express.active > img {
   .content {
     padding: 10px 20px;
   }
-  .btn-grey {
-    width: 100%;
-    background: #dbdadb;
-    padding: 10px;
-    color: #5c5c5c;
-    font-weight: bold;
-  }
 }
 
-#declineEstimate {
+#declineEstimate, #declineAssignment {
   .modal-header {
     background: #c22d27;
     color: #fff;

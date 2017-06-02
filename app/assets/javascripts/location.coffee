@@ -32,6 +32,7 @@ $.onmount '.location-form-container .venue_name, .restaurant-details .venue_name
     theme: 'paper'
     closeOnSelect: false
     minimumInputLength: 2
+    delay: 250
     ajax:
       url: Routes.venues_path()
       dataType: 'JSON'

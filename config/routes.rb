@@ -51,11 +51,14 @@ Rails.application.routes.draw do
     resources :service_request_assignments do
       get :start_accepting
       post :payment_authorize
+      get :start_declining
+      patch :decline
       get :start_accepting_estimation
       post :accept_estimation
       get :consider_estimation
       get :start_declining_estimation
       post :decline_estimation
+      resources :customer_ratings, module: 'service_request_assignments', only: [:create]
     end
   end
   
@@ -63,12 +66,6 @@ Rails.application.routes.draw do
     root 'service_requests#index', as: :authenticated_root
   end
   
-  resources :service_requests, only: [] do
-    resources :assignments, module: 'service_requests', only: [] do
-      resources :customer_ratings, module: 'assignments', only: [:create]
-    end
-  end
-
   root :to => 'customers#new'
   get "/pages/*id" => 'pages#show', format: false
 end

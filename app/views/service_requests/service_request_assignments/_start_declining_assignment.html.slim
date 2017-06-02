@@ -1,0 +1,4 @@
+.decline-reason
+  = simple_form_for assignment, url: service_requests_service_request_assignment_decline_path(assignment[:id], service_request_id: service_request.id), remote: true do |f|
+    = f.input :reason, as: :radio_buttons, collection: Assignment::CUSTOMER_DECLINE_REASONS.map { |k,v| [v, k]}, label: 'Please choose a reason:'
+    = f.submit 'Submit'

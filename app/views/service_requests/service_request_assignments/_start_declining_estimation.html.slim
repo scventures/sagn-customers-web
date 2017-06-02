@@ -5,5 +5,5 @@
     = link_to 'Cancel', '#', data: { dismiss: 'modal' }, class: 'text-uppercase ml10'
 .decline-reason.hidden
   = simple_form_for estimation, url: service_requests_service_request_assignment_decline_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true do |f|
-    = f.input :reason, as: :radio_buttons, collection: ['Found another Technician', 'Price too high', 'Dont like/trust contractor', 'Other Reason'], label: 'Please choose a reason:'
+    = f.input :reason, as: :radio_buttons, collection: Estimation::DECLINE_REASONS.map { |k,v| [v, k]}, label: 'Please choose a reason:'
     = f.submit 'Submit'

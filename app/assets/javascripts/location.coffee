@@ -77,6 +77,7 @@ $(document).on 'select2:select', '.location-form-container .venue_name, .service
   $('#location_locality').val(e.params.data.location.city)
   $('#location_administrative_area_level_1').val(e.params.data.location.state)
   $('#location_foursquare_venue_id').val(e.params.data.id)
+  $('#location_postal_code').val(e.params.data.location.postalCode)
   $(this).parents('form').resetClientSideValidations()
   if $(this).parents('form').hasClass('service-request-logout-form')
     $('#wizard').steps('next')

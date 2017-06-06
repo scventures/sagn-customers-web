@@ -177,21 +177,13 @@ body {
 }
 
 .row.is-flex {
-  min-height: 100%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
 }
 
 .row.is-flex > [class*='col-'] {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
@@ -199,22 +191,7 @@ body {
   flex-direction: column;
 }
 
-.container {
-  min-height: 100%;
-  width: 100%;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-box;
-  display: box;
-  -ms-flex-direction: row;
-  -webkit-box-orient: horizontal;
-  -moz-box-orient: horizontal;
-  -ms-box-orient: horizontal;
-  box-orient: horizontal;
-}
+
 
 .main-wrapper {
   height:100%;

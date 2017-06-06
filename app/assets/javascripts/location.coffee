@@ -27,8 +27,8 @@ fillInAddress = ->
     $('#location_geography_latitude').val(place.geometry.location.lat())
     $('#location_geography_longitude').val(place.geometry.location.lng())
   
-$.onmount '.location-form-container .venue_name, .restaurant-details .venue_name', ->
-  $(this).select2
+$.onmount '.location-form-container .venue_name:visible, .restaurant-details .venue_name', ->
+  select = $(this).select2
     theme: 'paper'
     closeOnSelect: false
     minimumInputLength: 2
@@ -50,7 +50,11 @@ $.onmount '.location-form-container .venue_name, .restaurant-details .venue_name
         $('<div>').attr({'class': 'combo-list'}).html($('<h5>').html(data.name)).append($('<p>').html(data.location.address));
       else
         data.text
-    dropdownParent: $('.select2-dropdown-container')
+    dropdownParent: $('.select2-dropdown-container:visible')
+  if $('#editLocation').is(':visible')
+    $(select).select2 'open'
+    $('#editLocation').find('.select2-search__field').val($('#edit_location_name').val()).trigger('change')
+    $('#editLocation').find('.select2-search__field').trigger('keyup')
 
 #$(document).ready ->
 #  getLocation()

@@ -9,7 +9,7 @@ describe IssueImage do
     expect(IssueImage.include?(Her::FileUpload)).to be_truthy
   end
 
-  it { expect(IssueImage.association_names.include? :service_request).to be_truthy }
+  it { expect(IssueImage.belongs_to(:service_request)).to be_truthy }
   
   describe "attributes" do
     let(:issue_image) {IssueImage.new}

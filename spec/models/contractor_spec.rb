@@ -16,8 +16,12 @@ describe Contractor do
   it 'parse_root_in_json :customer_accounts_contractors' do
     expect(Contractor.parse_root_in_json?).to eq(:customer_accounts_contractors)
   end
+  
+  it 'include_root_in_json :customer_accounts_contractor' do
+    expect(Contractor.include_root_in_json?).to eq(:customer_accounts_contractor)
+  end
 
-  it { expect(Contractor.association_names.include? :account).to be_truthy }
+  it { expect(Contractor.belongs_to(:account)).to be_truthy }
   
   describe 'attributes' do
     let(:contractor) {Contractor.new}

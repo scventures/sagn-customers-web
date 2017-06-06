@@ -17,7 +17,9 @@ describe Location do
     expect(Location.collection_path).to eq('customers/accounts/:account_id/locations')
   end
   
-  it { expect(Location.association_names.include? :equipment_items).to be_truthy }
+  it { expect(Location.has_many(:equipment_items)).to be_truthy }
+  it { expect(Location.has_many(:service_requests)).to be_truthy }
+  it { expect(Location.belongs_to(:customer)).to be_truthy }
   
   describe 'attributes' do
     let(:location) {Location.new}
@@ -32,7 +34,8 @@ describe Location do
         state: anything,
         zip: anything,
         phone_number: anything,
-        geography: anything
+        geography: anything,
+        foursquare_venue_id: anything
       )
     end
   end
@@ -43,5 +46,13 @@ describe Location do
       address = 'address_1, address_2, address_3, city, state, zip'
       expect(location.full_address).to eq(address)
     end
+  end
+  
+  describe '#geography=(value)' do
+    it 'show return hash' do
+      geography = ActionController::Parameters.new(latitude: 111.11, longitude: 11.11)
+      location = Location.new(geography: geography.permit(:latitude, :longitude))
+      expect(location.geography).to eq({"latitude"=>111.11, "longitude"=>11.11})
+    end    
   end
 end

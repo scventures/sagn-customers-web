@@ -32,14 +32,6 @@ RSpec.describe 'route to location', type: :routing do
     )
   end
   
-  it 'routes /locations/:id to locations#show to show location details' do
-    expect(get: '/locations/:id').to route_to(
-      controller: 'locations',
-      action: 'show',
-      id: ':id'
-    )
-  end
-  
   it 'routes /locations/:id to locations#update to update location' do
     expect(patch: '/locations/:id').to route_to(
       controller: 'locations',

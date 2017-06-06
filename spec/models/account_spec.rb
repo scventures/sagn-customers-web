@@ -12,10 +12,13 @@ describe Account, type: :model do
   it 'have collection path customers/accounts' do
     expect(Account.resource_path).to eq('customers/accounts/:id')
   end
-  
-  it { expect(Account.association_names.include? :locations).to be_truthy }
-  it { expect(Account.association_names.include? :contractors).to be_truthy }
-  it { expect(Account.association_names.include? :staff).to be_truthy }
+
+  it { expect(Account.has_many(:locations)).to be_truthy }
+  it { expect(Account.has_many(:contractors)).to be_truthy }
+  it { expect(Account.has_many(:staff)).to be_truthy }
+  it { expect(Account.has_many(:service_requests)).to be_truthy }
+  it { expect(Account.has_many(:current_service_requests)).to be_truthy }
+  it { expect(Account.has_many(:past_service_requests)).to be_truthy }
   
   describe 'accept_nested_attributes_for :contractors' do
     let(:account) { Account.new(contractors_attributes: { 0 => {contact_name: 'Test', business_name: 'Test'}, 1 => {email: 'test1@gmail.com'}})}

@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   resources :past_requests, only: [:index, :show]
   
   namespace :service_requests do
-    resources :service_request_assignments do
+    resources :service_request_assignments, only: [] do
       get :start_accepting
       post :payment_authorize
       get :start_declining

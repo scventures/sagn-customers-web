@@ -37,6 +37,25 @@ describe DeviseOverrides do
     end
   end
   
+  describe '#authenticate!' do
+    context 'for valid data' do
+      it 'authenticate customer' do
+        customer = Customer.new( email: 'test@gmail.com', password: 'test123')
+        stub_auth_api_request('test@gmail.com', 'test123', { 'jwt': jwt}, 201 )
+        customer.authenticate!
+        expect(customer.jwt).to eq(jwt)
+      end
+    end
+    context 'for invalid data' do
+      it 'not authenticate customer' do
+        customer = Customer.new( email: 'invalid@gmail.com', password: '123456')
+        stub_auth_api_request('invalid@gmail.com', '123456', {}, 401 )
+        customer.authenticate!
+        expect(customer.jwt).to be_nil
+      end
+    end
+  end
+  
   describe 'ClassMethods' do
     describe '.send_reset_password_instructions(attributes={})' do
       context 'blank email' do
@@ -88,10 +107,13 @@ describe DeviseOverrides do
       end
       context 'password and password_cofirmation are valid' do
         it 'reset the password' do
-          stub_password_reset_request('12345678', '12345678', @token, 200, verified_return_body)
-          c = Customer.reset_password_by_token({password: '12345678', password_confirmation: '12345678', reset_password_token: @token})
-          expect(c.errors.present?).to be_falsy
-          expect(c).to be_instance_of(Customer)
+          customer = Customer.new(password: '12345678', password_confirmation: '12345678', reset_password_token: @token, email: 'test@gmail.com', name: 'Test', jwt: jwt )
+          allow(Customer).to receive(:new).with(customer.attributes).and_return(customer)
+          allow(customer).to receive(:valid?).and_return(true)
+          stub_password_reset_request('12345678', '12345678', @token, 201, verified_return_body)
+          cus = Customer.reset_password_by_token(customer.attributes)
+          expect(cus.errors.present?).to be_falsy
+          expect(cus).to be_instance_of(Customer)
         end
       end
     end

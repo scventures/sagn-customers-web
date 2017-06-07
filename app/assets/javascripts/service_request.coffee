@@ -208,7 +208,8 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   else
     $('a.problem-details-link').attr('data-equipment', true)
   brands.map((obj) -> (obj.text = obj.text or obj.name))
-  $('#service_request_brand_name').val(brands[0].name)
+  if brands.length > 0
+    $('#service_request_brand_name').val(brands[0].name)
   $('.select_brand').empty()
   $('.select_brand').select2
     placeholder: 'Please select Brand'

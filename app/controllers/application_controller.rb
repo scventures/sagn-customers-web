@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
       RequestStore.store[:auth_token] = current_customer.jwt
       current_customer.populate_attributes
       RequestStore.store[:current_customer] = current_customer
+    else
+      @_request.reset_session
     end
   end
 

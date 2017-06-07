@@ -5,10 +5,12 @@ class CurrentRequestsController < ApplicationController
   def index
     @account = current_customer.current_account
     @current_requests = @account.current_service_requests
-    @current_request = ServiceRequest.find(@current_requests.first.id, _account_id: @account.id)
-    @current_request.account_id = @account.id
-    @activities = @current_request.activities
-    @assignments = @current_request.assignments if @current_request.assigned?
+    unless @current_requests.length.zero?
+      @current_request = ServiceRequest.find(@current_requests.first.id, _account_id: @account.id)
+      @current_request.account_id = @account.id
+      @activities = @current_request.activities
+      @assignments = @current_request.assignments if @current_request.assigned?
+    end
   end
   
   def show

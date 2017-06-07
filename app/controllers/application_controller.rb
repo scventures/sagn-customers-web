@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   end
   
   def force_log_out
-    cookies.delete '_sagn-customers-web_session'
+    sign_out current_customer
   end
 
 end

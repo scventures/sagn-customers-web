@@ -9,9 +9,9 @@ describe EquipmentItem do
     expect(EquipmentItem.resource_path).to eq('customers/accounts/:account_id/locations/:location_id/equipment_items/:id')
   end
   
-  it { expect(EquipmentItem.association_names.include? :location).to be_truthy }
-  it { expect(EquipmentItem.association_names.include? :category).to be_truthy }
-  it { expect(EquipmentItem.association_names.include? :sub_category).to be_truthy }
+  it { expect(EquipmentItem.belongs_to(:location)).to be_truthy }
+  it { expect(EquipmentItem.belongs_to(:category)).to be_truthy }
+  it { expect(EquipmentItem.belongs_to(:sub_category)).to be_truthy }
   
   describe 'attributes' do
     let(:equipment_item) {EquipmentItem.new}

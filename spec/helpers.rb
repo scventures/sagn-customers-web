@@ -60,21 +60,193 @@ module Helpers
          to_return(:status => response_code, :body => return_body.to_json, :headers => {})
   end
   
+  def stub_start_accepting_assignment(id, account_id, service_request_id, response_code)
+    stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/start_accepting").
+      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      to_return(:status => response_code, :body => {}.to_json, :headers => {})
+  end
+  
+  def stub_accept_assignment(id, account_id, service_request_id, token, response_code)
+    stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/accept").
+      with(:body => {'stripe_token'=> token}, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      to_return(:status => response_code, :body => {}.to_json, :headers => {})
+  end
+  
+  def stub_decline_assignment(id, account_id, service_request_id, reason, response_code)
+    stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/decline").
+      with(:body => {'account_id'=> account_id.to_s, 'id'=> id.to_s, 'reason'=> reason, 'service_request_id'=> service_request_id.to_s }, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      to_return(:status => response_code, :body => {}.to_json, :headers => {})
+  end
+  
+  def stub_start_accepting_estimation(id, account_id, service_request_id, response_code)
+    stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/start_accepting_estimation").
+      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      to_return(:status => response_code, :body => {}.to_json, :headers => {})
+  end
+  
+  def stub_accept_estimation(id, account_id, service_request_id, token, response_code)
+    stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/accept_estimation").
+      with(:body => {'stripe_token'=> token}, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      to_return(:status => response_code, :body => {}.to_json, :headers => {})
+  end
+  
+  def stub_decline_estimation(id, account_id, service_request_id, reason, response_code)
+    stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/decline_estimation").
+      with(:body => {'reason'=> reason }, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      to_return(:status => response_code, :body => {}.to_json, :headers => {})
+  end
+  
+  def stub_consider_estimation(id, account_id, service_request_id, response_code)
+    stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/consider_estimation").
+      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      to_return(:status => response_code, :body => {}.to_json, :headers => {})
+  end
+  
+  def stub_cancel_service_request(id, account_id, response_code, return_body)
+    stub_request(:put, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{id}/cancel").
+       with(:body => {'account_id'=> account_id.to_s, 'id' => id.to_s},
+            :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+       to_return(:status => response_code, :body => return_body, :headers => {})
+  end
+  
+  def stub_venue_images(id, response_code, return_body)
+    stub_request(:get, "https://#{ENV['BASIC_AUTH_USERNAME']}:#{ENV['BASIC_AUTH_PASSWORD']}@stapp.sendaguy.com/api/customers/venue_photos?limit=1&venue_id=#{id}").
+       with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Faraday v0.12.0.1'}).
+       to_return(:status => response_code, :body => return_body, :headers => {})
+  end
+  
+  def stub_get_customer_account(id, response_code, return_body)
+    stub_request(:get, "#{ENV['API_URL']}/customers/accounts/#{id}").
+      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      to_return(:status => response_code, :body => return_body, :headers => {})
+  end
+  
+  def stub_customer_locations(account_id, response_code, return_body)
+    stub_request(:get, "#{ENV['API_URL']}/customers/accounts/#{account_id}/locations").
+         with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Authorization'=>"Bearer #{jwt}", 'User-Agent'=>'Faraday v0.12.0.1'}).
+         to_return(:status => response_code, :body => return_body.to_json, :headers => {})
+  end
+  
+  def stub_create_location(account_id, params, response_code, return_body)
+     stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/locations").
+       with(:body => {'location'=> params},
+            :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization'=>"Bearer #{jwt}", 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+       to_return(:status => response_code, :body => return_body, :headers => {})
+  end
+  
+  def stub_create_service_request(service_request, response_code, return_body)
+    stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{service_request.account_id}/service_requests").
+      with(:body => {'service_request'=> service_request.attributes },
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization'=> "Bearer #{jwt}", 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      to_return(:status => response_code, :body => return_body, :headers => {})
+  end
+  
+  def customer_account
+    {
+      'customer_account': {
+        'id': 1,
+        'name': 'Test',
+        'phone_number': nil,
+        'have_payment_method': true,
+        'owner_name': 'Test',
+        'owner_email': 'test@gmail.com',
+        'messenger_channel_id': 'layer:///conversations/e7b0ea4b-850d-4a3a-987f-25e03d2da9f0'
+      }
+    }.to_json
+  end
+  
+  def customer_location
+    {
+      'location': {
+        'id': 3,
+        'name': 'Test',
+        'address_1': 'Address',
+        'address_2': nil,
+        'address_3': nil,
+        'city': nil,
+        'state': nil,
+        'zip': nil,
+        'phone_number': nil,
+        'geography': {
+          'latitude': 11.11,
+          'longitude': 11.11
+        },
+        'foursquare_venue_id': nil,
+        'equipment_items': []
+      }
+    }.to_json
+  end
+  
+  def location_with_name_error
+    {
+      'name': [
+        'Location already exists'
+      ]
+    }.to_json
+  end
+  
+  def location_with_address_error
+    {
+      'address_1': [
+        'Location already exists'
+      ]
+    }.to_json
+  end
+  
+  def customer_locations
+    {
+      'locations': [
+        {
+          'id': 2,
+          'name': 'Test Location 1',
+          'address_1': 'Address 1',
+          'address_2': '',
+          'address_3': '',
+          'city': 'city',
+          'state': 'state',
+          'zip': '10016',
+          'phone_number': '+12125096995',
+          'geography': {
+            'latitude': 38.58875100724594,
+            'longitude': -117.72847970429468
+          },
+          'foursquare_venue_id': nil
+        },
+        {
+          'id': 2,
+          'name': 'Test Location 2',
+          'address_1': 'Address 2',
+          'address_2': '',
+          'address_3': '',
+          'city': 'city',
+          'state': 'state',
+          'zip': '10016',
+          'phone_number': '+12125096995',
+          'geography': {
+            'latitude': 38.58875100724594,
+            'longitude': -117.72847970429468
+          },
+          'foursquare_venue_id': 'test'
+        }
+      ]
+    }
+  end
+  
   def verified_return_body
     {
       'customer': {
-        'id': 59,
+        'id': 1,
         'name': 'Test',
         'phone_number': '+111111111',
         'unconfirmed_phone': '',
         'photo': 'test.png',
         'email': 'test@gmail.com',
         'unconfirmed_email': '',
-        'current_account_id': 43,
+        'current_account_id': 1,
         'active': true,
         'current_account_role': 'account_owner',
         'customer_account_ids': [
-          43
+          1
         ],
         'mapping_enabled': false
        }
@@ -164,45 +336,45 @@ module Helpers
   
   def already_confirmed_email_body
     {
-      "email": [
-        "was already confirmed, please try signing in"
+      'email': [
+        'was already confirmed, please try signing in'
       ]
     }.to_json
   end
   
   def invalid_confirmation_token_body
     {
-      "confirmation_token": [
-        "is invalid"
+      'confirmation_token': [
+        'is invalid'
       ]
     }.to_json
   end
   
   def confirmation_instructions_valid_body
     {
-      "customer": {
-        "id": 323,
-        "name": "test",
-        "phone_number": "",
-        "unconfirmed_phone": "+111111111111",
-        "photo": nil,
-        "email": "test@gmail.com",
-        "unconfirmed_email": nil,
-        "current_account_id": 241,
-        "active": false,
-        "current_account_role": "account_owner",
-        "customer_account_ids": [
+      'customer': {
+        'id': 323,
+        'name': 'test',
+        'phone_number': '',
+        'unconfirmed_phone': '+111111111111',
+        'photo': nil,
+        'email': 'test@gmail.com',
+        'unconfirmed_email': nil,
+        'current_account_id': 241,
+        'active': false,
+        'current_account_role': 'account_owner',
+        'customer_account_ids': [
           241
         ],
-        "mapping_enabled": false
+        'mapping_enabled': false
       }
     }.to_json
   end
   
   def confirmation_instructions_invalid_body
     {
-      "email": [
-        "not found"
+      'email': [
+        'not found'
       ]
     }.to_json
   end
@@ -221,6 +393,162 @@ module Helpers
   def jwt
     payload = {data: 'test@gmail.com'}
     JWT.encode payload, nil, 'none'
+  end
+  
+  def cancel_service_request_error
+    {
+      'base': [
+        'Unable to cancel'
+      ]
+    }.to_json
+  end
+  
+  def cancel_service_request_success
+    {
+      'service_request': {
+        'id': 1,
+        'urgent': false,
+        'model': '',
+        'serial': '',
+        'notes': '',
+        'brand_name': '',
+        'is_active': false,
+        'status': 'cancelled',
+        'latest_activity_status': 'You\'ve cancelled this request',
+        'phone_number': '',
+        'created_at': '2017-05-11T06:32:38-04:00',
+        'test_request': false,
+        'declines_remains': 2,
+        'is_details_confirmed': false,
+        'fix_notes': nil,
+        'work_time_details': '',
+        'contact_details': '',
+        'responded_request_assignment_id': 2,
+        'customer_accounts_contractor_id': nil,
+        'promo_code': nil,
+        'current_job_id': '#1 - 2',
+        'can_be_cancelled': false
+      }
+    }.to_json
+  end
+  
+  def venue_images_success_response
+    {
+      'count': 1,
+      'items': [
+        {
+          'id': '4fb52765e4b021e74efb55f0',
+          'createdAt': 1337272165,
+          'source': {
+            'name': 'Foursquare for Android',
+            'url': 'https://foursquare.com/download/#/android'
+          },
+          'prefix': 'https://igx.4sqi.net/img/general/',
+          'suffix': '/ve2yCAJmaZ3jLybn0DDsVu-f1jwV2udwINjWiqYdj7c.jpg',
+          'width': 540,
+          'height': 720,
+          'user': {
+            'id': '10320058',
+            'firstName': 'Test',
+            'lastName': 'Test',
+            'gender': 'male',
+            'photo': {
+              'prefix': 'https://igx.4sqi.net/img/user/',
+              'suffix': '/XZYU0TATEQNKYIOF.jpg'
+            }
+          },
+          'checkin': {
+            'id': '4fb52014e4b01063320ffb98',
+            'createdAt': 1337270292,
+            'type': 'checkin',
+            'timeZoneOffset': 330
+          },
+          'visibility': 'public'
+        }
+      ],
+      'dupesRemoved': 0
+    }.to_json
+  end
+  
+  def service_request_body
+    {
+      'service_request': {
+        'id': 1000,
+        'urgent': true,
+        'model': nil,
+        'serial': nil,
+        'notes': nil,
+        'brand_name': nil,
+        'is_active': true,
+        'status': 'waiting',
+        'latest_activity_status': 'We have received your service request',
+        'phone_number': nil,
+        'created_at': '2017-06-06T06:47:34-04:00',
+        'test_request': false,
+        'declines_remains': 2,
+        'is_details_confirmed': false,
+        'fix_notes': nil,
+        'work_time_details': nil,
+        'contact_details': nil,
+        'responded_request_assignment_id': nil,
+        'customer_accounts_contractor_id': nil,
+        'promo_code': nil,
+        'current_job_id': '',
+        'can_be_cancelled': true,
+        'category': {
+          'id': 376,
+          'name': 'Kitchen Equipment',
+          'parent_category_id': nil,
+          'problem_codes': [],
+          'brands': [],
+          'is_equipment': true,
+          'sub_brands': []
+        },
+        subcategory: {
+          'id': 378,
+          'name': 'Char Broiler',
+          'parent_category_id': 376,
+          'problem_codes': [],
+          'brands': []
+        },
+        'location': {
+          'id': 610,
+          'name': 'Toby\'s Estate Coffee',
+          'address_1': '160 5th Ave',
+          'address_2': nil,
+          'address_3': nil,
+          'city': 'New York',
+          'state': 'NY',
+          'zip': '10010',
+          'phone_number': '+16465590161',
+          'geography': {
+            'latitude': 40.74008224791916,
+            'longitude': -73.990638716365
+          },
+          'foursquare_venue_id': nil
+        },
+        'brand': nil,
+        'equipment_item': {
+          'id': 737,
+          'model': nil,
+          'serial': nil,
+          'brand_name': 'Other',
+          'location_id': 610,
+          'equipment_name': nil
+        },
+        'problem_code': nil,
+        'responded_request_assignment': nil,
+        'service_requests_assignments': [],
+        'fix_images': nil,
+        'issue_images': []
+      }
+    }.to_json
+  end
+  
+  def venue_images_error_response
+    {
+      'error': 'param_error: Value venue_id is invalid for venue id (400)'
+    }.to_json
   end
   
   def have_attached_file name

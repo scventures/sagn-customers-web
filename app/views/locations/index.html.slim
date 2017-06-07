@@ -12,21 +12,19 @@ div
         span.text-uppercase Add Location
   .clearfix
   - @locations.reverse.in_groups_of(3).each do |locations|
-    .row.mt10
+    .row.is-flex.mt10
       - locations.compact.each do |location|
-        .col-md-4
-          .location-list
-            div
-              = static_map_for(location.geography[:latitude], location.geography[:longitude])
-            h3
-              = location.name
-            - unless location.full_address.blank?
-              h4 
-                = location.full_address
-            .text-center.btn-holder
-              = link_to 'Edit', edit_location_path(location), remote: true, class: 'btn btn-edit'
-              = link_to 'Delete', location_path(location), method: :delete, data: { confirm: 'You want to remove this location?'}, class: 'btn btn-edit ml10'
-            .clearfix
+        .col-md-4.location-list
+          div
+            = static_map_for(location.geography[:latitude], location.geography[:longitude])
+          h3
+            = location.name
+          - unless location.full_address.blank?
+            h4 
+              = location.full_address
+          .text-center.btn-holder
+            = link_to 'Edit', edit_location_path(location), remote: true, class: 'btn btn-edit'
+            = link_to 'Delete', location_path(location), method: :delete, data: { confirm: 'You want to remove this location?'}, class: 'btn btn-edit ml10'
 #editLocation.modal.fade role='dialog'
   .modal-dialog
     .modal-content

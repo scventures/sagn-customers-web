@@ -1,17 +1,2 @@
-.location-form-container
-  .col-md-10.address-form.center-panel
-    = simple_form_for location, validate: true, turboboost: true do |f|
-      = f.input :name
-      = f.input :address_1, input_html: {class: 'edit_address_auto_complete_field'}
-      = f.input :address_2, input_html: {id: 'location_sublocality_level_1' }
-      = f.input :address_3, input_html: {id: 'location_administrative_area_level_2' }
-      = f.input :city, input_html: {id: 'location_locality' }
-      = f.input :state, input_html: {id: 'location_administrative_area_level_1' }
-      = f.input :zip, input_html: {id: 'location_postal_code' }
-      = f.input :phone_number
-      = f.input :geography, as: :hidden, input_html: { name: 'location[geography][latitude]', value: "#{f.object.geography[:latitude] if f.object.geography?}", id: 'location_geography_latitude' }
-      = f.input :geography, as: :hidden, input_html: { name: 'location[geography][longitude]', value: "#{f.object.geography[:longitude] if f.object.geography?}", id: 'location_geography_longitude' }
-      .row
-        .col-sm-12
-          = f.submit 'SAVE LOCATION', class: 'btn btn-red mb20'
-
+= render 'form', location: location
+= hidden_field_tag 'edit_location_name', location.name

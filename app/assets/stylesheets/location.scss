@@ -7,18 +7,19 @@
   background: #eeeeee;
   border-radius: 5px;
   min-height: 430px;
+  margin: 10px;
+  padding: 0px !important;
   img {
     width: 100%;
   }
   h3 {
     font-size: 18px;
+    text-align: center;
   }
   h4 {
     font-size: 14px;
     line-height: 18px;
-  }
-  h3 {
-    text-align: center;
+    padding-bottom: 50px;
   }
 }
 
@@ -47,10 +48,10 @@ h4 {
 
 .btn-holder {
   margin: 30px auto 15px auto;
-  position: absolute;
   right: 0;
   left: 0;
   bottom: 0;
+  position: absolute;
 }
 
 .icon-add{ 

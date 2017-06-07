@@ -13,11 +13,17 @@ class ApplicationController < ActionController::Base
   def set_customer_api_token
     if current_customer
       RequestStore.store[:auth_token] = current_customer.jwt
-      current_customer.populate_attributes
-      RequestStore.store[:current_customer] = current_customer
-    else
-      @_request.reset_session
+      begin
+        current_customer.populate_attributes
+        RequestStore.store[:current_customer] = current_customer
+      rescue
+        force_log_out
+      end
     end
+  end
+  
+  def force_log_out
+    cookies.delete '_sagn-customers-web_session'
   end
 
 end

@@ -5,11 +5,13 @@ class PastRequestsController < ApplicationController
   def index
     @account = current_customer.current_account
     @past_requests = @account.past_service_requests
-    @service_request = @past_requests.first
-    @service_request.account_id = @account.id
-    @activities = @service_request.activities
-    @assignment = @service_request.assignments.find(@service_request.responded_request_assignment_id)
-    @customer_rating = @assignment.customer_ratings.build()
+    unless @past_requests.length.zero?
+      @service_request = @past_requests.first
+      @service_request.account_id = @account.id
+      @activities = @service_request.activities
+      @assignment = @service_request.assignments.find(@service_request.responded_request_assignment_id)
+      @customer_rating = @assignment.customer_ratings.build()
+    end
   end
   
   def show

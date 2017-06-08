@@ -1,0 +1,6 @@
+.text-center.mt100
+  .bad-connection
+    h2.grey
+      |There was an issue with connectivity, please 
+      = link_to 'try again ', root_path, data: { turbolinks: false }
+      | later.

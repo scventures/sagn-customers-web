@@ -21,8 +21,8 @@ describe DeviseOverrides do
     context 'valid customer email' do
       let(:customer) { Customer.new(email: 'test@gmail.com') }
       it 'send confirmation instructions' do
-        stub_send_confirmation_instructions(customer.email, "#{ENV['APP_URL']}/confirmation", 200, confirmation_instructions_valid_body)
-        customer = Customer.send_confirmation_instructions({email: 'test@gmail.com', redirect_url: "#{ENV['APP_URL']}/confirmation" })
+        stub_send_confirmation_instructions(customer.email, "#{APP_URL}/confirmation", 200, confirmation_instructions_valid_body)
+        customer = Customer.send_confirmation_instructions({email: 'test@gmail.com', redirect_url: "#{APP_URL}/confirmation" })
         expect(customer).to be_instance_of(Customer)
         expect(customer.email).to eq(customer.email)
       end
@@ -30,8 +30,8 @@ describe DeviseOverrides do
     context 'invalid customer email' do
       let(:customer) { Customer.new(email: 'invalid@gmail.com') }
       it 'return error' do
-        stub_send_confirmation_instructions(customer.email, "#{ENV['APP_URL']}/confirmation", 422, confirmation_instructions_invalid_body)
-        customer = Customer.send_confirmation_instructions({email: 'invalid@gmail.com', redirect_url: "#{ENV['APP_URL']}/confirmation" })
+        stub_send_confirmation_instructions(customer.email, "#{APP_URL}/confirmation", 422, confirmation_instructions_invalid_body)
+        customer = Customer.send_confirmation_instructions({email: 'invalid@gmail.com', redirect_url: "#{APP_URL}/confirmation" })
         expect(customer.errors.messages.has_key?(:email)).to be_truthy
       end
     end
@@ -50,8 +50,7 @@ describe DeviseOverrides do
       it 'not authenticate customer' do
         customer = Customer.new( email: 'invalid@gmail.com', password: '123456')
         stub_auth_api_request('invalid@gmail.com', '123456', {}, 401 )
-        customer.authenticate!
-        expect(customer.jwt).to be_nil
+        expect { customer.authenticate! }.to raise_error(Warden::NotAuthenticated)
       end
     end
   end
@@ -67,7 +66,7 @@ describe DeviseOverrides do
       end
       context 'invalid email' do
         it 'return error email not found' do
-          stub_password_reset_instructions('invalid@gmail.com', "#{ENV['APP_URL']}/password/edit", 422, {'email': ['not found'] })
+          stub_password_reset_instructions('invalid@gmail.com', "#{APP_URL}/password/edit", 422, {'email': ['not found'] })
           c = Customer.send_reset_password_instructions({email: 'invalid@gmail.com'})
           expect(c.errors.present?).to be_truthy
           expect(c.errors.full_messages.first).to eq('Email not found')
@@ -75,7 +74,8 @@ describe DeviseOverrides do
       end
       context 'valid email' do
         it 'return 200 status' do
-          stub_password_reset_instructions('test@gmail.com', "#{ENV['APP_URL']}/password/edit", 200, {})
+          stub_password_reset_instructions('test@gmail.com', "#{APP_URL
+          }/password/edit", 200, {})
           c = Customer.send_reset_password_instructions({email: 'test@gmail.com'})
           expect(c.errors.present?).to be_falsy
         end
@@ -164,7 +164,7 @@ describe DeviseOverrides do
       context 'user with invalid credentials' do
         it 'not authenticate user' do
           stub_auth_api_request('invalid@gmail.com', '123456', {}, 401 )
-          expect(Customer.authenticate!('invalid@gmail.com', '123456')).to eq(nil)
+          expect { Customer.authenticate!('invalid@gmail.com', '123456') }.to raise_error(Warden::NotAuthenticated)
         end
       end
     end 

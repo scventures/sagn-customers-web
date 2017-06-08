@@ -3,7 +3,7 @@ class Locations::ServiceRequestsController < ApplicationController
   before_action :authenticate_customer!
   
   def new
-    redirect_to profile_path unless current_customer.active
+    redirect_to profile_path, alert: 'Complete Registration.' unless current_customer.active
     @categories = Category.all.fetch.group_by(&:parent_category_id)
     @current_account = current_customer.current_account
     @contractors = @current_account.contractors

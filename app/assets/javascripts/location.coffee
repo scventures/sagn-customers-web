@@ -27,7 +27,7 @@ fillInAddress = ->
     $('#location_geography_latitude').val(place.geometry.location.lat())
     $('#location_geography_longitude').val(place.geometry.location.lng())
   
-$.onmount '.location-form-container .venue_name:visible, .restaurant-details .venue_name', ->
+$.onmount '.location-form-container .venue_name:visible, .restaurant-details .venue_name:visible', ->
   select = $(this).select2
     theme: 'paper'
     closeOnSelect: false
@@ -42,9 +42,10 @@ $.onmount '.location-form-container .venue_name:visible, .restaurant-details .ve
       results: (data, page)->
         return data.result
       processResults: (data, params) ->
-        $.each data, (i, loc) ->
+        venues = data.venues
+        $.each venues, (i, loc) ->
           loc.text = loc.name
-        results: data
+        results: data.venues
     templateResult: (data) =>
       if data.id
         $('<div>').attr({'class': 'combo-list'}).html($('<h5>').html(data.name)).append($('<p>').html(data.location.address));

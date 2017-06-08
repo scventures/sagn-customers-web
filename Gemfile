@@ -57,6 +57,7 @@ gem 'money-rails', '~>1'
 gem 'perfect-scrollbar-rails'
 gem 'rails-jquery-steps'
 gem 'browser'
+gem 'foursquare2', '~> 2.0.1'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-onmount'

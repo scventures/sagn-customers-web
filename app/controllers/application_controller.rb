@@ -1,6 +1,9 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
 
+  protect_from_forgery with: :exception
+  rescue_from Warden::NotAuthenticated, with: :force_log_out
+  rescue_from Faraday::Error::ConnectionFailed, with: :bad_connection
+  
   before_action :render_getapps
   before_action :set_customer_api_token
 
@@ -16,6 +19,15 @@ class ApplicationController < ActionController::Base
       current_customer.populate_attributes
       RequestStore.store[:current_customer] = current_customer
     end
+  end
+  
+  def force_log_out
+    sign_out current_customer
+    redirect_to root_path, alert: 'You need to sign in or sign up before continuing.'
+  end
+  
+  def bad_connection
+    render 'shared/bad_connection', layout: 'bad_connection' and return
   end
 
 end

@@ -287,7 +287,13 @@ body {
   }
 }
 
-
+.bad-connection {
+  border: 1px solid #999;
+  color: #7e7e7e;
+  margin: 0 auto;
+  padding: 40px;
+  width: 60%;
+}
 
 body#service_requests_index, body#service_requests_new {
   @include hidden-sidebar()

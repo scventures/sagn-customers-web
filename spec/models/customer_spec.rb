@@ -152,8 +152,7 @@ describe Customer do
       it 'return nil' do
         customer = Customer.new
         stub_verified_api_request(customer.jwt, nil , 401)
-        customer = customer.populate_attributes
-        expect(customer).to eq(nil)
+        expect { customer.populate_attributes }.to raise_error(Warden::NotAuthenticated)
       end
     end
   end

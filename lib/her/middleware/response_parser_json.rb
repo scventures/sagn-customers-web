@@ -29,6 +29,8 @@ module Her
           parse('{}')
         when 422, 400
           parse("{\"errors\": #{env[:body]}}")
+        when 401
+          raise Warden::NotAuthenticated
         else
           parse(env[:body])
         end

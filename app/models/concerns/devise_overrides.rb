@@ -15,7 +15,7 @@ module DeviseOverrides
     params = {
       customer: {
         email: confirmable_value,
-        redirect_url: "#{ENV['APP_URL']}/confirmation"
+        redirect_url: "#{APP_URL}/confirmation"
       }
     }
     Customer.post_raw('customers/confirmation', params) do |parsed_data, response|
@@ -32,7 +32,7 @@ module DeviseOverrides
     def send_reset_password_instructions(attributes={})
       customer = Customer.new(attributes)
       customer.errors.add(:email, :blank) and return customer unless customer.email?
-      params = {customer: {email: customer.email, redirect_url: "#{ENV['APP_URL']}/password/edit"}}
+      params = {customer: {email: customer.email, redirect_url: "#{APP_URL}/password/edit"}}
       Customer.post_raw('customers/password', params) do |parsed_data, response|
         if response.status == 422
           parsed_data[:errors].each do |k, v|

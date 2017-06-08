@@ -1,9 +1,8 @@
 class Locations::ServiceRequestsController < ApplicationController
 
-  before_action :authenticate_customer!
+  before_action :authenticate_customer!, :check_customer_registration_status
   
   def new
-    redirect_to profile_path, alert: 'Complete Registration.' unless current_customer.active
     @categories = Category.all.fetch.group_by(&:parent_category_id)
     @current_account = current_customer.current_account
     @contractors = @current_account.contractors
@@ -60,4 +59,8 @@ class Locations::ServiceRequestsController < ApplicationController
     permitted_params.merge(location_id: params[:location_id])
   end
   
+  def check_customer_registration_status
+    redirect_to profile_path, alert: 'Complete Registration.' unless current_customer.active
+  end
+
 end

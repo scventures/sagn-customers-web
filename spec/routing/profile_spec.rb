@@ -50,5 +50,19 @@ RSpec.describe 'route to profile', type: :routing do
     )
   end
   
+  it 'routes /profile/update_password to profiles#update_password to update profile' do
+    expect(patch: '/profile/update_password').to route_to(
+      controller: 'profiles',
+      action: 'update_password'
+    )
+  end
+  
+  it 'routes /profile/change_password to profiles#change_password to show change password form' do
+    expect(get: '/profile/change_password').to route_to(
+      controller: 'profiles',
+      action: 'change_password'
+    )
+  end
+  
 end                                  
                                 

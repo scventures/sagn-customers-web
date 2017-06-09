@@ -295,12 +295,6 @@ body {
   width: 60%;
 }
 
-.form-horizontal {
-  .help-block {
-    margin-left: 36%;
-  }
-}
-
 body#service_requests_index, body#service_requests_new {
   @include hidden-sidebar()
 }

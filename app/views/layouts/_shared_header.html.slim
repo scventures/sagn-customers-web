@@ -9,7 +9,5 @@ head
   = javascript_include_tag "https://cdn.layer.com/sdk/3.0/layer-websdk.min.js"
   = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   = javascript_tag "stripe = Stripe('#{ENV['STRIPE_PUBLISHABLE_KEY']}')"
-  - if customer_signed_in?
-    = javascript_tag "setupLayerClient('#{ENV['LAYER_APP_ID']}')"
   = javascript_include_tag 'segment', 'data-turbolinks-eval': false
   = favicon_link_tag 'favicon.png'

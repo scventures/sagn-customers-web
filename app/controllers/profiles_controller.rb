@@ -51,7 +51,7 @@ class ProfilesController < ApplicationController
 
   def update_password
     @customer = current_customer
-    @customer.attributes = permitted_params
+    @customer.attributes = password_params
     if @customer.update_password
       redirect_to profile_path, notice: 'Password updated successfully'
     else
@@ -63,7 +63,11 @@ class ProfilesController < ApplicationController
 
   private
   def permitted_params
-    params.require(:customer).permit(:name, :email, :unconfirmed_phone, :avatar, :current_password, :password, :password_confirmation)
+    params.require(:customer).permit(:name, :email, :unconfirmed_phone, :avatar)
+  end
+
+  def password_params
+    params.require(:customer).permit(:current_password, :password, :password_confirmation)
   end
 
 end

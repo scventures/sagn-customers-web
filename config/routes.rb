@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     get :resend_email_confirmation
     get :resend_phone_confirmation
     patch :confirm_phone
+    get :change_password
+    patch :update_password
   end
   resources :faqs, only: :index
   resources :charges

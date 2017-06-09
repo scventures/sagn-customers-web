@@ -141,6 +141,13 @@ module Helpers
       to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
+  def stub_update_password(current_password, password, password_confirmation, response_code, return_body)
+    stub_request(:put, "#{ENV['API_URL']}/customers/viewer/update_password").
+       with(:body => {'customer'=> { current_password: current_password, password: password, password_confirmation: password_confirmation}},
+            :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization'=>"Bearer #{jwt}", 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+       to_return(:status => response_code, :body => return_body, :headers => {})
+  end
+  
   def customer_account
     {
       'customer_account': {
@@ -248,7 +255,8 @@ module Helpers
         'customer_account_ids': [
           1
         ],
-        'mapping_enabled': false
+        'mapping_enabled': false,
+        'confirmed': true
        }
      }.to_json
   end

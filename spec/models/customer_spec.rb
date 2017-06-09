@@ -64,7 +64,8 @@ describe Customer do
         confirmation_token: anything,
         photo: anything,
         unconfirmed_email: anything,
-        sms_confirmation_pin: anything
+        sms_confirmation_pin: anything,
+        current_password: anything
       )
     end
   end
@@ -266,6 +267,36 @@ describe Customer do
       it 'return errors' do
         stub_verify_phone(customer.sms_confirmation_pin, 400, ''.to_json)
         expect(customer.verify_phone).to be_falsy
+      end
+    end
+  end
+  
+  describe '#update_password' do
+    context 'valid current password' do
+      context 'password and password confirmation valid' do
+        it 'change password' do
+          customer = Customer.new(current_password: '11111111', password: '12345678', password_confirmation: '12345678')
+          stub_update_password('11111111', '12345678', '12345678', 200, verified_return_body)
+          expect(customer.update_password).to be_truthy
+        end
+      end
+      context 'password and password confirmation invalid' do
+        it 'return error' do
+          return_body = { 'password': ['is too short (minimum is 8 characters)' ]}
+          customer = Customer.new(current_password: '11111111', password: '12345', password_confirmation: '12345')
+          stub_update_password('11111111', '12345', '12345', 422, return_body.to_json)
+          expect(customer.update_password).to be_falsy
+          expect(customer.errors[:password]).to eq(return_body[:password])
+        end
+      end
+    end
+    context 'invalid current password' do
+      it 'return error' do
+        return_body = { 'current_password': ['is invalid']}
+        customer = Customer.new(current_password: 'invalid', password: '12345678', password_confirmation: '12345678')
+        stub_update_password('invalid', '12345678', '12345678', 422, return_body.to_json)
+        expect(customer.update_password).to be_falsy
+        expect(customer.errors[:current_password]).to eq(return_body[:current_password])
       end
     end
   end

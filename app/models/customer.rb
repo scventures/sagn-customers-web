@@ -10,7 +10,7 @@ class Customer
   attributes :email, :jwt, :password, :password_confirmation, :active,
              :current_account_id, :customer_account_ids, :name,
              :customer_account_name, :unconfirmed_phone, :tos_accepted,
-             :confirmation_token, :photo, :unconfirmed_email, :sms_confirmation_pin
+             :confirmation_token, :photo, :unconfirmed_email, :sms_confirmation_pin, :current_password
 
   devise :remote_authenticatable, :recoverable, :registerable, :confirmable
   skip_callback :update, :before, :postpone_email_change_until_confirmation_and_regenerate_confirmation_token
@@ -25,7 +25,7 @@ class Customer
   
   accepts_nested_attributes_for :service_request
   accepts_nested_attributes_for :location
-  validates :name, :email, :customer_account_name, :password, presence: true
+  validates :name, :email, :customer_account_name, :password, :current_password, presence: true
   validates_confirmation_of :password
 
   validates :avatar, file_size: { less_than_or_equal_to: 50.megabytes, message: 'File size exceeded. Maximum size 50MB.' },
@@ -71,6 +71,13 @@ class Customer
     errors.add(:sms_confirmation_pin, :blank) and return unless sms_confirmation_pin?
     Customer.post_raw('customers/viewer/confirm_phone', sms_confirmation_pin: sms_confirmation_pin) do |parsed_data, response|
       errors.add(:sms_confirmation_pin, :invalid) unless response.success?
+    end
+    errors.blank?
+  end
+
+  def update_password
+    Customer.put_raw('customers/viewer/update_password', customer: { current_password: current_password, password: password, password_confirmation: password_confirmation}) do |parsed_data, response|
+      populate_errors(parsed_data[:errors]) if response.status == 422
     end
     errors.blank?
   end

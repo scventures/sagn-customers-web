@@ -5,7 +5,9 @@ class Customers::SessionsController < Devise::SessionsController
     if customer.authenticate!
       bypass_sign_in(customer)
       if customer.create_service_request
-        redirect_to current_requests_path, notice: 'Service Request created successfully.'
+        flash[:alert] = 'Please complete your registration.' unless customer.active
+        flash[:notice] = 'Service Request created successfully.'
+        redirect_to current_requests_path
       else
         if customer.location.errors.any?
           redirect_to service_requests_path, alert: 'Unable to create location.'

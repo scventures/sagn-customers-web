@@ -51,7 +51,7 @@
     .assignment-wrapper.white-container
       = render 'current_requests/activities', service_request: service_request, activities: activities
   #serviceRequestDetail.modal.fade role="dialog"
-    .modal-dialog.modal-sm
+    .modal-dialog
       .modal-content
         .modal-header.text-center
           = link_to '#', data: { dismiss: 'modal'}, class: 'pull-left' do
@@ -79,21 +79,3 @@
           strong Notes
           p
             = service_request.fix_notes
-  #declineReason.modal.fade role="dialog" 
-    .modal-dialog
-      .modal-content
-        .modal-header.text-center
-          = link_to '#', data: { dismiss: 'modal'}, class: 'pull-left' do
-            = fa_icon 'chevron-left', class: 'fa-2x red'
-          span.modal-title Decline Reason
-        .modal-body
-        
-  #add_card.modal.fade role="dialog"
-    .modal-dialog
-      .modal-content.w110-pct
-        .modal-header.text-center.bg-red
-          = link_to '#', data: { dismiss: 'modal'}, class: 'pull-left' do
-            = fa_icon 'chevron-left', class: 'fa-2x white'
-          span.modal-title.white.fs20
-            | Authorize Payment
-        .modal-body            

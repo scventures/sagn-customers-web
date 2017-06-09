@@ -56,7 +56,7 @@ class ProfilesController < ApplicationController
       redirect_to profile_path, notice: 'Password updated successfully'
     else
       respond_to do |format|
-        format.js {render partial: 'change_password_form', locals: {customer: @customer}, replace: '#change-password-form-container'}
+        format.js {render partial: 'change_password_form', locals: {customer: @customer}, within: '#change-password-form-container'}
       end
     end
   end

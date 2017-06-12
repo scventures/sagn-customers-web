@@ -27,7 +27,7 @@ fillInAddress = ->
     $('#location_geography_latitude').val(place.geometry.location.lat())
     $('#location_geography_longitude').val(place.geometry.location.lng())
   
-$.onmount '.location-form-container .venue_name:visible, .restaurant-details .venue_name', ->
+$.onmount '.location-form-container .venue_name:visible, .restaurant-details .venue_name:visible', ->
   select = $(this).select2
     theme: 'paper'
     closeOnSelect: false

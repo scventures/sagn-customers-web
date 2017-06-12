@@ -40,7 +40,7 @@
                     = l.input :foursquare_venue_id, as: :hidden, input_html: { id: 'location_foursquare_venue_id' }
                     = l.input :geography, as: :hidden, input_html: { name: 'customer[location_attributes][geography][latitude]', id: 'location_geography_latitude' }
                     = l.input :geography, as: :hidden, input_html: { name: 'customer[location_attributes][geography][longitude]', id: 'location_geography_longitude' }
-                    = f.submit 'Save & Continue', class: 'btn btn-continue text-uppercase request-continue-btn logout-credit-card', data: { continue: 'provide-photo'}
+                    = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn'
         .next-btn-wrapper
           = link_to '#', class: 'hidden next-btn' do
             = fa_icon 'chevron-right'

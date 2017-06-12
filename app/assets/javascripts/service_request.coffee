@@ -203,6 +203,7 @@ $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   problem_codes = $(this).data('problem-codes')
   $('.equipment_wrapper').addClass('hidden')
   $('.equipment-field-wrapper').addClass('hidden')
+  $('#service_request_brand_name').val('')
   if $(this).data('equipment')
     $('.equipment_wrapper').removeClass('hidden')
     if !($('form:visible').hasClass('service-request-logout-form'))

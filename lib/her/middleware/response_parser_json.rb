@@ -30,7 +30,8 @@ module Her
         when 422, 400
           parse("{\"errors\": #{env[:body]}}")
         when 401
-          raise Warden::NotAuthenticated
+          # Do not raise exception for authentication API (Devise handles it internally)
+          raise Warden::NotAuthenticated unless env.url.path.match(/customers\/auth_token/)
         else
           parse(env[:body])
         end

@@ -45,9 +45,29 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def change_password
+    @customer = current_customer
+  end
+
+  def update_password
+    @customer = current_customer
+    @customer.attributes = password_params
+    if @customer.update_password
+      redirect_to profile_path, notice: 'Password updated successfully'
+    else
+      respond_to do |format|
+        format.js {render partial: 'change_password_form', locals: {customer: @customer}, within: '#change-password-form-container'}
+      end
+    end
+  end
+
   private
   def permitted_params
-    params.require(:customer).permit(:name, :email, :unconfirmed_phone, :avatar)  
+    params.require(:customer).permit(:name, :email, :unconfirmed_phone, :avatar)
+  end
+
+  def password_params
+    params.require(:customer).permit(:current_password, :password, :password_confirmation)
   end
 
 end

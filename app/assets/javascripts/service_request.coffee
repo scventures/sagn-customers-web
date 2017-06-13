@@ -122,8 +122,6 @@ $.onmount '#wizard' , ->
       return valid
     onStepChanged: (event, currentIndex, priorIndex) ->
       li = $("#wizard-t-#{priorIndex}").parent()
-      if currentIndex == 1 and $('.subcategories-wrapper .subcategory_field').val() == ''
-        $("#wizard-p-#{currentIndex}").find('.next-btn').addClass('hidden')
       if li.hasClass('done') and !li.attr('aria-done')
         li.attr 'aria-done', true
         $("#wizard-p-#{priorIndex}").find('.next-btn').removeClass('hidden')
@@ -174,6 +172,7 @@ setSubcategoriesImages = (id) ->
     imgSrc = $(this).data('src')
     $(this).attr('src', imgSrc)
   $('.subcategories-wrapper .subcategory_field').val('')
+  $("#wizard-p-1").find('.next-btn').addClass('hidden')
   $('#wizard').steps('next')
   
 setEquipment = ->
@@ -199,6 +198,7 @@ $(document).on 'change, click', '.category-wrapper input[type=radio]', ->
   
 $(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
   $('.subcategories-wrapper .subcategory_field').val($(this).val())
+  $("#wizard-p-1").find('.next-btn').removeClass('hidden')
   brands = $(this).data('brands')
   problem_codes = $(this).data('problem-codes')
   $('.equipment_wrapper').addClass('hidden')

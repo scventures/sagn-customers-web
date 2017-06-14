@@ -72,6 +72,10 @@
   .radio {
     display: inline-block;
   }
+  .radio_buttons label {
+    padding-left: 0px;
+    margin-left: 20px;
+  }
   .select2-container--default .select2-selection--single {
     height: 40px;
     padding: 5px;
@@ -238,7 +242,6 @@
   border: 1px solid #979797;
   border-radius: 4px;
   height: 45px;
-  padding-left: 20px;
 }
 
 .next-btn-wrapper .next-btn {
@@ -317,6 +320,9 @@
     }
     &:hover, &:focus {
       box-shadow: 0px 1px 5px 1px #999;
+    }
+    img {
+      pointer-events: none;
     }
   }
 }

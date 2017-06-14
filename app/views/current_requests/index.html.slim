@@ -13,7 +13,9 @@
     .current-request-details
       - if @current_request
         = render 'show', service_request: @current_request, account: @account, activities: @activities, assignments: @assignments
-
+      - else
+        .watermark
+          = image_tag 'watermark.png', width: '400'
 #addCardForEstimate.modal.fade
   .modal-dialog
     .modal-content

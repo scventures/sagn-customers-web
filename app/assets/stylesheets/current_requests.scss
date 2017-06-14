@@ -63,6 +63,13 @@
     color: #5c5c5c;
     font-weight: bold;
   }
+  .watermark {
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+    left: 0;
+    text-align: center;
+  }
 }
 
 .current-request-list {

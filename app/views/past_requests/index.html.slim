@@ -30,6 +30,9 @@
     .past-request-details
       - if @service_request
         = render 'show', service_request: @service_request, account: @account, activities: @activities, estimate: @estimate, assignment: @assignment, customer_rating: @customer_rating
+      - else
+        .watermark
+          = image_tag 'watermark.png', width: '400'
 #issueModal.modal.fade role="dialog"
   .modal-dialog
     .modal-content

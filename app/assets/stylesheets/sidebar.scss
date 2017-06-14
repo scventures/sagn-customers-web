@@ -19,19 +19,51 @@
       background: #d9534f;
       border-bottom: 1px solid #dedede;
       text-align: center;
+      a {
+        color: #c2272d;
+        text-decoration: none;
+        font-size: 12px;
+        text-transform: uppercase;
+        i {
+          width: 50px;
+          height: 50px;
+          margin: 0 auto;
+          display: block;
+        }
+        &:hover {
+          color: #fff;
+        }
+        p {
+          padding: 0px 10px;
+          margin-top: 2px;
+        }
+      }
+      &.active, &:hover {
+        color: #fff;
+        i {
+          filter: brightness(0) invert(1);
+        }
+        a {
+          color: #fff;
+        }
+      }
+    }
+    li.service-request {
+      background: #fff;
+      border-bottom: none;
+      &.active, &:hover {
+        color: #cf3c3a;
+        opacity: 0.8;
+        i {
+          filter: none;
+        }
+        a {
+          color: #cf3c3a;
+        }
+      }
     }
   }
-  a {
-    &:hover i {
-      filter: brightness(0) invert(1);
-    }
-    i {
-      width: 50px;
-      height: 50px;
-      margin: 0 auto;
-      display: block;
-    }
-  }
+  
 }
 
 .sidebar-btn {
@@ -73,30 +105,6 @@
 .icon-my-guys {
   background: no-repeat image-url('icon-my-guys.png') center;
   background-size: 50px 50px;
-}
-
-.left-sidebar ul li {
-  a {
-    color: #c2272d;
-    text-decoration: none;
-    font-size: 12px;
-    text-transform: uppercase;
-    &:hover {
-      color: #fff;
-    }
-    p {
-      padding: 0px 10px;
-    }
-  }
-  &.active {
-    color: #fff;
-    i {
-      filter: brightness(0) invert(1);
-    }
-    a {
-      color: #fff;
-    }
-  }
 }
 
 span.current-customer { padding-left: 10px; font-size: 18px; margin: 5px; }

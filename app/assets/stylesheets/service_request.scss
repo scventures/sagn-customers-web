@@ -26,19 +26,25 @@
   }
 }
 
-.map-container {
-  margin-top: -30px;
-  #google-map {
-    height: calc(100vh - 120px);
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-    .info-window {
-      max-width: 300px;
-    }
+#service_requests_index {
+  .col-sm-8 {
+    padding-right: 0px;
+    padding-left: 0px;
   }
-  .gm-style-iw {
-    text-align: center;
+  .map-container {
+    margin-top: -30px;
+    #google-map {
+      height: calc(100vh - 120px);
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      .info-window {
+        max-width: 300px;
+      }
+    }
+    .gm-style-iw {
+      text-align: center;
+    }
   }
 }
 
@@ -312,12 +318,6 @@
     &:hover, &:focus {
       box-shadow: 0px 1px 5px 1px #999;
     }
-  }
-}
-#service_requests_index {
-  .col-sm-8 {
-    padding-right: 0px;
-    padding-left: 0px;
   }
 }
 

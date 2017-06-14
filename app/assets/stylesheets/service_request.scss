@@ -66,6 +66,10 @@
   .radio {
     display: inline-block;
   }
+  .radio_buttons label {
+    padding-left: 0px;
+    margin-left: 20px;
+  }
   .select2-container--default .select2-selection--single {
     height: 40px;
     padding: 5px;

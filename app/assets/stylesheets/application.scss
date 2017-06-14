@@ -10,16 +10,24 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require select2
- *= require rating
- *= require_tree .
- *= require_self
- 
  */
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
 @import "perfect-scrollbar";
 @import "jquery.steps";
+@import "select2";
+@import "rating";
 @import "common";
+@import "contractors";
+@import "credit_card";
+@import "current_requests";
+@import "faqs";
+@import "location";
+@import "past_request";
 @import "profiles";
+@import "responsive";
+@import "service_request";
+@import "sidebar";
+@import "step";
+@import "users";

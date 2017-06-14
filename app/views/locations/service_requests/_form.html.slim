@@ -3,7 +3,7 @@
   = hidden_field_tag 'location_address', location.address_1, class: 'location_address'
   = f.input :location_id, as: :hidden
   p.title Request Service
-  #wizard
+  #wizard.loading
     = render 'shared/service_request_fields', f: f, categories: categories
     = render 'shared/details_summary', f: f
     h2 Summary & Payment

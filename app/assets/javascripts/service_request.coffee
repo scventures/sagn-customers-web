@@ -129,7 +129,9 @@ $.onmount '#wizard' , ->
       switch $('#wizard').steps('getStep', priorIndex).title
         when 'Service Request'
           category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
-          $('.steps #wizard-t-0 .summary-data').html(category)
+          unless $('.subcategories-wrapper .subcategory_field').val() == ''
+            subcategory = $('#service-request-form .subcategories-wrapper input[type=radio]:checked').parent().find('p').html()
+          $('.steps #wizard-t-0 .summary-data').html([category, subcategory].filter(Boolean).join(' / '))
         when 'Sub Category'
           category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
           subcategory = $('#service-request-form .subcategories-wrapper input[type=radio]:checked').parent().find('p').html()
@@ -171,8 +173,6 @@ setSubcategoriesImages = (id) ->
   $(".subcategory_icons.category-#{id} img").each ->
     imgSrc = $(this).data('src')
     $(this).attr('src', imgSrc)
-  $('.subcategories-wrapper .subcategory_field').val('')
-  $("#wizard-p-1").find('.next-btn').addClass('hidden')
   $('#wizard').steps('next')
   
 setEquipment = ->
@@ -196,25 +196,33 @@ setEquipment = ->
 $(document).on 'click', '.category-wrapper input[type=radio]', ->
   setSubcategoriesImages($(this).val())
   
-$(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
+$(document).on 'change', '.category-wrapper input[type=radio]', ->
+  $('.subcategories-wrapper .subcategory_field').val('')
+  $("#wizard-p-1").find('.next-btn').addClass('hidden')
+  $('.steps #wizard-t-3 .summary-data').html('')
+  
+$(document).on 'change', '.subcategories-wrapper input[type=radio]', ->
   $('.subcategories-wrapper .subcategory_field').val($(this).val())
   $("#wizard-p-1").find('.next-btn').removeClass('hidden')
+  $('.steps #wizard-t-3 .summary-data').html('')
+  
+$(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
   brands = $(this).data('brands')
   problem_codes = $(this).data('problem-codes')
   $('.equipment_wrapper').addClass('hidden')
   $('.equipment-field-wrapper').addClass('hidden')
   $('#service_request_brand_name').val('')
+  brands.map((obj) -> (obj.text = obj.text or obj.name))
   if $(this).data('equipment')
     $('.equipment_wrapper').removeClass('hidden')
     if !($('form:visible').hasClass('service-request-logout-form'))
       $('form:visible').block blockUI
       setEquipment()
+    if brands.length > 0
+      $('#service_request_brand_name').addClass('hidden')
+      $('#service_request_brand_name').val(brands[0].name)
   else
     $('a.problem-details-link').attr('data-equipment', true)
-  brands.map((obj) -> (obj.text = obj.text or obj.name))
-  if brands.length > 0
-    $('#service_request_brand_name').addClass('hidden')
-    $('#service_request_brand_name').val(brands[0].name)
   $('.select_brand').empty()
   $('.select_brand').select2
     placeholder: 'Please select Brand'

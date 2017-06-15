@@ -93,7 +93,6 @@ markSubSteps = (indices = []) ->
   parentSteps.css
     width: "#{100 / parentSteps.length}%"
 
-
 $.onmount '#wizard' , ->
   $(this).steps
     headerTag: 'h2'
@@ -105,6 +104,7 @@ $.onmount '#wizard' , ->
     onInit: ->
       $('#wizard > .steps').appendTo '#wizard'
       markSubSteps()
+      $('#wizard').removeClass('loading')
       return
     onStepChanging: (event, currentIndex, newIndex) ->
       title = $('#wizard').steps('getStep', currentIndex).title
@@ -122,8 +122,6 @@ $.onmount '#wizard' , ->
       return valid
     onStepChanged: (event, currentIndex, priorIndex) ->
       li = $("#wizard-t-#{priorIndex}").parent()
-      if currentIndex == 1 and $('.subcategories-wrapper .subcategory_field').val() == ''
-        $("#wizard-p-#{currentIndex}").find('.next-btn').addClass('hidden')
       if li.hasClass('done') and !li.attr('aria-done')
         li.attr 'aria-done', true
         $("#wizard-p-#{priorIndex}").find('.next-btn').removeClass('hidden')
@@ -174,6 +172,7 @@ setSubcategoriesImages = (id) ->
     imgSrc = $(this).data('src')
     $(this).attr('src', imgSrc)
   $('.subcategories-wrapper .subcategory_field').val('')
+  $("#wizard-p-1").find('.next-btn').addClass('hidden')
   $('#wizard').steps('next')
   
 setEquipment = ->
@@ -193,12 +192,13 @@ setEquipment = ->
           $('.select_equipment').select2
             placeholder: 'Please select Equipment'
             data: data
-  
-$(document).on 'change, click', '.category-wrapper input[type=radio]', ->
+
+$(document).on 'click', '.category-wrapper input[type=radio]', ->
   setSubcategoriesImages($(this).val())
   
-$(document).on 'change, click', '.subcategories-wrapper input[type=radio]', ->
+$(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
   $('.subcategories-wrapper .subcategory_field').val($(this).val())
+  $("#wizard-p-1").find('.next-btn').removeClass('hidden')
   brands = $(this).data('brands')
   problem_codes = $(this).data('problem-codes')
   $('.equipment_wrapper').addClass('hidden')

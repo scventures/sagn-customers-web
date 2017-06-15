@@ -14,8 +14,7 @@ body#service_requests_new {
     margin: 0;
     background: none;
     overflow: auto;
-    max-height: calc(100% - 160px);
-    min-height: calc(100% - 160px);
+    height: calc(100% - 160px);
     .body {
       padding: 0px;
       width: 100%;
@@ -24,6 +23,22 @@ body#service_requests_new {
           display: none;
         }
       }
+    }
+  }
+  &.loading {
+    & > * {
+      display: none;
+    }
+    &:after {
+      content: "\f110";
+      font-family: FontAwesome;
+      font-size: 60px;
+      position: absolute;
+      left: 50%;
+      margin-left: -21px;
+      margin-top: 100px;
+      animation: fa-spin 1s infinite steps(8);
+      -webkit-animation: fa-spin 1s infinite steps(8);
     }
   }
   .actions { display: none; }

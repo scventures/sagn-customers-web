@@ -1,7 +1,7 @@
 - url ||= customers_create_with_service_request_path()
 = simple_form_for customer, url: url, validate: true, turboboost: true, html: { id: 'service-request-form', class: 'service-request-logout-form' } do |f|
   p.title Request Service
-  #wizard
+  #wizard.loading
     = f.simple_fields_for :service_request, validate: true do |s|
       = render 'shared/service_request_fields', f: s, categories: categories
     h2 Restaurant Details

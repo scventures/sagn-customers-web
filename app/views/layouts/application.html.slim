@@ -6,10 +6,6 @@ html
     .row-offcanvas.row-offcanvas-left
       .left-sidebar.sidebar-offcanvas.ps-scroll
         ul.sidebar
-          li class="#{ 'active' if params[:controller] == 'locations/service_requests' or params[:controller] == 'service_requests'}"
-            = link_to service_requests_path, class: '' do
-              i.icon-req-services
-              p Request Service
           li class="#{ 'active' if params[:controller] == 'current_requests'}"
             = link_to current_requests_path, class: '' do
               i.icon-req-service-current
@@ -30,8 +26,12 @@ html
             /= link_to contractors_path, class: '' do
               /i.icon-my-guys
               /p My Guys
+          li.service-request class="#{ 'active' if params[:controller] == 'locations/service_requests' or params[:controller] == 'service_requests'}"
+            = link_to service_requests_path, class: '' do
+              i.icon-req-services
+              p Request Service
       .main-wrapper.ps-scroll
-        button type='button' class='btn btn-danger btn-xs visible-xs' data-toggle='offcanvas'
+        button type='button' class='btn btn-danger btn-xs visible-xs sidebar-btn' data-toggle='offcanvas'
           = fa_icon('angle-left 2x')
           = fa_icon('angle-right 2x')
         = bootstrap_flash

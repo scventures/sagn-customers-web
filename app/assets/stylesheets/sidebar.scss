@@ -66,6 +66,13 @@
   
 }
 
+.sidebar-btn {
+  left: 0;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+
 .icon-req-services {
   background: no-repeat image-url('icon-req-service.png') center;
   background-size: 50px 50px;

@@ -42,9 +42,10 @@ $.onmount '.location-form-container .venue_name:visible, .restaurant-details .ve
       results: (data, page)->
         return data.result
       processResults: (data, params) ->
-        $.each data, (i, loc) ->
+        venues = data.venues
+        $.each venues, (i, loc) ->
           loc.text = loc.name
-        results: data
+        results: data.venues
     templateResult: (data) =>
       if data.id
         $('<div>').attr({'class': 'combo-list'}).html($('<h5>').html(data.name)).append($('<p>').html(data.location.address));

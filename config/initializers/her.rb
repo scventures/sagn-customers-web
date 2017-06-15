@@ -14,4 +14,4 @@ Her::API.setup url: ENV['API_URL'], send_only_modified_attributes: true do |c|
 end
 
 Her::Model.send :include, Her::Model::Extension
-
+Hashie.logger = Logger.new(nil)

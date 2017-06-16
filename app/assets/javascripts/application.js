@@ -16,6 +16,9 @@
 //= require jquery.steps
 //= require jquery.blockUI
 //= require jquery.remotipart
+//= require js.cookie
+//= require jstz
+//= require browser_timezone_rails/set_time_zone
 //= require bootstrap-sprockets
 //= require cocoon
 //= require select2-full

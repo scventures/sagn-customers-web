@@ -11,6 +11,8 @@
     = current_request.location[:name]
   h5.black
     = current_request.location[:address_1]
+    span.pl10
+      = current_request.location[:city]
 .footer
   - if current_request.category and current_request.subcategory
     = "#{current_request.category[:name]}: #{current_request.subcategory[:name]}"

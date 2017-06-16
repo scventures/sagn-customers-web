@@ -1,3 +1,6 @@
+Array::compact = ->
+  (elem for elem in this when elem?)
+
 $.fn.steps.setStep = (step) ->
   wizard = $('#wizard')
   index = $(wizard).data('state').currentIndex

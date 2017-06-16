@@ -15,10 +15,10 @@ div
     .row.is-flex.mt10
       - locations.compact.each do |location|
         .col-md-4.location-list
-          = link_to location_path(location), method: :delete, data: { confirm: 'You want to remove this location?'} do
-            = image_tag('close_red.png', class: 'delete-icon')
+          = link_to location_path(location), method: :delete, data: { confirm: 'You want to remove this location?'}, class: 'delete-icon-link' do
+            = image_tag('close_red.png')
           div
-            = static_map_for(location.geography[:latitude], location.geography[:longitude])
+            = static_map_for(location.geography[:latitude], location.geography[:longitude], {width: 600, height: 400})
           h3
             = location.name
           - unless location.full_address.blank?

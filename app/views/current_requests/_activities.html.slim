@@ -22,12 +22,11 @@
               strong = assignment[:technician][:name]
               br/
               = assignment[:technician][:company_name]
-      - if activity.accepted? or activity.declined?
+      - if (activity.accepted? or activity.declined?) and activity.assignment and estimation = activity.assignment[:current_estimation]
         .w60-pct.m-auto
           p.mt10
             button.btn-link.black data-target="#see-details" data-toggle="collapse" type="button" See Details
           #see-details.mt10.collapse
-            - estimation = activity.service_request.service_requests_assignments[0][:current_estimation]
             .grey-container
               .row
                 .col-sm-6 Labor:

@@ -100,6 +100,12 @@ $(document).on 'shown.bs.modal', '#addLocation', ->
   form = $(this).parents().find('form')
   resetLocationForm(form)
 
+$(document).on 'click', '.location-images-container a.location-link', (e) ->
+  $(this).find('.location-street-image').removeClass('no-pointer-events')
+
+$(document).on 'mouseleave', '.location-images-container a.location-link', (e) ->
+  $(this).find('.location-street-image').addClass('no-pointer-events')
+
 window.locationStreetView = (lat, lng, location_id) ->
   $("#location-street-view-#{location_id}").removeClass('hidden')
   streetViewService = new (google.maps.StreetViewService)

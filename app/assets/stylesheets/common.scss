@@ -57,7 +57,9 @@
 .font-bold { font-weight: bold; }
 .padding30 { padding: 30px; }
 .no-border { border: none !important; }
-.inline-block{ display: inline-block; }
+.inline-block { display: inline-block; }
+.no-pointer-events { pointer-events: none; }
+
 nav.navbar {
   margin-bottom: 0;
   .navbar-brand {

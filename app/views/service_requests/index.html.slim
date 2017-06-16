@@ -8,7 +8,7 @@
             = link_to '#', data: { id: location.id, collapse: false }, class: 'location-link' do
               .location-container data-venue-id= location.foursquare_venue_id data-lng= location.geography[:longitude] data-lat= location.geography[:latitude] data-location-id= location.id
                 .location-image-wrapper
-                  .location-street-image.hidden id= "location-street-view-#{location.id}"
+                  .location-street-image.no-pointer-events.hidden id= "location-street-view-#{location.id}"
                   .images-container
                 .location-info
                   p.name

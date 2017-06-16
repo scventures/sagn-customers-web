@@ -20,8 +20,8 @@
     padding: 20px;
   }
   .preview {
-    width: 40px;
-    height: 40px;
+    width: auto;
+    height: 100%;
     margin-left: 5px;
   }
 }
@@ -188,7 +188,7 @@
     }
     .img-preview {
       width: 250px;
-      height: 250px;
+      height: 200px;
     }
   }
 }

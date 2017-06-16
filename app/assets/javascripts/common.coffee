@@ -44,7 +44,7 @@ $(document).on 'change', '.image-upload', (event) ->
     $(event.target).parents('.image-wrapper').find('.image-upload-label').first().addClass('hidden')
     $(event.target).parents('.image-wrapper').find('.image-upload-label').last().removeClass('hidden').html $('<img>').attr(
       src: file.target.result
-      class: 'img-preview')
+      class: 'img-preview img-responsive')
     $(event.target).focusout()
   reader.readAsDataURL image
 

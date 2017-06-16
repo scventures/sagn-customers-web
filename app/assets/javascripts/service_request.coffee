@@ -355,7 +355,7 @@ setSummaryDetailsImages = ->
     $(this).attr 'src'
   ).get()
   $.each images, (i, img) ->
-    $('.summary-details-wrapper').find('.issue_image').append($('<img>').attr(src: img, class: 'preview'))
+    $('.summary-details-wrapper').find('.issue_image').append($('<img>').attr(src: img, class: 'preview img-responsive'))
     
 $(document).on 'click', '.service-request-signin-link', (e) ->
   e.preventDefault()

@@ -18,7 +18,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
       resource.authenticate!
       bypass_sign_in(resource)
       if resource.create_service_request
-        flash[:alert] = 'Please complete your registration.'
+        flash[:alert] = "To receive push notification regarding the service request you must confirm your phone number and email. #{view_context.link_to('Click here to confirm.', profile_path)}".html_safe
         flash[:notice] = 'Service Request created successfully.'
         redirect_to current_requests_path
       else

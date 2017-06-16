@@ -1,7 +1,7 @@
 - content_for :title do
   .header-title.text-uppercase Locations
 div
-  .row
+  .row.mt20
     .col-sm-6
       h3 My Locations
     .col-md-6.text-center
@@ -15,6 +15,8 @@ div
     .row.is-flex.mt10
       - locations.compact.each do |location|
         .col-md-4.location-list
+          = link_to location_path(location), method: :delete, data: { confirm: 'You want to remove this location?'} do
+            = image_tag('close_red.png', class: 'delete-icon')
           div
             = static_map_for(location.geography[:latitude], location.geography[:longitude])
           h3
@@ -24,7 +26,6 @@ div
               = location.full_address
           .text-center.btn-holder
             = link_to 'Edit', edit_location_path(location), remote: true, class: 'btn btn-edit'
-            = link_to 'Delete', location_path(location), method: :delete, data: { confirm: 'You want to remove this location?'}, class: 'btn btn-edit ml10'
 #editLocation.modal.fade role='dialog'
   .modal-dialog
     .modal-content

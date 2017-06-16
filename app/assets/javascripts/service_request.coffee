@@ -286,9 +286,12 @@ $(document).on 'click', '.service-request-form-wrapper .request-service-card-btn
   if $(this).data('card') == 'add'
     $('.service-request-form-wrapper #payment-form').removeClass('hidden')
     $('.service-request-form-wrapper .service-request-submit-btn').addClass('hidden')
+    $('.service-request-form-wrapper .credit-card-form').removeClass('hidden')
+    $('.request-service-card-btn').removeClass('active')
   else
     $('.service-request-form-wrapper #payment-form').addClass('hidden')
     $('.service-request-form-wrapper .service-request-submit-btn').removeClass('hidden')
+    $('.service-request-form-wrapper .credit-card-form').addClass('hidden')
   
 setCategories = ->
   if $('.select_category option:selected').val() != ''

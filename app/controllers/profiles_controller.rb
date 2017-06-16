@@ -2,6 +2,7 @@ class ProfilesController < ApplicationController
   before_action :authenticate_customer!
 
   def show
+    flash[:alert] = nil
   end
 
   def edit

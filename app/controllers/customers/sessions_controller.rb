@@ -5,7 +5,7 @@ class Customers::SessionsController < Devise::SessionsController
     if customer.authenticate!
       bypass_sign_in(customer)
       if customer.create_service_request
-        flash[:alert] = 'Please complete your registration.' unless customer.active
+        flash[:alert] = "To receive push notification regarding the service request you must confirm your phone number and email. #{view_context.link_to('Click here to confirm.', profile_path)}".html_safe unless customer.active
         flash[:notice] = 'Service Request created successfully.'
         redirect_to current_requests_path
       else

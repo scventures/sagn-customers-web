@@ -23,5 +23,6 @@ module SagnCustomersWeb
     # -- all .rb files in that directory are automatically loaded.
 
     config.autoload_paths += %W( lib/ )
+    config.time_zone = 'Eastern Time (US & Canada)'
   end
 end

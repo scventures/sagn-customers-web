@@ -38,7 +38,12 @@ $.onmount '.location-form-container .venue_name:visible, .restaurant-details .ve
       dataType: 'JSON'
       type: 'GET'
       data: (params) ->
-        { query: params['term'], near: 'New York, NY' }
+        data = {query: params['term']}
+        if currentPosition
+          data.ll = "#{currentPosition.coords.latitude}, #{currentPosition.coords.longitude}"
+        else
+          data.near 'New York, NY'
+        return data
       results: (data, page)->
         return data.result
       processResults: (data, params) ->
@@ -48,7 +53,8 @@ $.onmount '.location-form-container .venue_name:visible, .restaurant-details .ve
         results: data.venues
     templateResult: (data) =>
       if data.id
-        $('<div>').attr({'class': 'combo-list'}).html($('<h5>').html(data.name)).append($('<p>').html(data.location.address));
+        fullAddress = [data.location.address, data.location.city, data.location.state].compact().join(', ')
+        $('<div>').attr({'class': 'combo-list'}).html($('<h5>').html(data.name)).append($('<p>').html(fullAddress));
       else
         data.text
     dropdownParent: $('.select2-dropdown-container:visible')
@@ -57,16 +63,18 @@ $.onmount '.location-form-container .venue_name:visible, .restaurant-details .ve
     $('#editLocation').find('.select2-search__field').val($('#edit_location_name').val()).trigger('change')
     $('#editLocation').find('.select2-search__field').trigger('keyup')
 
-#$(document).ready ->
-#  getLocation()
+$(document).ready ->
+  getLocation()
 
-#getLocation = ->
-#  if navigator.geolocation
-#    navigator.geolocation.getCurrentPosition showPosition
+getLocation = ->
+  if navigator.geolocation
+    navigator.geolocation.getCurrentPosition LoadedCurrentPosition, ErrorGettingCurrentPosition
 
-#showPosition = (position) ->
-#  ll = "#{position.coords.latitude},#{position.coords.longitude}"
-#  $('.main-wrapper').attr('data-ll', ll)
+LoadedCurrentPosition = (position)->
+  window.currentPosition = position
+
+ErrorGettingCurrentPosition = (err) ->
+  window.currentPosition = null
 
 $(document).on 'click', '.provide-address-btn', (e) ->
   e.preventDefault()

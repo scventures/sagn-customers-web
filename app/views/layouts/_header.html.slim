@@ -10,16 +10,16 @@
         a.navbar-brand.welcome-user href="#"
       #navbar.navbar-collapse.collapse
         ul.nav.navbar-nav.navbar-left
-          .dropdown.text-center
+          .dropdown
             li.dropdown-toggle.guest-name data-toggle="dropdown" type="button"
               - if current_customer.photo?
-                = image_tag current_customer.photo, class: 'img-circle mt10', size: '80'
+                = image_tag current_customer.photo, class: 'img-circle mt10', size: '80', title: current_customer.name.try(:titleize)
               - else
-                = image_tag 'user.png', class: 'img-circle mt10', size: '80'
+                = image_tag 'user.png', class: 'img-circle mt10', size: '80', title: current_customer.name.try(:titleize)
               br/
-              span.current-customer
+              span.current-customer.ellipsis
                 = current_customer.name.try(:titleize)
-              span.caret
+              .caret
             ul.dropdown-menu
              li
                = link_to 'Profile', profile_path

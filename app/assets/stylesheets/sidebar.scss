@@ -107,7 +107,16 @@
   background-size: 50px 50px;
 }
 
-span.current-customer { padding-left: 10px; font-size: 18px; margin: 5px; }
+span.current-customer {
+  font-size: 14px;
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100px;
+}
 
 nav.navbar.header-inside.inner-header.navbar-fixed-top {
   height: 118px !important;

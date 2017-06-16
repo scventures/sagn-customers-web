@@ -21,6 +21,16 @@
     line-height: 18px;
     padding-bottom: 50px;
   }
+  .delete-icon-link {
+    margin-top: 20px;
+    margin-right: 20px;
+    position: absolute;
+    right: 0;
+    img {
+      width: 35px !important;
+      height: 35px !important;
+    }
+  }
 }
 
 h4 {

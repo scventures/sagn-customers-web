@@ -70,13 +70,13 @@ getLocation = ->
   if navigator.geolocation
     navigator.geolocation.getCurrentPosition LoadedCurrentPosition, ErrorGettingCurrentPosition
 
-window.currentPosition = null
+@currentPosition = null
 
 LoadedCurrentPosition = (position)->
-  currentPosition = position
+  @currentPosition = position
 
 ErrorGettingCurrentPosition = (err) ->
-  currentPosition = null
+  @currentPosition = null
 
 $(document).on 'click', '.provide-address-btn', (e) ->
   e.preventDefault()

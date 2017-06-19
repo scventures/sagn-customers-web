@@ -1,6 +1,8 @@
 class CustomerRating
   include Her::Model
   collection_path 'customers/accounts/:account_id/service_requests/:service_request_id/assignments/:assignment_id/ratings'
+  include_root_in_json :customer_rating
+
   attributes :stars, :comment, :assignment_id, :service_request_id, :account_id
   belongs_to :assignment
   

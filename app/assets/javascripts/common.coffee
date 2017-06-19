@@ -42,13 +42,19 @@ $(document).on 'change', '.image-upload', (event) ->
   image = files[0]
   reader = new FileReader
   reader.onload = (file) ->
-    img = new Image
+    form = $(event.target).parents('form:first')
     $(event.target).parents('.image-wrapper').find('.remove_fields').removeClass('hidden')
-    $(event.target).parents('.image-wrapper').find('.image-upload-label').first().addClass('hidden')
-    $(event.target).parents('.image-wrapper').find('.image-upload-label').last().removeClass('hidden').html $('<img>').attr(
-      src: file.target.result
-      class: 'img-preview img-responsive')
-    $(event.target).focusout()
+    if $('form').data('client-side-validations') and !($(event.target).isValid($(event.target).parents('form:first')[0].ClientSideValidations.settings.validators))
+      $(event.target).parents('.image-wrapper').find('.image-upload-label').last().html('')
+      $(event.target).parents('.image-wrapper').find('.form-group.has-error').addClass('image-not-allowed')
+    else
+      $(event.target).parents('.image-wrapper').find('.form-group').removeClass('image-not-allowed')
+      img = new Image
+      $(event.target).parents('.image-wrapper').find('.image-upload-label').first().addClass('hidden')
+      $(event.target).parents('.image-wrapper').find('.image-upload-label').last().removeClass('hidden').html $('<img>').attr(
+        src: file.target.result
+        class: 'img-preview img-responsive')
+      $(event.target).focusout()
   reader.readAsDataURL image
 
 $.onmount 'form[data-client-side-validations][data-turboboost]', ->

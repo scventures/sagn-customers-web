@@ -115,7 +115,7 @@ $.onmount '#wizard' , ->
       form = $(this).parents('form:first')
       valid = true
       if newIndex > currentIndex
-        $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select"), (i, element) ->
+        $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select, input.image-upload"), (i, element) ->
           unless $(element).hasClass('venue_name')
             valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
           return
@@ -219,8 +219,7 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
       $('form:visible').block blockUI
       setEquipment()
     if brands.length > 0
-      $('#service_request_brand_name').addClass('hidden')
-      $('#service_request_brand_name').val(brands[0].name)
+      $('#service_request_brand_name').addClass('hidden').val(brands[0].name)
   else
     $('a.problem-details-link').attr('data-equipment', true)
   $('.select_brand').empty()
@@ -345,8 +344,9 @@ $(document).on 'change', '.urgent-service', ->
     $('.urgent-wrapper').find('h5').html('When would you like a technician to arrive?')
     $('.urgent-wrapper').find('textarea').attr('placeholder', 'Please be specific. For example: Any time next week, Tuesday afternoon, Friday morning, etc.')
     
-$(document).on 'cocoon:after-insert', '.provide-photo', (e) ->
-  $(this).find('.image-upload:last').trigger('click')
+$(document).on 'cocoon:after-insert', '.provide-photo', (e, addedImage) ->
+  $(addedImage).find('.image-upload').enableClientSideValidations()
+  $(addedImage).find('.image-upload').trigger('click')
   
 $(document).on 'click', '.details-change-link', (e) ->
   e.preventDefault()

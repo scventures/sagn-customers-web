@@ -1,4 +1,6 @@
-Her::API.setup url: ENV['API_URL'], send_only_modified_attributes: true do |c|
+user_agent = "SAGN Customers Web app Revision-#{`git rev-parse --short HEAD`.strip} #{'(development-env)' if Rails.env.development?}"
+
+Her::API.setup url: ENV['API_URL'], send_only_modified_attributes: true, headers: { user_agent: user_agent } do |c|
   # Request
   c.use TokenAuthentication
   c.use Faraday::Request::Multipart

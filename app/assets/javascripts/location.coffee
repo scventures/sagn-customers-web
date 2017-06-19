@@ -42,7 +42,7 @@ $.onmount '.location-form-container .venue_name:visible, .restaurant-details .ve
         if currentPosition
           data.ll = "#{currentPosition.coords.latitude}, #{currentPosition.coords.longitude}"
         else
-          data.near 'New York, NY'
+          data.near = 'New York, NY'
         return data
       results: (data, page)->
         return data.result
@@ -70,11 +70,13 @@ getLocation = ->
   if navigator.geolocation
     navigator.geolocation.getCurrentPosition LoadedCurrentPosition, ErrorGettingCurrentPosition
 
+@currentPosition = null
+
 LoadedCurrentPosition = (position)->
-  window.currentPosition = position
+  @currentPosition = position
 
 ErrorGettingCurrentPosition = (err) ->
-  window.currentPosition = null
+  @currentPosition = null
 
 $(document).on 'click', '.provide-address-btn', (e) ->
   e.preventDefault()

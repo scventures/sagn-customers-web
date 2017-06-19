@@ -1,2 +1,7 @@
-$('.past-request-details').find('#customer-rating-container').remove()
+$('body').find('.alert').remove()
+<% if @customer_rating.response_errors.blank? %>
+  $('.past-request-details').find('#customer-rating-container').remove()
+<% else %>
+  $('.main-wrapper').prepend('<%= flash_container(:danger, @customer_rating.response_errors[:error]) %>')
+<% end %>
 $.onmount()

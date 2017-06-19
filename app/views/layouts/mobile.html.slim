@@ -4,7 +4,7 @@ html
   body id="#{controller.controller_name}_#{controller.action_name}"
     nav.navbar.header-inside.inner-header.navbar-fixed-top
       #navbar.navbar-collapse
-        = link_to dashboard_path, class: 'logo-link p0 navbar-brand' do
+        = link_to root_path, class: 'logo-link p0 navbar-brand' do
           = image_tag 'sendaguy.png', width: '300'
     = bootstrap_flash
     = yield

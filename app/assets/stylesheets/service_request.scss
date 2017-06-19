@@ -412,3 +412,10 @@
     }
   }
 }
+
+.image-not-allowed:before {
+  content: "\f071";
+  font-family: FontAwesome;
+  color: #ff0000;
+  font-size: 100px;
+}

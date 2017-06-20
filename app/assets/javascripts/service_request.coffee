@@ -418,3 +418,6 @@ $(document).on 'click', '.decline-estimate-link', (e)->
   
 $(document).on 'submit', '.block-on-submit', ->
   $('form').block blockUI
+
+$(document).on 'ajax:complete', '.block-on-submit', ->
+  $('form').unblock()

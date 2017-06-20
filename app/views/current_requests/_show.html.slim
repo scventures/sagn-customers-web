@@ -24,26 +24,34 @@
                   .star.fullStar
                   .star.fullStar
                 br/
-                = "Can come #{assignments.last.arrive_eta}"
+                - if service_request.urgent
+                  = "Can arrive within #{hours_from_minutes(assignments.last.arrive_eta_minutes)}"
+                - else
+                  = eta_text(assignments.last.arrive_eta)
             input type='text' placeholder= 'Tap here to enter Promo Code' class= 'w100-pct text-center mt20'
             .black.text-center.fs16.mt10
-              p.mb10
-                |You must authorize a charge of
-                span.ml10
-                  = "#{(assignments.last.diagnostic_fee).format}"
-              .w80-pct.m-auto
-                | This covers the technician's arrival and one hour of work to fix or diagnose the problem. Once you accept this conctractor you cannot cancel and your card will be charged when the technician arrives.
+              p.mb10 
+                = payment_summary_text(assignments.last)
+              .text-left
+                button data-target='#coverText' data-toggle='collapse' type='button' class='btn-link text-primary font-bold' What does this cover?
+                #coverText.collapse.ml10
+                  = cover_text(assignments.last)
+                  .mt10
+                    = "Contractor warrants their services will be free from defects in materials and workmanship for a period of #{assignments.last.contractor_account[:warranty_period]} days from the date of the final bill. If there is a warranty claim during the warranty period the contractor will return to evaluate at no additional fee. Additional fees may apply if the issue is not a contractor defect."
               p.mt10
-                button.btn.btn-red data-target="#payment-methods" data-toggle="collapse" type="button" Accept and Authorize charge
+                - if assignments.last.charging?
+                  button.btn.btn-red data-target='#payment-methods' data-toggle='collapse' type='button' Accept and Authorize charge
+                - else
+                  = link_to 'Accept Technician', service_requests_service_request_assignment_payment_authorize_path(assignments.last.id, service_request_id: service_request.id), method: :post, remote: true, class: 'btn btn-red mt10 with-ajax-loader'
               #payment-methods.white-container.collapse
                 strong.fs20.text-center Pick a payment method:
                 = link_to 'Default Payment Method', service_requests_service_request_assignment_start_accepting_path(assignments.last.id, service_request_id: service_request.id), remote: true, class: 'btn btn-grey mt10 with-ajax-loader'
-                = link_to "Pay #{(assignments.last.diagnostic_fee).format}", service_requests_service_request_assignment_payment_authorize_path(assignments.last.id, service_request_id: service_request.id), method: :post, remote: true, class: 'btn btn-grey mt10 with-ajax-loader'
+                = link_to "Pay #{(assignments.last.diagnostic_fee).format}", service_requests_service_request_assignment_payment_authorize_path(assignments.last.id, service_request_id: service_request.id), method: :post, remote: true, class: 'btn btn-red mt10 with-ajax-loader'
                 br/
               = link_to 'Decline', service_requests_service_request_assignment_start_declining_path(assignments.last.id, service_request_id: service_request.id), remote: true, class: 'btn btn-grey mt10 with-ajax-loader'
             p.text-center.fs12.mt10
               |By Accepting you agree to out
-              = link_to 'Terms of use', page_path('terms_of_use')
+              = link_to 'Terms of use', page_path('terms_of_use'), class: 'ml5'
           - else
             = render 'current_requests/activities', service_request: service_request, activities: activities
   - else

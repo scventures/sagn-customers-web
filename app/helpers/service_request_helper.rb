@@ -57,5 +57,34 @@ module ServiceRequestHelper
       end
     end
   end
-  
+
+  def eta_text(eta)
+    case eta
+    when 'need_to_schedule'
+      'To be scheduled after you accept'
+    when 'today'
+      'Can come today'
+    when 'tomorrow'
+      'Can come tomorrow'
+    end
+  end
+
+  def payment_summary_text(assignment)
+    if assignment.charging?
+      "You must authorize a charge of #{(assignment.diagnostic_fee).format}"
+    elsif total == 0
+      'There will be no charge to you for this technician to arrive.'
+    elsif assignment.remaining_promo_code_discount_cents > 0
+      "There will be no charge to you for this technician to arrive and you have #{(assignment.remaining_promo_code_discount_cents).format} credit toward any further work for this service request."
+    end
+  end
+
+  def cover_text(assignment)
+    if assignment.charging?
+      'This covers the technician\'s arrival and one hour of work to fix or diagnose the problem. Once you accept this contractor you cannot cancel and your card will be charged when the technician arrives.'
+    else
+      'If you accept, when the technician arrives, they will provide an estimate of the work to fix the problem.'
+    end
+  end
+
 end

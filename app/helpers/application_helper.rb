@@ -21,4 +21,8 @@ module ApplicationHelper
     ((t1 - t2) / 1.minutes).to_i
   end
   
+  def hours_from_minutes(minutes)
+    "#{minutes/60}hr #{minutes%60}min"
+  end
+
 end

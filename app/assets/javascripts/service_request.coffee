@@ -387,15 +387,7 @@ $(document).on 'keypress', 'form#service-request-form', (e) ->
 
 $.onmount '.location-container', ->
   $this = $(this)
-  $(this).block
-    message: '<i class="fa fa-spinner fa-pulse fa-4x"></i>'
-    css:
-      border: 'none'
-      background: 'none'
-      color: '#808080'
-    overlayCSS:
-      backgroundColor: 'transparent'
-      cursor: 'wait'
+  $(this).blockUI
   venue_id = $(this).data('venue-id')
   id = $(this).data('location-id')
   lng = $(this).data('lng')
@@ -423,3 +415,6 @@ $(document).on 'click', '.decline-estimate-link', (e)->
   e.preventDefault()
   $('#declineEstimate .message').addClass('hidden')
   $('#declineEstimate .decline-reason').removeClass('hidden')
+  
+$(document).on 'submit', '.block-on-submit', ->
+  $('form').block blockUI

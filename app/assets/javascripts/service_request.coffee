@@ -115,9 +115,8 @@ $.onmount '#wizard' , ->
       form = $(this).parents('form:first')
       valid = true
       if newIndex > currentIndex
-        $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select, input.image-upload"), (i, element) ->
-          unless $(element).hasClass('venue_name')
-            valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
+        $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select, input.image-upload, input.location_name, input.address_auto_complete_field").filter(':visible'), (i, element) ->
+          valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
           return
       return valid
     onStepChanged: (event, currentIndex, priorIndex) ->
@@ -157,6 +156,7 @@ $.onmount '#wizard' , ->
           location = $('#service-request-form .location_name').val() || $('#service-request-form .location_address').val()
           $('.summary-details-wrapper').find('.location').html(location)
           $('.steps #wizard-t-8 .summary-data').html(location)
+          $('.venue-address .venue_name').removeAttr('disabled');
         when 'Issue Image'
           setSummaryDetailsImages()
           $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_name').val())
@@ -272,13 +272,17 @@ $(document).on 'click', '.service-request-form-wrapper .content-wrapper .back-bt
   else
     $('#wizard').steps('previous');
     
+$(document).on 'click', '.service-request-form-wrapper .request-continue-btn.address-details',  (e) ->
+  e.preventDefault()
+  $('.provide-address').find('input.location_name, input.address_auto_complete_field').enableClientSideValidations()
+  $('.provide-address').find('input.location_name:first, input.address_auto_complete_field:first').focus()
+
 $(document).on 'click', '.service-request-form-wrapper .content-wrapper .next-btn, .service-request-form-wrapper .request-continue-btn',  (e) ->
   e.preventDefault()
   if stepNumber = $(this).data('step')
     $('#wizard').steps('setStep', stepNumber);
   else
     $('#wizard').steps('next');
-  
 
 $(document).on 'click', '.service-request-form-wrapper .request-service-card-btn', (e) ->
   e.preventDefault()

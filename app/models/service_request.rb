@@ -49,7 +49,7 @@ class ServiceRequest
     params = super
     params[:service_request].delete(:token) and params.merge!(stripe_token: token) if new_record? and token?
     params[:service_request][:issue_images_attributes] ||= []
-    issue_images.each do |issue_image| 
+    instance_variable_get(:@_her_association_issue_images) and issue_images.each do |issue_image| 
       params[:service_request][:issue_images_attributes] << issue_image.to_params if issue_image.changed?
     end
     params

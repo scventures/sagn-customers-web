@@ -15,6 +15,14 @@ module ApplicationHelper
       content_tag(:a, raw("&times;"),:class => 'close', :data => {:dismiss => 'alert'}) +
       message
     end)
-  end 
+  end
+
+  def difference_in_minutes(t1, t2)
+    ((t1 - t2) / 1.minutes).to_i
+  end
   
+  def hours_from_minutes(minutes)
+    "#{minutes/60}hr #{minutes%60}min"
+  end
+
 end

@@ -85,9 +85,9 @@ class Customer
   def create_or_find_location
     return location if location.save
     if location.errors[:name].include? 'Location already exists'
-      current_account.locations.bsearch {|l| l.name == location.name }
+      current_account.locations.detect {|l| l.name == location.name }
     elsif location.errors[:address_1].include? 'Location already exists'
-      current_account.locations.bsearch {|l| l.address_1 == location.address_1 }
+      current_account.locations.detect {|l| l.address_1 == location.address_1 }
     end
   end
 

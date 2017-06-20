@@ -14,7 +14,8 @@ body#service_requests_new {
     margin: 0;
     background: none;
     overflow: auto;
-    height: calc(100% - 160px);
+    max-height: calc(100% - 160px);
+    min-height: calc(100% - 160px);
     .body {
       padding: 0px;
       width: 100%;

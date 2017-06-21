@@ -12,6 +12,7 @@ class ServiceRequest
   has_many :activities
   has_many :assignments
   has_many :estimations
+  has_one :responded_assignment, class_name: 'Assignment', data_key: :responded_request_assignment
   
   accepts_nested_attributes_for :issue_images
   validates :location_id, :category_id, :subcategory_id, presence: true
@@ -43,6 +44,10 @@ class ServiceRequest
   def set_brand_and_equipment
     self.brand_id = nil if self.brand_id and self.brand_id.to_i == 0
     self.equipment_item_id = nil if self.equipment_item_id and self.equipment_item_id.to_i == 0
+  end
+  
+  def current_assignment
+    assignments.find(self.responded_assignment.id)
   end
 
   def to_params

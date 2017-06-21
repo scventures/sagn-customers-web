@@ -8,8 +8,8 @@ class CurrentRequestsController < ApplicationController
     unless @current_requests.length.zero?
       @current_request = ServiceRequest.find(@current_requests.first.id, _account_id: @account.id)
       @current_request.account_id = @account.id
+      @current_assignment = @current_request.current_assignment if @current_request.responded_request_assignment_id
       @activities = @current_request.activities
-      @assignments = @current_request.assignments if @current_request.assigned?
     end
   end
   
@@ -17,8 +17,8 @@ class CurrentRequestsController < ApplicationController
     @account = current_customer.current_account
     @service_request = @account.service_requests.find(params[:id])
     @service_request.account_id = @account.id
+    @current_assignment = @service_request.current_assignment if @service_request.responded_request_assignment_id
     @activities = @service_request.activities
-    @assignments = @service_request.assignments if @service_request.assigned?
     respond_to do |format|
       format.js {}
     end

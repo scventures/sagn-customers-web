@@ -40,15 +40,12 @@
                     = "Contractor warrants their services will be free from defects in materials and workmanship for a period of #{assignments.last.contractor_account[:warranty_period]} days from the date of the final bill. If there is a warranty claim during the warranty period the contractor will return to evaluate at no additional fee. Additional fees may apply if the issue is not a contractor defect."
               p.mt10
                 - if assignments.last.charging?
-                  button.btn.btn-red data-target='#payment-methods' data-toggle='collapse' type='button' Accept and Authorize charge
+                  = link_to 'Accept and Authorize charge', service_requests_service_request_assignment_start_accepting_path(assignments.last.id, service_request_id: service_request.id), remote: true, class: 'btn btn-red mt10 with-ajax-loader'
                 - else
                   = link_to 'Accept Technician', service_requests_service_request_assignment_payment_authorize_path(assignments.last.id, service_request_id: service_request.id), method: :post, remote: true, class: 'btn btn-red mt10 with-ajax-loader'
-              #payment-methods.white-container.collapse
-                strong.fs20.text-center Pick a payment method:
-                = link_to 'Default Payment Method', service_requests_service_request_assignment_start_accepting_path(assignments.last.id, service_request_id: service_request.id), remote: true, class: 'btn btn-grey mt10 with-ajax-loader'
-                = link_to "Pay #{(assignments.last.diagnostic_fee).format}", service_requests_service_request_assignment_payment_authorize_path(assignments.last.id, service_request_id: service_request.id), method: :post, remote: true, class: 'btn btn-red mt10 with-ajax-loader'
                 br/
-              = link_to 'Decline', service_requests_service_request_assignment_start_declining_path(assignments.last.id, service_request_id: service_request.id), remote: true, class: 'btn btn-grey mt10 with-ajax-loader'
+              p
+                = link_to 'Decline', service_requests_service_request_assignment_start_declining_path(assignments.last.id, service_request_id: service_request.id), remote: true, class: 'btn btn-grey  with-ajax-loader'
             p.text-center.fs12.mt10
               |By Accepting you agree to out
               = link_to 'Terms of use', page_path('terms_of_use'), class: 'ml5'

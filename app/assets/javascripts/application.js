@@ -37,5 +37,6 @@
 //= require ajax_error
 //= require service_request
 //= require past_request_service
+//= require current_requests
 //= require turbolinks
 //= require turboboost/turboboost

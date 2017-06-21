@@ -39,27 +39,13 @@
     .p20
       p
         - if assignment[:current_estimation][:customer_total_estimate_cents] > 0
-          button.btn.btn-red data-target="#payment-methods" data-toggle="collapse" type="button" Accept and Authorize charge
+          = link_to 'Accept and Authorize charge', service_requests_service_request_assignment_start_accepting_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-red mt10 with-ajax-loader'
         - else
           = link_to 'Accept Estimate', service_requests_service_request_assignment_accept_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-red with-ajax-loader', method: :post
-      #payment-methods.white-container.collapse
-        strong.fs20.text-center Pick a payment method:
-        = link_to 'Default Payment Method', service_requests_service_request_assignment_start_accepting_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-grey mt10 with-ajax-loader'
-        br/
-        = link_to "Pay #{assignment[:current_estimation][:total_estimate]}", service_requests_service_request_assignment_accept_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-red mt10 with-ajax-loader', method: :post
       p
-        = link_to 'Decline', service_requests_service_request_assignment_start_declining_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-grey mt10 with-ajax-loader'
+        = link_to 'Decline', service_requests_service_request_assignment_start_declining_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-grey with-ajax-loader'
       p
         = link_to 'I need to think about it', service_requests_service_request_assignment_consider_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, data: { confirm: 'Keep in mind this estimate will expire shortly and there may be added cost if the technician needs to return.' }, class: 'btn btn-grey with-ajax-loader'
       p.text-center.fs12.mt10
         |By Accepting you agree to out 
         = link_to 'Terms of use', page_path('terms_of_use')
-#add_card.modal.fade role="dialog"
-  .modal-dialog
-    .modal-content.w110-pct
-      .modal-header.text-center.bg-red
-        = link_to '#', data: { dismiss: 'modal'}, class: 'pull-left' do
-          = fa_icon 'chevron-left', class: 'fa-2x white'
-        span.modal-title.white.fs20
-          | Authorize Payment
-      .modal-body            

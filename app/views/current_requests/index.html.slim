@@ -12,7 +12,7 @@
   .col-sm-6
     .current-request-details
       - if @current_request
-        = render 'show', service_request: @current_request, account: @account, activities: @activities, assignments: @assignments
+        = render 'show', service_request: @current_request, account: @account, activities: @activities, current_assignment: @current_assignment
       - else
         .watermark
           = image_tag 'watermark.png', width: '400'

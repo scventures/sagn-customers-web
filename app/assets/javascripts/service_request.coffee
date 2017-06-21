@@ -163,6 +163,8 @@ $.onmount '#wizard' , ->
           if !$('.steps #wizard-t-7').parents('li:first').hasClass('disabled')
             images = $('.provide-photo-img').find('img').length
             $('.steps #wizard-t-7 .summary-data').html("#{images} Issue Image(s)")
+          $('.venue-address').removeClass('hidden')
+          $('.provide-address').addClass('hidden')
       $.onmount()
       updatePerfectScroll('#wizard > .content', true)
       return

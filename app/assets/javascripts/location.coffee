@@ -27,7 +27,7 @@ fillInAddress = ->
     $('#location_geography_latitude').val(place.geometry.location.lat())
     $('#location_geography_longitude').val(place.geometry.location.lng())
   
-$.onmount '.location-form-container .venue_name:visible, .restaurant-details .venue_name:visible', ->
+$.onmount '.location-form-container .venue_name, .restaurant-details .venue_name', ->
   select = $(this).select2
     theme: 'paper'
     closeOnSelect: false
@@ -82,7 +82,7 @@ $(document).on 'click', '.provide-address-btn', (e) ->
   e.preventDefault()
   $('.venue-address').addClass('hidden')
   $('.provide-address').removeClass('hidden')
-  $('.venue-address .venue_name').attr('disabled','disabled');
+  $('.venue-address .venue_name.select_venue').attr('disabled','disabled');
   $.onmount()
   
 $(document).on 'select2:select', '.location-form-container .venue_name, .service-request-logout-form .venue_name', (e)->
@@ -108,8 +108,10 @@ window.resetLocationForm = (form) ->
   $(form).resetClientSideValidations()
 
 $(document).on 'shown.bs.modal', '#addLocation', ->
+  $('#addLocation .modal-body').find('.alert').remove()
   form = $(this).parents().find('form')
   resetLocationForm(form)
+  $(form).enableClientSideValidations()
 
 $(document).on 'click', '.location-images-container a.location-link', (e) ->
   $(this).find('.location-street-image').removeClass('no-pointer-events')

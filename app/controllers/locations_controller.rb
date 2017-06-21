@@ -17,7 +17,7 @@ class LocationsController < ApplicationController
       redirect_to request.referrer || locations_path
     else
       respond_to do |format|
-        format.js { render partial: "locations/form", locals: { location: @location }, replace: ".location-form-container" }
+        format.js { render partial: "locations/form", locals: { location: @location }, within: ".location-form-container" }
       end
     end
   end

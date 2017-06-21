@@ -44,15 +44,15 @@ class ServiceRequest
     self.brand_id = nil if self.brand_id and self.brand_id.to_i == 0
     self.equipment_item_id = nil if self.equipment_item_id and self.equipment_item_id.to_i == 0
   end
-  
+
   def to_params
-    if new_record? and token?
-      params = super
-      params[:service_request].delete(:token)
-      params.merge(stripe_token: token)
-    else
-      super
+    params = super
+    params[:service_request].delete(:token) and params.merge!(stripe_token: token) if new_record? and token?
+    params[:service_request][:issue_images_attributes] ||= []
+    instance_variable_get(:@_her_association_issue_images) and issue_images.each do |issue_image| 
+      params[:service_request][:issue_images_attributes] << issue_image.to_params if issue_image.changed?
     end
+    params
   end
 
 end

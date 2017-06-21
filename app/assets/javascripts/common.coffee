@@ -55,7 +55,11 @@ $(document).on 'change', '.image-upload', (event) ->
         src: file.target.result
         class: 'img-preview img-responsive')
       $(event.target).focusout()
+    form.trigger('image:loaded')
   reader.readAsDataURL image
+
+$(document).on 'image:loaded', 'form', (e) ->
+  updatePerfectScroll $(this).find('.ps-container')
 
 $.onmount 'form[data-client-side-validations][data-turboboost]', ->
   $(this).enableClientSideValidations()

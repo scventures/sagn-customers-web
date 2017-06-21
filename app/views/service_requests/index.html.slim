@@ -32,4 +32,5 @@
           i.fa.fa-angle-left aria-hidden='true'
           | Add Location
       .modal-body
-        = render 'locations/form', location: Location.new
+        .location-form-container.col-md-9.center-panel
+          = render 'locations/form', location: Location.new

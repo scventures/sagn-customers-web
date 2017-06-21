@@ -54,7 +54,7 @@ class ServiceRequests::ServiceRequestAssignmentsController < ApplicationControll
       if @accept_estimation = @assignment.accept_estimation(params[:token])
         @service_request = @account.service_requests.find(params[:service_request_id])
         @service_request.account_id = @account.id
-        @assignments = @service_request.assignments
+        @current_assignment = @service_request.current_assignment
         @activities = @service_request.activities
       end
     end
@@ -96,6 +96,7 @@ class ServiceRequests::ServiceRequestAssignmentsController < ApplicationControll
   def find_service_request_and_assignment
     @service_request = @account.service_requests.find(params[:service_request_id])
     @service_request.account_id = @account.id
+    @current_assignment = @service_request.current_assignment if @service_request.responded_request_assignment_id
     @assignment = @service_request.assignments.find(params[:service_request_assignment_id])
     @assignment.account_id = @account.id
     @assignment.service_request_id = @service_request.id

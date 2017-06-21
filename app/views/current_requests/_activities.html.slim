@@ -26,8 +26,8 @@
         - if (activity.accepted? or activity.declined?)
           .w60-pct.m-auto
             p.mt10
-              button.btn-link.black data-target="#see-details" data-toggle="collapse" type="button" See Details
-            #see-details.mt10.collapse
+              button.btn-link.black data-target="#see-details-#{activity.id}" data-toggle="collapse" type="button" See Details
+            .mt10.collapse id="see-details-#{activity.id}"
               .grey-container
                 .row
                   .col-sm-6 Labor:

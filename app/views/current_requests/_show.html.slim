@@ -1,22 +1,22 @@
 .details
   - if service_request.assigned? and service_request.responded_request_assignment_id?
-    - if service_request.service_requests_assignments and (service_request.service_requests_assignments.last[:current_estimation] and service_request.service_requests_assignments.last[:current_estimation][:status] != 'accepted')
-      = render 'current_requests/estimation', service_request: service_request, assignment: assignments.last
+    - if service_request.service_requests_assignments and (service_request.service_requests_assignments.last[:current_estimation] and service_request.service_requests_assignments.last[:current_estimation][:status] != 'accepted' and service_request.service_requests_assignments.last[:current_estimation][:status] != 'declined')
+      = render 'current_requests/estimation', service_request: service_request, assignment: current_assignment
     - else 
       .assignments-wrapper.mt20
-        .assignment-wrapper.white-container id= assignments.last.id
-          - if assignments.last.responded? or assignments.last.customer_accepting?
+        .assignment-wrapper.white-container id= current_assignment.id
+          - if current_assignment.responded? or current_assignment.customer_accepting?
             .text-center.fs20
               strong.black We`ve found a technician for you
               .red Please respond as soon as possible
             .row
               .col-sm-3.text-center
-                - if assignments.last.technician
-                  = image_tag assignments.last.technician[:photo] || 'default_avatar_icon.png', class: 'img-circle', width: '100'
+                - if current_assignment.technician
+                  = image_tag current_assignment.technician[:photo] || 'default_avatar_icon.png', class: 'img-circle', width: '100'
               .col-sm-9
-                = "#{assignments.last.contractor_account[:name]} can send:"
+                = "#{current_assignment.contractor_account[:name]} can send:"
                 br/
-                = assignments.last.technician[:name] if assignments.last.technician
+                = current_assignment.technician[:name] if current_assignment.technician
                 .static-rating-container
                   .star.fullStar
                   .star.fullStar
@@ -25,27 +25,27 @@
                   .star.fullStar
                 br/
                 - if service_request.urgent
-                  = "Can arrive within #{hours_from_minutes(assignments.last.arrive_eta_minutes)}"
+                  = "Can arrive within #{hours_from_minutes(current_assignment.arrive_eta_minutes)}"
                 - else
-                  = eta_text(assignments.last.arrive_eta)
+                  = eta_text(current_assignment.arrive_eta)
             input type='text' placeholder= 'Tap here to enter Promo Code' class= 'w100-pct text-center mt20'
             .black.text-center.fs16.mt10
               p.mb10 
-                = payment_summary_text(assignments.last)
+                = payment_summary_text(current_assignment)
               .text-left
                 button data-target='#coverText' data-toggle='collapse' type='button' class='btn-link text-primary font-bold' What does this cover?
                 #coverText.collapse.ml10
-                  = cover_text(assignments.last)
+                  = cover_text(current_assignment)
                   .mt10
-                    = "Contractor warrants their services will be free from defects in materials and workmanship for a period of #{assignments.last.contractor_account[:warranty_period]} days from the date of the final bill. If there is a warranty claim during the warranty period the contractor will return to evaluate at no additional fee. Additional fees may apply if the issue is not a contractor defect."
+                    = "Contractor warrants their services will be free from defects in materials and workmanship for a period of #{current_assignment.contractor_account[:warranty_period]} days from the date of the final bill. If there is a warranty claim during the warranty period the contractor will return to evaluate at no additional fee. Additional fees may apply if the issue is not a contractor defect."
               p.mt10
-                - if assignments.last.charging?
-                  = link_to 'Accept and Authorize charge', service_requests_service_request_assignment_start_accepting_path(assignments.last.id, service_request_id: service_request.id), remote: true, class: 'btn btn-red mt10 with-ajax-loader'
+                - if current_assignment.charging?
+                  = link_to 'Accept and Authorize charge', service_requests_service_request_assignment_start_accepting_path(current_assignment.id, service_request_id: service_request.id), remote: true, class: 'btn btn-red mt10 with-ajax-loader'
                 - else
-                  = link_to 'Accept Technician', service_requests_service_request_assignment_payment_authorize_path(assignments.last.id, service_request_id: service_request.id), method: :post, remote: true, class: 'btn btn-red mt10 with-ajax-loader'
+                  = link_to 'Accept Technician', service_requests_service_request_assignment_payment_authorize_path(current_assignment, service_request_id: service_request.id), method: :post, remote: true, class: 'btn btn-red mt10 with-ajax-loader'
                 br/
               p
-                = link_to 'Decline', service_requests_service_request_assignment_start_declining_path(assignments.last.id, service_request_id: service_request.id), remote: true, class: 'btn btn-grey  with-ajax-loader'
+                = link_to 'Decline', service_requests_service_request_assignment_start_declining_path(current_assignment.id, service_request_id: service_request.id), remote: true, class: 'btn btn-grey  with-ajax-loader'
             p.text-center.fs12.mt10
               |By Accepting you agree to out
               = link_to 'Terms of use', page_path('terms_of_use'), class: 'ml5'

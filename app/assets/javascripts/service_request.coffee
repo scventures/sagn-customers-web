@@ -156,7 +156,7 @@ $.onmount '#wizard' , ->
           location = $('#service-request-form .location_name').val() || $('#service-request-form .location_address').val()
           $('.summary-details-wrapper').find('.location').html(location)
           $('.steps #wizard-t-8 .summary-data').html(location)
-          $('.venue-address .venue_name').removeAttr('disabled');
+          $('.venue-address .venue_name.select_venue').removeAttr('disabled');
         when 'Issue Image'
           setSummaryDetailsImages()
           $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_name').val())

@@ -81,5 +81,5 @@ $(document).on 'click', '[data-toggle=offcanvas]', ->
 $.onmount '.rating-container', ->
   $(this).rating()
   
-$(document).on 'ready shown.bs.modal load turbolinks:load turboboost:complete', ->
+$(document).on 'turbolinks:load shown.bs.modal load turboboost:complete', (e) ->
   $.onmount()

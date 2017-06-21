@@ -1,5 +1,5 @@
 class Customers::SessionsController < Devise::SessionsController
-
+  skip_before_filter :check_for_registration, :only => [:destroy]
   def create_service_request_with_login
     customer = Customer.new sign_in_with_service_request_params
     if customer.authenticate!

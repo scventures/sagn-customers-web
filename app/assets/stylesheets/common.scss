@@ -276,6 +276,9 @@ body {
   .row-offcanvas-left.active {
     left: 0;
     width: 100%;
+    .back-btn-wrapper .back-btn {
+      left: 145px !important;
+    }
   }
 }
 .signup-form, #new_customer {

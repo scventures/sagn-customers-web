@@ -50,7 +50,7 @@ describe DeviseOverrides do
       it 'not authenticate customer' do
         customer = Customer.new( email: 'invalid@gmail.com', password: '123456')
         stub_auth_api_request('invalid@gmail.com', '123456', {}, 401 )
-        expect { customer.authenticate! }.to raise_error(Warden::NotAuthenticated)
+        expect(customer.authenticate!).to be_nil
       end
     end
   end
@@ -164,7 +164,7 @@ describe DeviseOverrides do
       context 'user with invalid credentials' do
         it 'not authenticate user' do
           stub_auth_api_request('invalid@gmail.com', '123456', {}, 401 )
-          expect { Customer.authenticate!('invalid@gmail.com', '123456') }.to raise_error(Warden::NotAuthenticated)
+          expect(Customer.authenticate!('invalid@gmail.com', '123456')).to be_nil
         end
       end
     end 

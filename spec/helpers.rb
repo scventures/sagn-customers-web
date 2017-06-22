@@ -1,151 +1,167 @@
 module Helpers
+  def user_agent
+    "SAGN Customers Web app Revision-#{`git rev-parse --short HEAD`.strip}#{' (development-env)' if Rails.env.development?}"
+  end
+  
   def stub_auth_api_request(email, password, return_body, response_code)
     stub_request(:post, "#{ENV['API_URL']}/customers/auth_token").
        with(:body => {'auth'=>{'email'=> email, 'password'=> password}},
-            :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+            :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
        to_return(:status => response_code, :body => return_body.to_json, :headers => {})
   end
 
   def stub_verified_api_request(auth_token, return_body, response_code)
     stub_request(:get, "#{ENV['API_URL']}/customers/viewer").
-      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_password_reset_instructions(email, return_url, response_code, return_body)
     stub_request(:post, "#{ENV['API_URL']}/customers/password").
       with(:body => {'customer'=>{'email'=> email, 'redirect_url'=> return_url}},
-          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => return_body.to_json, :headers => {})
   end
   
   def stub_password_reset_request(password, password_confirmation, reset_password_token, response_code, return_body)
     stub_request(:put, "#{ENV['API_URL']}/customers/password").
       with(:body => {'customer'=>{'password'=> password, 'password_confirmation'=> password_confirmation, 'reset_password_token'=> reset_password_token}},
-          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_confirm_by_token_request(token, response_code, return_body)
     stub_request(:get, "#{ENV['API_URL']}/customers/confirmation?confirmation_token=#{token}").
-      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_send_confirmation_instructions(email, redirect_url, response_code, return_body)
     stub_request(:post, "#{ENV['API_URL']}/customers/confirmation").
      with(:body => {'customer'=>{'email'=> email, 'redirect_url'=> redirect_url}},
-          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
      to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_resend_phone_confirmation_instructions(unconfirmed_phone, response_code, return_body)
     stub_request(:put, "#{ENV['API_URL']}/customers/viewer/confirm_phone").
       with(:body => {'customer'=>{'unconfirmed_phone'=> unconfirmed_phone}},
-          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_verify_phone(sms_pin, response_code, return_body)
     stub_request(:post, "#{ENV['API_URL']}/customers/viewer/confirm_phone").
       with(:body => {'sms_confirmation_pin'=>sms_pin},
-          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_layer_identity_token(nonce, return_body, response_code)
     stub_request(:post, "#{ENV['API_URL']}/customers/layer/identity").
          with(:body => {"nonce"=>nonce},
-              :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+              :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
          to_return(:status => response_code, :body => return_body.to_json, :headers => {})
   end
   
   def stub_start_accepting_assignment(id, account_id, service_request_id, response_code)
     stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/start_accepting").
-      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => {}.to_json, :headers => {})
   end
   
   def stub_accept_assignment(id, account_id, service_request_id, token, response_code)
     stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/accept").
-      with(:body => {'stripe_token'=> token}, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      with(:body => {'stripe_token'=> token}, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => {}.to_json, :headers => {})
   end
   
   def stub_decline_assignment(id, account_id, service_request_id, reason, response_code)
     stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/decline").
-      with(:body => {'account_id'=> account_id.to_s, 'id'=> id.to_s, 'reason'=> reason, 'service_request_id'=> service_request_id.to_s }, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      with(:body => {'account_id'=> account_id.to_s, 'id'=> id.to_s, 'reason'=> reason, 'service_request_id'=> service_request_id.to_s }, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => {}.to_json, :headers => {})
   end
   
   def stub_start_accepting_estimation(id, account_id, service_request_id, response_code)
     stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/start_accepting_estimation").
-      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => {}.to_json, :headers => {})
   end
   
   def stub_accept_estimation(id, account_id, service_request_id, token, response_code)
     stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/accept_estimation").
-      with(:body => {'stripe_token'=> token}, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      with(:body => {'stripe_token'=> token}, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => {}.to_json, :headers => {})
   end
   
   def stub_decline_estimation(id, account_id, service_request_id, reason, response_code)
     stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/decline_estimation").
-      with(:body => {'reason'=> reason }, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      with(:body => {'reason'=> reason }, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => {}.to_json, :headers => {})
   end
   
   def stub_consider_estimation(id, account_id, service_request_id, response_code)
     stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/consider_estimation").
-      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => {}.to_json, :headers => {})
   end
   
   def stub_cancel_service_request(id, account_id, response_code, return_body)
     stub_request(:put, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{id}/cancel").
        with(:body => {'account_id'=> account_id.to_s, 'id' => id.to_s},
-            :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+            :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
        to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_venue_images(id, response_code, return_body)
     stub_request(:get, "https://#{ENV['BASIC_AUTH_USERNAME']}:#{ENV['BASIC_AUTH_PASSWORD']}@stapp.sendaguy.com/api/customers/venue_photos?limit=1&venue_id=#{id}").
-       with(:headers => {'Accept'=>'*/*', 'User-Agent'=>'Faraday v0.12.0.1'}).
+       with(:headers => {'Accept'=>'*/*', 'User-Agent'=> user_agent}).
        to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_get_customer_account(id, response_code, return_body)
     stub_request(:get, "#{ENV['API_URL']}/customers/accounts/#{id}").
-      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+      with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_customer_locations(account_id, response_code, return_body)
     stub_request(:get, "#{ENV['API_URL']}/customers/accounts/#{account_id}/locations").
-         with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Authorization'=>"Bearer #{jwt}", 'User-Agent'=>'Faraday v0.12.0.1'}).
+         with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Authorization'=>"Bearer #{jwt}", 'User-Agent'=> user_agent}).
          to_return(:status => response_code, :body => return_body.to_json, :headers => {})
   end
   
   def stub_create_location(account_id, params, response_code, return_body)
      stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/locations").
        with(:body => {'location'=> params},
-            :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization'=>"Bearer #{jwt}", 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+            :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization'=>"Bearer #{jwt}", 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
        to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_create_service_request(service_request, response_code, return_body)
     stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{service_request.account_id}/service_requests").
       with(:body => {'service_request'=> service_request.attributes },
-          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization'=> "Bearer #{jwt}", 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+          :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization'=> "Bearer #{jwt}", 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => return_body, :headers => {})
   end
   
   def stub_update_password(current_password, password, password_confirmation, response_code, return_body)
     stub_request(:put, "#{ENV['API_URL']}/customers/viewer/update_password").
        with(:body => {'customer'=> { current_password: current_password, password: password, password_confirmation: password_confirmation}},
-            :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization'=>"Bearer #{jwt}", 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.12.0.1'}).
+            :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Authorization'=>"Bearer #{jwt}", 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
        to_return(:status => response_code, :body => return_body, :headers => {})
+  end
+  
+  def stub_service_request_assignments(account_id, service_request_id)
+    stub_request(:get, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments").
+       with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=> user_agent}).
+       to_return(:status => 200, :body => assignments, :headers => {})
+  end
+  
+  def stub_service_request_assignment(account_id, service_request_id, assignment_id)
+    stub_request(:get, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{assignment_id}").
+       with(:headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'User-Agent'=> user_agent}).
+       to_return(:status => 200, :body => assignment, :headers => {})
   end
   
   def customer_account
@@ -512,7 +528,7 @@ module Helpers
           'is_equipment': true,
           'sub_brands': []
         },
-        subcategory: {
+        'subcategory': {
           'id': 378,
           'name': 'Char Broiler',
           'parent_category_id': 376,
@@ -551,6 +567,27 @@ module Helpers
         'issue_images': []
       }
     }.to_json
+  end
+  
+  def assignments
+    {
+      'service_requests_assignments': [
+        {
+          'id': 10
+        },
+        {
+          'id': 11
+        }
+      ]
+    }.to_json
+  end
+  
+  def assignment
+    {
+      'service_requests_assignment': {
+        'id': 10
+      }
+    }.to_json      
   end
   
   def venue_images_error_response

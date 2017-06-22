@@ -71,5 +71,29 @@ describe Activity do
     end
   end
   
+  describe '#assignment' do
+    context 'trackable_type is ServiceRequestsAssignment' do
+      it 'return activity assignment' do
+        activity = Activity.new(trackable_type: 'ServiceRequestsAssignment', trackable_id: 10)
+        activity.service_request = ServiceRequest.new(id: 1)
+        activity.service_request.attributes = {service_requests_assignments: [{id: 1}, {id: 10}]}
+        assignment = activity.assignment
+        expect(assignment[:id]).to eq(10)
+      end
+    end
+  end
+  
+  describe '#estimation' do
+    context 'trackable_type is Estimation' do
+      it 'return activity estimation' do
+        activity = Activity.new(trackable_type: 'Estimation', trackable_id: 10)
+        activity.service_request = ServiceRequest.new(id: 1)
+        activity.service_request.attributes = {service_requests_assignments: [{id: 1, estimations: [{id: 10}, {id: 20}]}, {id: 2, estimations: [{id: 11}]}]}
+        estimation = activity.estimation
+        expect(estimation[:id]).to eq(10)
+      end
+    end
+  end
+  
 end
 

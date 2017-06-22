@@ -147,12 +147,14 @@ $.onmount '#wizard' , ->
           $('.steps #wizard-t-3 .summary-data').html(data)
           $('.summary-details-wrapper').find('.brand').html(data)
         when 'Schedule'
+          $('.steps #wizard-t-3 .summary-data').find('.urgent').remove()
           if $('.urgent-service').val() == 'Yes'
-            if $('.steps #wizard-t-3 .summary-data').html().match(/Urgent Request/) == null
-              if $('.steps #wizard-t-3 .summary-data').html().length == 0
-                $('.steps #wizard-t-3 .summary-data').html('Urgent Request')
-              else
-                $('.steps #wizard-t-3 .summary-data').append(', Urgent Request')
+            if $('.steps #wizard-t-3 .summary-data').html().length == 0
+              $('.steps #wizard-t-3 .summary-data').append($('<span>').addClass('urgent').html('Urgent Request'))
+            else
+              $('.steps #wizard-t-3 .summary-data').append($('<span>').addClass('urgent').html(', Urgent Request'))
+          else
+            $('.steps #wizard-t-3 .summary-data').find('.urgent').remove()
         when 'Restaurant Details'
           location = $('#service-request-form .location_name').val() || $('#service-request-form .location_address').val()
           $('.summary-details-wrapper').find('.location').html(location)

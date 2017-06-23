@@ -1,33 +1,34 @@
 - content_for :title do
   .header-title.text-uppercase Past Requests
 .row.is-flex
-  .col-sm-6.past-request-list
+  .col-sm-6
     - unless @past_requests.count.zero? 
       .warning-text
         = "If you have a dispute with any of these charges, please contact us at #{ENV['SUPPORT_EMAIL']} or #{ENV['SUPPORT_PHONE']}"
-      - @past_requests.each_with_index do |past_request, index|
-        = link_to past_request_path(past_request), remote: true, class: 'details-link' do
-          .past-request-wrapper class = "#{'selected' if index == 0}"
-            .content.grey
-              = fa_icon 'chevron-right', class: 'fa-2x grey pull-right mt20'
-              p
-                = date_format(past_request.created_at)
-              p
-                = time_format(past_request.created_at)
-                span.ml10 |
-                span.ml10
-                  = "##{past_request.id}"
-              h3.black
-                = past_request.location[:address_1]
-                span.pl10
-                  = past_request.location[:city]
-            .footer
-              - if past_request.category and past_request.subcategory
-                = "#{past_request.category[:name]}: #{past_request.subcategory[:name]}"
-              p
-                span.text-uppercase STATUS:
-                span.ml10
-                  = past_request.latest_activity_status
+      .past-request-list
+        - @past_requests.each_with_index do |past_request, index|
+          = link_to past_request_path(past_request), remote: true, class: 'details-link' do
+            .past-request-wrapper class = "#{'selected' if index == 0}"
+              .content.grey
+                = fa_icon 'chevron-right', class: 'fa-2x grey pull-right mt20'
+                p
+                  = date_format(past_request.created_at)
+                p
+                  = time_format(past_request.created_at)
+                  span.ml10 |
+                  span.ml10
+                    = "##{past_request.id}"
+                h3.black
+                  = past_request.location[:address_1]
+                  span.pl10
+                    = past_request.location[:city]
+              .footer
+                - if past_request.category and past_request.subcategory
+                  = "#{past_request.category[:name]}: #{past_request.subcategory[:name]}"
+                p
+                  span.text-uppercase STATUS:
+                  span.ml10
+                    = past_request.latest_activity_status
     - else
       h3.ml10.grey You dont have any past service requests.
   .col-sm-6

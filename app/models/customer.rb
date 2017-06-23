@@ -64,6 +64,10 @@ class Customer
     unconfirmed_phone and unconfirmed_phone != phone_number
   end
 
+  def phone_required?
+    !phone_number? and !unconfirmed_phone?
+  end
+
   def resend_phone_confirmation_instructions
     errors.add(:unconfirmed_phone, :blank) and return unless unconfirmed_phone?
     Customer.put_raw('customers/viewer/confirm_phone', customer: {unconfirmed_phone: unconfirmed_phone}) do |parsed_data, response|

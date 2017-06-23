@@ -235,6 +235,27 @@ describe Customer do
     end
   end
   
+  describe '#phone_required?' do
+    context 'phone_number and unconfirmed_phone are present' do
+      let(:customer) { Customer.new(unconfirmed_phone: '+11111111111', phone_number: '+11111111111') }
+      it 'return false' do
+        expect(customer.phone_required?).to be_falsy
+      end
+    end
+    context 'unconfirmed_phone is present and phone number is not present' do
+      let(:customer) { Customer.new(unconfirmed_phone: '+11111111111') }
+      it 'return false' do
+        expect(customer.phone_required?).to be_falsy
+      end
+    end
+    context 'phone_number and unconfirmed_phone are not present' do
+      let(:customer) { Customer.new() }
+      it 'return false' do
+        expect(customer.phone_required?).to be_truthy
+      end
+    end
+  end
+  
   describe '#resend_phone_confirmation_instructions' do
     context 'valid phone number' do
       let(:customer) { Customer.new(unconfirmed_phone: '+111111111111') }

@@ -31,16 +31,24 @@ form.edit-profile {
   background: #f9f9f9;
 }
 
-.head-text {
-  font-size: 30px;
-  color: #000;
-}
-
-.confirm-box p {
-  color: #393939;
-  font-size: 18px;
-  margin-bottom: 20px;
-  padding-left: 35px;
+.confirm-box {
+  .head-text {
+    i {
+      font-size: 30px;
+    }
+    span {
+      color: #797979;
+      font-size: 24px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
+  p {
+    color: #393939;
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding-left: 45px;
+  }
 }
 
 .edit-profile {

@@ -11,7 +11,7 @@
 .grayBg.col-md-10.center-panel.confirm-box.padding30
   .head-text
     - if current_customer.confirmation_pending?
-      i.fa.fa-check-circle aria-hidden="true"
+      i.fa.fa-check-circle.grey aria-hidden="true"
       span.pl20
         | Confirm Your Email
       p
@@ -34,29 +34,36 @@
     p
       = link_to 'Need to change your email addess?', edit_profile_path, class: 'font-bold'
   .head-text.margintop30
-    - if current_customer.phone_confirmation_pending?
-      i.fa.fa-check-circle aria-hidden="true"
-      span.pl20
-        | Confirm Your Mobile Phone
+    - unless current_customer.phone_required?
+      - if current_customer.phone_confirmation_pending?
+        i.fa.fa-check-circle.grey aria-hidden="true"
+        span.pl20
+          | Confirm Your Mobile Number
+        p
+          | We've sent a code to:
+          br/
+          = current_customer.unconfirmed_phone
+        p
+          | Please enter the code you received:
+        p
+          = render 'phone_confirmation_form'
+        p
+          = link_to 'Send New Code', resend_phone_confirmation_profile_path, remote: true, class: 'btn btn-danger with-ajax-loader'
+      - else
+        i.fa.fa-check-circle.green aria-hidden="true"
+        span.pl20
+          | Mobile Number Confirmed
+        p
+          | We've confirmed your mobile number:
+          br/
+          = current_customer.phone_number
       p
-        | We've sent a code to:
-        br/
-        = current_customer.unconfirmed_phone
-      p
-        | Please enter the code you received:
-      p
-        = render 'phone_confirmation_form'
-      p
-        = link_to 'Send New Code', resend_phone_confirmation_profile_path, remote: true, class: 'btn btn-danger with-ajax-loader'
+        = link_to 'Need to change your phone number?', edit_profile_path, class: 'font-bold'
     - else
-      i.fa.fa-check-circle.green aria-hidden="true"
+      i.fa.fa-check-circle.grey aria-hidden="true"
       span.pl20
-        | Mobile Phone Confirmed
-      p
-        | We've confirmed your mobile phone:
-        br/
-        = current_customer.phone_number
-    p
-      = link_to 'Need to change your phone number?', edit_profile_path, class: 'font-bold'
+        | Confirm Your Mobile Number
+      p.mt10
+        = link_to 'Please tap here to provide your phone number', edit_profile_path, class: 'font-bold'
     p
       = link_to 'Need to change your password?', change_password_profile_path, class: 'font-bold'

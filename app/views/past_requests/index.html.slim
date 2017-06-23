@@ -3,6 +3,8 @@
 .row.is-flex
   .col-sm-6.past-request-list
     - unless @past_requests.count.zero? 
+      .warning-text
+        = "If you have a dispute with any of these charges, please contact us at #{ENV['SUPPORT_EMAIL']} or #{ENV['SUPPORT_PHONE']}"
       - @past_requests.each_with_index do |past_request, index|
         = link_to past_request_path(past_request), remote: true, class: 'details-link' do
           .past-request-wrapper class = "#{'selected' if index == 0}"

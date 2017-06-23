@@ -1,6 +1,6 @@
 = simple_form_for location, validate: true, turboboost: true do |f|
   .venue-address
-    = f.label 'Enter restaurant name'
+    = f.label 'Enter restaurant name', class: 'mb10'
     = f.input :name, as: :select, collection: [], input_html: { class: 'venue_name' }, label: false
     .select2-dropdown-container
     .text-center

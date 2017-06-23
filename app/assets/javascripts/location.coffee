@@ -29,7 +29,6 @@ fillInAddress = ->
   
 $.onmount '.location-form-container .venue_name:visible, .restaurant-details .venue_name:visible', ->
   select = $(this).select2
-    theme: 'paper'
     closeOnSelect: false
     minimumInputLength: 2
     delay: 250
@@ -62,6 +61,13 @@ $.onmount '.location-form-container .venue_name:visible, .restaurant-details .ve
     $(select).select2 'open'
     $('#editLocation').find('.select2-search__field').val($('#edit_location_name').val()).trigger('change')
     $('#editLocation').find('.select2-search__field').trigger('keyup')
+  select.on 'select2:open', (e,d) ->
+    $('#wizard .content, #locations_index .main-wrapper').perfectScrollbar('destroy').css('overflow-y', 'hidden')
+    select2Results = $('.select2-dropdown-container .select2-results__options')
+    select2Results.css
+      maxHeight: $('#wizard > .steps, .location-form-container .footer').offset().top - select2Results.offset().top - 21
+  select.on 'select2:close', () ->
+    $('#wizard .content, #locations_index .main-wrapper').css('overflow-y', 'auto').perfectScrollbar()
 
 $(document).ready ->
   getLocation()

@@ -6,11 +6,20 @@ class ApplicationController < ActionController::Base
   
   before_action :render_getapps
   before_action :set_customer_api_token
+  before_filter :check_for_registration
 
   protected
 
   def render_getapps
     render 'shared/getapps', layout: 'mobile' and return if browser.platform.android? or browser.platform.ios?
+  end
+
+  def check_for_registration
+    if current_customer
+      unless current_customer.registered?
+        redirect_to profile_path
+      end
+    end
   end
   
   def set_customer_api_token

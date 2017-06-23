@@ -56,6 +56,10 @@ class Customer
     !confirmed? or pending_reconfirmation?
   end
 
+  def registered?
+    phone_number.present? and email.present?
+  end
+
   def phone_confirmation_pending?
     unconfirmed_phone and unconfirmed_phone != phone_number
   end

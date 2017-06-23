@@ -6,7 +6,7 @@ class PastRequestsController < ApplicationController
     @account = current_customer.current_account
     @past_requests = @account.past_service_requests
     unless @past_requests.length.zero?
-      @service_request = @past_requests.first
+      @service_request = @account.service_requests.find(@past_requests.first.id)
       @service_request.account_id = @account.id
       @activities = @service_request.activities
       @assignment = @service_request.assignments.find(@service_request.responded_request_assignment_id)

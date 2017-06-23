@@ -43,6 +43,7 @@ module ServiceRequestHelper
         end
       else
         concat(content_tag :p, "Estimate valid for 30 days. The technician will schedule a return visit to complete the work.", class: 'mt10 fs16')
+        concat( content_tag :h3, 'This estimate is for the additional work needed to complete your job.', class: 'mt10')
       end
     end    
   end

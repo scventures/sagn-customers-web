@@ -14,7 +14,11 @@ $(document).on 'click', '#addCardForEstimate .btn-close, #add_card .btn-close', 
     $(this).parents('.modal').find('.card-details').addClass('hidden')
     $(this).parents('.modal').find('.alert .alert-success').remove()
   else
-    $('#addCardForEstimate').modal('hide')
+    $(this).parents('.modal').modal('hide')
     
 $(document).on 'shown.bs.modal', '#addCardForEstimate, #add_card', ->
   $('this').find('.alert .alert-success').remove()
+  
+$(document).on 'click', '#declineAssignment .select_reason', ->
+  $('#declineAssignment').find('.form-group.radio_buttons').addClass('hidden')
+  $('#declineAssignment').find('.search-new-technician').removeClass('hidden')

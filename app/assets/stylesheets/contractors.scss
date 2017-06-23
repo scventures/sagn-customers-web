@@ -44,6 +44,10 @@
     background-color: #d9534f;
     color: #fff;
   }
+  .modal-body {
+    max-height: 650px;
+    overflow: auto;
+  }
   .btn-default {
     background-color: #aeaeae;
     color: #fff;

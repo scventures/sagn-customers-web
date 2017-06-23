@@ -229,6 +229,7 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
     $('a.problem-details-link').attr('data-equipment', true)
   $('.select_brand').empty()
   $('.select_brand').select2
+    width: '100%'
     placeholder: 'Please select Brand'
     data: brands
   if brands.length == 0

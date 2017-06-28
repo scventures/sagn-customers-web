@@ -1,5 +1,5 @@
 = simple_form_for location, validate: true, turboboost: true do |f|
-  .venue-address
+  .venue-address.location-fields
     = f.label 'Enter restaurant name', class: 'mb10'
     = f.input :name, as: :select, collection: [], input_html: { class: 'venue_name' }, label: false
     .select2-dropdown-container
@@ -11,7 +11,7 @@
     .footer
       h4 Cant find your location?
       button class= 'btn btn-red provide-address-btn' PROVIDE ADDRESS
-  .provide-address.hidden
+  .provide-address.location-fields.hidden
     = f.input :name, input_html: {class: 'location_name'}
     = f.input :address_1, input_html: {class: 'address_auto_complete_field'}
     = f.input :address_2, input_html: {id: 'location_sublocality_level_1' }

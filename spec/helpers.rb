@@ -76,9 +76,9 @@ module Helpers
       to_return(:status => response_code, :body => {}.to_json, :headers => {})
   end
   
-  def stub_decline_assignment(id, account_id, service_request_id, reason, response_code)
+  def stub_decline_assignment(id, account_id, service_request_id, reason, response_code, new_search)
     stub_request(:post, "#{ENV['API_URL']}/customers/accounts/#{account_id}/service_requests/#{service_request_id}/assignments/#{id}/decline").
-      with(:body => {'account_id'=> account_id.to_s, 'id'=> id.to_s, 'reason'=> reason, 'service_request_id'=> service_request_id.to_s }, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
+      with(:body => {'account_id'=> account_id.to_s, 'id'=> id.to_s, 'reason'=> reason, 'new_search': new_search, 'service_request_id'=> service_request_id.to_s }, :headers => {'Accept'=>'application/json;application/vnd.sagn.v2', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=> user_agent}).
       to_return(:status => response_code, :body => {}.to_json, :headers => {})
   end
   

@@ -160,18 +160,18 @@ describe Assignment do
     end
   end
   
-  describe '#decline(reason)' do
+  describe '#decline(reason, new_search)' do
     let(:assignment) { Assignment.new(id: 1, account_id: 1, service_request_id: 1)}
     context 'for valid data' do
       it 'return true' do
-        stub_decline_assignment(assignment.id, assignment.account_id, assignment.service_request_id, 'reason', 200)
-        expect(assignment.decline('reason')).to be_truthy
+        stub_decline_assignment(assignment.id, assignment.account_id, assignment.service_request_id, 'reason', 200, 'Yes')
+        expect(assignment.decline('reason', 'Yes')).to be_truthy
       end
     end
     context 'for invalid data' do
       it 'return false' do
-        stub_decline_assignment(assignment.id, assignment.account_id, assignment.service_request_id, 'reason', 400)
-        expect(assignment.decline('reason')).to eq({})
+        stub_decline_assignment(assignment.id, assignment.account_id, assignment.service_request_id, 'reason', 400, 'No')
+        expect(assignment.decline('reason', 'No')).to eq({})
       end
     end
   end

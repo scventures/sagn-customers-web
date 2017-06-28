@@ -67,7 +67,15 @@ class Customer
   def phone_required?
     !phone_number? and !unconfirmed_phone?
   end
-
+  
+  def account_owner?
+    self.current_account_role == 'account_owner'
+  end
+  
+  def staff?
+    self.current_account_role == 'staff'
+  end
+  
   def resend_phone_confirmation_instructions
     errors.add(:unconfirmed_phone, :blank) and return unless unconfirmed_phone?
     Customer.put_raw('customers/viewer/confirm_phone', customer: {unconfirmed_phone: unconfirmed_phone}) do |parsed_data, response|

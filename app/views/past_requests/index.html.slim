@@ -19,13 +19,15 @@
                   span.ml10
                     = "##{past_request.id}"
                 h3.black
+                  = past_request.location[:name]
+                h5.black
                   = past_request.location[:address_1]
                   span.pl10
                     = past_request.location[:city]
               .footer
                 - if past_request.category and past_request.subcategory
                   = "#{past_request.category[:name]}: #{past_request.subcategory[:name]}"
-                p
+                h4
                   span.text-uppercase STATUS:
                   span.ml10
                     = past_request.latest_activity_status

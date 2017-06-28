@@ -109,6 +109,7 @@ GEM
       faraday (~> 0.8)
       faraday_middleware (>= 0.8)
       hashie (>= 1.0, < 4.0.0)
+    geocoder (1.4.3)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     hashdiff (0.2.3)
@@ -317,6 +318,7 @@ DEPENDENCIES
   file_validators
   font-awesome-rails (~> 4.7.0.0)
   foursquare2 (~> 2.0.1)
+  geocoder
   her (~> 0.8.6)
   high_voltage (~> 3.0.0)
   jbuilder (~> 2.5)

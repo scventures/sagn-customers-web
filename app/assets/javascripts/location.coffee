@@ -139,3 +139,8 @@ window.locationStreetView = (lat, lng, location_id) ->
         zoom: 1
     else
       $("#location-street-view-#{location_id}").html($('<span>').addClass('message').html('Location Image is not available.'))
+      
+$.onmount '#addLocation form, #editLocation form', ->
+  if $(this).find('.form-group').hasClass('has-error')
+    $(this).find('.location-fields').addClass('hidden')
+    $(this).find('.has-error').parents('.location-fields').removeClass('hidden')

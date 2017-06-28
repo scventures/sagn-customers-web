@@ -13,7 +13,7 @@ class LocationsController < ApplicationController
 
   def create
     @location = current_customer.current_account.locations.build(location_params)
-    if @location.save
+    if @location.errors.blank? and @location.save
       redirect_to request.referrer || locations_path
     else
       respond_to do |format|

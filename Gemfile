@@ -59,6 +59,7 @@ gem 'rails-jquery-steps'
 gem 'browser'
 gem 'foursquare2', '~> 2.0.1'
 gem 'browser-timezone-rails'
+gem 'geocoder'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-onmount'

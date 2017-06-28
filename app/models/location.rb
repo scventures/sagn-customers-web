@@ -17,6 +17,13 @@ class Location
   
   def geography=(value)
     value = value.to_h if value.is_a?(ActionController::Parameters)
+    unless value[:lattitude] and value[:longitude]
+      if latlng = Geocoder.coordinates(full_address)
+        value[:latitude], value[:longitude] = latlng
+      else
+        self.errors.add(:address_1, 'Invalid Address')
+      end
+    end
     super(value)
   end
   

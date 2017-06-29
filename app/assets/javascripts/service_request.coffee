@@ -122,8 +122,17 @@ $.onmount '#wizard' , ->
     onStepChanged: (event, currentIndex, priorIndex) ->
       li = $("#wizard-t-#{priorIndex}").parent()
       if li.hasClass('done') and !li.attr('aria-done')
-        li.attr 'aria-done', true
+        if currentIndex > priorIndex
+          li.attr 'aria-done', true
+        else
+          li.removeClass('done')
         $("#wizard-p-#{priorIndex}").find('.next-btn').removeClass('hidden')
+      if [3,4,5,6].includes(priorIndex) 
+        if $('#wizard-t-6').parents('li').hasClass('done')
+          $('#wizard-t-3').parents('li').removeClass('in_progress').addClass('done').attr('aria-done', true)
+        else
+          $('#wizard-t-3').parents('li').removeClass('done').addClass('in_progress')
+          li.removeAttr('aria-done')
       $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find('input, select').enableClientSideValidations()
       switch $('#wizard').steps('getStep', priorIndex).title
         when 'Service Request'
@@ -202,7 +211,7 @@ $(document).on 'click', '.category-wrapper input[type=radio]', ->
   setSubcategoriesImages($(this).val())
   
 $(document).on 'change', '.category-wrapper input[type=radio]', ->
-  $('.steps li:not(:first)').removeClass("done").addClass('disabled').removeAttr('aria-done')
+  $('.steps li:not(:first)').removeClass('done in_progress').addClass('disabled').removeAttr('aria-done').find('.summary-data').html('')
   $('.subcategories-wrapper .subcategory_field').val('')
   $("#wizard-p-1").find('.next-btn').addClass('hidden')
   $('.steps #wizard-t-3 .summary-data').html('')
@@ -224,6 +233,8 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
     if !($('form:visible').hasClass('service-request-logout-form'))
       $('form:visible').block blockUI
       setEquipment()
+    if brands.length > 0
+      $('#service_request_brand_name').addClass('hidden')
   else
     $('a.problem-details-link').attr('data-equipment', true)
   $('.select_brand').empty()

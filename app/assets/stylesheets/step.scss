@@ -112,7 +112,7 @@ body#service_requests_new {
             padding-top: 50px;
           }
         }
-        &.current, &.done, &[aria-done] {
+        &.current, &.done, &.in_progress, &[aria-done] {
           a {
             color: #D12328;
             .icon {

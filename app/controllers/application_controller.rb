@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   
   before_action :render_getapps
   before_action :set_customer_api_token
-  before_filter :check_for_registration
+  before_filter :check_for_registration,  except: [:bad_connection, :force_log_out]
 
   protected
 

@@ -82,7 +82,7 @@ unmarkSubSteps = (indices = []) ->
 
 markSubSteps = (indices = []) ->
   if $('#service-request-form').hasClass('service-request-logout-form')
-    subStepIndices = indices.concat([1, 4, 5, 6, 7, 9, 10])
+    subStepIndices = indices.concat([1, 4, 5, 6, 7, 9, 11])
   else
     subStepIndices = indices.concat([1, 4, 5, 6, 8])
   steps = $('#wizard .steps ul li')
@@ -202,6 +202,7 @@ $(document).on 'click', '.category-wrapper input[type=radio]', ->
   setSubcategoriesImages($(this).val())
   
 $(document).on 'change', '.category-wrapper input[type=radio]', ->
+  $('.steps li:not(:first)').removeClass("done").addClass('disabled').removeAttr('aria-done')
   $('.subcategories-wrapper .subcategory_field').val('')
   $("#wizard-p-1").find('.next-btn').addClass('hidden')
   $('.steps #wizard-t-3 .summary-data').html('')
@@ -223,15 +224,14 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
     if !($('form:visible').hasClass('service-request-logout-form'))
       $('form:visible').block blockUI
       setEquipment()
-    if brands.length > 0
-      $('#service_request_brand_name').addClass('hidden').val(brands[0].name)
   else
     $('a.problem-details-link').attr('data-equipment', true)
   $('.select_brand').empty()
   $('.select_brand').select2
     width: '100%'
-    placeholder: 'Please select Brand'
     data: brands
+    placeholder: 'Select Brand'
+  $('.select_brand').select2 'val', 'Select Brand'
   if brands.length == 0
     $('#service_request_brand_name').removeClass('hidden')
   category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()

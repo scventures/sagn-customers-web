@@ -256,6 +256,36 @@ describe Customer do
     end
   end
   
+  describe '#account_owner?' do
+    context 'customer is account owner' do
+      it 'return true' do
+        customer = Customer.new(current_account_role: 'account_owner')
+        expect(customer.account_owner?).to be_truthy
+      end
+    end
+    context 'customer is not account owner' do
+      it 'return false' do
+        customer = Customer.new(current_account_role: 'staff')
+        expect(customer.account_owner?).to be_falsy
+      end
+    end
+  end
+  
+  describe '#staff?' do
+    context 'customer is staff' do
+      it 'return true' do
+        customer = Customer.new(current_account_role: 'staff')
+        expect(customer.staff?).to be_truthy
+      end
+    end
+    context 'customer is not staff' do
+      it 'return false' do
+        customer = Customer.new(current_account_role: 'account_owner')
+        expect(customer.staff?).to be_falsy
+      end
+    end
+  end
+  
   describe '#resend_phone_confirmation_instructions' do
     context 'valid phone number' do
       let(:customer) { Customer.new(unconfirmed_phone: '+111111111111') }

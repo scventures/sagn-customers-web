@@ -82,9 +82,9 @@ unmarkSubSteps = (indices = []) ->
 
 markSubSteps = (indices = []) ->
   if $('#service-request-form').hasClass('service-request-logout-form')
-    subStepIndices = indices.concat([1, 4, 5, 6, 7, 9, 11])
+    subStepIndices = indices.concat([1, 2, 4, 5, 6, 7, 9, 11])
   else
-    subStepIndices = indices.concat([1, 4, 5, 6, 8])
+    subStepIndices = indices.concat([1, 2, 4, 5, 6, 8])
   steps = $('#wizard .steps ul li')
   subSteps = steps.filter(':eq(' + subStepIndices.join('), :eq(') + ')')
   parentSteps = steps.not subSteps
@@ -228,7 +228,8 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
   $('.equipment-field-wrapper').addClass('hidden')
   $('#service_request_brand_name').val('')
   brands.map((obj) -> (obj.text = obj.text or obj.name))
-  if $(this).data('equipment')
+  category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
+  if $(this).data('equipment') and category != 'Preventive Maintenance'
     $('.equipment_wrapper').removeClass('hidden')
     if !($('form:visible').hasClass('service-request-logout-form'))
       $('form:visible').block blockUI
@@ -245,7 +246,6 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
   $('.select_brand').select2 'val', 'Select Brand'
   if brands.length == 0
     $('#service_request_brand_name').removeClass('hidden')
-  category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
   if category == 'Preventive Maintenance'
     $('#wizard').steps('setStep', 6)
     $('#wizard #wizard-p-1 .next-btn').data('step', 6)

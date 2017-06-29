@@ -74,6 +74,11 @@
     padding-left: 0px;
     margin-left: 20px;
   }
+  select {
+    -webkit-appearance: none;
+    padding: 0px 20px;
+  
+  }
   .select2-container--default .select2-selection--single {
     height: 40px;
     padding: 5px;

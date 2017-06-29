@@ -1,9 +1,11 @@
 .col-sm-4
-  .my-guy-container.h350-min
-    .inverted-circle
+  .my-guy-container.h250-min
     h3.title
       = staff.customer[:name]
     p.list.content
       = staff.customer[:email]
-    p.mt20.text-center.footer
-      = link_to 'Remove', staff_path(staff.customer_id), method: :delete, data: { confirm: "You want to remove this staff #{staff.customer[:name]}?"}, class: 'btn btn-danger btn-lg'
+    p.list.content
+      = role(staff.role)
+    - unless staff.account_owner? or current_customer.staff?
+      p.mt20.text-center.footer
+        = link_to 'Remove', staff_path(staff.customer_id), method: :delete, data: { confirm: "You want to remove this staff #{staff.customer[:name]}?"}, class: 'btn btn-danger btn-lg'

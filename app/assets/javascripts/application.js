@@ -38,5 +38,6 @@
 //= require service_request
 //= require past_request_service
 //= require current_requests
+//= require staff
 //= require turbolinks
 //= require turboboost/turboboost

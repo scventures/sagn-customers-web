@@ -5,12 +5,8 @@ section
       .text-center.service-head.center-panel
         p.sub-title What needs to be fixed?
         - categories[nil].each do |category|
-          - content_for @categories[category.id].any?(&:is_equipment?) ? :equipment_category : :non_equipment_category do
-            = f.label :category_id, category_icons(category, true), value: category.id, class: 'p10'
-            = f.radio_button :category_id, category.id
-        = content_for :equipment_category
-        p.sub-title Other Services
-        = content_for :non_equipment_category
+          = f.label :category_id, category_icons(category, true), value: category.id, class: 'p10'
+          = f.radio_button :category_id, category.id
     .next-btn-wrapper
       = link_to '#', class: 'hidden next-btn' do
         = fa_icon 'chevron-right'
@@ -65,7 +61,7 @@ section
             p.mt10.mb10.text-center
               | OR
           p.mt20 What Brand is it?
-          = f.input :brand_id, as: :select, collection: [], label: false, input_html: { class: 'select_brand'}
+          = f.input :brand_id, as: :select, collection: [], label: false, input_html: { class: 'select_brand'}, prompt: 'Select Brand'
           = f.input :brand_name, label: false, input_html: { id: 'service_request_brand_name', class: 'hidden', placeholder: 'Brand Name'}
           .row
             .col-sm-6

@@ -127,8 +127,8 @@ $.onmount '#wizard' , ->
         else
           li.removeClass('done')
         $("#wizard-p-#{priorIndex}").find('.next-btn').removeClass('hidden')
-      if [3,4,5,6].includes(priorIndex) 
-        if $('#wizard-t-6').parents('li').hasClass('done')
+      if priorIndex == 3
+        if $('#wizard-t-3').parents('li').hasClass('done')
           $('#wizard-t-3').parents('li').removeClass('in_progress').addClass('done').attr('aria-done', true)
         else
           $('#wizard-t-3').parents('li').removeClass('done').addClass('in_progress')

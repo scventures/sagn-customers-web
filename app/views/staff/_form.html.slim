@@ -1,14 +1,14 @@
 .my-staff-form-wrapper
   = simple_form_for account, url: create_multiple_staff_index_path, validate: true, turboboost: true do |f|
+    .row
+      .col-sm-10.col-sm-offset-1
+        |Staff members can manage your account, which includes managing locations, placing service calls, and approving charges to the credit card used for this account.
     = f.simple_fields_for :staff do |staff|
       = render 'staff/staff_fields', f: staff
       .staff-fields-container
     .form-footer
       .row
-        .col-sm-10.col-sm-offset-1
-          |Staff members can manage your account, which includes managing locations, placing service calls, and approving charges to the credit card used for this account.
         .col-sm-12
           .links.mt20
             = link_to_add_association '+ Add Another', f, :staff, class: 'btn btn-default pull-left', data: { 'association-insertion-node': '.staff-fields-container' }
             = f.submit 'Invite', class: 'pull-right btn invite-btn'
-            

@@ -148,22 +148,23 @@ $.onmount '#wizard' , ->
         when 'Specific issue'
           $('.steps #wizard-t-2 .summary-data').html()
         when 'Order Details'
-          model = $('input.service_request_model').val()
-          brand_name = $('#service_request_brand_name').val()
-          serial = $('input.service_request_serial').val()
-          data = $.grep([brand_name, model], Boolean).join(' ')
-          data = $.grep([data, serial], Boolean).join(' - ')
-          $('.steps #wizard-t-3 .summary-data').html(data)
-          $('.summary-details-wrapper').find('.brand').html(data)
-        when 'Schedule'
-          $summary_data = $('.steps #wizard-t-3 .summary-data')
-          $summary_data.find('.urgent').remove()
-          if $('.urgent-service').val() == 'Yes'
-            content = 'Urgent Request'  
-            content = ', ' + content if $summary_data.html().length > 0
-            $summary_data.append($('<span>').addClass('urgent').html(content))
+          if currentIndex == 3
+            model = $('input.service_request_model').val()
+            brand_name = $('#service_request_brand_name').val()
+            serial = $('input.service_request_serial').val()
+            data = $.grep([brand_name, model], Boolean).join(' ')
+            data = $.grep([data, serial], Boolean).join(' - ')
+            $('.steps #wizard-t-3 .summary-data').html(data)
+            $('.summary-details-wrapper').find('.brand').html(data)
           else
+            $summary_data = $('.steps #wizard-t-3 .summary-data')
             $summary_data.find('.urgent').remove()
+            if $('.urgent-service').val() == 'Yes'
+              content = 'Urgent Request'
+              content = ', ' + content if $summary_data.html().length > 0
+              $summary_data.append($('<span>').addClass('urgent').html(content))
+            else
+              $summary_data.find('.urgent').remove()
         when 'Restaurant Details'
           location = $('#service-request-form .location_name').val() || $('#service-request-form .location_address').val()
           $('.summary-details-wrapper').find('.location').html(location)
@@ -251,6 +252,7 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
     $('#wizard #wizard-p-1 .next-btn').data('step', 6)
     $('#wizard #wizard-p-6 .back-btn').data('step', 1)
     $('.preventative-maintenance-contact').prop('disabled', false)
+    setBreadcrumb(3, 6)
   else
     $('#wizard #wizard-p-5 .request-continue-btn').data('step', 7)
     $('#wizard #wizard-p-5 .next-btn').data('step', 7)
@@ -269,10 +271,18 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
         $('#wizard').steps('setStep', 3)
         $('#wizard #wizard-p-1 .next-btn').data('step', 3)
         $('#wizard #wizard-p-3 .back-btn').data('step', 1)
+        setBreadcrumb(null, 3)
       else
         $('#wizard').steps('setStep', 4)
         $('#wizard #wizard-p-1 .next-btn').data('step', 4)
         $('#wizard #wizard-p-4 .back-btn').data('step', 1)
+        setBreadcrumb(3, 4)
+
+setBreadcrumb = (stepToHide, stepToShow) ->
+  $.each [4, 5, 6], (i, elem) ->
+    $("#wizard-t-#{elem}").parents('li').attr('aria-substep', true)
+  $("#wizard-t-#{stepToHide}").parents('li').addClass('hidden') if stepToHide
+  $("#wizard-t-#{stepToShow}").parents('li').removeAttr('aria-substep').removeClass('hidden')
       
 $(document).on 'select2:select', '.select_brand', (e)  ->
   $('#service_request_brand_name').val(e.params.data.text)

@@ -72,7 +72,7 @@ section
     .next-btn-wrapper
       = link_to '#', class: 'hidden next-btn' do
         = fa_icon 'chevron-right'
-h2 Schedule
+h2 Order Details
 section
   .content-wrapper.describe-issue
     .back-btn-wrapper
@@ -105,14 +105,14 @@ section
         h4 When the technician arrives, who should they ask for?
         = f.input :contact_details, label: false, input_html: { placeholder: 'Full Name' }
         h4 Best number to call for questions
-        = f.input :phone_number, label: false, input_html: { placeholder: 'Phone Number', class: 'us_phone_number'  }
+        = f.input :phone_number, label: false, input_html: { placeholder: 'Phone Number', class: 'us_phone_number', value: "#{ current_customer.phone_number if current_customer}" }
         = f.input :token, as: :hidden, input_html: { id: 'service_request_token' }
         .clearfix
         = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn'
     .next-btn-wrapper
       = link_to '#', class: 'hidden next-btn' do
         = fa_icon 'chevron-right'
-h2 Preventative Maintenance
+h2 Order Details
 section
   .content-wrapper.preventive-maintenance
     .back-btn-wrapper
@@ -124,7 +124,7 @@ section
       .col-md-5.address-form.center-panel
         h4.mb20 Thanks for interest in preventative maintenance. After you put in this request we'll follow up with you to confirm.
         h4 What is the best number to call for questions?
-        = f.input :phone_number, label: false, input_html: { placeholder: 'Phone Number', class: 'us_phone_number preventative-maintenance-contact', disabled: true}
+        = f.input :phone_number, label: false, input_html: { placeholder: 'Phone Number', class: 'us_phone_number preventative-maintenance-contact', disabled: true, value: "#{ current_customer.phone_number if current_customer}"}
         .clearfix
         = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn'
     .next-btn-wrapper

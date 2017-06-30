@@ -148,7 +148,7 @@ $.onmount '#wizard' , ->
         when 'Specific issue'
           $('.steps #wizard-t-2 .summary-data').html()
         when 'Order Details'
-          if currentIndex == 3
+          if priorIndex == 3
             model = $('input.service_request_model').val()
             brand_name = $('#service_request_brand_name').val()
             serial = $('input.service_request_serial').val()
@@ -163,8 +163,10 @@ $.onmount '#wizard' , ->
               content = 'Urgent Request'
               content = ', ' + content if $summary_data.html().length > 0
               $summary_data.append($('<span>').addClass('urgent').html(content))
+              $('.steps #wizard-t-4:visible .summary-data').html('Urgent Request')
             else
               $summary_data.find('.urgent').remove()
+              $('.steps #wizard-t-4:visible .summary-data').html('')
         when 'Restaurant Details'
           location = $('#service-request-form .location_name').val() || $('#service-request-form .location_address').val()
           $('.summary-details-wrapper').find('.location').html(location)
@@ -283,6 +285,7 @@ setBreadcrumb = (stepToHide, stepToShow) ->
     $("#wizard-t-#{elem}").parents('li').attr('aria-substep', true)
   $("#wizard-t-#{stepToHide}").parents('li').addClass('hidden') if stepToHide
   $("#wizard-t-#{stepToShow}").parents('li').removeAttr('aria-substep').removeClass('hidden')
+  $('.summary-details-wrapper .details-wrapper').find('a.order-details-link').data('step', stepToShow)
       
 $(document).on 'select2:select', '.select_brand', (e)  ->
   $('#service_request_brand_name').val(e.params.data.text)

@@ -1,35 +1,36 @@
 .details
   h2.text-uppercase.text-center Job Completed
   .white-container
-    .row.bold.black
-      .col-sm-10.col-sm-offset-1
-        .row
-          .col-sm-6 Diagnostic Fee (Already Paid):
-          .col-sm-6.text-right
-            = humanized_money_with_symbol(cents_to_money(assignment.diagnostic_fee_cents), symbol_after_without_space: true)
-        - if assignment.revised_estimation
-          p
-            .row
-              .col-sm-6 Labor:
-              .col-sm-6.text-right
-                = humanized_money_with_symbol(cents_to_money(assignment.revised_estimation[:labor_cents]), symbol_after_without_space: true)
-            .row
-              .col-sm-6 Parts:
-              .col-sm-6.text-right
-                = humanized_money_with_symbol(cents_to_money(assignment.revised_estimation[:parts_cents]), symbol_after_without_space: true)
-            .row
-              .col-sm-6 Tax:
-              .col-sm-6.text-right
-                = humanized_money_with_symbol(cents_to_money(assignment.revised_estimation[:tax_cents]), symbol_after_without_space: true)
+    - if assignment
+      .row.bold.black
+        .col-sm-10.col-sm-offset-1
           .row
-            .col-sm-6 Total to be charged:
+            .col-sm-6 Diagnostic Fee (Already Paid):
             .col-sm-6.text-right
-              = assignment.revised_estimation[:total_estimate]
+              = humanized_money_with_symbol(cents_to_money(assignment.diagnostic_fee_cents), symbol_after_without_space: true)
+          - if assignment.revised_estimation
+            p
+              .row
+                .col-sm-6 Labor:
+                .col-sm-6.text-right
+                  = humanized_money_with_symbol(cents_to_money(assignment.revised_estimation[:labor_cents]), symbol_after_without_space: true)
+              .row
+                .col-sm-6 Parts:
+                .col-sm-6.text-right
+                  = humanized_money_with_symbol(cents_to_money(assignment.revised_estimation[:parts_cents]), symbol_after_without_space: true)
+              .row
+                .col-sm-6 Tax:
+                .col-sm-6.text-right
+                  = humanized_money_with_symbol(cents_to_money(assignment.revised_estimation[:tax_cents]), symbol_after_without_space: true)
+            .row
+              .col-sm-6 Total to be charged:
+              .col-sm-6.text-right
+                = assignment.revised_estimation[:total_estimate]
     p.text-center.mt20
       strong
         = link_to 'Have an issue?', '#', data: { toggle: 'modal', target: '#issueModal'}
   #customer-rating-container
-    - unless assignment.customer_rating
+    - if assignment and !assignment.customer_rating
       h3.text-center Please rate your experience
       .white-container
         strong.fs16 Out of 5 possible stars, how would you rate your experience with this contractor and their technician?

@@ -82,9 +82,9 @@ unmarkSubSteps = (indices = []) ->
 
 markSubSteps = (indices = []) ->
   if $('#service-request-form').hasClass('service-request-logout-form')
-    subStepIndices = indices.concat([1, 2, 4, 5, 6, 7, 9, 11])
+    subStepIndices = indices.concat([1, 2, 4, 5, 6, 8, 10])
   else
-    subStepIndices = indices.concat([1, 2, 4, 5, 6, 8])
+    subStepIndices = indices.concat([1, 2, 4, 5, 7])
   steps = $('#wizard .steps ul li')
   subSteps = steps.filter(':eq(' + subStepIndices.join('), :eq(') + ')')
   parentSteps = steps.not subSteps
@@ -170,14 +170,14 @@ $.onmount '#wizard' , ->
         when 'Restaurant Details'
           location = $('#service-request-form .location_name').val() || $('#service-request-form .location_address').val()
           $('.summary-details-wrapper').find('.location').html(location)
-          $('.steps #wizard-t-8 .summary-data').html(location)
+          $('.steps #wizard-t-7 .summary-data').html(location)
           $('.venue-address .venue_name.select_venue').removeAttr('disabled');
         when 'Issue Image'
           setSummaryDetailsImages()
           $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_name').val())
-          if !$('.steps #wizard-t-7').parents('li:first').hasClass('disabled')
+          if !$('.steps #wizard-t-6').parents('li:first').hasClass('disabled')
             images = $('.provide-photo-img').find('img').length
-            $('.steps #wizard-t-7 .summary-data').html("#{images} Issue Image(s)")
+            $('.steps #wizard-t-6 .summary-data').html("#{images} Issue Image(s)")
           $('.venue-address').removeClass('hidden')
           $('.provide-address').addClass('hidden')
       $.onmount()
@@ -216,8 +216,15 @@ $(document).on 'click', '.category-wrapper input[type=radio]', ->
 $(document).on 'change', '.category-wrapper input[type=radio]', ->
   $('.steps li:not(:first)').removeClass('done in_progress').addClass('disabled').removeAttr('aria-done').find('.summary-data').html('')
   $('.subcategories-wrapper .subcategory_field').val('')
-  $("#wizard-p-1").find('.next-btn').addClass('hidden')
+  $("#wizard").find('.next-btn').addClass('hidden')
   $('.steps #wizard-t-3 .summary-data').html('')
+  category_id = $('.category-wrapper input[type=radio]:checked').val()
+  $(this).parents('form')[0].reset()
+  if $('#service-request-form').hasClass('service-request-logout-form')
+    $("#customer_service_request_attributes_category_id_#{category_id}").prop('checked', true)
+    $('#select2-customer_location_attributes_name-container').html('')
+  else
+    $("#service_request_category_id_#{category_id}").prop('checked', true)
   
 $(document).on 'change', '.subcategories-wrapper input[type=radio]', ->
   $('.subcategories-wrapper .subcategory_field').val($(this).val())
@@ -232,7 +239,7 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
   $('#service_request_brand_name').val('')
   brands.map((obj) -> (obj.text = obj.text or obj.name))
   category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
-  if $(this).data('equipment') and category != 'Preventive Maintenance'
+  if $(this).data('equipment')
     $('.equipment_wrapper').removeClass('hidden')
     if !($('form:visible').hasClass('service-request-logout-form'))
       $('form:visible').block blockUI
@@ -249,39 +256,29 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
   $('.select_brand').select2 'val', 'Select Brand'
   if brands.length == 0
     $('#service_request_brand_name').removeClass('hidden')
-  if category == 'Preventive Maintenance'
-    $('#wizard').steps('setStep', 6)
-    $('#wizard #wizard-p-1 .next-btn').data('step', 6)
-    $('#wizard #wizard-p-6 .back-btn').data('step', 1)
-    $('.preventative-maintenance-contact').prop('disabled', false)
-    setBreadcrumb(3, 6)
+  if problem_codes.length > 0
+    unmarkSubSteps([2])
+    problem_codes.map((obj) -> (obj.text = obj.text or obj.name))
+    $('.select_problem_code').empty()
+    $('.select_problem_code').select2
+      data: problem_codes
+    $('#wizard').steps('next');
+    $('#wizard #wizard-p-3 .back-btn, #wizard #wizard-p-4 .back-btn').removeData('step')
   else
-    $('#wizard #wizard-p-5 .request-continue-btn').data('step', 7)
-    $('#wizard #wizard-p-5 .next-btn').data('step', 7)
-    $('#wizard #wizard-p-7 .back-btn').data('step', 5)
-    if problem_codes.length > 0
-      unmarkSubSteps([2])
-      problem_codes.map((obj) -> (obj.text = obj.text or obj.name))
-      $('.select_problem_code').empty()
-      $('.select_problem_code').select2
-        data: problem_codes
-      $('#wizard').steps('next');
-      $('#wizard #wizard-p-3 .back-btn, #wizard #wizard-p-4 .back-btn').removeData('step')
+    markSubSteps([2])
+    if $(this).data('equipment')
+      $('#wizard').steps('setStep', 3)
+      $('#wizard #wizard-p-1 .next-btn').data('step', 3)
+      $('#wizard #wizard-p-3 .back-btn').data('step', 1)
+      setBreadcrumb(null, 3)
     else
-      markSubSteps([2])
-      if $(this).data('equipment')
-        $('#wizard').steps('setStep', 3)
-        $('#wizard #wizard-p-1 .next-btn').data('step', 3)
-        $('#wizard #wizard-p-3 .back-btn').data('step', 1)
-        setBreadcrumb(null, 3)
-      else
-        $('#wizard').steps('setStep', 4)
-        $('#wizard #wizard-p-1 .next-btn').data('step', 4)
-        $('#wizard #wizard-p-4 .back-btn').data('step', 1)
-        setBreadcrumb(3, 4)
+      $('#wizard').steps('setStep', 4)
+      $('#wizard #wizard-p-1 .next-btn').data('step', 4)
+      $('#wizard #wizard-p-4 .back-btn').data('step', 1)
+      setBreadcrumb(3, 4)
 
 setBreadcrumb = (stepToHide, stepToShow) ->
-  $.each [4, 5, 6], (i, elem) ->
+  $.each [4, 5], (i, elem) ->
     $("#wizard-t-#{elem}").parents('li').attr('aria-substep', true)
   $("#wizard-t-#{stepToHide}").parents('li').addClass('hidden') if stepToHide
   $("#wizard-t-#{stepToShow}").parents('li').removeAttr('aria-substep').removeClass('hidden')

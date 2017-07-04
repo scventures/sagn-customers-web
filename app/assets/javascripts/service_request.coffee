@@ -216,15 +216,8 @@ $(document).on 'click', '.category-wrapper input[type=radio]', ->
 $(document).on 'change', '.category-wrapper input[type=radio]', ->
   $('.steps li:not(:first)').removeClass('done in_progress').addClass('disabled').removeAttr('aria-done').find('.summary-data').html('')
   $('.subcategories-wrapper .subcategory_field').val('')
-  $("#wizard").find('.next-btn').addClass('hidden')
+  $("#wizard-t-1").find('.next-btn').addClass('hidden')
   $('.steps #wizard-t-3 .summary-data').html('')
-  category_id = $('.category-wrapper input[type=radio]:checked').val()
-  $(this).parents('form')[0].reset()
-  if $('#service-request-form').hasClass('service-request-logout-form')
-    $("#customer_service_request_attributes_category_id_#{category_id}").prop('checked', true)
-    $('#select2-customer_location_attributes_name-container').html('')
-  else
-    $("#service_request_category_id_#{category_id}").prop('checked', true)
   
 $(document).on 'change', '.subcategories-wrapper input[type=radio]', ->
   $('.subcategories-wrapper .subcategory_field').val($(this).val())
@@ -247,6 +240,7 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
     if brands.length > 0
       $('#service_request_brand_name').addClass('hidden')
   else
+    $('.equipment_wrapper').find('select, input').val('')
     $('a.problem-details-link').attr('data-equipment', true)
   $('.select_brand').empty()
   $('.select_brand').select2

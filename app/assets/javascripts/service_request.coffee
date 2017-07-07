@@ -400,7 +400,7 @@ $.onmount '.location-container', ->
     $(this).unblock()
     locationStreetView(lat, lng, id)
     
-$.onmount '.service-request-edit-form .select2', ->
+$.onmount '.service-request-edit-form .select2:visible', ->
   $(this).select2()
 
 $(document).on 'click', '.decline-estimate-link', (e)->

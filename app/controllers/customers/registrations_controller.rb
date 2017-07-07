@@ -18,7 +18,9 @@ class Customers::RegistrationsController < Devise::RegistrationsController
       resource.authenticate!
       bypass_sign_in(resource)
       if resource.create_service_request
-        redirect_to current_requests_path, notice: 'Service Request created successfully.'
+        flash[:alert] = 'Please complete your registration.'
+        flash[:notice] = 'Service Request created successfully.'
+        redirect_to current_requests_path
       else
         if resource.location.errors.any?
           redirect_to service_requests_path, alert: 'Unable to create location.'

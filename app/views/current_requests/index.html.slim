@@ -37,3 +37,24 @@
         button.close data-dismiss="modal" type="button"  ×
         h4.modal-title Decline Assignment
       .modal-body
+
+#edit_current_request
+
+#declineReason.modal.fade role="dialog"
+  .modal-dialog
+    .modal-content
+      .modal-header.text-center
+        = link_to '#', data: { dismiss: 'modal'}, class: 'pull-left' do
+          = fa_icon 'chevron-left', class: 'fa-2x red'
+        span.modal-title Decline Reason
+      .modal-body
+
+#add_card.modal.fade role="dialog"
+  .modal-dialog
+    .modal-content.w110-pct
+      .modal-header.text-center.bg-red
+        = link_to '#', data: { dismiss: 'modal'}, class: 'pull-left' do
+          = fa_icon 'chevron-left', class: 'fa-2x white'
+        span.modal-title.white.fs20
+          | Authorize Payment
+      .modal-body

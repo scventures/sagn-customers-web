@@ -361,14 +361,6 @@ $(document).on 'keyup', '.us_phone_number', ->
     phone_number = formatNumberForMobileDialing('US', phone_number)
     $(this).val(phone_number)
 
-$(document).on 'change', '.urgent-service', ->
-  if $(this).val() == 'Yes'
-    $('.urgent-wrapper').find('h5').html('Please indicate any times within the next 4-6 hours that are NOT good for you to have a technician arrive.')
-    $('.urgent-wrapper').find('textarea').attr('placeholder', '')
-  else
-    $('.urgent-wrapper').find('h5').html('When would you like a technician to arrive?')
-    $('.urgent-wrapper').find('textarea').attr('placeholder', 'Please be specific. For example: Any time next week, Tuesday afternoon, Friday morning, etc.')
-    
 $(document).on 'cocoon:after-insert', '.provide-photo', (e, addedImage) ->
   $(addedImage).find('.image-upload').enableClientSideValidations()
   $(addedImage).find('.image-upload').trigger('click')
@@ -379,12 +371,16 @@ $(document).on 'click', '.details-change-link', (e) ->
   
 setSummaryDetailsImages = ->
   $('.summary-details-wrapper').find('.issue_image').html('')
-  images = $('.provide-photo-img').find('img').map(->
-    $(this).attr 'src'
-  ).get()
-  $.each images, (i, img) ->
-    $('.summary-details-wrapper').find('.issue_image').append($('<img>').attr(src: img, class: 'preview img-responsive'))
-    
+  if $('.provide-photo-img').find('img').length == 0
+    $('.summary-details-wrapper').find('.issue_image').html('No photos added')
+  else
+    $('.summary-details-wrapper').find('.issue_image').html('')
+    images = $('.provide-photo-img').find('img').map(->
+      $(this).attr 'src'
+    ).get()
+    $.each images, (i, img) ->
+      $('.summary-details-wrapper').find('.issue_image').append($('<img>').attr(src: img, class: 'preview img-responsive'))
+      
 $(document).on 'click', '.service-request-signin-link', (e) ->
   e.preventDefault()
   form = $(this).parents('form:first')

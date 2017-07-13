@@ -48,7 +48,7 @@
                 = link_to 'Decline', service_requests_service_request_assignment_start_declining_path(current_assignment.id, service_request_id: service_request.id), remote: true, class: 'btn btn-grey  with-ajax-loader'
             p.text-center.fs12.mt10
               |By Accepting you agree to out
-              = link_to 'Terms of use', page_path('terms_of_use'), class: 'ml5'
+              = link_to 'Terms of use', page_path('terms_of_use'), class: 'ml5', target: '_blank'
           - else
             = render 'current_requests/activities', service_request: service_request, activities: activities
   - else

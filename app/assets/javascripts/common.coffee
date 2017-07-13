@@ -83,3 +83,26 @@ $.onmount '.rating-container', ->
   
 $(document).on 'turbolinks:load shown.bs.modal load turboboost:complete', (e) ->
   $.onmount()
+  
+$(document).on "turboboost:error", (e, errors) ->
+  form = $(e.target)
+  if form.hasClass('service-request-logout-form') or form.hasClass('service-request-loggedin-form')
+    form.clear_form_errors()
+    errors = JSON.parse(errors)
+    $.each(errors, (field, messages) ->
+      input = form.find('input, select, textarea').filter(->
+        name = $(this).attr('name')
+        if name
+          name.match(new RegExp('customer' + '\\[' + field + '\\(?'))
+      )
+      form[0].ClientSideValidations.addError(input, messages)
+    )
+  if form.find('.has-error').length > 0
+    section_id = $(this).find('.has-error').first().parents('section').attr('id')
+    stepNumber = section_id.split('-')[2]
+    $('#wizard').steps('setStep', stepNumber);
+    $('.steps li').addClass('done')
+  
+$.fn.clear_form_errors = () ->
+  this.find('.form-group').removeClass('has-error')
+  this.find('span.help-block').remove()

@@ -17,24 +17,11 @@ class Customers::RegistrationsController < Devise::RegistrationsController
     if resource.save
       resource.authenticate!
       bypass_sign_in(resource)
-      if resource.create_service_request
-        flash[:alert] = "To receive push notification regarding the service request you must confirm your phone number and email. #{view_context.link_to('Click here to confirm.', profile_path)}".html_safe
-        flash[:notice] = 'Service Request created successfully.'
-        redirect_to current_requests_path
-      else
-        if resource.location.errors.any?
-          redirect_to service_requests_path, alert: 'Unable to create location.'
-        else 
-          redirect_to new_location_service_request_path(resource.location, service_request: customer.service_request.attributes), alert: 'Unable to create service request. Please try again.'
-        end
-      end
+      resource.create_service_request
+      redirect_to profile_path, alert: 'Complete Your Registration'
     else
-      @categories = Category.all.fetch.group_by(&:parent_category_id)
-      @customer.location = Location.new unless @customer.location?
-      @customer.service_request = ServiceRequest.new unless @customer.service_request?
-      @customer.service_request.issue_images = Her::Collection.new
       respond_to do |format|
-        format.js { render partial: 'customers/form', locals: { customer: resource, categories: @categories }, within: ".service-request-form-wrapper"}
+        format.js { render json: resource.errors, status: :unprocessable_entity, root: false }
       end
     end
   end
@@ -44,7 +31,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   def sign_up_params
     params.require(:customer).permit(
       :name, :customer_account_name, :email, :unconfirmed_phone, :password, :password_confirmation, :tos_accepted, service_request_attributes: [:location_id, :brand_name, :brand_id, :model, :serial, :urgent, :work_time_details, :problem_code_id, :equipment_item_id,
-      :problem, :category_id, :subcategory_id, :token, :phone_number, :notes, :contact_details, issue_images_attributes: [:image, :id]], location_attributes: [ :name, :address_1, :address_2, :address_3, :city, :state, :zip, :phone_number, { geography: [:latitude, :longitude]}]).to_h
+      :problem, :category_id, :token, :phone_number, :notes, :contact_details, issue_images_attributes: [:image, :id]], location_attributes: [ :name, :address_1, :address_2, :address_3, :city, :state, :zip, :phone_number, { geography: [:latitude, :longitude]}]).to_h
   end
   
   def build_resource(hash=nil)

@@ -233,6 +233,7 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
   brands.map((obj) -> (obj.text = obj.text or obj.name))
   category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
   if $(this).data('equipment')
+    $('.warranty-warning-wrapper').removeClass('no-warning')
     $('.equipment_wrapper').removeClass('hidden')
     if !($('form:visible').hasClass('service-request-logout-form'))
       $('form:visible').block blockUI
@@ -240,6 +241,7 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
     if brands.length > 0
       $('#service_request_brand_name').addClass('hidden')
   else
+    $('.warranty-warning-wrapper').addClass('no-warning')
     $('.equipment_wrapper').find('select, input').val('')
     $('a.problem-details-link').attr('data-equipment', true)
   $('.select_brand').empty()

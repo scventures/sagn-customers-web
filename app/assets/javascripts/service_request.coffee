@@ -107,7 +107,8 @@ $.onmount '#wizard' , ->
       $('#wizard').removeClass('loading')
       return
     onStepChanging: (event, currentIndex, newIndex) ->
-      title = $('#wizard').steps('getStep', currentIndex).title
+      currentStep = $('#wizard').steps('getStep', currentIndex)
+      title = currentStep.title
       if title == 'Summary &amp; Payment'
         $('.service-request-logout-form p.title').addClass('hidden')
       else
@@ -118,6 +119,21 @@ $.onmount '#wizard' , ->
         $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select, input.image-upload, input.location_name, input.address_auto_complete_field").filter(':visible'), (i, element) ->
           valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
           return
+        if valid
+          if title == 'Order Details'
+            if !currentStep.skipped and $('input.service_request_model, #service_request_brand_name, input.service_request_serial').filter((->
+                @value == ''
+              )).length
+              dataConfirmModal.confirm
+                title: 'Please Provide Details',
+                text: "We'll be able to better service your request if you provide brand, model and serial number of your equipment.",
+                commit: 'Skip',
+                cancel: 'Ok',
+                zIindex: 10099,
+                onConfirm: ()=>
+                  currentStep.skipped = true
+                  $('#wizard').steps('setStep', newIndex);
+              return false
       return valid
     onStepChanged: (event, currentIndex, priorIndex) ->
       li = $("#wizard-t-#{priorIndex}").parent()

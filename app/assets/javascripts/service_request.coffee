@@ -363,13 +363,6 @@ setBrands = (e) ->
 $(document).on 'select2:select', '.select_subcategory', (e) ->
   setBrands(e)
   
-$.onmount 'form#service-request-form', (e) ->
-  if $(this).find('.has-error').length > 0
-    section_id = $(this).find('.has-error').first().parents('section').attr('id')
-    stepNumber = section_id.split('-')[2]
-    $('#wizard').steps('setStep', stepNumber);
-    $('.steps li').addClass('done')
-  
 $(document).on 'click', '.left-sidebar ul li a.past-requests-link', (e) ->
   e.preventDefault()
 
@@ -408,6 +401,7 @@ $(document).on 'click', '.service-request-signin-link', (e) ->
   $('.sign-up-fields').addClass('hidden').find('input').prop('disabled', true)
   $('.sign-in-fields').removeClass('hidden').find('input').prop('disabled', false)
   $(form).resetClientSideValidations()
+  $('.form-control.password:visible').disableClientSideValidations()
 
 $(document).on 'click', '.service-request-signup-link', (e) ->
   e.preventDefault()
@@ -418,6 +412,7 @@ $(document).on 'click', '.service-request-signup-link', (e) ->
   $('.sign-up-fields').removeClass('hidden').find('input').prop('disabled', false)
   $('.sign-in-fields').addClass('hidden').find('input').prop('disabled', true)
   $(form).resetClientSideValidations()
+  $('.form-control.password:visible').enableClientSideValidations()
   
 $(document).on 'keypress', 'form#service-request-form', (e) ->
   if e.which != 13

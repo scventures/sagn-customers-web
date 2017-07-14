@@ -119,8 +119,8 @@ $.onmount '#wizard' , ->
         $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select, input.image-upload, input.location_name, input.address_auto_complete_field").filter(':visible'), (i, element) ->
           valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
           return
-        if valid
-          if title == 'Order Details'
+        if !currentStep.skipping and valid
+          if title == 'Order Details' and currentIndex == 3
             if !currentStep.skipped and $('input.service_request_model, #service_request_brand_name, input.service_request_serial').filter((->
                 @value == ''
               )).length

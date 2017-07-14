@@ -9,12 +9,18 @@ $.fn.steps.setStep = (step) ->
   $.fn.steps.transitionEffect = 0
   while i < Math.abs(step - index)
     #disable transition effect for intermediate steps
-    wizard.data('options').transitionEffect = if i == (Math.abs(step - index) - 1) then currentTransitionEffect else 0
+    if i == (Math.abs(step - index) - 1)
+      wizard.data('options').transitionEffect = currentTransitionEffect
+    else
+      wizard.data('options').transitionEffect = 0
+      $(wizard).data('steps')[index].skipping = true if $(wizard).data('steps')[index]
     if step > index
       $(wizard).steps 'next'
     else
       $(wizard).steps 'previous'
     i++
+  $.each wizard.data('steps'), (index, step) ->
+    step.skipping = false
   return
 
 $(document).on 'ajax:beforeSend', 'a.with-ajax-loader', (e)->

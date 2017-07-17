@@ -50,11 +50,11 @@ module ServiceRequestHelper
   
   def contractor_estimation_text(assignment)
     content_tag :p do
-      concat(assignment[:contractor_account][:name])
+      concat(content_tag :strong, assignment[:contractor_account][:name])
       if assignment[:revised_estimation]
-        concat(" has revised your estimate. (Previous estimate was #{assignment[:revised_estimation][:total_estimate]}" )
+        concat(content_tag :span, "has revised your estimate. (Previous estimate was #{assignment[:revised_estimation][:total_estimate]}", class: "ml5" )
       else
-        concat(" has provided the following estimate")
+        concat(content_tag :span, "has provided the following estimate", class: "ml5")
       end
     end
   end

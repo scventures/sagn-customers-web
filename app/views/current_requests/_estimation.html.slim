@@ -8,24 +8,23 @@
       .mt10
         = estimation_notice(assignment[:current_estimation])
       .mt20.fs20
-        strong
-          = contractor_estimation_text(assignment)
-          .row
-            .col-sm-6 Labor:
-            .col-sm-6.text-right
-              = cents_to_money(assignment[:current_estimation][:labor_cents]).format
-          .row
-            .col-sm-6 Parts:
-            .col-sm-6.text-right
-              = cents_to_money(assignment[:current_estimation][:parts_cents]).format
-          .row
-            .col-sm-6 Tax:
-            .col-sm-6.text-right
-              = cents_to_money(assignment[:current_estimation][:tax_cents]).format
-          .row.mt10
-            .col-sm-6 Estimate Total:
-            .col-sm-6.text-right
-              = assignment[:current_estimation][:total_estimate]
+        = contractor_estimation_text(assignment)
+        .row
+          .col-sm-6 Labor:
+          .col-sm-6.text-right
+            strong = cents_to_money(assignment[:current_estimation][:labor_cents]).format
+        .row
+          .col-sm-6 Parts:
+          .col-sm-6.text-right
+            strong = cents_to_money(assignment[:current_estimation][:parts_cents]).format
+        .row
+          .col-sm-6 Tax:
+          .col-sm-6.text-right
+            strong = cents_to_money(assignment[:current_estimation][:tax_cents]).format
+        .row.mt10
+          .col-sm-6 Estimate Total:
+          .col-sm-6.text-right
+            strong = assignment[:current_estimation][:total_estimate]
       - unless assignment[:current_estimation][:sagn_total_estimate_cents]
         p = "#{Promo Code Discount: cents_to_money(assignment[:current_estimation][:sagn_total_estimate_cents]).format}"
         p = "#{Your Fee: cents_to_money(assignment[:current_estimation][:customer_total_estimate_cents]).format}"
@@ -33,13 +32,15 @@
         = link_to 'View Attachment', assignment[:current_estimation][:document], target: '_blank', class: 'fs20'
       - unless assignment[:current_estimation][:description].blank?
         h4 Description of Work
-        p.fs16 = assignment[:current_estimation][:description]
+        p.fs18 = assignment[:current_estimation][:description]
       h4.text-left.mt30
-        = "You must authorize a charge of #{assignment[:current_estimation][:total_estimate]} that will be charged when the work is completed"
+        |You must authorize a charge of
+        strong.ml5 = assignment[:current_estimation][:total_estimate]
+        span.ml5 that will be charged when the work is completed
     .p20
       p
         - if assignment[:current_estimation][:customer_total_estimate_cents] > 0
-          = link_to 'Accept and Authorize charge', service_requests_service_request_assignment_start_accepting_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-red mt10 with-ajax-loader'
+          = link_to 'Accept and Authorize Charge', service_requests_service_request_assignment_start_accepting_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-red mt10 with-ajax-loader'
         - else
           = link_to 'Accept Estimate', service_requests_service_request_assignment_accept_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-red with-ajax-loader', method: :post
       p

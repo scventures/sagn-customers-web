@@ -41,12 +41,16 @@ section
             .col-sm-4
               = link_to 'change', '#', data: { step: 6 }, class: 'details-change-link'
         .clearfix
-        .text-uppercase
-          | Is this equipment under warranty?
-        .summary-details-subwrapper
-          p
-            | SendaGuy Now is not for service on equipment covered by warranty. If your equipment is under warranty, you’ll want to contact the manufacturer directly.
-          = f.submit 'I understand and wish to continue', class: 'btn btn-continue request-continue-btn text-uppercase', data: { continue: 'card-details'}
+        .warranty-warning-wrapper
+          .warranty-warning
+            .text-uppercase
+              | Is this equipment under warranty?
+            .summary-details-subwrapper
+              p
+                | SendaGuy Now is not for service on equipment covered by warranty. If your equipment is under warranty, you’ll want to contact the manufacturer directly.
+              = f.submit 'I understand and wish to continue', class: 'btn btn-continue request-continue-btn text-uppercase', data: { continue: 'card-details'}
+          .proceed-to-next
+            = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn text-uppercase', data: { continue: 'card-details'}
     .next-btn-wrapper
       = link_to '#', class: 'hidden next-btn' do
         = fa_icon 'chevron-right'    

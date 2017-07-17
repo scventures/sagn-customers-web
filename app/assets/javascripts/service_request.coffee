@@ -107,7 +107,8 @@ $.onmount '#wizard' , ->
       $('#wizard').removeClass('loading')
       return
     onStepChanging: (event, currentIndex, newIndex) ->
-      title = $('#wizard').steps('getStep', currentIndex).title
+      currentStep = $('#wizard').steps('getStep', currentIndex)
+      title = currentStep.title
       if title == 'Summary &amp; Payment'
         $('.service-request-logout-form p.title').addClass('hidden')
       else
@@ -118,6 +119,21 @@ $.onmount '#wizard' , ->
         $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select, input.image-upload, input.location_name, input.address_auto_complete_field").filter(':visible'), (i, element) ->
           valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
           return
+        if !currentStep.skipping and valid
+          if title == 'Order Details' and currentIndex == 3
+            if !currentStep.skipped and $('input.service_request_model, #service_request_brand_name, input.service_request_serial').filter((->
+                @value == ''
+              )).length
+              dataConfirmModal.confirm
+                title: 'Please Provide Details',
+                text: "We'll be able to better service your request if you provide brand, model and serial number of your equipment.",
+                commit: 'Skip',
+                cancel: 'Ok',
+                zIindex: 10099,
+                onConfirm: ()=>
+                  currentStep.skipped = true
+                  $('#wizard').steps('setStep', newIndex);
+              return false
       return valid
     onStepChanged: (event, currentIndex, priorIndex) ->
       li = $("#wizard-t-#{priorIndex}").parent()
@@ -233,6 +249,7 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
   brands.map((obj) -> (obj.text = obj.text or obj.name))
   category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
   if $(this).data('equipment')
+    $('.warranty-warning-wrapper').removeClass('no-warning')
     $('.equipment_wrapper').removeClass('hidden')
     if !($('form:visible').hasClass('service-request-logout-form'))
       $('form:visible').block blockUI
@@ -240,6 +257,7 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
     if brands.length > 0
       $('#service_request_brand_name').addClass('hidden')
   else
+    $('.warranty-warning-wrapper').addClass('no-warning')
     $('.equipment_wrapper').find('select, input').val('')
     $('a.problem-details-link').attr('data-equipment', true)
   $('.select_brand').empty()
@@ -345,13 +363,6 @@ setBrands = (e) ->
 $(document).on 'select2:select', '.select_subcategory', (e) ->
   setBrands(e)
   
-$.onmount 'form#service-request-form', (e) ->
-  if $(this).find('.has-error').length > 0
-    section_id = $(this).find('.has-error').first().parents('section').attr('id')
-    stepNumber = section_id.split('-')[2]
-    $('#wizard').steps('setStep', stepNumber);
-    $('.steps li').addClass('done')
-  
 $(document).on 'click', '.left-sidebar ul li a.past-requests-link', (e) ->
   e.preventDefault()
 
@@ -361,14 +372,6 @@ $(document).on 'keyup', '.us_phone_number', ->
     phone_number = formatNumberForMobileDialing('US', phone_number)
     $(this).val(phone_number)
 
-$(document).on 'change', '.urgent-service', ->
-  if $(this).val() == 'Yes'
-    $('.urgent-wrapper').find('h5').html('Please indicate any times within the next 4-6 hours that are NOT good for you to have a technician arrive.')
-    $('.urgent-wrapper').find('textarea').attr('placeholder', '')
-  else
-    $('.urgent-wrapper').find('h5').html('When would you like a technician to arrive?')
-    $('.urgent-wrapper').find('textarea').attr('placeholder', 'Please be specific. For example: Any time next week, Tuesday afternoon, Friday morning, etc.')
-    
 $(document).on 'cocoon:after-insert', '.provide-photo', (e, addedImage) ->
   $(addedImage).find('.image-upload').enableClientSideValidations()
   $(addedImage).find('.image-upload').trigger('click')
@@ -379,12 +382,16 @@ $(document).on 'click', '.details-change-link', (e) ->
   
 setSummaryDetailsImages = ->
   $('.summary-details-wrapper').find('.issue_image').html('')
-  images = $('.provide-photo-img').find('img').map(->
-    $(this).attr 'src'
-  ).get()
-  $.each images, (i, img) ->
-    $('.summary-details-wrapper').find('.issue_image').append($('<img>').attr(src: img, class: 'preview img-responsive'))
-    
+  if $('.provide-photo-img').find('img').length == 0
+    $('.summary-details-wrapper').find('.issue_image').html('No photos added')
+  else
+    $('.summary-details-wrapper').find('.issue_image').html('')
+    images = $('.provide-photo-img').find('img').map(->
+      $(this).attr 'src'
+    ).get()
+    $.each images, (i, img) ->
+      $('.summary-details-wrapper').find('.issue_image').append($('<img>').attr(src: img, class: 'preview img-responsive'))
+      
 $(document).on 'click', '.service-request-signin-link', (e) ->
   e.preventDefault()
   form = $(this).parents('form:first')
@@ -394,6 +401,7 @@ $(document).on 'click', '.service-request-signin-link', (e) ->
   $('.sign-up-fields').addClass('hidden').find('input').prop('disabled', true)
   $('.sign-in-fields').removeClass('hidden').find('input').prop('disabled', false)
   $(form).resetClientSideValidations()
+  $('.form-control.password:visible').disableClientSideValidations()
 
 $(document).on 'click', '.service-request-signup-link', (e) ->
   e.preventDefault()
@@ -404,6 +412,7 @@ $(document).on 'click', '.service-request-signup-link', (e) ->
   $('.sign-up-fields').removeClass('hidden').find('input').prop('disabled', false)
   $('.sign-in-fields').addClass('hidden').find('input').prop('disabled', true)
   $(form).resetClientSideValidations()
+  $('.form-control.password:visible').enableClientSideValidations()
   
 $(document).on 'keypress', 'form#service-request-form', (e) ->
   if e.which != 13

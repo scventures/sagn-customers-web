@@ -9,10 +9,10 @@ class Customers::SessionsController < Devise::SessionsController
         flash[:notice] = 'Service Request created successfully.'
         redirect_to current_requests_path
       else
-        if customer.location.errors.any?
-          redirect_to service_requests_path, alert: 'Unable to create location.'
+        if customer.service_request.location_id
+          redirect_to new_location_service_request_path(customer.service_request.location_id, service_request: customer.service_request.attributes), alert: 'Unable to create service request. Please try again.'
         else
-          redirect_to new_location_service_request_path(customer.location, service_request: customer.service_request.attributes), alert: 'Unable to create service request. Please try again.'
+          redirect_to service_requests_path, alert: customer.location.errors.full_messages.join(',')
         end
       end
     else

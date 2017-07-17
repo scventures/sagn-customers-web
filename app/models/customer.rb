@@ -10,7 +10,7 @@ class Customer
   attributes :email, :jwt, :password, :password_confirmation, :active,
              :current_account_id, :customer_account_ids, :name,
              :customer_account_name, :unconfirmed_phone, :tos_accepted,
-             :confirmation_token, :photo, :unconfirmed_email, :sms_confirmation_pin, :current_password
+             :confirmation_token, :photo, :unconfirmed_email, :sms_confirmation_pin, :current_password, :validate_current_password
 
   devise :remote_authenticatable, :recoverable, :registerable, :confirmable
   skip_callback :update, :before, :postpone_email_change_until_confirmation_and_regenerate_confirmation_token
@@ -25,8 +25,10 @@ class Customer
   
   accepts_nested_attributes_for :service_request
   accepts_nested_attributes_for :location
-  validates :name, :email, :customer_account_name, :password, :current_password, presence: true
-  validates_confirmation_of :password
+  validates :name, :email, :customer_account_name, :password, :unconfirmed_phone, presence: true
+  validates :password, confirmation: true
+  validates :tos_accepted, acceptance: true
+  validates :current_password, presence: :true, if: :validate_current_password?
 
   validates :avatar, file_size: { less_than_or_equal_to: 50.megabytes, message: 'File size exceeded. Maximum size 50MB.' },
                     file_content_type: { allow: ['image/gif', 'image/png', 'image/x-png', 'image/jpeg', 'image/pjpeg', 'image/jpg'], message: 'Image type not allowed. Allowed types are png/jpg/gif.' } 
@@ -41,6 +43,10 @@ class Customer
         false
       end
     end
+  end
+  
+  def validate_current_password?
+    validate_current_password
   end
 
   def populate_attributes
@@ -110,7 +116,7 @@ class Customer
   def create_service_request
     self.populate_attributes
     location.account_id = self.current_account_id
-    if loc = create_or_find_location
+    if self.loc = create_or_find_location
       service_request = self.service_request
       service_request.location_id = loc.id
       service_request.account_id = self.current_account_id

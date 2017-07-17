@@ -9,12 +9,18 @@ $.fn.steps.setStep = (step) ->
   $.fn.steps.transitionEffect = 0
   while i < Math.abs(step - index)
     #disable transition effect for intermediate steps
-    wizard.data('options').transitionEffect = if i == (Math.abs(step - index) - 1) then currentTransitionEffect else 0
+    if i == (Math.abs(step - index) - 1)
+      wizard.data('options').transitionEffect = currentTransitionEffect
+    else
+      wizard.data('options').transitionEffect = 0
+      $(wizard).data('steps')[index].skipping = true if $(wizard).data('steps')[index]
     if step > index
       $(wizard).steps 'next'
     else
       $(wizard).steps 'previous'
     i++
+  $.each wizard.data('steps'), (index, step) ->
+    step.skipping = false
   return
 
 $(document).on 'ajax:beforeSend', 'a.with-ajax-loader', (e)->
@@ -83,3 +89,26 @@ $.onmount '.rating-container', ->
   
 $(document).on 'turbolinks:load shown.bs.modal load turboboost:complete', (e) ->
   $.onmount()
+  
+$(document).on "turboboost:error", (e, errors) ->
+  form = $(e.target)
+  if form.hasClass('service-request-logout-form') or form.hasClass('service-request-loggedin-form')
+    form.clear_form_errors()
+    errors = JSON.parse(errors)
+    $.each(errors, (field, messages) ->
+      input = form.find('input, select, textarea').filter(->
+        name = $(this).attr('name')
+        if name
+          name.match(new RegExp('customer' + '\\[' + field + '\\(?'))
+      )
+      form[0].ClientSideValidations.addError(input, messages)
+    )
+  if form.find('.has-error').length > 0
+    section_id = $(this).find('.has-error').first().parents('section').attr('id')
+    stepNumber = section_id.split('-')[2]
+    $('#wizard').steps('setStep', stepNumber);
+    $('.steps li').addClass('done')
+  
+$.fn.clear_form_errors = () ->
+  this.find('.form-group').removeClass('has-error')
+  this.find('span.help-block').remove()

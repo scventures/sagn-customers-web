@@ -14,7 +14,8 @@
                 - if current_assignment.technician
                   = image_tag current_assignment.technician[:photo] || 'default_avatar_icon.png', class: 'img-circle', width: '100'
               .col-sm-9
-                = "#{current_assignment.contractor_account[:name]} can send:"
+                strong = current_assignment.contractor_account[:name]
+                span.ml5 can send:
                 br/
                 = current_assignment.technician[:name] if current_assignment.technician
                 .static-rating-container
@@ -37,10 +38,12 @@
                 #coverText.collapse.ml10
                   = cover_text(current_assignment)
                   .mt10
-                    = "Contractor warrants their services will be free from defects in materials and workmanship for a period of #{current_assignment.contractor_account[:warranty_period]} days from the date of the final bill. If there is a warranty claim during the warranty period the contractor will return to evaluate at no additional fee. Additional fees may apply if the issue is not a contractor defect."
+                    = "Contractor warrants their services will be free from defects in materials and workmanship for a period of"
+                    strong.ml5 = "#{current_assignment.contractor_account[:warranty_period]} days"
+                    span.ml5 from the date of the final bill. If there is a warranty claim during the warranty period the contractor will return to evaluate at no additional fee. Additional fees may apply if the issue is not a contractor defect."
               p.mt10
                 - if current_assignment.charging?
-                  = link_to 'Accept and Authorize charge', service_requests_service_request_assignment_start_accepting_path(current_assignment.id, service_request_id: service_request.id), remote: true, class: 'btn btn-red mt10 with-ajax-loader'
+                  = link_to 'Accept and Authorize Charge', service_requests_service_request_assignment_start_accepting_path(current_assignment.id, service_request_id: service_request.id), remote: true, class: 'btn btn-red mt10 with-ajax-loader'
                 - else
                   = link_to 'Accept Technician', service_requests_service_request_assignment_payment_authorize_path(current_assignment, service_request_id: service_request.id), method: :post, remote: true, class: 'btn btn-red mt10 with-ajax-loader'
                 br/

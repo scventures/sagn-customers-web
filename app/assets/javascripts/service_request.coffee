@@ -117,7 +117,8 @@ $.onmount '#wizard' , ->
       valid = true
       if newIndex > currentIndex
         $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select, textarea, input.image-upload, input.location_name, input.address_auto_complete_field").filter(':visible'), (i, element) ->
-          $(form).resetClientSideValidations()
+          if currentIndex == 4
+            $(form).resetClientSideValidations()
           valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
           return
         if !currentStep.skipping and valid and $('.subcategories-wrapper input[type=radio]:checked').data('equipment') == true

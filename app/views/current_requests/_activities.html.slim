@@ -6,7 +6,7 @@
   .white-container
     = render 'shared/service_request_activities', activities: activities
   h3.text-center
-    = link_to 'See Your Service Request Details', '#', data: { target: '#serviceRequestDetail', toggle: 'modal'}, class: 'grey'
+    = link_to 'See Your Service Request Details', '#', data: { target: '#serviceRequestDetail', toggle: 'modal'}, class: 'grey hover-underline'
   - if service_request.can_editable?
     p
       = link_to 'Edit Request', edit_location_service_request_path(service_request.location[:id], service_request.id), turboboost: true, class: 'btn btn-default btn-blue with-ajax-loader'

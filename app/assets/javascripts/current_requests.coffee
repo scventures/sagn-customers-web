@@ -1,24 +1,19 @@
 $(document).on 'click', '#chooseCard .btn-close', ->
   if $('#chooseCard #choose_card').val() == 'add_new_card'
-    $('#addCardForEstimate .pic-payment-methods, #add_card .pic-payment-methods').addClass('hidden')
+    $('#addCardForEstimate .default-payment-container, #add_card .default-payment-container').addClass('hidden')
     $('#addCardForEstimate .card-details, #add_card .card-details').removeClass('hidden')
+    $('.pic-payment-methods a').html('Add new card')
   else
-    $('#addCardForEstimate, .card-details').find('.alert .alert-success').remove()
-    $('#addCardForEstimate .pic-payment-methods, #add_card .pic-payment-methods').prepend($('<p>').attr('class', 'alert alert-success').html('Default payment is selected please click on pay button.').append($('<button>').attr({'class': 'close', 'data-dismiss': 'alert'}).html('x')))
+    $('#addCardForEstimate .default-payment-container, #add_card .default-payment-container').removeClass('hidden')
+    $('#addCardForEstimate .card-details, #add_card .card-details').addClass('hidden')
+    $('.pic-payment-methods a').html('Default payment method')
+    $('#addCardForEstimate .card-details, #add_card .card-details').find('#service_request_token').val('')
   $('#chooseCard').modal('hide')
   
 $(document).on 'click', '#addCardForEstimate .btn-close, #add_card .btn-close', (e) ->
   e.preventDefault()
-  if $(this).parents('.modal').find('.pic-payment-methods').hasClass('hidden')
-    $(this).parents('.modal').find('.pic-payment-methods').removeClass('hidden')
-    $(this).parents('.modal').find('.card-details').addClass('hidden')
-    $(this).parents('.modal').find('.alert .alert-success').remove()
-  else
-    $(this).parents('.modal').modal('hide')
+  $(this).parents('.modal').modal('hide')
     
-$(document).on 'shown.bs.modal', '#addCardForEstimate, #add_card', ->
-  $('this').find('.alert .alert-success').remove()
-  
 $(document).on 'click', '#declineAssignment .select_reason', ->
   $('#declineAssignment').find('.form-group.radio_buttons').addClass('hidden')
   $('#declineAssignment').find('.search-new-technician').removeClass('hidden')

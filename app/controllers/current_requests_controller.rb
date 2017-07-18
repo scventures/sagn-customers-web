@@ -4,7 +4,7 @@ class CurrentRequestsController < ApplicationController
   
   def index
     @account = current_customer.current_account
-    @current_requests = @account.current_service_requests.select {|c| c.is_active and !['cancelled', 'final_bill_sent', 'completed', 'customer_declined_estimation'].include?(c.latest_activity_status_raw) }
+    @current_requests = @account.current_requests
     unless @current_requests.length.zero?
       @current_request = ServiceRequest.find(@current_requests.first.id, _account_id: @account.id)
       @current_request.account_id = @account.id

@@ -132,7 +132,8 @@ $.onmount '#wizard' , ->
                 zIindex: 10099,
                 onConfirm: ()=>
                   currentStep.skipped = true
-                  $('#wizard').steps('setStep', newIndex);
+                  $('#wizard').steps('setStep', newIndex)
+                  currentStep.skipped = false
               return false
       return valid
     onStepChanged: (event, currentIndex, priorIndex) ->

@@ -28,7 +28,7 @@
                 = assignment.revised_estimation[:total_estimate]
     p.text-center.mt20
       strong
-        = link_to 'Have an issue?', '#', data: { toggle: 'modal', target: '#issueModal'}
+        = link_to 'Have an issue?', '#', data: { toggle: 'modal', target: '#issueModal'}, class: 'hover-underline'
   #customer-rating-container
     - if assignment and !assignment.customer_rating
       h3.text-center Please rate your experience

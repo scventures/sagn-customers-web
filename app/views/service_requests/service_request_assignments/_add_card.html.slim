@@ -1,6 +1,7 @@
 .pic-payment-methods
   strong.fs20.text-center Pick a payment method:
   = link_to 'Default Payment Method', '#', data: { toggle: 'modal', target: '#chooseCard'}, class: 'btn btn-grey mt10'
+.default-payment-container
   = link_to "Pay #{(assignment.diagnostic_fee).format}", service_requests_service_request_assignment_payment_authorize_path(assignment.id, service_request_id: service_request.id), method: :post, remote: true, class: 'btn btn-red mt10 with-ajax-loader'
 .panel-body.card-details.mt0.hidden
   #payment-form

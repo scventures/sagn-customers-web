@@ -129,11 +129,11 @@
   }
 }
 
-#declineEstimate, #declineAssignment {
+#declineEstimate, #declineAssignment, #addCardForEstimate {
   .modal-header {
     background: #c22d27;
     color: #fff;
-    .close {
+    .close, .btn-close {
       color: #fff;
       opacity: 1;
     }

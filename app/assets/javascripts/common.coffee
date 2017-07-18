@@ -13,10 +13,11 @@ $.fn.steps.setStep = (step) ->
       wizard.data('options').transitionEffect = currentTransitionEffect
     else
       wizard.data('options').transitionEffect = 0
-      $(wizard).data('steps')[index].skipping = true if $(wizard).data('steps')[index]
     if step > index
+      $(wizard).data('steps')[i + index].skipping = true if $(wizard).data('steps')[i + index] unless i == 0
       $(wizard).steps 'next'
     else
+      $(wizard).data('steps')[index - i].skipping = true if $(wizard).data('steps')[index - i] unless i == 0
       $(wizard).steps 'previous'
     i++
   $.each wizard.data('steps'), (index, step) ->

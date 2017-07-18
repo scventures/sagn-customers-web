@@ -48,9 +48,9 @@ section
             .summary-details-subwrapper
               p
                 | SendaGuy Now is not for service on equipment covered by warranty. If your equipment is under warranty, you’ll want to contact the manufacturer directly.
-              = f.submit 'I understand and wish to continue', class: 'btn btn-continue request-continue-btn text-uppercase', data: { continue: 'card-details'}
+              = f.submit 'I understand and wish to continue', class: 'btn btn-continue text-uppercase', data: { continue: 'card-details'}
           .proceed-to-next
-            = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn text-uppercase', data: { continue: 'card-details'}
+            = f.submit 'Save & Continue', class: "btn btn-continue text-uppercase #{ (current_customer and current_customer.current_account.have_payment_method) ? 'service-request-submit-btn' : 'request-continue-btn'}", data: { continue: 'card-details'}
     .next-btn-wrapper
       = link_to '#', class: 'hidden next-btn' do
         = fa_icon 'chevron-right'    

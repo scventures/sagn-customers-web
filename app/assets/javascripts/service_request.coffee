@@ -84,7 +84,7 @@ markSubSteps = (indices = []) ->
   if $('#service-request-form').hasClass('service-request-logout-form')
     subStepIndices = indices.concat([1, 2, 4, 5, 6, 8, 10])
   else
-    subStepIndices = indices.concat([1, 2, 4, 5, 7])
+    subStepIndices = indices.concat([1, 2, 4, 5, 8])
   steps = $('#wizard .steps ul li')
   subSteps = steps.filter(':eq(' + subStepIndices.join('), :eq(') + ')')
   parentSteps = steps.not subSteps
@@ -120,7 +120,7 @@ $.onmount '#wizard' , ->
         $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select, textarea, input.image-upload, input.location_name, input.address_auto_complete_field").filter(':visible'), (i, element) ->
           valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
           return
-        if !currentStep.skipping and valid
+        if !currentStep.skipping and valid and $('.subcategories-wrapper input[type=radio]:checked').data('equipment') == true
           if title == 'Order Details' and currentIndex == 3
             if !currentStep.skipped and $('input.service_request_model, #service_request_brand_name, input.service_request_serial').filter((->
                 @value == ''
@@ -133,7 +133,8 @@ $.onmount '#wizard' , ->
                 zIindex: 10099,
                 onConfirm: ()=>
                   currentStep.skipped = true
-                  $('#wizard').steps('setStep', newIndex);
+                  $('#wizard').steps('setStep', newIndex)
+                  currentStep.skipped = false
               return false
       return valid
     onStepChanged: (event, currentIndex, priorIndex) ->
@@ -197,6 +198,8 @@ $.onmount '#wizard' , ->
             $('.steps #wizard-t-6 .summary-data').html("#{images} Issue Image(s)")
           $('.venue-address').removeClass('hidden')
           $('.provide-address').addClass('hidden')
+      if $('#wizard').steps('getStep', currentIndex).title == 'Summary' and $('.warranty-warning-wrapper').hasClass('no-warning')
+        $('.steps a#wizard-t-7').parent('li').addClass('done')
       $.onmount()
       updatePerfectScroll('#wizard > .content', true)
       return
@@ -280,15 +283,23 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
   else
     markSubSteps([2])
     if $(this).data('equipment')
+      $('.warranty-warning-wrapper').removeClass('no-warning')
       $('#wizard').steps('setStep', 3)
       $('#wizard #wizard-p-1 .next-btn').data('step', 3)
       $('#wizard #wizard-p-3 .back-btn').data('step', 1)
       setBreadcrumb(null, 3)
     else
+      $('.warranty-warning-wrapper').addClass('no-warning')
       $('#wizard').steps('setStep', 4)
       $('#wizard #wizard-p-1 .next-btn').data('step', 4)
       $('#wizard #wizard-p-4 .back-btn').data('step', 1)
       setBreadcrumb(3, 4)
+      
+$(document).on 'click', '.warranty-warning input[type=submit]', (e) ->
+  e.preventDefault()
+  $('.warranty-warning-wrapper').addClass('no-warning')
+  if $('.warranty-warning-wrapper').hasClass('no-warning')
+    $('.steps a#wizard-t-7').parent('li').addClass('done')
 
 setBreadcrumb = (stepToHide, stepToShow) ->
   $.each [4, 5], (i, elem) ->
@@ -324,18 +335,6 @@ $(document).on 'click', '.service-request-form-wrapper .content-wrapper .next-bt
   else
     $('#wizard').steps('next');
 
-$(document).on 'click', '.service-request-form-wrapper .request-service-card-btn', (e) ->
-  e.preventDefault()
-  if $(this).data('card') == 'add'
-    $('.service-request-form-wrapper #payment-form').removeClass('hidden')
-    $('.service-request-form-wrapper .service-request-submit-btn').addClass('hidden')
-    $('.service-request-form-wrapper .credit-card-form').removeClass('hidden')
-    $('.request-service-card-btn').removeClass('active')
-  else
-    $('.service-request-form-wrapper #payment-form').addClass('hidden')
-    $('.service-request-form-wrapper .service-request-submit-btn').removeClass('hidden')
-    $('.service-request-form-wrapper .credit-card-form').addClass('hidden')
-  
 setCategories = ->
   if $('.select_category option:selected').val() != ''
     categories = $('.select_category option:selected').data('categories')

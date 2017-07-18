@@ -47,5 +47,5 @@
       p
         = link_to 'I need to think about it', service_requests_service_request_assignment_consider_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, data: { confirm: 'Keep in mind this estimate will expire shortly and there may be added cost if the technician needs to return.' }, class: 'btn btn-grey with-ajax-loader'
       p.text-center.fs12.mt10
-        |By Accepting you agree to out 
-        = link_to 'Terms of use', page_path('terms_of_use'), target: '_blank', class: 'hover-underline'
+        |By Accepting you agree to our
+        = link_to 'Terms of use', page_path('terms_of_use'), target: '_blank', class: 'ml5 hover-underline'

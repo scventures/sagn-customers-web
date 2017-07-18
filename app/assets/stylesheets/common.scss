@@ -71,6 +71,9 @@ nav.navbar {
   .nav >li >a {
     padding-top: 20px;
     padding-bottom: 20px;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -303,6 +306,11 @@ body {
   width: 60%;
 }
 
+.hover-underline {
+  &:hover {
+    text-decoration: underline !important;
+  }
+}
 body#service_requests_index, body#service_requests_new {
   @include hidden-sidebar()
 }

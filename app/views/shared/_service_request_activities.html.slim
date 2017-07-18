@@ -32,6 +32,9 @@
               .col-sm-6 = humanized_money_with_symbol(cents_to_money(estimation[:tax_cents]), symbol_after_without_space: true)
               .col-sm-6.mt10 Total
               .col-sm-6.mt10 = estimation[:total_estimate]
+              - unless estimation[:description].blank?
+                .col-sm-6.mt10 Description
+                .col-sm-6.mt10 = estimation[:description]
               - unless estimation[:document] and estimation[:document].include?('/documents/original/missing.png')
                 .col-sm-6
-                  = link_to 'View Attachment', estimation[:document], target: '_blank', class: 'fs12 font-bold'
+                  = link_to 'View Attachment', estimation[:document], target: '_blank', class: 'fs12 font-bold hover-underline'

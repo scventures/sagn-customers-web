@@ -82,9 +82,9 @@ section
       .text-center.service-head.center-panel
         p.sub-title Schedule Timing
       .col-md-5.address-form.center-panel
-        = f.input :notes, as: :text, label: 'Please briefly describe the problem', placeholder: 'Problem description'
         h5 Is this an urgent service? (need a tech in the next 4-6 hours)?
         = f.input :urgent, as: :select, label: false, collection: ['Yes', 'No'], selected: 'No', input_html: { class: 'urgent-service' }
+        = f.input :notes, as: :text, label: 'Please briefly describe the problem', placeholder: 'Problem description'
         .urgent-wrapper
           h5.text-center When would you like a technician to come?
           = f.input :work_time_details, as: :text, label: false, placeholder: 'Please be specific. For example: Any time next week, Tuesday afternoon, Friday morning, etc.'

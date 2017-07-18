@@ -127,6 +127,9 @@ body#service_requests_new {
                 margin-left: 14px;
               }
             }
+            &:hover {
+              text-decoration: underline !important;
+            }
           }
         }
         &.done, &[aria-done] {

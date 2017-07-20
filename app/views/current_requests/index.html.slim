@@ -4,7 +4,7 @@
   .col-sm-6.current-request-list
     - unless @current_requests.count.zero? 
       - @current_requests.each_with_index do |current_request, index|
-        = link_to current_request_path(current_request), remote: true, class: 'details-link' do
+        = link_to current_request_path(current_request), remote: true, class: 'details-link', data: { id: current_request.id } do
           .current-request-wrapper id = "current-request-details-#{current_request.id}" class = "#{'selected' if index == 0}"
             = render 'details', current_request: current_request
     - else
@@ -70,3 +70,4 @@
         = select_tag 'choose_card', options_for_select([ ['Default Payment Method', 'default_payment'], ['Add New Card', 'add_new_card'] ], 'Default Payment Method')
         br/
         button type='button' class='btn btn-primary btn-close mt10' Done
+  

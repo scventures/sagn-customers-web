@@ -11,6 +11,7 @@ class CurrentRequestsController < ApplicationController
       @current_assignment = @current_request.current_assignment if @current_request.responded_request_assignment_id
       @activities = @current_request.activities
     end
+    response.set_header('SERVICE_REQUEST_ID', flash[:service_request_id]) if flash[:service_request_id]
   end
   
   def show

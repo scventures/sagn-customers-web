@@ -8,14 +8,8 @@ $(document).on 'change', '.radio-btn input[type="radio"]', ->
   else
     $('.select-guy').addClass 'hidden'
     $('.select-guy select').prop 'disabled', true
-    
-$(document).on 'click', '.current-request-list .details-link, .past-request-list .details-link', ->
-  $('.current-request-wrapper, .past-request-wrapper').removeClass('selected')
-  $(this).find('.current-request-wrapper, .past-request-wrapper').addClass('selected')
-  $('.current-request-details, .past-request-details').html('')
-  $('.current-request-details, .past-request-details').block blockUI
 
-blockUI =
+window.blockUI =
   message: '<i class="fa fa-spinner fa-pulse fa-4x"></i>'
   css:
     border: 'none'

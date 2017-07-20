@@ -3,9 +3,9 @@
 .row.is-flex
   .col-sm-6.current-request-list
     - unless @current_requests.count.zero? 
-      - @current_requests.each_with_index do |current_request, index|
+      - @current_requests.each do |current_request|
         = link_to current_request_path(current_request), remote: true, class: 'details-link', data: { id: current_request.id } do
-          .current-request-wrapper id = "current-request-details-#{current_request.id}" class = "#{'selected' if index == 0}"
+          .current-request-wrapper id = "current-request-details-#{current_request.id}" class = "#{'selected' if @current_request_id == current_request.id}"
             = render 'details', current_request: current_request
     - else
       h3 You don't have any current service requests.

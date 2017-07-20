@@ -24,14 +24,10 @@ $(document).on 'turbolinks:request-end', (e) ->
     if serviceRequestId?
       $(document).one 'turbolinks:render', (event) =>
         showServiceRequestCreationAlert()
-        selectServiceRequest(serviceRequestId)
 
 showServiceRequestCreationAlert = () ->
   customAlert('Service Request Received!', 'We\'re searching for the right technician.')
 
-selectServiceRequest = (serviceRequestId) ->
-  $(".current-request-list .details-link[data-id=#{serviceRequestId}]").trigger('click')
-  
 showServiceRequestDetails = (id) ->
   $('.current-request-wrapper, .past-request-wrapper').removeClass('selected')
   $(".current-request-wrapper#current-request-details-#{id}, .past-request-wrapper#past-request-details-#{id}").addClass('selected')

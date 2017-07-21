@@ -7,8 +7,8 @@
         = "If you have a dispute with any of these charges, please contact us at #{ENV['SUPPORT_EMAIL']} or #{ENV['SUPPORT_PHONE']}"
       .past-request-list
         - @past_requests.each_with_index do |past_request, index|
-          = link_to past_request_path(past_request), remote: true, class: 'details-link' do
-            .past-request-wrapper class = "#{'selected' if index == 0}"
+          = link_to past_request_path(past_request), remote: true, class: 'details-link', data: { id: past_request.id } do
+            .past-request-wrapper id = "past-request-details-#{past_request.id}" class = "#{'selected' if index == 0}"
               .content.grey
                 = fa_icon 'chevron-right', class: 'fa-2x grey pull-right mt20'
                 p

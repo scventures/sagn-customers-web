@@ -19,7 +19,7 @@ class Account
     past = self.past_service_requests.select {|c| c.is_active and !['cancelled', 'final_bill_sent', 'completed', 'customer_declined_estimation'].include?(c.latest_activity_status_raw) }
     current += past
     current = current.uniq! {|c| c.id}
-    current = current.sort_by(&:created_at).reverse
+    current = current.sort_by(&:created_at).reverse if current
     current
   end
   
@@ -28,7 +28,7 @@ class Account
     current = self.current_service_requests.select {|c| !c.is_active or ['cancelled', 'final_bill_sent', 'completed', 'customer_declined_estimation'].include?(c.latest_activity_status_raw) }
     past += current
     past = past.uniq! {|p| p.id}
-    past = past.sort_by(&:created_at).reverse
+    past = past.sort_by(&:created_at).reverse if past
     past
   end
 

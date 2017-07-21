@@ -18,18 +18,18 @@ class Account
     current = self.current_service_requests.select {|c| c.is_active and !['cancelled', 'final_bill_sent', 'completed', 'customer_declined_estimation'].include?(c.latest_activity_status_raw) }
     past = self.past_service_requests.select {|c| c.is_active and !['cancelled', 'final_bill_sent', 'completed', 'customer_declined_estimation'].include?(c.latest_activity_status_raw) }
     current += past
-    current = current.uniq! {|c| c.id}
-    current = current.sort_by(&:created_at).reverse
-    current
+    current.uniq! {|c| c.id}
+    current.sort_by! { |p| p.created_at}
+    current.reverse
   end
   
   def past_requests
     past = self.past_service_requests.select {|c| !c.is_active or ['cancelled', 'final_bill_sent', 'completed', 'customer_declined_estimation'].include?(c.latest_activity_status_raw) }
     current = self.current_service_requests.select {|c| !c.is_active or ['cancelled', 'final_bill_sent', 'completed', 'customer_declined_estimation'].include?(c.latest_activity_status_raw) }
     past += current
-    past = past.uniq! {|p| p.id}
-    past = past.sort_by(&:created_at).reverse
-    past
+    past.uniq! {|p| p.id}
+    past.sort_by! { |p| p.created_at}
+    past.reverse
   end
 
 end

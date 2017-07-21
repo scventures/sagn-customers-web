@@ -5,9 +5,9 @@ class CurrentRequestsController < ApplicationController
   def index
     @account = current_customer.current_account
     @current_requests = @account.current_requests
-    unless @current_requests.length.zero?
-      @current_request_id = flash[:service_request_id] ? flash[:service_request_id] : @current_requests.first.id
-      @current_request = ServiceRequest.find(@current_request_id, _account_id: @account.id)
+    if @current_requests.present?
+      current_request_id = flash[:service_request_id] ? flash[:service_request_id] : @current_requests.first.id
+      @current_request = ServiceRequest.find(current_request_id, _account_id: @account.id)
       @current_request.account_id = @account.id
       @current_assignment = @current_request.current_assignment if @current_request.responded_request_assignment_id
       @activities = @current_request.activities

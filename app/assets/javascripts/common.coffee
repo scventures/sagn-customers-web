@@ -50,6 +50,7 @@ $(document).on 'change', '.image-upload', (event) ->
   reader = new FileReader
   reader.onload = (file) ->
     form = $(event.target).parents('form:first')
+    $('form').enableClientSideValidations()
     $(event.target).parents('.image-wrapper').find('.remove_fields').removeClass('hidden')
     if $('form').data('client-side-validations') and !($(event.target).isValid($(event.target).parents('form:first')[0].ClientSideValidations.settings.validators))
       $(event.target).parents('.image-wrapper').find('.image-upload-label').last().html('')
@@ -63,6 +64,8 @@ $(document).on 'change', '.image-upload', (event) ->
         class: 'img-preview img-responsive')
       $(event.target).focusout()
     form.trigger('image:loaded')
+    if $(form).hasClass('service-request-logout-form')
+      $(event.target).parents('.image-wrapper').find('input.image-base64').val(file.target.result)
   reader.readAsDataURL image
 
 $(document).on 'image:loaded', 'form', (e) ->
@@ -105,11 +108,27 @@ $(document).on "turboboost:error", (e, errors) ->
       form[0].ClientSideValidations.addError(input, messages)
     )
   if form.find('.has-error').length > 0
-    section_id = $(this).find('.has-error').first().parents('section').attr('id')
-    stepNumber = section_id.split('-')[2]
-    $('#wizard').steps('setStep', stepNumber);
-    $('.steps li').addClass('done')
-  
+    showWizardError()
+
+window.showWizardError = () ->
+  section_id = $(this).find('.has-error').first().parents('section').attr('id')
+  stepNumber = section_id.split('-')[2]
+  $('#wizard').steps('setStep', stepNumber);
+  $('.steps li').addClass('done')
+
 $.fn.clear_form_errors = () ->
   this.find('.form-group').removeClass('has-error')
   this.find('span.help-block').remove()
+  
+$.fn.serializeObject = ->
+  o = {}
+  a = @serializeArray()
+  $.each a, ->
+    if o[@name] and @name != 'location[name]'
+      if !o[@name].push
+        o[@name] = [ o[@name] ]
+      o[@name].push @value or ''
+    else
+      o[@name] = @value or ''
+    return
+  o

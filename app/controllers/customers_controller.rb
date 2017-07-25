@@ -4,10 +4,10 @@ class CustomersController < ApplicationController
   
   def new
     @customer = Customer.new
-    @customer.location = Location.new
-    @customer.service_request = ServiceRequest.new
+    @location = Location.new
+    @service_request = ServiceRequest.new
     @categories = Category.all.fetch.group_by(&:parent_category_id)
-    @customer.service_request.issue_images = Her::Collection.new
+    @service_request.issue_images = Her::Collection.new
   end
 
   def resend_email_confirmation
@@ -19,6 +19,10 @@ class CustomersController < ApplicationController
 
   def resend_mobile_confirmation
   
+  end
+  
+  def verify_customer
+    render json: { verified: current_customer.registered? }
   end
 
   def layer_identity

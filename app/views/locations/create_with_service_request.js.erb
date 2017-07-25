@@ -1,0 +1,15 @@
+var html = "<%= j render template: 'locations/service_requests/new', layout: 'layouts/application' %>"
+doc = document.documentElement.cloneNode()
+doc.innerHTML = html
+document.querySelector('body').innerHTML = doc.querySelector('body').innerHTML
+$.onmount.teardown()
+$.onmount()
+setSubcategoriesImages(<%= @service_request.category_id %>)
+$('.wizard').addClass('skip-confirmation')
+$("#service_request_subcategory_<%= @service_request.subcategory_id %>").prop('checked', true).trigger('click')
+<% unless @current_account.have_payment_method %>
+  $('#wizard').steps('setStep', 9)
+<% else %>
+  showWizardError()
+<% end %>
+$('.wizard').removeClass('skip-confirmation')

@@ -1,15 +1,13 @@
 $(document).on 'cocoon:after-insert', '.issue-image-wrapper', (e, addedIssueImage) ->
   $(addedIssueImage).closest('form').enableClientSideValidations()
   
-$(document).on 'change', '.radio-btn input[type="radio"]', ->
-  if $(this).val() == 'send_a_guy'
-    $('.select-guy').removeClass 'hidden'
-    $('.select-guy select').prop 'disabled', false
-  else
-    $('.select-guy').addClass 'hidden'
-    $('.select-guy select').prop 'disabled', true
+$(document).on 'click', '.current-request-list .details-link, .past-request-list .details-link', ->
+  $('.current-request-wrapper, .past-request-wrapper').removeClass('selected')
+  $(this).find('.current-request-wrapper, .past-request-wrapper').addClass('selected')
+  $('.current-request-details, .past-request-details').html('')
+  $('.current-request-details, .past-request-details').block blockUI
 
-window.blockUI =
+blockUI =
   message: '<i class="fa fa-spinner fa-pulse fa-4x"></i>'
   css:
     border: 'none'
@@ -75,8 +73,8 @@ unmarkSubSteps = (indices = []) ->
   markSubSteps(currentSubSteps.not(indices).toArray())
 
 markSubSteps = (indices = []) ->
-  if $('#service-request-form').hasClass('service-request-logout-form')
-    subStepIndices = indices.concat([1, 2, 4, 5, 6, 8, 10])
+  if $('.service-request-form').hasClass('service-request-logout-form')
+    subStepIndices = indices.concat([1, 2, 4, 5, 6, 9])
   else
     subStepIndices = indices.concat([1, 2, 4, 5, 8])
   steps = $('#wizard .steps ul li')
@@ -87,118 +85,145 @@ markSubSteps = (indices = []) ->
   parentSteps.css
     width: "#{100 / parentSteps.length}%"
 
-$.onmount '#wizard' , ->
-  $(this).steps
-    headerTag: 'h2'
-    bodyTag: 'section'
-    transitionEffect: 'slideLeft'
-    enableKeyNavigation: false
-    autoFocus: false
-    titleTemplate: '<div class="number step-#index#"><div class="line line-left"></div><div class="line line-right"></div><div class="icon"></div><div class="title">#title#</div><div class="summary-data grey"></div></div>'
-    onInit: ->
-      $('#wizard > .steps').appendTo '#wizard'
-      markSubSteps()
-      $('#wizard').removeClass('loading')
-      return
-    onStepChanging: (event, currentIndex, newIndex) ->
-      currentStep = $('#wizard').steps('getStep', currentIndex)
-      title = currentStep.title
-      if title == 'Summary &amp; Payment'
-        $('.service-request-logout-form p.title').addClass('hidden')
-      else
-        $('.service-request-logout-form p.title').removeClass('hidden')
-      form = $(this).parents('form:first')
-      valid = true
-      if newIndex > currentIndex
-        $(form).resetClientSideValidations()
-        $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select, textarea, input.image-upload, input.location_name, input.address_auto_complete_field").filter(':visible'), (i, element) ->
-          valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
-          return
-        if !currentStep.skipping and valid and $('.subcategories-wrapper input[type=radio]:checked').data('equipment') == true
-          if title == 'Order Details' and currentIndex == 3
-            if !currentStep.skipped and $('input.service_request_model, #service_request_brand_name, input.service_request_serial').filter((->
-                @value == ''
-              )).length
-              dataConfirmModal.confirm
-                title: 'Please Provide Details',
-                text: "We'll be able to better service your request if you provide brand, model and serial number of your equipment.",
-                commit: 'Skip',
-                cancel: 'Ok',
-                zIindex: 10099,
-                onConfirm: ()=>
-                  currentStep.skipped = true
-                  $('#wizard').steps('setStep', newIndex)
-                  currentStep.skipped = false
-              return false
-      return valid
-    onStepChanged: (event, currentIndex, priorIndex) ->
-      li = $("#wizard-t-#{priorIndex}").parent()
-      if li.hasClass('done') and !li.attr('aria-done')
-        if currentIndex > priorIndex
-          li.attr 'aria-done', true
-        else
-          li.removeClass('done')
-        $("#wizard-p-#{priorIndex}").find('.next-btn').removeClass('hidden')
+wizardStepChanged = (event, currentIndex, priorIndex) ->
+  $('form:visible').enableClientSideValidations()
+  li = $("#wizard-t-#{priorIndex}").parent()
+  if li.hasClass('done') and !li.attr('aria-done')
+    if currentIndex > priorIndex
+      li.attr 'aria-done', true
+    else
+      li.removeClass('done')
+    $("#wizard-p-#{priorIndex}").find('.next-btn').removeClass('hidden')
+  if priorIndex == 3
+    if $('#wizard-t-3').parents('li').hasClass('done')
+      $('#wizard-t-3').parents('li').removeClass('in_progress').addClass('done').attr('aria-done', true)
+    else
+      $('#wizard-t-3').parents('li').removeClass('done').addClass('in_progress')
+      li.removeAttr('aria-done')
+  $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find('input, select').enableClientSideValidations()
+  switch $('#wizard').steps('getStep', priorIndex).title
+    when 'Service Request'
+      category = $('.service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
+      subcategory_id = $('.subcategories-wrapper .subcategory_field').val() || $('.service-request-form .subcategories-wrapper input[type=radio]:checked').val()
+      unless subcategory_id == ''
+        subcategory = $(".service-request-form .subcategories-wrapper #service_request_subcategory_#{subcategory_id}, #subcategory_service_request_subcategory_#{subcategory_id}").parent().find('p').html()
+      $('.steps #wizard-t-0 .summary-data').html([category, subcategory].filter(Boolean).join(' / '))
+    when 'Sub Category'
+      subcategory_id = $('.subcategories-wrapper .subcategory_field').val() || $('.service-request-form .subcategories-wrapper input[type=radio]:checked').val()
+      category = $('.service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
+      subcategory = $(".service-request-form .subcategories-wrapper #service_request_subcategory_#{subcategory_id}, #subcategory_service_request_subcategory_#{subcategory_id}").parent().find('p').html()
+      $('.steps #wizard-t-0 .summary-data').html([category, subcategory].join(' / '))
+      $('.summary-details-wrapper').find('.category').html("#{category} #{subcategory}")
+    when 'Specific issue'
+      $('.steps #wizard-t-2 .summary-data').html()
+    when 'Order Details'
       if priorIndex == 3
-        if $('#wizard-t-3').parents('li').hasClass('done')
-          $('#wizard-t-3').parents('li').removeClass('in_progress').addClass('done').attr('aria-done', true)
+        model = $('input.service_request_model').val()
+        brand_name = $('#service_request_brand_name').val()
+        serial = $('input.service_request_serial').val()
+        data = $.grep([brand_name, model], Boolean).join(' ')
+        data = $.grep([data, serial], Boolean).join(' - ')
+        $('.steps #wizard-t-3 .summary-data').html(data)
+        $('.summary-details-wrapper').find('.brand').html(data)
+      else
+        $summary_data = $('.steps #wizard-t-3 .summary-data')
+        $summary_data.find('.urgent').remove()
+        if $('.urgent-service').val() == 'Yes'
+          content = 'Urgent Request'
+          content = ', ' + content if $summary_data.html().length > 0
+          $summary_data.append($('<span>').addClass('urgent').html(content))
+          $('.steps #wizard-t-4:visible .summary-data').html('Urgent Request')
         else
-          $('#wizard-t-3').parents('li').removeClass('done').addClass('in_progress')
-          li.removeAttr('aria-done')
-      $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find('input, select').enableClientSideValidations()
-      switch $('#wizard').steps('getStep', priorIndex).title
-        when 'Service Request'
-          category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
-          unless $('.subcategories-wrapper .subcategory_field').val() == ''
-            subcategory = $('#service-request-form .subcategories-wrapper input[type=radio]:checked').parent().find('p').html()
-          $('.steps #wizard-t-0 .summary-data').html([category, subcategory].filter(Boolean).join(' / '))
-        when 'Sub Category'
-          category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
-          subcategory = $('#service-request-form .subcategories-wrapper input[type=radio]:checked').parent().find('p').html()
-          $('.steps #wizard-t-0 .summary-data').html([category, subcategory].join(' / '))
-          $('.summary-details-wrapper').find('.category').html("#{category} #{subcategory}")
-        when 'Specific issue'
-          $('.steps #wizard-t-2 .summary-data').html()
-        when 'Order Details'
-          if priorIndex == 3
-            model = $('input.service_request_model').val()
-            brand_name = $('#service_request_brand_name').val()
-            serial = $('input.service_request_serial').val()
-            data = $.grep([brand_name, model], Boolean).join(' ')
-            data = $.grep([data, serial], Boolean).join(' - ')
-            $('.steps #wizard-t-3 .summary-data').html(data)
-            $('.summary-details-wrapper').find('.brand').html(data)
-          else
-            $summary_data = $('.steps #wizard-t-3 .summary-data')
-            $summary_data.find('.urgent').remove()
-            if $('.urgent-service').val() == 'Yes'
-              content = 'Urgent Request'
-              content = ', ' + content if $summary_data.html().length > 0
-              $summary_data.append($('<span>').addClass('urgent').html(content))
-              $('.steps #wizard-t-4:visible .summary-data').html('Urgent Request')
-            else
-              $summary_data.find('.urgent').remove()
-              $('.steps #wizard-t-4:visible .summary-data').html('')
-        when 'Restaurant Details'
-          location = $('#service-request-form .location_name').val() || $('#service-request-form .location_address').val()
-          $('.summary-details-wrapper').find('.location').html(location)
-          $('.steps #wizard-t-7 .summary-data').html(location)
-          $('.venue-address .venue_name.select_venue').removeAttr('disabled');
-        when 'Issue Image'
-          setSummaryDetailsImages()
-          $('.summary-details-wrapper').find('.location').html($('#service-request-form .location_name').val())
-          if !$('.steps #wizard-t-6').parents('li:first').hasClass('disabled')
-            images = $('.provide-photo-img').find('img').length
-            $('.steps #wizard-t-6 .summary-data').html("#{images} Issue Image(s)")
-          $('.venue-address').removeClass('hidden')
-          $('.provide-address').addClass('hidden')
-      if $('#wizard').steps('getStep', currentIndex).title == 'Summary' and $('.warranty-warning-wrapper').hasClass('no-warning')
-        $('.steps a#wizard-t-7').parent('li').addClass('done')
-      $.onmount()
-      updatePerfectScroll('#wizard > .content', true)
+          $summary_data.find('.urgent').remove()
+          $('.steps #wizard-t-4:visible .summary-data').html('')
+    when 'Restaurant Details'
+      location = $('.service-request-form .location_name').val() || $('.service-request-form .location_address').val()
+      $('.summary-details-wrapper').find('.location').html(location)
+      $('.steps #wizard-t-7 .summary-data').html(location)
+      $('.venue-address .venue_name.select_venue').removeAttr('disabled');
+    when 'Issue Image'
+      setSummaryDetailsImages()
+      $('.summary-details-wrapper').find('.location').html($('.service-request-form .location_name').val())
+      if !$('.steps #wizard-t-6').parents('li:first').hasClass('disabled')
+        images = $('.provide-photo-img').find('img').length
+        $('.steps #wizard-t-6 .summary-data').html("#{images} Issue Image(s)")
+      $('.venue-address').removeClass('hidden')
+      $('.provide-address').addClass('hidden')
+  if $('#wizard').steps('getStep', currentIndex).title == 'Summary' and $('.warranty-warning-wrapper').hasClass('no-warning')
+    $('.steps a#wizard-t-7').parent('li').addClass('done')
+  $.onmount()
+  updatePerfectScroll('#wizard > .content', true)
+  return
+  
+wizardStepChanging = (event, currentIndex, newIndex, form) ->
+  currentStep = $('#wizard').steps('getStep', currentIndex)
+  title = currentStep.title
+  if title == 'Summary &amp; Payment'
+    $('.service-request-logout-form p.title').addClass('hidden')
+  else
+    $('.service-request-logout-form p.title').removeClass('hidden')
+  valid = true
+  if newIndex > currentIndex
+    $(form).resetClientSideValidations()
+    $.each $("#wizard-p-#{currentIndex} .content-wrapper:not(.card-details)").find("select:not(.select_problem_code), textarea, input.image-upload, input.location_name, input.address_auto_complete_field").filter(':visible'), (i, element) ->
+      valid = $(element).isValid(form[0].ClientSideValidations.settings.validators) and valid
       return
-      
-setSubcategoriesImages = (id) ->
+    if !currentStep.skipping and valid and $('.subcategories-wrapper input[type=radio]:checked').data('equipment') == true
+      if title == 'Order Details' and currentIndex == 3 and !$('.wizard').hasClass('skip-confirmation')
+        if !currentStep.skipped and $('input.service_request_model, #service_request_brand_name, input.service_request_serial').filter((->
+            @value == ''
+          )).length
+          dataConfirmModal.confirm
+            title: 'Please Provide Details',
+            text: "We'll be able to better service your request if you provide brand, model and serial number of your equipment.",
+            commit: 'Skip',
+            cancel: 'Ok',
+            zIindex: 10099,
+            onConfirm: ()=>
+              currentStep.skipped = true
+              $('#wizard').steps('setStep', newIndex)
+              currentStep.skipped = false
+          return false
+  return valid
+  
+wizardInit = () ->
+  $('#wizard > .steps').appendTo '#wizard'
+  markSubSteps()
+  $('#wizard').removeClass('loading')
+  return
+  
+wizardDefaultOptions =
+  headerTag: 'h2'
+  bodyTag: 'section'
+  transitionEffect: 'slideLeft'
+  enableKeyNavigation: false
+  autoFocus: false
+  titleTemplate: '<div class="number step-#index#"><div class="line line-left"></div><div class="line line-right"></div><div class="icon"></div><div class="title">#title#</div><div class="summary-data grey"></div></div>'
+
+$.onmount '.service-request-logout-form-wrapper #wizard', ->
+  $(this).steps $.extend({
+    onInit: ->
+      wizardInit()
+    onStepChanging: (event, currentIndex, newIndex) ->
+      form = $("#wizard-p-#{currentIndex}").find('form:first')
+      $(form).enableClientSideValidations()
+      wizardStepChanging(event, currentIndex, newIndex, form)
+    onStepChanged: (event, currentIndex, priorIndex) ->
+      wizardStepChanged(event, currentIndex, priorIndex)
+  }, wizardDefaultOptions)
+
+$.onmount '.service-request-loggedin-form #wizard', ->
+  $(this).steps $.extend({
+    onInit: ->
+      wizardInit()
+    onStepChanging: (event, currentIndex, newIndex) ->
+      form = $(this).parents('form:first')
+      wizardStepChanging(event, currentIndex, newIndex, form)
+    onStepChanged: (event, currentIndex, priorIndex) ->
+      wizardStepChanged(event, currentIndex, priorIndex)
+  }, wizardDefaultOptions)
+
+window.setSubcategoriesImages = (id) ->
   $('.subcategory_icons').addClass('hidden')
   $(".subcategory_icons.category-#{id}").removeClass('hidden')
   $(".subcategory_icons.category-#{id} img").each ->
@@ -245,7 +270,7 @@ $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
   $('.equipment-field-wrapper').addClass('hidden')
   $('#service_request_brand_name').val('')
   brands.map((obj) -> (obj.text = obj.text or obj.name))
-  category = $('#service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
+  category = $('.service-request-form .category-wrapper input[type=radio]:checked').prev().find('p').html()
   if $(this).data('equipment')
     $('.warranty-warning-wrapper').removeClass('no-warning')
     $('.equipment_wrapper').removeClass('hidden')
@@ -389,26 +414,24 @@ setSummaryDetailsImages = ->
 $(document).on 'click', '.service-request-signin-link', (e) ->
   e.preventDefault()
   form = $(this).parents('form:first')
-  $(form).attr('action', Routes.customers_create_serivce_request_with_login_path())
   $('.signup-header').addClass('hidden')
   $('.signin-header').removeClass('hidden')
-  $('.sign-up-fields').addClass('hidden').find('input').prop('disabled', true)
-  $('.sign-in-fields').removeClass('hidden').find('input').prop('disabled', false)
-  $(form).resetClientSideValidations()
-  $('.form-control.password:visible').disableClientSideValidations()
+  $('.sign-up-fields').addClass('hidden')
+  $('.sign-up-fields :input').prop('disabled', true)
+  $('.sign-in-fields :input').prop('disabled', false)
+  $('.sign-in-fields').removeClass('hidden')
 
 $(document).on 'click', '.service-request-signup-link', (e) ->
   e.preventDefault()
   form = $(this).parents('form:first')
-  $(form).attr('action', Routes.customers_create_with_service_request_path())
   $('.signup-header').removeClass('hidden')
   $('.signin-header').addClass('hidden')
-  $('.sign-up-fields').removeClass('hidden').find('input').prop('disabled', false)
-  $('.sign-in-fields').addClass('hidden').find('input').prop('disabled', true)
-  $(form).resetClientSideValidations()
-  $('.form-control.password:visible').enableClientSideValidations()
+  $('.sign-up-fields').removeClass('hidden')
+  $('.sign-in-fields').addClass('hidden')
+  $('.sign-up-fields :input').prop('disabled', false)
+  $('.sign-in-fields :input').prop('disabled', true)
   
-$(document).on 'keypress', 'form#service-request-form', (e) ->
+$(document).on 'keypress', 'form.service-request-form', (e) ->
   if e.which != 13
     return
   e.preventDefault()
@@ -449,3 +472,54 @@ $(document).on 'submit', '.block-on-submit', ->
 
 $(document).on 'ajax:complete', '.block-on-submit', ->
   $('form').unblock()
+  
+$(document).on 'submit', 'form.service-request-logout-form', ->
+  service_request_forms = $('form.service-request-logout-form:not(.customer-form)')
+  service_request_data = {}
+  $.each service_request_forms, (i, form) ->
+    $.extend( service_request_data, $(form).serializeObject())
+  db = new PouchDB('sagn')
+  db.get 'location', (err, doc) ->
+    if err
+      db.put {
+        _id: 'location'
+        title: service_request_data
+      }, (err, response) ->
+        return
+    else
+      db.put {
+        _id: 'location'
+        _rev: doc._rev
+        title: service_request_data
+      }, (err, response) ->
+        return
+
+window.dispatchFromLocalStorage = (verified) ->
+  db = new PouchDB('sagn')
+  db.get 'location', (err, doc) ->
+    unless err
+      unless verified
+        $.ajax
+          url: Routes.verify_customer_customers_path()
+          type: 'GET'
+          dataType: 'JSON'
+          success: (data) ->
+            if data.verified
+              postServiceRequest()
+      else
+        postServiceRequest()
+
+window.postServiceRequest = ->
+  db = new PouchDB('sagn')
+  db.get 'location', (err, doc) ->
+    if doc
+      location = doc.title
+      $.ajax
+        url: Routes.create_with_service_request_locations_path()
+        type: 'POST'
+        dataType: 'script'
+        data: location
+        beforeSend: (xhr) ->
+          xhr.setRequestHeader 'X-Turboboost', 1
+          return
+      db.remove doc, (err, doc) ->

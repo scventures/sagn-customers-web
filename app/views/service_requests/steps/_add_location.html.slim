@@ -1,0 +1,37 @@
+.content-wrapper.restaurant-details
+  .back-btn-wrapper
+    = link_to '#', class: 'mb20 back-btn' do
+      = fa_icon 'chevron-left'
+  .col-sm-10.col-sm-offset-1.text-center
+    .text-center.service-head.center-panel
+      p.sub-title Where is the Restaurant?
+    .col-md-6.center-panel.text-center.mt20
+      .row
+        .col-sm-10.col-sm-offset-1
+          .venue-address
+            = f.label 'Enter restaurant name'
+            = f.input :name, as: :select, collection: [], input_html: { class: 'venue_name select_venue' }, label: false
+            .select2-dropdown-container
+            .text-center.bg-grey.mt20.p20
+              strong Sendaguy Now currently provides service to New York City locations only.
+              .p20
+                p Follow us as we launch more cities.
+                p.mt10 To recieve an alert when your city is added send your contact info to support@sendaguy.com.
+            .footer
+              h4 Cant find your location?
+              button class= 'btn btn-red provide-address-btn' PROVIDE ADDRESS
+          .provide-address.hidden
+            = f.input :name, label: false, validate: true, input_html: { placeholder: 'Name', class: 'location_name' }
+            = f.input :address_1, label: false, input_html: { class: 'address_auto_complete_field location_address', placeholder: 'Address 1' }
+            = f.input :address_2, label: false, input_html: {id: 'location_sublocality_level_1', placeholder: 'Address 2'}
+            = f.input :address_3, label: false, input_html: {id: 'location_administrative_area_level_2', placeholder: 'Address 3' }
+            = f.input :city, label: false, input_html: {id: 'location_locality', placeholder: 'City' }
+            = f.input :state, label: false, input_html: {id: 'location_administrative_area_level_1', placeholder: 'State' }
+            = f.input :zip, label: false, input_html: {id: 'location_postal_code', placeholder: 'Zip'}
+            = f.input :foursquare_venue_id, as: :hidden, input_html: { id: 'location_foursquare_venue_id' }
+            = f.input :geography, as: :hidden, input_html: { name: 'location[geography][latitude]', id: 'location_geography_latitude' }
+            = f.input :geography, as: :hidden, input_html: { name: 'location[geography][longitude]', id: 'location_geography_longitude' }
+            = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn address-details'
+  .next-btn-wrapper
+    = link_to '#', class: 'hidden next-btn' do
+      = fa_icon 'chevron-right'

@@ -55,4 +55,12 @@ RSpec.describe 'route to location', type: :routing do
       id: ':id'
     )
   end
+  
+  it 'routes /locations/create_with_service_request to create service request from local storage' do
+    expect(post: '/locations/create_with_service_request').to route_to(
+      controller: 'locations',
+      action: 'create_with_service_request'
+    )
+  end
+  
 end

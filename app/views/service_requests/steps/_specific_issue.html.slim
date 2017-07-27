@@ -1,0 +1,17 @@
+.content-wrapper.issue-wrapper.text-center
+  .back-btn-wrapper
+    = link_to '#', class: 'mb20 back-btn' do
+      = fa_icon 'chevron-left'
+  .col-sm-10.col-sm-offset-1.text-center
+    .text-center.service-head.center-panel.col-sm-5
+      p.title What needs to be fixed?
+      p.sub-title 
+        |Do you have an issue with
+        br/
+        | heating or cooling?
+      p.mt20 What specifically do you have a problem with?
+      = f.input :problem_code_id, as: :select, collection: [], label: false, input_html: { class: 'select_problem_code'}
+      = link_to 'Save & Continue', '#', class: 'btn btn-continue request-continue-btn mt20'
+  .next-btn-wrapper
+    = link_to '#', class: 'hidden next-btn' do
+      = fa_icon 'chevron-right'

@@ -4,11 +4,8 @@ class PastRequestsController < ApplicationController
   
   def index
     @account = current_customer.current_account
-    @past_requests = @account.past_service_requests
-    @current_requests = @account.current_service_requests.select {|c| !c.is_active or ['cancelled', 'final_bill_sent', 'completed', 'customer_declined_estimation'].include?(c.latest_activity_status_raw) }
-    @past_requests += @current_requests
-    @past_requests = @past_requests.sort_by(&:created_at).reverse
-    unless @past_requests.length.zero?
+    @past_requests = @account.past_requests
+    if @past_requests.present?
       @service_request = @account.service_requests.find(@past_requests.first.id)
       @service_request.account_id = @account.id
       @activities = @service_request.activities

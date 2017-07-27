@@ -1,35 +1,34 @@
-= simple_form_for service_request, url: location_service_requests_path(location), validate: true, turboboost: true, html: { multipart: true, id: 'service-request-form', class: 'block-on-submit service-request-loggedin-form' } do |f|
+= simple_form_for service_request, url: location_service_requests_path(location), validate: true, turboboost: true, html: { multipart: true, id: 'service-request-form', class: 'block-on-submit service-request-loggedin-form service-request-form' } do |f|
   = hidden_field_tag 'location_name', location.name, class: 'location_name'
   = hidden_field_tag 'location_address', location.address_1, class: 'location_address'
   = f.input :location_id, as: :hidden
   p.title Request Service
   #wizard.loading
-    = render 'shared/service_request_fields', f: f, categories: categories
-    = render 'shared/details_summary', f: f
-    - unless current_customer.current_account.have_payment_method 
+    h2 Service Request
+    section
+      = render 'service_requests/steps/category', f: f, categories: categories
+    h2 Sub Category
+    section
+      = render 'service_requests/steps/subcategory', f: f, categories: categories
+    h2 Specific issue
+    section
+      = render 'service_requests/steps/specific_issue', f: f
+    h2 Order Details
+    section
+      = render 'service_requests/steps/product_details', f: f
+    h2 Order Details
+    section
+      = render 'service_requests/steps/schedule_timing', f: f
+    h2 Contact
+    section
+      = render 'service_requests/steps/contact_details', f: f
+    h2 Issue Image
+    section
+      = render 'service_requests/steps/issue_images', f: f
+    h2 Summary
+    section
+      = render 'service_requests/steps/summary_details', f: f
+    - unless current_customer.current_account.have_payment_method
       h2 Summary & Payment
       section
-        .content-wrapper.card-details
-          .back-btn-wrapper
-            = link_to '#', class: 'mb20 back-btn' do
-              = fa_icon 'chevron-left'
-          .col-sm-10.col-sm-offset-1.text-center
-            p.sub-title Provide a Credit Card
-            .panel-body.mt20.text-center
-              .col-md-7.center-panel.text-center
-                .row
-                  .col-sm-12
-                    .credit-card-form
-                      = render 'shared/credit_card'
-              .col-md-4.center-panel.text-center.box
-                h4
-                  strong Your credit card will never be charged without your approval
-                .line-spacer
-                .icon-lock
-                  i.fa.fa-lock aria-hidden="true" 
-                div
-                  = image_tag 'powerdBy.png', height: '35', width: '125'
-                h3 Sendaguy now uses Stripe, a leader in online and mobile payments, for all financial transactions.
-              .col-md-5.center-panel.text-center
-                .row
-                  = f.submit 'Save & Continue', class: 'btn btn-continue service-request-submit-btn'
+        = render 'service_requests/steps/payment', f: f

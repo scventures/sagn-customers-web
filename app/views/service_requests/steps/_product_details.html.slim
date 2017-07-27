@@ -1,0 +1,25 @@
+.content-wrapper.product-details
+  .back-btn-wrapper
+    = link_to '#', class: 'mb20 back-btn' do
+      = fa_icon 'chevron-left'
+  .col-sm-10.col-sm-offset-1.text-center
+    .text-center.service-head.center-panel
+      p.sub-title Product Details
+    .col-md-5.address-form.center-panel
+      .equipment_wrapper class = "#{:hidden unless f.object.subcategory_id}"
+        .equipment-field-wrapper.hidden
+          = f.input :equipment_item_id, as: :select, collection: [],  label: 'Select Equipment', input_html: { class: 'select_equipment' }
+          p.mt10.mb10.text-center
+            | OR
+        p.mt20 What Brand is it?
+        = f.input :brand_id, as: :select, collection: f.object.subcategory_id ? @categories[f.object.category_id.to_i].select {|s| s.id  == f.object.subcategory_id.to_i }.last.brands.map { |b| [b[:name], b[:id]]} : [], label: false, input_html: { class: 'select_brand'}, prompt: 'Select Brand'
+        = f.input :brand_name, label: false, input_html: { id: 'service_request_brand_name', class: 'hidden', placeholder: 'Brand Name'}
+        .row
+          .col-sm-6
+            = f.input :model, label: false, input_html: { placeholder: 'Model', class: 'service_request_model'}
+          .col-sm-6
+            = f.input :serial, label: false, input_html: { placeholder: 'Serial Number', class: 'service_request_serial'}
+        = link_to 'Save & Continue', '#', class: 'btn btn-continue request-continue-btn mt20'
+  .next-btn-wrapper
+    = link_to '#', class: 'hidden next-btn' do
+      = fa_icon 'chevron-right'

@@ -1,0 +1,24 @@
+.content-wrapper.card-details
+  .back-btn-wrapper
+    = link_to '#', class: 'mb20 back-btn' do
+      = fa_icon 'chevron-left'
+  .col-sm-10.col-sm-offset-1.text-center
+    p.sub-title Provide a Credit Card
+    .panel-body.mt20.text-center
+      .col-md-7.center-panel.text-center
+        .row
+          .col-sm-12
+            .credit-card-form
+              = render 'shared/credit_card'
+      .col-md-4.center-panel.text-center.box
+        h4
+          strong Your credit card will never be charged without your approval
+        .line-spacer
+        .icon-lock
+          i.fa.fa-lock aria-hidden="true" 
+        div
+          = image_tag 'powerdBy.png', height: '35', width: '125'
+        h3 Sendaguy now uses Stripe, a leader in online and mobile payments, for all financial transactions.
+      .col-md-5.center-panel.text-center
+        .row
+          = f.submit 'Save & Continue', class: 'btn btn-continue service-request-submit-btn'

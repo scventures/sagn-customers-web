@@ -15,8 +15,8 @@ class ServiceRequest
   has_one :responded_assignment, class_name: 'Assignment', data_key: :responded_request_assignment
   
   accepts_nested_attributes_for :issue_images
-  validates :location_id, :category_id, :subcategory_id, :work_time_details, presence: true
-
+  validates :location_id, :category_id, :subcategory_id, presence: true
+  validates :work_time_details, presence: { message: 'Please enter details here.' }
   before_save :set_urgent, :set_brand_and_equipment
   
   def assigned?

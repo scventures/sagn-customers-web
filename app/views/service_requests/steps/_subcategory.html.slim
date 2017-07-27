@@ -1,0 +1,14 @@
+.content-wrapper.subcategories-wrapper
+  .back-btn-wrapper
+    = link_to '#', class: 'mb20 back-btn' do
+      = fa_icon 'chevron-left'
+  .col-sm-10.col-sm-offset-1.text-center
+    - categories[nil].each do |category|
+      .subcategory_icons class="category-#{category.id} #{:hidden unless f.object.category_id.to_i == category.id }"
+        h1
+          = category.name
+        = f.input :subcategory, as: :radio_buttons, collection: categories[category.id].map { |s| [category_icons(s), s.id, data: {brands: s.brands.to_json, problem_codes: s.problem_codes.to_json, equipment: s.is_equipment }] }, label: false
+    = f.input :subcategory_id, as: :hidden, input_html: { class: 'subcategory_field', value: f.object.subcategory_id}
+  .next-btn-wrapper
+    = link_to '#', class: 'hidden next-btn' do
+      = fa_icon 'chevron-right'

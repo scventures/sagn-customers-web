@@ -16,15 +16,10 @@ class Customer
   skip_callback :update, :before, :postpone_email_change_until_confirmation_and_regenerate_confirmation_token
 
   has_many :accounts
-  # only for logout users
-  has_one :service_request
-  has_one :location
   belongs_to :current_account, class_name: 'Account'
 
   has_file_upload :avatar
-  
-  accepts_nested_attributes_for :service_request
-  accepts_nested_attributes_for :location
+
   validates :name, :email, :customer_account_name, :password, :unconfirmed_phone, presence: true
   validates :password, confirmation: true
   validates :tos_accepted, acceptance: true
@@ -104,26 +99,6 @@ class Customer
     errors.blank?
   end
 
-  def create_or_find_location
-    return location if location.save
-    if location.errors[:name].include? 'Location already exists'
-      current_account.locations.detect {|l| l.name == location.name }
-    elsif location.errors[:address_1].include? 'Location already exists'
-      current_account.locations.detect {|l| l.address_1 == location.address_1 }
-    end
-  end
-
-  def create_service_request
-    self.populate_attributes
-    location.account_id = self.current_account_id
-    if self.loc = create_or_find_location
-      service_request = self.service_request
-      service_request.location_id = loc.id
-      service_request.account_id = self.current_account_id
-      service_request.save
-    end
-  end
-  
   def set_phone_number
     self.unconfirmed_phone = self.unconfirmed_phone.gsub(/[^0-9]/, '') if self.unconfirmed_phone
   end

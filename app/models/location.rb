@@ -8,7 +8,6 @@ class Location
   attributes :id, :name, :address_1, :address_2, :address_3, :city, :state, :zip, :geography, :phone_number, :foursquare_venue_id
   has_many :equipment_items
   has_many :service_requests
-  belongs_to :customer
   validates_presence_of :name, :address_1
   
   def full_address
@@ -25,6 +24,15 @@ class Location
       end
     end
     super(value)
+  end
+  
+  def create_or_find_location(current_account)
+    return self if self.save
+    if self.errors[:name].include? 'Location already exists'
+      current_account.locations.detect {|l| l.name == self.name }
+    elsif self.errors[:address_1].include? 'Location already exists'
+      current_account.locations.detect {|l| l.address_1 == self.address_1 }
+    end
   end
   
 end

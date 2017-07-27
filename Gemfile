@@ -42,7 +42,7 @@ gem 'jwt'
 gem 'her', '~> 0.8.6'
 gem 'request_store'
 gem "cocoon"
-gem 'turboboost', '~> 0.1.0'
+gem 'turboboost', '~> 0.1.1'
 gem 'client_side_validations'
 gem 'client_side_validations-simple_form'
 gem 'remotipart', '~> 1.2'
@@ -59,6 +59,7 @@ gem 'rails-jquery-steps'
 gem 'browser'
 gem 'foursquare2', '~> 2.0.1'
 gem 'browser-timezone-rails'
+gem 'geocoder'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-onmount'

@@ -14,4 +14,8 @@ class Staff
     self.name = [first_name, last_name].compact.join(' ')
   end
   
+  def account_owner?
+    self.role == 'account_owner'
+  end
+  
 end

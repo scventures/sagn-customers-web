@@ -14,4 +14,12 @@ RSpec.describe 'Customer routes', type: :routing do
       action: 'layer_identity'
     )
   end
+  
+  it 'routes /customers/verify_customer to customers#verify_customer to verify customer confirmation' do
+    expect(get: '/customers/verify_customer').to route_to(
+      controller: 'customers',
+      action: 'verify_customer'
+    )
+  end
+  
 end

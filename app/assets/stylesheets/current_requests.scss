@@ -40,7 +40,7 @@
   .white-container {
     margin: 10px 20px;
     background: #fff none repeat scroll 0 0;
-    color: #949494;
+    color: #000;
     font-size: 16px;
     margin-top: 20px;
     padding: 15px 20px;
@@ -56,13 +56,6 @@
   a:focus, a:hover {
     text-decoration: none;
   }
-  .btn-grey {
-    width: 100%;
-    background: #dbdadb;
-    padding: 10px;
-    color: #5c5c5c;
-    font-weight: bold;
-  }
   .watermark {
     position: absolute;
     bottom: 5px;
@@ -76,6 +69,14 @@
   min-height: calc(100vh - 120px) !important;
   max-height: calc(100vh - 120px);
   overflow: auto;
+}
+
+.btn-grey {
+  width: 100%;
+  background: #dbdadb;
+  padding: 10px;
+  color: #5c5c5c;
+  font-weight: bold;
 }
 
 #serviceRequestDetail {
@@ -120,7 +121,6 @@
   .header {
     background: #419f17;
     padding: 10px 20px;
-    height: 50px;
     color: #fff;
     font-weight: bold;
   }
@@ -129,13 +129,46 @@
   }
 }
 
-#declineEstimate, #declineAssignment {
+#declineEstimate, #declineAssignment, #addCardForEstimate {
   .modal-header {
     background: #c22d27;
     color: #fff;
-    .close {
+    .close, .btn-close {
       color: #fff;
       opacity: 1;
+    }
+  }
+}
+
+#addCardForEstimate, #add_card {
+  .modal-dialog {
+    width: 98%;
+    .modal-content {
+      min-height: 90vh;
+      .modal-body {
+        width: 40%;
+        margin: 0px auto;
+      }
+    }
+  }
+}
+
+#chooseCard {
+  top: 5%;
+  .modal-body {
+    width: 300px;
+    margin: 0px auto;
+    select {
+      height: 40px;
+      text-align: center;
+      width: 100%;
+    }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      font-weight: bold;
+      background: #00b7eb;
+      border-color: #00b7eb;
     }
   }
 }

@@ -13,5 +13,23 @@ class Account
 
   accepts_nested_attributes_for :contractors
   accepts_nested_attributes_for :staff
+  
+  def current_requests
+    current = self.current_service_requests.select {|c| c.is_active and !['cancelled', 'final_bill_sent', 'completed', 'customer_declined_estimation'].include?(c.latest_activity_status_raw) }
+    past = self.past_service_requests.select {|c| c.is_active and !['cancelled', 'final_bill_sent', 'completed', 'customer_declined_estimation'].include?(c.latest_activity_status_raw) }
+    current += past
+    current.uniq! {|c| c.id}
+    current.sort_by! { |p| p.created_at}
+    current.reverse
+  end
+  
+  def past_requests
+    past = self.past_service_requests.select {|c| !c.is_active or ['cancelled', 'final_bill_sent', 'completed', 'customer_declined_estimation'].include?(c.latest_activity_status_raw) }
+    current = self.current_service_requests.select {|c| !c.is_active or ['cancelled', 'final_bill_sent', 'completed', 'customer_declined_estimation'].include?(c.latest_activity_status_raw) }
+    past += current
+    past.uniq! {|p| p.id}
+    past.sort_by! { |p| p.created_at}
+    past.reverse
+  end
 
 end

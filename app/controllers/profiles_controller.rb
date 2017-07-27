@@ -1,5 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_customer!
+  skip_before_filter :check_for_registration
 
   def show
     flash[:alert] = nil
@@ -48,11 +49,13 @@ class ProfilesController < ApplicationController
 
   def change_password
     @customer = current_customer
+    @customer.validate_current_password = true
   end
 
   def update_password
     @customer = current_customer
     @customer.attributes = password_params
+    @customer.validate_current_password = true
     if @customer.update_password
       redirect_to profile_path, notice: 'Password updated successfully'
     else

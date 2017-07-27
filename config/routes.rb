@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :customers, only: :new do
     collection do
       post :layer_identity
+      get :verify_customer
     end
   end
   
@@ -31,6 +32,7 @@ Rails.application.routes.draw do
     get :images, on: :member
   end
   resources :locations, except: [:show] do
+    post :create_with_service_request, on: :collection
     resources :service_requests, only: [:new, :create, :edit, :update], module: 'locations'
     resources :equipment_items, only: [:index], module: 'locations'
   end

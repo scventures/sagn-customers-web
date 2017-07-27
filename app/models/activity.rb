@@ -25,5 +25,12 @@ class Activity
       service_request.service_requests_assignments.find {|a| a[:id] == trackable_id}
     end
   end
+  
+  def estimation
+    if trackable_type == 'Estimation'
+      assignment = service_request[:service_requests_assignments].find { |s| s[:estimations].find {|e| e[:id] == trackable_id}}
+      assignment[:estimations].find{|e| e[:id] == trackable_id}
+    end
+  end
 
 end

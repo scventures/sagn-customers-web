@@ -12,10 +12,11 @@ class ServiceRequest
   has_many :activities
   has_many :assignments
   has_many :estimations
+  has_one :responded_assignment, class_name: 'Assignment', data_key: :responded_request_assignment
   
   accepts_nested_attributes_for :issue_images
   validates :location_id, :category_id, :subcategory_id, presence: true
-
+  validates :work_time_details, presence: { message: 'Please enter details here.' }
   before_save :set_urgent, :set_brand_and_equipment
   
   def assigned?
@@ -45,14 +46,18 @@ class ServiceRequest
     self.equipment_item_id = nil if self.equipment_item_id and self.equipment_item_id.to_i == 0
   end
   
+  def current_assignment
+    assignments.find(self.responded_assignment.id)
+  end
+
   def to_params
-    if new_record? and token?
-      params = super
-      params[:service_request].delete(:token)
-      params.merge(stripe_token: token)
-    else
-      super
+    params = super
+    params[:service_request].delete(:token) and params.merge!(stripe_token: token) if new_record? and token?
+    params[:service_request][:issue_images_attributes] ||= []
+    instance_variable_get(:@_her_association_issue_images) and issue_images.each do |issue_image| 
+      params[:service_request][:issue_images_attributes] << issue_image.to_params if issue_image.changed?
     end
+    params
   end
 
 end

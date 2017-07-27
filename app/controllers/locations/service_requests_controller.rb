@@ -8,23 +8,21 @@ class Locations::ServiceRequestsController < ApplicationController
     @contractors = @current_account.contractors
     @location = @current_account.locations.find(params[:location_id])
     @service_request = @location.service_requests.build()
-    @service_request.attributes = params[:service_request] if params[:service_request]
+    @service_request.attributes = service_request_params
     @service_request.issue_images = Her::Collection.new
   end
   
   def create
     @service_request = ServiceRequest.new(service_request_params.to_h.merge(account_id: current_customer.current_account_id))
     if @service_request.save
-      redirect_to current_requests_path()
+      redirect_to current_requests_path, flash: {service_request_id: @service_request.id}
     else
       @categories = Category.all.fetch.group_by(&:parent_category_id)
       @current_account = current_customer.current_account
       @location = @current_account.locations.find(@service_request.location_id)
       @contractors = @current_account.contractors
       @service_request.issue_images = Her::Collection.new
-      respond_to do |format|
-        format.js { render partial: "locations/service_requests/form", locals: { service_request: @service_request, location: @location, categories: @categories }, within: ".service-request-form-wrapper" }
-      end
+      render 'locations/create_with_service_request' and return
     end
   end
   
@@ -53,8 +51,8 @@ class Locations::ServiceRequestsController < ApplicationController
   
   def service_request_params
     permitted_params = params.required(:service_request).permit(
-      :location_id, :equipment_id, :brand_name, :brand_id, :model, :serial, :urgent, :work_time_details, :select_guy,
-      :problem, :category_id, :subcategory_id, :token, :phone_number, :notes, :contact_details, issue_images_attributes: [:image]
+      :location_id, :brand_name, :brand_id, :model, :serial, :urgent, :work_time_details, :select_guy,
+      :problem, :category_id, :subcategory_id, :problem_code_id, :equipment_item_id, :token, :phone_number, :notes, :contact_details, issue_images_attributes: [:image]
     ).to_h
     permitted_params.merge(location_id: params[:location_id])
   end

@@ -16,7 +16,7 @@ class ServiceRequests::ServiceRequestAssignments::CustomerRatingsController < Ap
   private
 
   def customer_rating_params
-    params.permit(customer_rating: [:stars, :comment]).to_h
+    params.required(:customer_rating).permit(:stars, :comment).to_h
   end
 
 end

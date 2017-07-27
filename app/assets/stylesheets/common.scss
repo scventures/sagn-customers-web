@@ -10,6 +10,7 @@
 .mt30 { margin-top: 30px; }
 .mt40 { margin-top: 40px; }
 .mt100 { margin-top: 100px; }
+.ml5 { margin-left: 5px !important; }
 .ml10 { margin-left: 10px !important; }
 .mt10-pct { margin-top: 10% !important; } 
 .ml10-pct { margin-left: 10% !important; } 
@@ -32,6 +33,7 @@
 .fs12 { font-size: 12px; }
 .fs16 { font-size: 16px; }
 .fs17 { font-size: 17px; }
+.fs18 { font-size: 18px; }
 .fs20 { font-size: 20px; }
 .w50-pct { width: 50%; }
 .w60-pct { width: 60%; }
@@ -52,7 +54,7 @@
 .w40-pct { width: 40% !important; }
 .w65-pct { width: 65% !important; }
 .w100-pct { width: 100%; }
-.h350-min { min-height: 350px !important; }
+.h250-min { min-height: 250px !important; }
 .display-inline { display: inline; }
 .font-bold { font-weight: bold; }
 .padding30 { padding: 30px; }
@@ -69,6 +71,9 @@ nav.navbar {
   .nav >li >a {
     padding-top: 20px;
     padding-bottom: 20px;
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -275,6 +280,9 @@ body {
   .row-offcanvas-left.active {
     left: 0;
     width: 100%;
+    .back-btn-wrapper .back-btn {
+      left: 145px !important;
+    }
   }
 }
 .signup-form, #new_customer {
@@ -298,6 +306,11 @@ body {
   width: 60%;
 }
 
+.hover-underline {
+  &:hover {
+    text-decoration: underline !important;
+  }
+}
 body#service_requests_index, body#service_requests_new {
   @include hidden-sidebar()
 }

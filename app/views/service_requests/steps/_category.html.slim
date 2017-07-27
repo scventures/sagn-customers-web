@@ -1,0 +1,10 @@
+.content-wrapper.category-wrapper.text-center
+  .col-sm-10.col-sm-offset-1
+    .text-center.service-head.center-panel
+      p.sub-title What needs to be fixed?
+      - categories[nil].each do |category|
+        = f.label :category_id, category_icons(category, true), value: category.id, class: 'p10'
+        = f.radio_button :category_id, category.id
+  .next-btn-wrapper
+    = link_to '#', class: 'hidden next-btn' do
+      = fa_icon 'chevron-right'

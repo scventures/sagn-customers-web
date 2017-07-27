@@ -36,6 +36,7 @@ div
           i.fa.fa-angle-left aria-hidden='true' 
           | Edit Location
       .modal-body
+        .location-form-container.col-md-9.center-panel
 #addLocation.modal.fade role='dialog'
   .modal-dialog
     .modal-content
@@ -46,4 +47,5 @@ div
           i.fa.fa-angle-left aria-hidden='true' 
           | Add Location
       .modal-body
-        = render 'form', location: @location
+        .location-form-container.col-md-9.center-panel
+          = render 'form', location: @location

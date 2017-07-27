@@ -28,23 +28,7 @@ describe Customer do
   end
   
   it { expect(Customer.has_many(:accounts)).to be_truthy }
-  it { expect(Customer.has_one(:service_request)).to be_truthy }
-  it { expect(Customer.has_one(:location)).to be_truthy }
   it { expect(Customer.belongs_to(:current_account)).to be_truthy }
-  
-  describe 'accept_nested_attributes_for :service_request' do
-    let(:customer) { Customer.new(service_request_attributes: { location_id: 1 })}
-    it do
-      expect(customer.service_request.location_id).to eq(1)
-    end
-  end
-  
-  describe 'accept_nested_attributes_for :location' do
-    let(:customer) { Customer.new(location_attributes: { name: 'Test' })}
-    it do
-      expect(customer.location.name).to eq('Test')
-    end
-  end
   
   describe 'attributes' do
     let(:customer) {Customer.new}
@@ -235,6 +219,57 @@ describe Customer do
     end
   end
   
+  describe '#phone_required?' do
+    context 'phone_number and unconfirmed_phone are present' do
+      let(:customer) { Customer.new(unconfirmed_phone: '+11111111111', phone_number: '+11111111111') }
+      it 'return false' do
+        expect(customer.phone_required?).to be_falsy
+      end
+    end
+    context 'unconfirmed_phone is present and phone number is not present' do
+      let(:customer) { Customer.new(unconfirmed_phone: '+11111111111') }
+      it 'return false' do
+        expect(customer.phone_required?).to be_falsy
+      end
+    end
+    context 'phone_number and unconfirmed_phone are not present' do
+      let(:customer) { Customer.new() }
+      it 'return false' do
+        expect(customer.phone_required?).to be_truthy
+      end
+    end
+  end
+  
+  describe '#account_owner?' do
+    context 'customer is account owner' do
+      it 'return true' do
+        customer = Customer.new(current_account_role: 'account_owner')
+        expect(customer.account_owner?).to be_truthy
+      end
+    end
+    context 'customer is not account owner' do
+      it 'return false' do
+        customer = Customer.new(current_account_role: 'staff')
+        expect(customer.account_owner?).to be_falsy
+      end
+    end
+  end
+  
+  describe '#staff?' do
+    context 'customer is staff' do
+      it 'return true' do
+        customer = Customer.new(current_account_role: 'staff')
+        expect(customer.staff?).to be_truthy
+      end
+    end
+    context 'customer is not staff' do
+      it 'return false' do
+        customer = Customer.new(current_account_role: 'account_owner')
+        expect(customer.staff?).to be_falsy
+      end
+    end
+  end
+  
   describe '#resend_phone_confirmation_instructions' do
     context 'valid phone number' do
       let(:customer) { Customer.new(unconfirmed_phone: '+111111111111') }
@@ -297,96 +332,6 @@ describe Customer do
         stub_update_password('invalid', '12345678', '12345678', 422, return_body.to_json)
         expect(customer.update_password).to be_falsy
         expect(customer.errors[:current_password]).to eq(return_body[:current_password])
-      end
-    end
-  end
-  
-  describe '#create_or_find_location' do
-    let(:customer) { Customer.new(current_account_id: 1) }
-    context 'location not exists with valid data' do
-      it 'return location' do
-        params = {'address_1'=>'Address', 'geography'=>{'latitude'=>'11.11', 'longitude'=>'11.11'}, 'name'=>'Test'}
-        location = Location.new(_account_id: 1, name: 'Test', address_1: 'Address', geography: { latitude: '11.11', longitude: '11.11'})
-        allow(customer).to receive(:location).and_return(location)
-        stub_create_location(1, params, 200, customer_location)
-        location = customer.create_or_find_location
-        expect(location.address_1).to eq('Address')
-        expect(location.name).to eq('Test')
-      end
-    end
-    context 'location exists with name' do
-      it 'return location' do
-        params = {'account_id'=>'1', 'address_1'=>'Address 1', 'geography'=>{'latitude'=>'11.11', 'longitude'=>'11.11'}, 'name'=>'Test Location 2'}
-        location = Location.new(_account_id: 1, name: 'Test Location 2', address_1: 'Address 1', geography: { latitude: '11.11', longitude: '11.11'})
-        allow(customer).to receive(:location).and_return(location)
-        stub_create_location(1, params, 400, location_with_name_error)
-        stub_verified_api_request(jwt, verified_return_body, 201)
-        customer.populate_attributes
-        location.account_id = customer.current_account_id
-        account = Account.new(id: 1, name: 'Test', phone_number: nil, have_payment_method: true, owner_name: 'Test', owner_email: 'test@gmail.com')
-        allow(customer).to receive(:current_account).and_return(account)
-        stub_customer_locations(1, 200, customer_locations)
-        location = customer.create_or_find_location
-        expect(location.name).to eq('Test Location 2')
-      end
-    end
-    context 'location exists with address' do
-      it 'return location' do
-        params = {'account_id'=>'1', 'address_1'=>'Address 2', 'geography'=>{'latitude'=>'11.11', 'longitude'=>'11.11'}, 'name'=>'Test Location 2'}
-        location = Location.new(_account_id: 1, name: 'Test Location 2', address_1: 'Address 2', geography: { latitude: '11.11', longitude: '11.11'})
-        allow(customer).to receive(:location).and_return(location)
-        stub_create_location(1, params, 400, location_with_address_error)
-        stub_verified_api_request(jwt, verified_return_body, 201)
-        customer.populate_attributes
-        location.account_id = customer.current_account_id
-        account = Account.new(id: 1, name: 'Test', phone_number: nil, have_payment_method: true, owner_name: 'Test', owner_email: 'test@gmail.com')
-        allow(customer).to receive(:current_account).and_return(account)
-        stub_customer_locations(1, 200, customer_locations)
-        location = customer.create_or_find_location
-        expect(location.address_1).to eq('Address 2')
-      end
-    end
-    context 'location not exists with invalid data' do
-      it 'return false' do
-        params = {'address_1'=>'Address 3', 'geography'=>{'latitude'=>'11.11', 'longitude'=>'11.11'}, 'name'=>'Test Location 3'}
-        location = Location.new(_account_id: 1, name: 'Test Location 3', address_1: 'Address 3', geography: { latitude: '11.11', longitude: '11.11'})
-        allow(customer).to receive(:location).and_return(location)
-        stub_create_location(1, params, 400, {}.to_json)
-        location = customer.create_or_find_location
-        expect(location).to be_nil
-      end
-    end
-  end
-  
-  describe 'create_service_request' do
-    let(:customer) { Customer.new(current_account_id: 1) }
-    context 'location is present' do 
-      it 'create service request' do
-        location = Location.new(account_id: 1, name: 'Test Location 2', address_1: 'Address 1', geography: { latitude: '11.11', longitude: '11.11'})
-        stub_verified_api_request(jwt, verified_return_body, 201)
-        location = Location.new(name: 'Test Location', address_1: 'Address', geography: { latitude: '11.11', longitude: '11.11'})
-        allow(customer).to receive(:location).and_return(location)
-        allow(customer).to receive(:current_account_id).and_return(1)
-        allow(customer).to receive(:create_or_find_location).and_return(location)
-        service_request = ServiceRequest.new(account_id: "1", location_id: "1", category_id: "1", subcategory_id: "1", urgent: 'false')
-        allow(customer).to receive(:service_request).and_return(service_request)
-        allow(location).to receive(:id).and_return(1)
-        stub_create_service_request(service_request, 200, service_request_body)
-        service_request = customer.create_service_request
-        expect(service_request).not_to be_nil
-        expect(service_request.location_id).to eq(1)
-        expect(service_request.id).not_to be_nil
-      end
-    end
-    context 'location is nil' do
-      it 'return nil' do
-        stub_verified_api_request(jwt, verified_return_body, 201)
-        location = Location.new(name: 'Test Location', address_1: 'Address', geography: { latitude: '11.11', longitude: '11.11'})
-        allow(customer).to receive(:location).and_return(location)
-        allow(customer).to receive(:current_account_id).and_return(1)
-        allow(customer).to receive(:create_or_find_location).and_return(nil)
-        service_request = customer.create_service_request
-        expect(service_request).to be_nil
       end
     end
   end

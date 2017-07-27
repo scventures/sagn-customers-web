@@ -6,4 +6,7 @@
     #card-element
       
     #card-errors
-  button class='credit_card_button' Submit Payment
+  - if customer_signed_in?
+    button class='credit_card_button' Submit Payment
+  - else
+    button class='credit_card_button' Approve Payment Method

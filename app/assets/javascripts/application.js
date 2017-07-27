@@ -18,6 +18,7 @@
 //= require jquery.remotipart
 //= require js.cookie
 //= require jstz
+//= require pouchdb-6.3.4.min
 //= require browser_timezone_rails/set_time_zone
 //= require bootstrap-sprockets
 //= require cocoon
@@ -37,5 +38,7 @@
 //= require ajax_error
 //= require service_request
 //= require past_request_service
+//= require current_requests
+//= require staff
 //= require turbolinks
 //= require turboboost/turboboost

@@ -4,41 +4,9 @@
   = image_tag 'notification.png'
   strong.ml10.fs16 Service Request Status
   .white-container
-    - activities.reverse.each do |activity|
-      p
-        = time_format(activity.created_at)
-        span.ml10
-          = activity.action_humanized
-      - if assignment = activity.assignment
-        - if (activity.customer_accepted? or activity.customer_declined?) and assignment[:technician]
-          p
-            .row
-              .col-sm-3.text-center
-                - if assignment[:technician][:photo]
-                  = image_tag assignment[:technician][:photo], width: '70', class: 'img-circle'
-                - else
-                  = image_tag 'default_avatar_icon.png', width: '70', class: 'img-circle'
-              .col-sm-9
-                strong = assignment[:technician][:name]
-                br/
-                = assignment[:technician][:company_name]
-        - if (activity.accepted? or activity.declined?) and estimation = assignment[:current_estimation]
-          .w60-pct.m-auto
-            p.mt10
-              button.btn-link.black data-target="#see-details" data-toggle="collapse" type="button" See Details
-            #see-details.mt10.collapse
-              .grey-container
-                .row
-                  .col-sm-6 Labor:
-                  .col-sm-6 = humanized_money_with_symbol(cents_to_money(estimation[:labor_cents]), symbol_after_without_space: true)
-                  .col-sm-6 Parts:
-                  .col-sm-6 = humanized_money_with_symbol(cents_to_money(estimation[:parts_cents]), symbol_after_without_space: true)
-                  .col-sm-6 Tax:
-                  .col-sm-6 = humanized_money_with_symbol(cents_to_money(estimation[:tax_cents]), symbol_after_without_space: true)
-                  .col-sm-6.mt10 Total
-                  .col-sm-6.mt10 = estimation[:total_estimate]
+    = render 'shared/service_request_activities', activities: activities
   h3.text-center
-    = link_to 'See Your Service Request Details', '#', data: { target: '#serviceRequestDetail', toggle: 'modal'}, class: 'grey'
+    = link_to 'See Your Service Request Details', '#', data: { target: '#serviceRequestDetail', toggle: 'modal'}, class: 'grey hover-underline'
   - if service_request.can_editable?
     p
       = link_to 'Edit Request', edit_location_service_request_path(service_request.location[:id], service_request.id), turboboost: true, class: 'btn btn-default btn-blue with-ajax-loader'

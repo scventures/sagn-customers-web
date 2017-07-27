@@ -1,18 +1,2 @@
 .white-container
-  - activities.reverse.each do |activity|
-    p
-      = time_format(activity.created_at)
-      span.ml10
-        = activity.action_humanized
-    - if activity.customer_accepted?
-      p
-        .row
-          .col-sm-3.text-center
-            - if assignment.technician[:photo]
-              = image_tag assignment.technician[:photo], width: '70', class: 'img-circle'
-            - else
-              = image_tag 'default_avatar_icon.png', width: '70', class: 'img-circle'
-          .col-sm-9
-            strong = assignment.technician[:name]
-            br/
-            = assignment.technician[:company_name]
+  = render 'shared/service_request_activities', activities: activities

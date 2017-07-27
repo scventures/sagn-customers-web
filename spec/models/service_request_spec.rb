@@ -25,6 +25,7 @@ describe ServiceRequest do
   it { expect(ServiceRequest.has_many(:activities)).to be_truthy }
   it { expect(ServiceRequest.has_many(:assignments)).to be_truthy }
   it { expect(ServiceRequest.has_many(:estimations)).to be_truthy }
+  it { expect(ServiceRequest.has_one(:responded_assignment)).to be_truthy }
   
    describe 'accept_nested_attributes_for :issue_images' do
     let(:service_request) { ServiceRequest.new(issue_images_attributes: { 0 => { image: 'Test1.png' }, 1 => { image: 'Test2.png' }})}
@@ -166,12 +167,29 @@ describe ServiceRequest do
     end
   end
   
-  describe 'to_params' do
+  describe '#current_assignment' do
+    context 'responded assignment is present' do
+      it 'return current_assignment' do
+        service_request = ServiceRequest.new(id: 1, account_id: 1, responded_request_assignment_id: 10)
+        stub_service_request_assignments(service_request.account_id, service_request.id)
+        stub_service_request_assignment(service_request.account_id, service_request.id, service_request.responded_request_assignment_id)
+        service_request.responded_assignment = Assignment.new(id: 10)
+        expect(service_request.current_assignment.id).to equal(10)
+      end
+    end
+  end
+  
+  describe '#to_params' do
     let(:service_request) { ServiceRequest.new(token: 'testToken') }
     it 'return stripe_token in params' do
       params = service_request.to_params
       expect(params[:stripe_token]).to eq(service_request.token)
       expect(params[:token]).to be_nil
+    end
+    it 'return issue_images_attributes in params' do
+      service_request.issue_images = Her::Collection.new
+      params = service_request.to_params
+      expect(params[:service_request][:issue_images_attributes]).not_to be nil
     end
   end
 end

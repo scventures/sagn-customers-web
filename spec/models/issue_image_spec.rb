@@ -17,6 +17,7 @@ describe IssueImage do
       expect(issue_image).to have_attributes(
         service_request_id: anything,
         image: anything,
+        image_base64: anything,
         _destroy: anything
       )
     end

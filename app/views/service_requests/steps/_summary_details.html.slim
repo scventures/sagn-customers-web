@@ -1,0 +1,54 @@
+.content-wrapper.details-summary
+  .back-btn-wrapper
+    = link_to '#', class: 'mb20 back-btn' do
+      = fa_icon 'chevron-left'
+  .col-sm-10.col-sm-offset-1.text-center
+    .text-center.center-panel
+      span.sub-title Details Summary
+    .col-md-5.address-form.center-panel
+      .summary-details-wrapper
+        .row.details-wrapper
+          .col-sm-2
+            .fa.fa-map-marker.fa-3x.red
+          .col-sm-6.location
+            |
+          .col-sm-4
+            - if f.object.location_id?
+              = link_to 'change', service_requests_path
+            - else
+              = link_to 'change', '#', data: { step: 7 }, class: 'details-change-link'
+        .row.details-wrapper
+          .col-sm-2
+            .fa.fa-wrench.fa-3x.red
+          .col-sm-6.category
+            |
+          .col-sm-4
+            = link_to 'change', '#', data: { step: 0 }, class: 'details-change-link'
+        .row.details-wrapper
+          .col-sm-2
+            .fa.fa-info-circle.fa-3x.red
+          .col-sm-6.brand
+            | —/—
+          .col-sm-4
+            = link_to 'change', '#', data: { step: 3 }, class: 'details-change-link order-details-link'
+        .row.details-wrapper
+          .col-sm-2
+            .fa.fa-camera.fa-3x.red
+          .col-sm-6.issue_image
+            | 
+          .col-sm-4
+            = link_to 'change', '#', data: { step: 6 }, class: 'details-change-link'
+      .clearfix
+      .warranty-warning-wrapper
+        .warranty-warning
+          .text-uppercase
+            | Is this equipment under warranty?
+          .summary-details-subwrapper
+            p
+              | SendaGuy Now is not for service on equipment covered by warranty. If your equipment is under warranty, you’ll want to contact the manufacturer directly.
+            = f.submit 'I understand and wish to continue', class: 'btn btn-continue text-uppercase', data: { continue: 'card-details'}
+        .proceed-to-next
+          = f.submit 'Save & Continue', class: "btn btn-continue text-uppercase #{ (current_customer and current_customer.current_account.have_payment_method) ? 'service-request-submit-btn' : 'request-continue-btn'}", data: { continue: 'card-details'}
+  .next-btn-wrapper
+    = link_to '#', class: 'hidden next-btn' do
+      = fa_icon 'chevron-right'    

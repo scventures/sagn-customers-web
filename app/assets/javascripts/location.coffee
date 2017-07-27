@@ -29,7 +29,6 @@ fillInAddress = ->
   
 $.onmount '.location-form-container .venue_name:visible, .restaurant-details .venue_name:visible', ->
   select = $(this).select2
-    theme: 'paper'
     closeOnSelect: false
     minimumInputLength: 2
     delay: 250
@@ -62,6 +61,13 @@ $.onmount '.location-form-container .venue_name:visible, .restaurant-details .ve
     $(select).select2 'open'
     $('#editLocation').find('.select2-search__field').val($('#edit_location_name').val()).trigger('change')
     $('#editLocation').find('.select2-search__field').trigger('keyup')
+  select.on 'select2:open', (e,d) ->
+    $('#wizard .content, #locations_index .main-wrapper').perfectScrollbar('destroy').css('overflow-y', 'hidden')
+    select2Results = $('.select2-dropdown-container .select2-results__options')
+    select2Results.css
+      maxHeight: $('#wizard > .steps, .location-form-container .footer').offset().top - select2Results.offset().top - 21
+  select.on 'select2:close', () ->
+    $('#wizard .content, #locations_index .main-wrapper').css('overflow-y', 'auto').perfectScrollbar()
 
 $(document).ready ->
   getLocation()
@@ -82,6 +88,7 @@ $(document).on 'click', '.provide-address-btn', (e) ->
   e.preventDefault()
   $('.venue-address').addClass('hidden')
   $('.provide-address').removeClass('hidden')
+  $('.venue-address .venue_name.select_venue').attr('disabled','disabled');
   $.onmount()
   
 $(document).on 'select2:select', '.location-form-container .venue_name, .service-request-logout-form .venue_name', (e)->
@@ -107,8 +114,10 @@ window.resetLocationForm = (form) ->
   $(form).resetClientSideValidations()
 
 $(document).on 'shown.bs.modal', '#addLocation', ->
+  $('#addLocation .modal-body').find('.alert').remove()
   form = $(this).parents().find('form')
   resetLocationForm(form)
+  $(form).enableClientSideValidations()
 
 $(document).on 'click', '.location-images-container a.location-link', (e) ->
   $(this).find('.location-street-image').removeClass('no-pointer-events')
@@ -130,3 +139,8 @@ window.locationStreetView = (lat, lng, location_id) ->
         zoom: 1
     else
       $("#location-street-view-#{location_id}").html($('<span>').addClass('message').html('Location Image is not available.'))
+      
+$.onmount '#addLocation form, #editLocation form', ->
+  if $(this).find('.form-group').hasClass('has-error')
+    $(this).find('.location-fields').addClass('hidden')
+    $(this).find('.has-error').parents('.location-fields').removeClass('hidden')

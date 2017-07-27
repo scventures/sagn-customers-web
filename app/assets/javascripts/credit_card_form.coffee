@@ -1,5 +1,5 @@
-card = ''  
-$.onmount '.card-details', ->
+card = ''
+cardElement = (id) ->
   elements = stripe.elements()
   style = 
     base:
@@ -13,7 +13,7 @@ $.onmount '.card-details', ->
       color: '#fa755a'
       iconColor: '#fa755a'
   card = elements.create('card', style: style, hidePostalCode: true)
-  card.mount '#card-element'
+  card.mount id
   card.addEventListener 'change', (event) ->
     displayError = document.getElementById('card-errors')
     if event.error
@@ -21,6 +21,15 @@ $.onmount '.card-details', ->
     else
       displayError.textContent = ''
     return
+
+$.onmount '#addCardForEstimate .card-details', ->
+  cardElement('#addCardForEstimate #card-element')
+  
+$.onmount '#add_card .card-details', ->
+  cardElement('#add_card #card-element')
+  
+$.onmount '#service-request-form .card-details', ->
+  cardElement('.service-request-form #card-element')
   
 $(document).on 'click', '.credit_card_button', (e) ->
   $('#payment-form').block
@@ -45,7 +54,4 @@ $(document).on 'click', '.credit_card_button', (e) ->
 stripeTokenHandler = (token, form) ->
   $('#payment-form').unblock()
   $(form).find('#service_request_token').val(token.id)
-  if $(form).hasClass('service-request-logout-form')
-    $('#wizard').steps('setStep', 11)
-  else
-    $(form).submit()
+  $(form).submit()

@@ -14,9 +14,7 @@ class ServiceRequests::ServiceRequestAssignmentsController < ApplicationControll
   def payment_authorize
     token = params['service_request']['token'] if params['service_request']
     if @assignment.accept(token)
-      @service_request = @account.service_requests.find(params[:service_request_id])
-      @service_request.account_id = @account.id
-      @activities = @service_request.activities
+      fetch_activities
     end
     respond_to do |format|
       format.js
@@ -30,11 +28,15 @@ class ServiceRequests::ServiceRequestAssignmentsController < ApplicationControll
   end
   
   def decline
-    if @decline_assignment = @assignment.decline(params[:assignment][:reason])
-      @activities = @service_request.activities
+    if @decline_assignment = @assignment.decline(params[:assignment][:reason], params[:new_search])
+      fetch_activities
     end
-    respond_to do |format|
-      format.js
+    if params[:new_search]
+      respond_to do |format|
+        format.js
+      end
+    else
+      redirect_to current_requests_path()
     end
   end
   
@@ -52,10 +54,8 @@ class ServiceRequests::ServiceRequestAssignmentsController < ApplicationControll
     @assignment.service_request_id = params[:service_request_id].to_i
     if @assignment[:current_estimation][:status] != 'accepted'
       if @accept_estimation = @assignment.accept_estimation(params[:token])
-        @service_request = @account.service_requests.find(params[:service_request_id])
-        @service_request.account_id = @account.id
-        @assignments = @service_request.assignments
-        @activities = @service_request.activities
+        fetch_activities
+        @current_assignment = @service_request.current_assignment
       end
     end
     respond_to do |format|
@@ -73,7 +73,7 @@ class ServiceRequests::ServiceRequestAssignmentsController < ApplicationControll
   def decline_estimation
     reason =  params[:estimation][:reason]
     if @decline_estimation = @assignment.decline_estimation(reason)
-      @activities = @service_request.activities
+      fetch_activities
     end
     respond_to do |format|
       format.js
@@ -96,9 +96,16 @@ class ServiceRequests::ServiceRequestAssignmentsController < ApplicationControll
   def find_service_request_and_assignment
     @service_request = @account.service_requests.find(params[:service_request_id])
     @service_request.account_id = @account.id
+    @current_assignment = @service_request.current_assignment if @service_request.responded_request_assignment_id
     @assignment = @service_request.assignments.find(params[:service_request_assignment_id])
     @assignment.account_id = @account.id
     @assignment.service_request_id = @service_request.id
+  end
+  
+  def fetch_activities
+    @service_request = @account.service_requests.find(params[:service_request_id])
+    @service_request.account_id = @account.id
+    @activities = @service_request.activities
   end
   
 end

@@ -1,0 +1,19 @@
+.content-wrapper.provide-photo
+  .back-btn-wrapper
+    = link_to '#', class: 'back-btn' do
+      = fa_icon 'chevron-left'
+  .col-sm-10.col-sm-offset-1.text-center
+    .text-center.service-head.center-panel
+      p.sub-title Provide Photo
+    .col-md-5.address-form.center-panel
+      = f.simple_fields_for :issue_images do |issue_image|
+        = render 'service_requests/issue_image_fields', f: issue_image
+      .links
+        = link_to_add_association f, :issue_images, class: 'btn btn-continue mb20', partial: 'service_requests/issue_image_fields' do
+          = fa_icon 'upload'
+          span.ml10 Add Image
+      .clearfix
+      = f.submit 'Save & Continue', class: 'btn btn-continue request-continue-btn'
+  .next-btn-wrapper
+    = link_to '#', class: 'hidden next-btn' do
+      = fa_icon 'chevron-right'

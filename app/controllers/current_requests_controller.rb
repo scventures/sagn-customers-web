@@ -4,21 +4,23 @@ class CurrentRequestsController < ApplicationController
   
   def index
     @account = current_customer.current_account
-    @current_requests = @account.current_service_requests
-    unless @current_requests.length.zero?
-      @current_request = ServiceRequest.find(@current_requests.first.id, _account_id: @account.id)
+    @current_requests = @account.current_requests
+    if @current_requests.present?
+      current_request_id = flash[:service_request_id] ? flash[:service_request_id] : @current_requests.first.id
+      @current_request = ServiceRequest.find(current_request_id, _account_id: @account.id)
       @current_request.account_id = @account.id
+      @current_assignment = @current_request.current_assignment if @current_request.responded_request_assignment_id
       @activities = @current_request.activities
-      @assignments = @current_request.assignments if @current_request.assigned?
     end
+    response.set_header('SERVICE_REQUEST_ID', flash[:service_request_id]) if flash[:service_request_id]
   end
   
   def show
     @account = current_customer.current_account
     @service_request = @account.service_requests.find(params[:id])
     @service_request.account_id = @account.id
+    @current_assignment = @service_request.current_assignment if @service_request.responded_request_assignment_id
     @activities = @service_request.activities
-    @assignments = @service_request.assignments if @service_request.assigned?
     respond_to do |format|
       format.js {}
     end

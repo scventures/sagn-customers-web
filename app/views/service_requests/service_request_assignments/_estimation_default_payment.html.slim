@@ -1,4 +1,10 @@
-.panel-body.card-details.mt0
+.pic-payment-methods
+  strong.fs20.text-center Pick a payment method:
+  = link_to 'Default Payment Method', '#', data: { toggle: 'modal', target: '#chooseCard'}, class: 'btn btn-grey mt10'
+  br/
+.default-payment-container
+  = link_to "Pay #{assignment[:current_estimation][:total_estimate]}", service_requests_service_request_assignment_accept_estimation_path(assignment[:id], service_request_id: service_request.id), remote: true, class: 'btn btn-red mt10 with-ajax-loader', method: :post
+.panel-body.card-details.mt0.hidden
   #payment-form
     #flash-messages
     .form-row.col-sm-12
@@ -9,4 +15,4 @@
   = simple_form_for @service_request, url: service_requests_service_request_assignment_accept_estimation_path({service_request_assignment_id: params[:service_request_assignment_id], service_request_id: @service_request.id}), method: 'post', turboboost: true, html: {id: 'add_new_card', class: 'form-horizontal'} do |f|
     = f.input :token, as: 'hidden', input_html: {class: 'token'}
     .actions.center
-      = f.submit "Pay #{humanized_money_with_symbol(@assignment.diagnostic_fee, symbol_after_without_space: true)}", class: 'btn btn-danger mt20 w50-pct credit_card_button'
+      = f.submit "Pay #{assignment.current_estimation[:total_estimate]}", class: 'btn btn-danger mt20 w50-pct credit_card_button'

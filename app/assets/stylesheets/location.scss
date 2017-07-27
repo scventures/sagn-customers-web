@@ -70,24 +70,6 @@ h4 {
   text-align: center;
 }
 
-.restaurant-details {
-  .select2-dropdown-container {
-    .select2-results {
-      max-height: 300px !important;
-    }
-  }
-  .select2-container--paper:nth-child(3) {
-    display: none;
-    margin-bottom: 5px;
-  }
-  .select2-results__option.select2-results__message {
-    margin: 10px;
-  }
-  .select2-container .select2-selection--single {
-    width: 100% !important;
-  }
-}
-
 #editLocation, #addLocation, .restaurant-details {
   .modal-header {
     background: #d9534f;
@@ -110,9 +92,45 @@ h4 {
       overflow: auto;
     }
   }
+  .select2-results__option.select2-results__message {
+    margin: 10px;
+  }
+  .select2-container .select2-selection--single {
+    width: 100% !important;
+  }
+  .select2-selection__arrow {
+    display: none;
+  }
+  .location-form-container {
+    .select2-search__field {
+      margin-top: -26px;
+    }
+    .select2-results__options {
+      max-height: 350px;
+    }
+  }
+  .select2-search__field {
+    display: block;
+    margin-top: -38px;
+    width: calc(100% - 1px);
+    height: 42px;
+    border: none !important;
+    border-bottom: 2px solid #ccc !important;
+  }
+  .select2-search--dropdown {
+    padding: 0px;
+  }
+  .select2-results__option {
+    padding: 0px;
+  }
+  .select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: transparent !important
+  }
+  .select2-dropdown {
+    border-radius: 0px;
+  }
   .combo-list{ 
     background: #f9f9f9; 
-    border-radius: 5px; 
     padding: 15px; 
     margin-bottom: 15px;
     text-decoration: none;
@@ -142,30 +160,6 @@ h4 {
 	  margin:0px;
 	  font-weight:bold;
   }
-  .select2.select2-container {
-    width: 100% !important;
-  }
-  .select2-dropdown-container {
-    .select2-results {
-      max-height: 400px;
-      overflow: auto;
-      width: 100%;
-    }
-  }
-  .select2-container .select2-selection--single {
-    border: 1px solid #888;
-    height: 35px;
-    padding: 5px;
-    width: 95%;
-  }
-  .select2-search--dropdown .select2-search__field {
-    border: 1px solid #888;
-    height: 35px;
-    margin: -9px -5px;
-    padding: 4px;
-    position: relative;
-    width: 100%;
-  }
   .provide-address {
     z-index: 9999;
   }
@@ -183,43 +177,4 @@ h4 {
 
 .pac-container {
   z-index: 10000 !important;
-}
-
-.select2-container--paper {
-  font-family: inherit;
-  font-size: 16px;
-  &.select2-selection--single {
-    height: 37px;
-    &.select2-selection__rendered {
-      line-height: 38px;
-    }
-    &:focus {
-      box-shadow: 0px -2px 0px #2196f3 inset;
-    }
-  }
-  &.select2-search--dropdown {
-    padding: 0;
-    padding-left: 3.5px;
-    padding-bottom: 4.5px;
-    border: 0;
-    height: 30px;
-  }
-  &.select2-container--open {
-    box-shadow: 0px -2px 0px #2196f3 inset;
-    & .select2-dropdown--below {
-      top: -33px;
-      border-color: transparent;
-    }
-    &.select2-results {
-      margin-top: 1px;
-      line-height: 20px;
-      &.select2-results__option--highlighted {
-        background-color: #2196f3;
-        color: #fff;
-      }
-    }
-  }
-  .select2-results__option[aria-selected] {
-    padding: 0px;
-  }
 }

@@ -23,20 +23,30 @@
   }
 }
 
+#past_requests_index {
+  .warning-text {
+    background: #c80025;
+    color: #fff;
+    padding: 10px 60px;
+    font-size: 16px;
+    margin: 0px 10px;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+}
+
 .past-request-list {
-  min-height: calc(100vh - 120px) !important;
-  max-height: calc(100vh - 120px);
+  min-height: calc(100vh - 195px) !important;
+  max-height: calc(100vh - 195px);
   overflow: auto;
 }
 
 .past-request-wrapper {
-  border-top: 40px solid #e1e1e1;
   background: #eee;
   .footer {
     background: #dadada;
-    font-size: 18px;
   }
 }
 .past-request-wrapper.selected {
-  border-color: #898989;
+  border-color: #c2272d;;
 }

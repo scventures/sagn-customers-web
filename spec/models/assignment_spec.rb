@@ -68,6 +68,21 @@ describe Assignment do
     end
   end
   
+  describe '#customer_declined?' do
+    let(:assignment) { Assignment.new }
+    context 'if status is customer_declined' do
+      it 'return true' do
+        assignment.status = 'customer_declined'
+        expect(assignment.customer_declined?).to be_truthy
+      end
+    end
+    context 'if status is not customer_declined' do
+      it 'return false' do
+        expect(assignment.customer_declined?).to be_falsy
+      end
+    end
+  end
+  
   describe '#customer_accepting?' do
     let(:assignment) { Assignment.new }
     context 'if status is customer_accepting' do
@@ -94,6 +109,21 @@ describe Assignment do
     context 'if status is not waiting' do
       it 'return false' do
         expect(assignment.waiting?).to be_falsy
+      end
+    end
+  end
+  
+  describe '#charging?' do
+    let(:assignment) { Assignment.new(diagnostic_fee_cents: 1000, sagn_diagnostic_fee_cents: 10) }
+    context 'sagn diagnostic fee is less than diagnostic fee' do
+      it 'return true' do
+        expect(assignment.charging?).to be_truthy
+      end
+    end
+    context 'sagn diagnostic fee is greater than diagnostic fee' do
+      it 'return false' do
+        assignment.sagn_diagnostic_fee_cents= 1100
+        expect(assignment.charging?).to be_falsy
       end
     end
   end
@@ -130,18 +160,18 @@ describe Assignment do
     end
   end
   
-  describe '#decline(reason)' do
+  describe '#decline(reason, new_search)' do
     let(:assignment) { Assignment.new(id: 1, account_id: 1, service_request_id: 1)}
     context 'for valid data' do
       it 'return true' do
-        stub_decline_assignment(assignment.id, assignment.account_id, assignment.service_request_id, 'reason', 200)
-        expect(assignment.decline('reason')).to be_truthy
+        stub_decline_assignment(assignment.id, assignment.account_id, assignment.service_request_id, 'reason', 200, 'Yes')
+        expect(assignment.decline('reason', 'Yes')).to be_truthy
       end
     end
     context 'for invalid data' do
       it 'return false' do
-        stub_decline_assignment(assignment.id, assignment.account_id, assignment.service_request_id, 'reason', 400)
-        expect(assignment.decline('reason')).to eq({})
+        stub_decline_assignment(assignment.id, assignment.account_id, assignment.service_request_id, 'reason', 400, 'No')
+        expect(assignment.decline('reason', 'No')).to eq({})
       end
     end
   end

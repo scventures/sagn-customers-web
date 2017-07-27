@@ -2,6 +2,6 @@ $('#addCardForEstimate').modal('hide')
 <% unless @accept_estimation %>
   $('.current-request-details').prepend('<%= flash_container(:danger, 'Unable to pay. Please try again') %>')
 <% else %>
-  $('.current-request-details').html("<%= j render partial: 'current_requests/show', locals: { service_request: @service_request, account: @account, activities: @activities, assignments: @assignments } %>")
+  $('.current-request-details').html("<%= j render partial: 'current_requests/show', locals: { service_request: @service_request, account: @account, activities: @activities, current_assignment: @current_assignment } %>")
   $(".current-request-list #current-request-details-<%= @service_request.id %> h4").find('span').html("<%= @service_request.latest_activity_status %>")
 <% end %>

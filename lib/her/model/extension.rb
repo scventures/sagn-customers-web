@@ -6,7 +6,11 @@ module Her
       module ClassMethods
 
         def reflect_on_association(association)
-          OpenStruct.new associations.inject([]) {|ary, (k,v)| v.find {|a| a[:collection?] = k == :has_many; a[:name] == association}}
+          OpenStruct.new reflections[association]
+        end
+
+        def reflections
+          associations.inject({}) {|hsh, (k,ary)| ary.each {|a| a[:collection?] = true; hsh[a[:name]] = a }; hsh}
         end
 
         def build_with_inverse(attributes = {})

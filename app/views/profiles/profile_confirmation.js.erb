@@ -1,0 +1,11 @@
+<% if current_customer.registered? %>
+  db = new PouchDB('sagn')
+  db.get('location', function(err, doc){
+    if(doc)
+      postServiceRequest()
+    else
+      Turbolinks.visit(<%= profile_path %>)
+  })
+<% else %>
+  Turbolinks.visit(<%= profile_path %>)
+<% end %>

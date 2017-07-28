@@ -13,6 +13,6 @@ SecureHeaders::Configuration.default do |config|
     upgrade_insecure_requests: ENV['APP_PROTOCOL'] == true,
     style_src: %w('unsafe-inline' 'self' https://fonts.googleapis.com/css),
     child_src: %w('self' https://js.stripe.com/v3/ https://js.stripe.com/v2/),
-    connect_src: %w('self' https: wss:)
+    connect_src: %w('self' https: wss: ws:)
   )
 end

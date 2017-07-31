@@ -26,7 +26,9 @@ class ApplicationController < ActionController::Base
     if current_customer
       RequestStore.store[:auth_token] = current_customer.jwt
       current_customer.populate_attributes
+      current_account = current_customer.current_account
       RequestStore.store[:current_customer] = current_customer
+      gon.push(token: current_customer.jwt, messengerChannelId: current_account.messenger_channel_id )
     end
   end
   

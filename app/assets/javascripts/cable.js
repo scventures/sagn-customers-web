@@ -7,7 +7,6 @@
 
 (function() {
   this.App || (this.App = {});
-
-  App.cable = ActionCable.createConsumer();
-
+  params = $.param({ token: gon.token, userType: 'customer'})
+  App.cable = ActionCable.createConsumer(websocketUrl+'?'+params)
 }).call(this);

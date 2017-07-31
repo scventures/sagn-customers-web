@@ -60,6 +60,7 @@ gem 'browser'
 gem 'foursquare2', '~> 2.0.1'
 gem 'browser-timezone-rails'
 gem 'geocoder'
+gem 'gon'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-onmount'

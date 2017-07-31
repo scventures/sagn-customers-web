@@ -522,4 +522,9 @@ window.postServiceRequest = ->
         beforeSend: (xhr) ->
           xhr.setRequestHeader 'X-Turboboost', 1
           return
+
+window.removeServiceRequest= ->
+  db = new PouchDB('sagn')
+  db.get 'location', (err, doc) ->
+    if doc
       db.remove doc, (err, doc) ->

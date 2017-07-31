@@ -40,5 +40,6 @@
 //= require past_request_service
 //= require current_requests
 //= require staff
+//= require cable
 //= require turbolinks
 //= require turboboost/turboboost

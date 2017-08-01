@@ -7,7 +7,7 @@ $(document).on 'click', '.current-request-list .details-link, .past-request-list
   $('.current-request-details, .past-request-details').html('')
   $('.current-request-details, .past-request-details').block blockUI
 
-blockUI =
+window.blockUI =
   message: '<i class="fa fa-spinner fa-pulse fa-4x"></i>'
   css:
     border: 'none'

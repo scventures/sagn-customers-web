@@ -246,8 +246,9 @@ setEquipment = ->
           $('.equipment-field-wrapper').removeClass('hidden')
           $('.select_equipment').empty()
           $('.select_equipment').select2
-            placeholder: 'Please select Equipment'
             data: data
+            placeholder: 'Select Equipment'
+          $('.select_equipment').select2 'val', 'Select Equipment'
 
 $(document).on 'click', '.category-wrapper input[type=radio]', ->
   setSubcategoriesImages($(this).val())
@@ -259,11 +260,11 @@ $(document).on 'change', '.category-wrapper input[type=radio]', ->
   $('.steps #wizard-t-3 .summary-data').html('')
   
 $(document).on 'change', '.subcategories-wrapper input[type=radio]', ->
-  $('.subcategories-wrapper .subcategory_field').val($(this).val())
   $("#wizard-p-1").find('.next-btn').removeClass('hidden')
   $('.steps #wizard-t-3 .summary-data').html('')
   
 $(document).on 'click', '.subcategories-wrapper input[type=radio]', ->
+  $('.subcategories-wrapper .subcategory_field').val($(this).val())
   brands = $(this).data('brands')
   problem_codes = $(this).data('problem-codes')
   $('.equipment_wrapper').addClass('hidden')
@@ -331,9 +332,11 @@ $(document).on 'select2:select', '.select_brand', (e)  ->
   $('#service_request_brand_name').val(e.params.data.text)
       
 $(document).on 'select2:select', '.service-request-form-wrapper .select_equipment', (e) ->
-  $('#service_request_brand_name').val(e.brand_name)
-  $('#service_request_model').val(e.model)
-  $('#service_request_serial').val(e.serial)
+  if e.params.data.brand
+    $('#service_request_brand_id').val(e.params.data.brand.id).trigger('change')
+    $('#service_request_brand_name').val(e.params.data.brand.name)
+  $('#service_request_model').val(e.params.data.model)
+  $('#service_request_serial').val(e.params.data.serial)
         
 $(document).on 'click', '.service-request-form-wrapper .content-wrapper .back-btn', (e) ->
   e.preventDefault()

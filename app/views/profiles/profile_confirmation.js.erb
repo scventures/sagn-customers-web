@@ -1,3 +1,4 @@
+Turbolinks.clearCache()
 <% if current_customer.registered? %>
   db = new PouchDB('sagn')
   db.get('location', function(err, doc){

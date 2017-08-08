@@ -10,7 +10,7 @@
     - else
       h3 You don't have any current service requests.
   .col-sm-6
-    .current-request-details
+    .current-request-details#current-request-details-wrapper
       - if @service_request
         = render 'show', service_request: @service_request, account: @account, activities: @activities, current_assignment: @current_assignment
       - else

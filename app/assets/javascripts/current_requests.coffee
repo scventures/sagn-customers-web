@@ -36,7 +36,7 @@ $(document).on 'click', '.current-request-list .details-link', (e) ->
   e.preventDefault()
   loadServiceRequestDetails($(this).data('id'))
   
-loadServiceRequestDetails = (id) ->
+window.loadServiceRequestDetails = (id) ->
   $.ajax
     type: 'GET'
     dataType: 'HTML'
@@ -47,7 +47,9 @@ loadServiceRequestDetails = (id) ->
       $('.current-request-details').html('')
       $('.current-request-details').block blockUI
     success: (data) ->
-      $('.current-request-details').html(data)
+      doc = document.documentElement.cloneNode()
+      doc.innerHTML = data
+      document.getElementById('current-request-details-wrapper').innerHTML = doc.querySelector('#current-request-details-wrapper').innerHTML
       currentRequestListScrollTop()
     complete: ->
       $('.current-request-details').unblock()

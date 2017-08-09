@@ -58,7 +58,8 @@ $ ->
               obj = JSON.parse(data)
               if obj.type == 'service_requests_assignment_updated' && JSON.stringify(@last_obj) != JSON.stringify(obj)
                 @last_obj = obj
-                loadServiceRequestDetails(obj.service_request_assignment.service_request_id)
+                if $(".current-request-wrapper#current-request-details-#{obj.service_request_assignment.service_request_id}").hasClass('selected')
+                  loadServiceRequestDetails(obj.service_request_assignment.service_request_id)
 
   # initialize ws client
   new ProfileHandler()

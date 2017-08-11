@@ -40,5 +40,27 @@ $ ->
                     eval data
                     $("#{ProfileHandler.selector}").removeClass 'loading'
 
+  class CurrentRequestHandler extends SagnWsHandler
+    @selector: '#current-request-details'
+
+    constructor: () ->
+      super(@constructor.selector)
+
+    bindWsClient: () =>
+      if @channel_id
+        App.global_chat = App.cable.subscriptions.create {
+            channel: 'NotificationsChannel'
+            channel_id: @channel_id
+          },
+          received: (data) ->
+            console.log('Received: ', data)
+            if data.length
+              obj = JSON.parse(data)
+              if obj.type == 'service_requests_assignment_updated' && JSON.stringify(@last_obj) != JSON.stringify(obj)
+                @last_obj = obj
+                if $(".current-request-wrapper#current-request-details-#{obj.service_request_assignment.service_request_id}").hasClass('selected')
+                  loadServiceRequestDetails(obj.service_request_assignment.service_request_id)
+
   # initialize ws client
   new ProfileHandler()
+  new CurrentRequestHandler()

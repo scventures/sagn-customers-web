@@ -28,12 +28,31 @@ $(document).on 'turbolinks:request-end', (e) ->
 showServiceRequestCreationAlert = () ->
   customAlert('Service Request Received!', 'We\'re searching for the right technician.')
 
-showServiceRequestDetails = (id) ->
-  $('.current-request-wrapper, .past-request-wrapper').removeClass('selected')
-  $(".current-request-wrapper#current-request-details-#{id}, .past-request-wrapper#past-request-details-#{id}").addClass('selected')
-  $('.current-request-details, .past-request-details').html('')
-  $('.current-request-details, .past-request-details').block blockUI
+currentRequestListScrollTop = () ->
+  scrollHeight = $('.current-request-wrapper.selected').position().top
+  $('.current-request-list').scrollTop(scrollHeight)
+
+$(document).on 'click', '.current-request-list .details-link', (e) ->
+  e.preventDefault()
+  loadServiceRequestDetails($(this).data('id'))
   
-$(document).on 'click', '.current-request-list .details-link, .past-request-list .details-link', ->
-  id = $(this).data('id')
-  showServiceRequestDetails(id)
+window.loadServiceRequestDetails = (id) ->
+  $.ajax
+    type: 'GET'
+    dataType: 'HTML'
+    url: $(this).attr('href')
+    beforeSend:  (xhr, settings) ->
+      $('.current-request-wrapper').removeClass('selected')
+      $(".current-request-wrapper#current-request-details-#{id}").addClass('selected')
+      $('.current-request-details').html('')
+      $('.current-request-details').block blockUI
+    success: (data) ->
+      doc = document.documentElement.cloneNode()
+      doc.innerHTML = data
+      document.getElementById('current-request-details-wrapper').innerHTML = doc.querySelector('#current-request-details-wrapper').innerHTML
+      currentRequestListScrollTop()
+    complete: ->
+      $('.current-request-details').unblock()
+
+$.onmount '#current_requests_show', ->
+  currentRequestListScrollTop()

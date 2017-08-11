@@ -5,14 +5,14 @@
     - if @current_requests.present?
       - @current_requests.each do |current_request|
         = link_to current_request_path(current_request), remote: true, class: 'details-link', data: { id: current_request.id } do
-          .current-request-wrapper id = "current-request-details-#{current_request.id}" class = "#{'selected' if @current_request.id == current_request.id}"
+          .current-request-wrapper id = "current-request-details-#{current_request.id}" class = "#{'selected' if @service_request.id == current_request.id}"
             = render 'details', current_request: current_request
     - else
       h3 You don't have any current service requests.
   .col-sm-6
-    .current-request-details
-      - if @current_request
-        = render 'show', service_request: @current_request, account: @account, activities: @activities, current_assignment: @current_assignment
+    .current-request-details#current-request-details-wrapper
+      - if @service_request
+        = render 'show', service_request: @service_request, account: @account, activities: @activities, current_assignment: @current_assignment
       - else
         .watermark
           = image_tag 'watermark.png', width: '400'

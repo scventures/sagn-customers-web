@@ -7,10 +7,10 @@ class CurrentRequestsController < ApplicationController
     @current_requests = @account.current_requests
     if @current_requests.present?
       current_request_id = flash[:service_request_id] ? flash[:service_request_id] : @current_requests.first.id
-      @current_request = ServiceRequest.find(current_request_id, _account_id: @account.id)
-      @current_request.account_id = @account.id
-      @current_assignment = @current_request.current_assignment if @current_request.responded_request_assignment_id
-      @activities = @current_request.activities
+      @service_request= ServiceRequest.find(current_request_id, _account_id: @account.id)
+      @service_request.account_id = @account.id
+      @current_assignment = @service_request.current_assignment if @service_request.responded_request_assignment_id
+      @activities = @service_request.activities
     end
     response.set_header('SERVICE_REQUEST_ID', flash[:service_request_id]) if flash[:service_request_id]
   end
@@ -21,8 +21,11 @@ class CurrentRequestsController < ApplicationController
     @service_request.account_id = @account.id
     @current_assignment = @service_request.current_assignment if @service_request.responded_request_assignment_id
     @activities = @service_request.activities
-    respond_to do |format|
-      format.js {}
+    if request.xhr?
+      render partial: 'show', locals: { service_request: @service_request, activities: @activities, current_assignment: @current_assignment }, layout: false
+    else
+      @current_requests = @account.current_requests
+      render 'index'
     end
   end
   

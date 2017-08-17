@@ -40,16 +40,14 @@ window.loadServiceRequestDetails = (id) ->
   $.ajax
     type: 'GET'
     dataType: 'HTML'
-    url: $(this).attr('href')
+    url: Routes.current_request_path(id)
     beforeSend:  (xhr, settings) ->
       $('.current-request-wrapper').removeClass('selected')
       $(".current-request-wrapper#current-request-details-#{id}").addClass('selected')
       $('.current-request-details').html('')
       $('.current-request-details').block blockUI
     success: (data) ->
-      doc = document.documentElement.cloneNode()
-      doc.innerHTML = data
-      document.getElementById('current-request-details-wrapper').innerHTML = doc.querySelector('#current-request-details-wrapper').innerHTML
+      $('#current-request-details-wrapper').html(data)
       currentRequestListScrollTop()
     complete: ->
       $('.current-request-details').unblock()

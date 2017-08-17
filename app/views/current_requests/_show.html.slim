@@ -1,6 +1,6 @@
-.details
+.details#current-request-details data-messenger-channel-id=current_customer.current_account.messenger_channel_id
   - if service_request.assigned? and service_request.responded_request_assignment_id?
-    - if service_request.service_requests_assignments and (service_request.service_requests_assignments.last[:current_estimation] and service_request.service_requests_assignments.last[:current_estimation][:status] != 'accepted' and service_request.service_requests_assignments.last[:current_estimation][:status] != 'declined')
+    - if current_assignment and current_assignment.current_estimation and current_assignment.current_estimation[:status] != 'accepted' and current_assignment.current_estimation[:status] != 'declined'
       = render 'current_requests/estimation', service_request: service_request, assignment: current_assignment
     - else 
       .assignments-wrapper.mt20

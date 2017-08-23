@@ -30,11 +30,14 @@
       strong
         = link_to 'Have an issue?', '#', data: { toggle: 'modal', target: '#issueModal'}, class: 'hover-underline'
   #customer-rating-container
-    - if assignment and !assignment.customer_rating
-      h3.text-center Please rate your experience
-      .white-container
-        strong.fs16 Out of 5 possible stars, how would you rate your experience with this contractor and their technician?
-        #customer_rating_form
-          = render 'customer_rating_form', customer_rating: customer_rating, service_request: service_request, assignment: assignment
+    - if assignment
+      - if assignment.customer_rating
+        = render 'customer_rating', stars: assignment.customer_rating[:stars], comment: assignment.customer_rating[:comment]
+      - else
+        h3.text-center Please rate your experience
+        .white-container
+          strong.fs16 Out of 5 possible stars, how would you rate your experience with this contractor and their technician?
+          #customer_rating_form
+            = render 'customer_rating_form', customer_rating: customer_rating, service_request: service_request, assignment: assignment
   h3.ml10 Job History
   = render 'activities', service_request: service_request, activities: activities, assignment: assignment

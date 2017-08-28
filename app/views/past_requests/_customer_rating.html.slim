@@ -4,6 +4,6 @@ h3.text-center Your Experience Review
   p
     .mt10.mb10
       .stars
-        - stars.times do
-          a.star.fullStar
+        - 5.times do |i|
+          a.star class="#{'fullStar'if i < stars}"
   p = comment

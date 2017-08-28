@@ -3,10 +3,11 @@ class Locations::ServiceRequestsController < ApplicationController
   before_action :authenticate_customer!, :check_customer_registration_status
   
   def new
-    @categories = Category.all.fetch.group_by(&:parent_category_id)
     @current_account = current_customer.current_account
-    @contractors = @current_account.contractors
     @location = @current_account.locations.find(params[:location_id])
+    @location.account_id = @current_account.id
+    @categories = @location.categories.group_by(&:parent_category_id)
+    @contractors = @current_account.contractors
     @service_request = @location.service_requests.build()
     @service_request.issue_images = Her::Collection.new
   end

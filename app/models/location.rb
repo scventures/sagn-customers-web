@@ -5,9 +5,11 @@ class Location
   collection_path 'customers/accounts/:account_id/locations'
   include_root_in_json true
 
-  attributes :id, :name, :address_1, :address_2, :address_3, :city, :state, :zip, :geography, :phone_number, :foursquare_venue_id
+  attributes :id, :name, :address_1, :address_2, :address_3, :city, :state, :zip, :geography, :phone_number, :foursquare_venue_id, :account_id
   has_many :equipment_items
   has_many :service_requests
+  has_many :categories, path: '/categories', class_name: 'Category'
+  
   validates_presence_of :name, :address_1
   
   def full_address
@@ -34,5 +36,5 @@ class Location
       current_account.locations.detect {|l| l.address_1 == self.address_1 }
     end
   end
-  
+
 end

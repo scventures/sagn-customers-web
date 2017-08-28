@@ -1,0 +1,9 @@
+h3.text-center Your Experience Review
+.white-container
+  p.fs16 Out of 5 possible stars, here is how you rated your experience with this contractor and their technician:
+  p
+    .mt10.mb10
+      .stars
+        - 5.times do |i|
+          a.star class="#{'fullStar'if i < stars}"
+  p = comment

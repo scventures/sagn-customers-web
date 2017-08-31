@@ -1,6 +1,6 @@
 $('body').find('.alert').remove()
 <% if @customer_rating.response_errors.blank? %>
-  $('.past-request-details').find('#customer-rating-container').remove()
+  $('.past-request-details').find('#customer-rating-container').html("<%= j render partial: 'past_requests/customer_rating', locals: { stars: @customer_rating.stars, comment: @customer_rating.comment } %>")
 <% else %>
   $('.main-wrapper').prepend('<%= flash_container(:danger, @customer_rating.response_errors[:error]) %>')
 <% end %>

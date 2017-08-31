@@ -6,7 +6,7 @@ class CustomersController < ApplicationController
     @customer = Customer.new
     @location = Location.new
     @service_request = ServiceRequest.new
-    @categories = Category.all.fetch.group_by(&:parent_category_id)
+    @categories = Category.where(q: {core_category_true: 1}).group_by(&:parent_category_id)
     @service_request.issue_images = Her::Collection.new
   end
 

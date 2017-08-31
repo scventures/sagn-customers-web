@@ -6,7 +6,7 @@ class Locations::ServiceRequestsController < ApplicationController
     @current_account = current_customer.current_account
     @location = @current_account.locations.find(params[:location_id])
     @location.account_id = @current_account.id
-    @categories = @location.categories.group_by(&:parent_category_id)
+    @categories = @location.categories.sort_by {|c| [(c.core_category ? 0 : 1), c.name] }.group_by(&:parent_category_id)
     @contractors = @current_account.contractors
     @service_request = @location.service_requests.build()
     @service_request.issue_images = Her::Collection.new

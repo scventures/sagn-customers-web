@@ -38,11 +38,11 @@ class ProfilesController < ApplicationController
 
   def confirm_phone
     current_customer.assign_attributes(params.require(:customer).permit(:sms_confirmation_pin))
-    if current_customer.verify_phone
-      flash[:notice] = 'Phone number verified.'
-      render 'profile_confirmation'
-    else
-      respond_to do |format|
+    respond_to do |format|
+      if current_customer.verify_phone
+        flash[:notice] = 'Phone number verified.'
+        format.js { render 'profile_confirmation'}
+      else
         format.js {render partial: 'phone_confirmation_form', replace: 'form#confirm-phone'}
       end
     end

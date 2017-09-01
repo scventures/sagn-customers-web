@@ -5,8 +5,8 @@ Turbolinks.clearCache()
     if(doc)
       postServiceRequest()
     else
-      Turbolinks.visit(<%= profile_path %>)
+      Turbolinks.visit("<%= profile_path %>")
   })
 <% else %>
-  Turbolinks.visit(<%= profile_path %>)
+  Turbolinks.visit("<%= profile_path %>")
 <% end %>

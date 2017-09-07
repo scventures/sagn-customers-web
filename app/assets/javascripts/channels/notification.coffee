@@ -25,7 +25,7 @@ class ProfileHandler extends SagnWsHandler
           console.log('Received: ', data)
           if data.length
             obj = JSON.parse(data)
-            if JSON.stringify(@last_obj) != JSON.stringify(obj)
+            if obj.type == 'customer_updated' && JSON.stringify(@last_obj) != JSON.stringify(obj)
               dispatchFromLocalStorage(false)
               @last_obj = obj
               $.ajax

@@ -1,40 +1,72 @@
-- activities.reverse.each do |activity|
-  p
-    = time_format(activity.created_at)
-    span.ml10
-      = activity.action_humanized
-  - if assignment = activity.assignment
-    - if (activity.customer_accepted? or activity.customer_declined?) and assignment[:technician]
-      p
-        .row
-          .col-sm-3.text-center
-            - if assignment[:technician][:photo]
-              = image_tag assignment[:technician][:photo], width: '70', class: 'img-circle'
-            - else
-              = image_tag 'default_avatar_icon.png', width: '70', class: 'img-circle'
-          .col-sm-9
-            strong = assignment[:technician][:name]
-            br/
-            = assignment[:technician][:company_name]
-  - if estimation = activity.estimation
-    - if (activity.accepted? or activity.declined?)
-      .w60-pct.m-auto
-        p.mt10
-          button.btn-link.black data-target="#see-details-#{activity.id}" data-toggle="collapse" type="button" See Details
-        .mt10.collapse id="see-details-#{activity.id}"
-          .grey-container
-            .row
-              .col-sm-6 Labor:
-              .col-sm-6 = humanized_money_with_symbol(cents_to_money(estimation[:labor_cents]), symbol_after_without_space: true)
-              .col-sm-6 Parts:
-              .col-sm-6 = humanized_money_with_symbol(cents_to_money(estimation[:parts_cents]), symbol_after_without_space: true)
-              .col-sm-6 Tax:
-              .col-sm-6 = humanized_money_with_symbol(cents_to_money(estimation[:tax_cents]), symbol_after_without_space: true)
-              .col-sm-6.mt10 Total
-              .col-sm-6.mt10 = estimation[:total_estimate]
-              - unless estimation[:description].blank?
-                .col-sm-6.mt10 Description
-                .col-sm-6.mt10 = estimation[:description]
-              - unless estimation[:document] and estimation[:document].include?('/documents/original/missing.png')
-                .col-sm-6
-                  = link_to 'View Attachment', estimation[:document], target: '_blank', class: 'fs12 font-bold hover-underline'
+.white-container
+  - activities.reverse.each do |activity|
+    p
+      = time_format(activity.created_at)
+      span.ml10
+        = activity.action_humanized
+    - if assignment = activity.assignment
+      - if (activity.customer_accepted? or activity.customer_declined?) and assignment[:technician]
+        p
+          .row
+            .col-sm-3.text-center
+              - if assignment[:technician][:photo]
+                = image_tag assignment[:technician][:photo], width: '70', class: 'img-circle'
+              - else
+                = image_tag 'default_avatar_icon.png', width: '70', class: 'img-circle'
+            .col-sm-9
+              strong = assignment[:technician][:name]
+              br/
+              = assignment[:technician][:company_name]
+    - if estimation = activity.estimation
+      - if (activity.accepted? or activity.declined?)
+        .w60-pct.m-auto
+          p.mt10
+            button.btn-link.black data-target="#see-details-#{activity.id}" data-toggle="collapse" type="button" See Details
+          .mt10.collapse id="see-details-#{activity.id}"
+            .grey-container
+              .row
+                .col-sm-6 Labor:
+                .col-sm-6 = humanized_money_with_symbol(cents_to_money(estimation[:labor_cents]), symbol_after_without_space: true)
+                .col-sm-6 Parts:
+                .col-sm-6 = humanized_money_with_symbol(cents_to_money(estimation[:parts_cents]), symbol_after_without_space: true)
+                .col-sm-6 Tax:
+                .col-sm-6 = humanized_money_with_symbol(cents_to_money(estimation[:tax_cents]), symbol_after_without_space: true)
+                .col-sm-6.mt10 Total
+                .col-sm-6.mt10 = estimation[:total_estimate]
+                - unless estimation[:description].blank?
+                  .col-sm-6.mt10 Description
+                  .col-sm-6.mt10 = estimation[:description]
+                - unless estimation[:document] and estimation[:document].include?('/documents/original/missing.png')
+                  .col-sm-6
+                    = link_to 'View Attachment', estimation[:document], target: '_blank', class: 'fs12 font-bold hover-underline'
+h3.text-center
+  = link_to 'See Your Service Request Details', '#', data: { target: '#serviceRequestDetail', toggle: 'modal'}, class: 'grey hover-underline'
+#serviceRequestDetail.modal.fade role="dialog"
+  .modal-dialog
+    .modal-content
+      .modal-header.text-center
+        = link_to '#', data: { dismiss: 'modal'}, class: 'pull-left' do
+          = fa_icon 'chevron-left', class: 'fa-2x white'
+        span.modal-title Service Request
+      .modal-body
+        strong Brand
+        p
+          = service_request.brand_name
+        strong Model
+        p
+          = service_request.model
+        strong Serial Number
+        p
+          = service_request.serial
+        strong Category
+        p
+          = service_request.category[:name]
+        strong SubCategory
+        p
+          = service_request.subcategory[:name]
+        strong Code
+        p
+          = service_request.problem_code_id
+        strong Notes
+        p
+          = service_request.fix_notes

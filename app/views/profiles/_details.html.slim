@@ -46,7 +46,8 @@
         p
           | Please enter the code you received:
         p
-          = render 'phone_confirmation_form'
+          .ml40
+            = render 'phone_confirmation_form'
         p
           = link_to 'Send New Code', resend_phone_confirmation_profile_path, remote: true, class: 'btn btn-danger with-ajax-loader'
       - else

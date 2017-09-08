@@ -1,8 +1,7 @@
-.ml40
-  = simple_form_for current_customer, url: :confirm_phone_profile, turboboost: true, html: {id: 'confirm-phone'} do |f|
-    .row
-      .col-sm-12
-        = f.input :sms_confirmation_pin, label: false, wrapper: :vertical_input_group, error: true do
-          = f.input_field :sms_confirmation_pin, class: 'form-control', as: :integer, placeholder: 'Code'
-          span.input-group-btn
-            = f.button :submit, 'Verify'
+= simple_form_for current_customer, url: :confirm_phone_profile, turboboost: true, html: {id: 'confirm-phone'} do |f|
+  .row
+    .col-sm-12
+      = f.input :sms_confirmation_pin, label: false, wrapper: :vertical_input_group, error: true do
+        = f.input_field :sms_confirmation_pin, class: 'form-control', as: :integer, placeholder: 'Code'
+        span.input-group-btn
+          = f.button :submit, 'Verify'

@@ -57,6 +57,8 @@
   - else
     .assignment-wrapper.white-container
       = render 'current_requests/activities', service_request: service_request, activities: activities
+  .hidden class="current-request-status-#{service_request.id}"
+    = service_request.latest_activity_status
   #serviceRequestDetail.modal.fade role="dialog"
     .modal-dialog
       .modal-content

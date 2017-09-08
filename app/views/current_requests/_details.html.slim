@@ -18,5 +18,5 @@
     = "#{current_request.category[:name]}: #{current_request.subcategory[:name]}"
   h4
     | STATUS:
-    span.ml10
+    span.ml10 class="current-status-#{current_request.id}"
       = current_request.latest_activity_status

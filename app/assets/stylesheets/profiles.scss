@@ -36,7 +36,7 @@ form.edit-profile {
     i {
       font-size: 30px;
     }
-    span {
+    span:not(.help-block) {
       color: #797979;
       font-size: 24px;
       font-weight: bold;
@@ -48,6 +48,17 @@ form.edit-profile {
     font-size: 18px;
     margin-bottom: 20px;
     padding-left: 45px;
+  }
+  .input-group-btn input {
+    margin-top: -4px;
+  }
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type=number] {
+    -moz-appearance:textfield;
   }
 }
 

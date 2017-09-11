@@ -50,7 +50,6 @@ window.loadServiceRequestDetails = (id) ->
       $('#current-request-details-wrapper').html(data)
       currentRequestListScrollTop()
     complete: ->
-      $(".current-status-#{id}").html($(".current-request-status-#{id}").html())
       $('.current-request-details').unblock()
 
 $.onmount '#current_requests_show', ->

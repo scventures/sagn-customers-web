@@ -54,9 +54,9 @@ class CurrentRequestHandler extends SagnWsHandler
           console.log('Received: ', data)
           if data.length
             obj = JSON.parse(data)
-            $(".current-status-#{obj.service_request_assignment.service_request_id}").html(obj.latest_activity_status)
             if obj.type == 'service_requests_assignment_updated' && JSON.stringify(@last_obj) != JSON.stringify(obj)
               @last_obj = obj
+              $(".current-status-#{obj.service_request_assignment.service_request_id}").html(obj.latest_activity_status)
               if $(".current-request-wrapper#current-request-details-#{obj.service_request_assignment.service_request_id}").hasClass('selected')
                 loadServiceRequestDetails(obj.service_request_assignment.service_request_id)
 

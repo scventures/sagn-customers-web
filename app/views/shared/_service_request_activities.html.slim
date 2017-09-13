@@ -35,7 +35,7 @@
                 .col-sm-6.mt10 = estimation[:total_estimate]
                 - unless estimation[:description].blank?
                   .col-sm-6.mt10 Description
-                  .col-sm-6.mt10 = estimation[:description]
+                  .col-sm-12 = simple_format(estimation[:description])
                 - unless estimation[:document] and estimation[:document].include?('/documents/original/missing.png')
                   .col-sm-6
                     = link_to 'View Attachment', estimation[:document], target: '_blank', class: 'fs12 font-bold hover-underline'

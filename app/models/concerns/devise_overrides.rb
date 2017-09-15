@@ -45,7 +45,9 @@ module DeviseOverrides
 
     def reset_password_by_token(attributes={})
       customer = Customer.new(attributes)
-      return customer unless customer.valid?
+      customer.valid?
+      return customer if [:password, :password_confirmation].any? {|k| customer.errors.has_key? k}
+      customer.errors.clear
       params = {
         customer: {
           reset_password_token: customer.reset_password_token,

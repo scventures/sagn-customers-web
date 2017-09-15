@@ -2,9 +2,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   def create
     build_resource(sign_up_params)
     if resource.save
-      set_flash_message! :notice, :signed_up_but_unconfirmed
-      expire_data_after_sign_in!
-      respond_with resource, location: after_inactive_sign_up_path_for(resource)
+      authenticate_and_force_sign_in
     else
       clean_up_passwords resource
       set_minimum_password_length
@@ -15,9 +13,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   def create_with_service_request
     build_resource(sign_up_params)
     if resource.save
-      resource.authenticate!
-      bypass_sign_in(resource)
-      redirect_to profile_path, alert: 'Complete Your Registration'
+      authenticate_and_force_sign_in
     else
       respond_to do |format|
         format.js { render json: resource.errors, status: :unprocessable_entity, root: false }
@@ -38,4 +34,10 @@ class Customers::RegistrationsController < Devise::RegistrationsController
     resource
   end
   
+  def authenticate_and_force_sign_in
+    resource.authenticate!
+    bypass_sign_in(resource)
+    redirect_to profile_path, alert: 'Complete Your Registration'
+  end
+
 end

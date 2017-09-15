@@ -18,6 +18,10 @@ class Activity
   def declined?
     self.action == 'declined'
   end
+  
+  def completed?
+    self.action == 'completed'
+  end
 
   def assignment
     #polymorphic association is not yet supported by HER ORM

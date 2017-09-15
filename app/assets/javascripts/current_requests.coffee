@@ -48,7 +48,6 @@ window.loadServiceRequestDetails = (id) ->
       $('.current-request-details').block blockUI
     success: (data) ->
       $('#current-request-details-wrapper').html(data)
-      currentRequestListScrollTop()
     complete: ->
       $('.current-request-details').unblock()
 

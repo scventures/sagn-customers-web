@@ -6,7 +6,7 @@ class ServiceRequest
   include_root_in_json true
   attributes :location_id, :equipment_item_id, :model, :serial, :brand_name, :brand_id, :category_id, :subcategory_id, :subcategory, :urgent, :problem_code_id, 
              :account_id, :equipment_warranty, :work_time_details, :customer_accounts_contractor_id, :select_guy, :catergory_search, :notes,
-             :contact_details, :phone_number, :token
+             :contact_details, :phone_number, :token, :source
   
   has_many :issue_images
   has_many :activities
@@ -17,7 +17,7 @@ class ServiceRequest
   accepts_nested_attributes_for :issue_images
   validates :location_id, :category_id, :subcategory_id, presence: true
   validates :work_time_details, presence: { message: 'Please enter details here.' }
-  before_save :set_urgent, :set_brand_and_equipment
+  before_save :set_urgent, :set_brand_and_equipment, :set_source
   
   def assigned?
     status == 'assigned'
@@ -48,6 +48,10 @@ class ServiceRequest
   
   def current_assignment
     assignments.find(self.responded_assignment.id)
+  end
+
+  def set_source
+    self.source = 'Web App'
   end
 
   def to_params

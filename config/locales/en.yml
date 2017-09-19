@@ -21,3 +21,6 @@
 
 en:
   hello: "Hello world"
+  devise:
+    passwords:
+      updated: "Your password has been changed successfully. Please log in."

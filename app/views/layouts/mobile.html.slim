@@ -1,7 +1,7 @@
 doctype html
 html
   = render 'layouts/shared_header'
-  body id="#{controller.controller_name}_#{controller.action_name}"
+  body id="#{controller.controller_name}_#{controller.action_name}" class="#{'pl20 pr20' if browser.platform.android? or browser.platform.ios? }"
     nav.navbar.header-inside.inner-header.navbar-fixed-top
       #navbar.navbar-collapse
         = link_to root_path, class: 'logo-link p0 navbar-brand' do

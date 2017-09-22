@@ -29,7 +29,7 @@
           - if assignment.fix_notes
             p.mt20
               strong Technician Notes:
-              span.ml10 = assignment.fix_notes
+              span.ml10 = simple_format(assignment.fix_notes)
     p.text-center.mt20
       strong
         = link_to 'Have an issue?', '#', data: { toggle: 'modal', target: '#issueModal'}, class: 'hover-underline'

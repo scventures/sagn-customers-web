@@ -13,7 +13,7 @@
             .grey-container
               .row
                 .col-sm-3 Details:
-                .col-sm-9 = assignment[:fix_notes]
+                .col-sm-9 = simple_format(assignment[:fix_notes])
       - elsif (activity.customer_accepted? or activity.customer_declined?) and assignment[:technician]
         p
           .row

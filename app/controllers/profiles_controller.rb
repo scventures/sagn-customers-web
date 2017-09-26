@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_customer!
-  skip_before_filter :check_for_registration
+  skip_before_action :check_for_registration
 
   def show
     flash[:alert] = nil

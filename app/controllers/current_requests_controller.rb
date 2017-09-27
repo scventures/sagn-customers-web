@@ -4,7 +4,7 @@ class CurrentRequestsController < ApplicationController
   
   def index
     @account = current_customer.current_account
-    @current_requests = @account.current_requests
+    @current_requests = @account.current_service_requests
     if @current_requests.present?
       current_request_id = flash[:service_request_id] ? flash[:service_request_id] : @current_requests.first.id
       @service_request= ServiceRequest.find(current_request_id, _account_id: @account.id)

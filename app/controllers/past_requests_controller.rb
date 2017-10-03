@@ -4,7 +4,7 @@ class PastRequestsController < ApplicationController
   
   def index
     @account = current_customer.current_account
-    @past_requests = @account.past_requests
+    @past_requests = @account.past_service_requests
     if @past_requests.present?
       @service_request = @account.service_requests.find(@past_requests.first.id)
       @service_request.account_id = @account.id

@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "N462V7NUFR.com.servicechannel.SagnCustomers",
-        "paths": [" NOT /passwords/edit", "*"]
+        "paths": ["*"]
       }
     ]
   }
